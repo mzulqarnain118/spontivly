@@ -4,6 +4,7 @@ import { all } from 'redux-saga/effects';
 import createSagaMiddleware from 'redux-saga';
 import interestsReducer from './interestsSlice';
 import locationReducer from './locationSlice';
+import companyReduce from './companySlice';
 import { watchFetchSkills } from './saga/skillsSagas'; // Import your new saga
 import { watchFetchInterests } from './saga/interestsSaga';
 const sagaMiddleware = createSagaMiddleware();
@@ -12,6 +13,7 @@ const store = configureStore({
     skills: skillsReducer,
     interests: interestsReducer,
     location: locationReducer,
+    company: companyReduce,
     // Add other reducers as needed
   },
   middleware: [sagaMiddleware],
