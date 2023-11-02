@@ -39,11 +39,11 @@ function OnBoarding() {
     const [open, setOpen] = React.useState(false);
     const [activeStep, setActiveStep] = React.useState(0);
     const { selectedChips: skillsSelectedChips, chipData: skillsChipData } = useSelector((state) => state.skills);
-    const { selectedChips: interestsSelectedChips, chipData: interestsChipData } = useSelector((state) => state.interests);
-    const searchText = useSelector((state) => state.location.searchText);
-    const { companyName, position, stage } = useSelector((state) => state.company);
-    const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } = useSelector((state) => state.objective);
-    const bioText = useSelector((state) => state.bio.bioText);
+    // const { selectedChips: interestsSelectedChips, chipData: interestsChipData } = useSelector((state) => state.interests);
+    // const searchText = useSelector((state) => state.location.searchText);
+    // const { companyName, position, stage } = useSelector((state) => state.company);
+    // const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } = useSelector((state) => state.objective);
+    // const bioText = useSelector((state) => state.bio.bioText);
     const isSmallScreen = useMediaQuery('(max-width:414px)');
     const classes = onBoarding();
     const steps = [
@@ -92,23 +92,10 @@ function OnBoarding() {
     const handleBack = React.useCallback(() => {
         setActiveStep((activeStep) => activeStep - 1);
     }, [activeStep]);
-    const isNextButtonDisabled = React.useMemo(() => {
-        switch (activeStep) {
-            case 0:
-                return !skillsSelectedChips || skillsSelectedChips.length === 0;
-            case 2:
-                return searchText === '';
-            case 3:
-                return companyName === '' || position === '' || stage === '';
-            default:
-                return activeStep === 7;
-        }
-    }, [activeStep, skillsSelectedChips, searchText, companyName, position, stage]);
+    const isNextButtonDisabled = false;
 
     const nextButtonText = (() => {
-        return (activeStep === 1 && interestsSelectedChips.length <= 0) ||
-            (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
-            (activeStep === 5 && bioText == '') ? 'Skip' : 'Next';
+        return  'Next';
     })();
 
     return (

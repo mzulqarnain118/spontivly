@@ -1,28 +1,17 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSelectedChip, removeSelectedChip, setSearchText } from '../../redux/skillsSlice';
-import { useTheme } from '@mui/material/styles';
-import { TextField, Chip, Button, Typography, Container } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
-import IconButton from '@mui/material/IconButton';
+import {  Chip, Button, Typography, Container } from '@mui/material';
 import skillsStyles from '../../styles/components/skillsStyles';
 import { createAction } from '@reduxjs/toolkit'
+import common from '../../components/common';
+import ClearIcon from "@mui/icons-material/Clear";
 const fetchSkills = createAction('skills/fetchSkills');
+
 function Skills() {
   const dispatch = useDispatch();
   const classes = skillsStyles();
-  const { selectedChips, nextPage, searchText, filterChipData } = useSelector((state) => state.skills);
-
-  const theme = useTheme();
-  const handleClearClick = useCallback(() => {
-    dispatch(setSearchText(''))
-  });
-  const handleTextChange = useCallback((e) => {
-    const query = e.target.value;
-    dispatch(setSearchText(query))
-  });
-
+  const { selectedChips, nextPage, filterChipData } = useSelector((state) => state.skills);
   const handleAddToSelectedChips = useCallback((chipToAdd) => () => {
     if (!selectedChips.find((chip) => chip.id === chipToAdd.id)) {
       dispatch(addSelectedChip(chipToAdd));
@@ -46,40 +35,10 @@ function Skills() {
 
   return (
     <>
-      <Typography className={classes.heading}>What are your skills?</Typography>
-      <span className={classes.title}
-      >
-        Select all that apply
-      </span>
+      <common.FormHeading heading="What are your skills?"  title="Select all that apply"/>
       <Container className={classes.mainContainer}>
-        <TextField
-          variant="outlined"
-          placeholder="Search Skills"
-          value={searchText}
-          onChange={handleTextChange}
-          InputProps={{
-            startAdornment: (
-              <IconButton disabled>
-                <SearchIcon />
-              </IconButton>
-            ),
-            endAdornment: searchText && (
-              <IconButton onClick={handleClearClick}>
-                <ClearIcon />
-              </IconButton>
-            ),
-          }}
-          className={classes.searchInput}
-          sx={{
-            [theme.breakpoints.up('md')]: {
-              width: '30vw',
-            },
-          }}
-        />
-
-        <Container className={classes.chipContainer}
-        >
-
+        <common.SearchInput placeholder="Search Skills" />
+        <Container className={classes.chipContainer}>
           {selectedChips.map((data, index) => (
             <>
               <Chip
@@ -95,8 +54,7 @@ function Skills() {
           ))}
         </Container>
 
-        <Container className={classes.selectedchipContainer}
-        >
+        <Container className={classes.selectedchipContainer}>
           {filterChipData.map((data, index) => (
             <>
               <Chip
@@ -108,8 +66,6 @@ function Skills() {
               {(index + 1) % 4 === 0 && <div style={{ flexBasis: "100%" }} />}
             </>
           ))}
-
-
         </Container>
         {nextPage && (
           <Button
@@ -122,7 +78,7 @@ function Skills() {
         )}
       </Container>
     </>
-  )
+  );
 }
 
 export default Skills
