@@ -7,6 +7,7 @@ import Input from './Input'
 import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
 import FormHeading from "./FormHeading";
+import SearchTags from "./SearchTags";
 
 const Controls = {
 //   DateTimePicker,
@@ -14,7 +15,8 @@ const Controls = {
   Select,
 //   DatePicker,
 //   Checkbox,
-  Input,
+    Input,
+  SearchTags,
   Autocomplete,
   SearchInput,
   FormHeading,

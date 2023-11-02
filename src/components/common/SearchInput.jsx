@@ -6,10 +6,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
 import skillsStyles from "../../styles/components/skillsStyles";
 import { useTheme } from "@mui/material/styles";
-import {
-  setSearchText,
-} from "../../redux/skillsSlice";
-
 
 export default function SearchInput(
   {
@@ -26,15 +22,13 @@ export default function SearchInput(
 ) {
   const theme = useTheme();
   const classes = skillsStyles();
-
-  const { searchText } = useSelector((state) => state.skills);
   const dispatch = useDispatch();
   const handleClearClick = useCallback(() => {
-    dispatch(setSearchText(""));
+    dispatch(onChange(""));
   });
   const handleTextChange = useCallback((e) => {
     const query = e.target.value;
-    dispatch(setSearchText(query));
+    dispatch(onChange(query));
   });
 
   return (
@@ -43,8 +37,8 @@ export default function SearchInput(
       variant="outlined"
       label={label}
       name={name}
-      value={value ?? searchText}
-      onChange={onChange ?? handleTextChange}
+      value={value}
+      onChange={handleTextChange}
       onWheel={(e) => {
         if (props?.inputProps?.type === "number") e.target.blur();
       }}
