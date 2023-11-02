@@ -1,99 +1,53 @@
-import { Container, MenuItem, Select, TextField, Typography } from '@mui/material';
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setCompanyName,
-  setPosition,
-  setStage,
-} from '../../redux/companySlice';
-
-import { useTheme } from '@mui/material/styles';
-import companyStyles from '../../styles/components/companyStyles';
+import { Container } from "@mui/material";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCompanyInfo } from "../../redux/companySlice";
+import common from "../../components/common";
+import commonStyles from "../../styles/components/commonStyles";
 function Company() {
-
   const dispatch = useDispatch();
-  const { companyName, position, stage } = useSelector((state) => state.company);
-  const theme = useTheme();
-  const classes = companyStyles();
-
+  const { companyInfo } = useSelector((state) => state.company);
+  const classes = commonStyles();
   const stages = [
-    'Startup',
-    'Growth Stage',
-    'Established',
-    'Maturity Stage',
-    'Decline/Turnaround',
-    'Exit Stage',
-    'Post-Exit Stage',
+    { id: 1, title: "Startup" },
+    { id: 2, title: "Growth Stage" },
+    { id: 3, title: "Established" },
+    { id: 4, title: "Maturity Stage" },
+    { id: 5, title: "Decline/Turnaround" },
+    { id: 6, title: "Exit Stage" },
+    { id: 7, title: "Post-Exit Stage" },
   ];
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    dispatch(setStage(event.target.value));
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(setCompanyInfo({ [name]: value }));
   };
   return (
     <>
-      <Typography className={classes.heading}>Tell us about your company</Typography>
-
-
+      <common.FormHeading heading="Tell us about your company" />
       <Container className={classes.mainContainer}>
-        <TextField
-          variant="outlined"
+        <common.Input
+          name="companyName"
           placeholder="Company name"
-          value={companyName}
-          onChange={(e) => {
-            const query = e.target.value;
-            dispatch(setCompanyName(query));
-          }}
-          className={classes.searchInput}
-          sx={{
-            [theme.breakpoints.up('md')]: {
-              width: '30vw', // Adjust width for screens wider than 'md' breakpoint
-            },
-
-          }}
+          value={companyInfo.companyName}
+          onChange={onChange}
         />
-        <TextField
-          variant="outlined"
+        <common.Input
+          name="position"
           placeholder="Your Position"
-          value={position}
-          onChange={(e) => {
-            const query = e.target.value;
-            dispatch(setPosition(query));
-          }}
-          className={classes.searchInput}
-          sx={{
-            [theme.breakpoints.up('md')]: {
-              width: '30vw', // Adjust width for screens wider than 'md' breakpoint
-            },
-
-          }}
+          value={companyInfo.position}
+          onChange={onChange}
         />
-        <Select
-          value={stage}
-          onChange={handleChange}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-          className={classes.select}
-          sx={{
-            [theme.breakpoints.up('md')]: {
-              width: '30vw', // Adjust width for screens wider than 'md' breakpoint
-            },
-
-          }}
-        >
-          <MenuItem value="">
-            <em>Select company stage</em>
-          </MenuItem>
-          {stages.map((stage, index) => (
-            <MenuItem key={index} value={stage}>
-              {stage}
-            </MenuItem>
-          ))}
-        </Select>
+        <common.Select
+          name="stage"
+          value={companyInfo.stage}
+          defaultValue="Select company stage"
+          onChange={onChange}
+          options={stages}
+       />
       </Container>
     </>
-  )
+  );
 }
 
-export default React.memo(Company)
+export default React.memo(Company);

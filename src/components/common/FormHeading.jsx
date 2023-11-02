@@ -1,14 +1,14 @@
 import { Typography } from '@mui/material'
-import skillsStyles from "../../styles/components/skillsStyles";
+import commonStyles from "../../styles/components/commonStyles";
 
 export default function FormHeading({heading,title}) {
-      const classes = skillsStyles();
+      const classes = commonStyles();
     return (
       <>
         <Typography className={classes.heading}>
           {heading}
         </Typography>
-        <span className={classes.title}>{title}</span>
+        {title && <span className={classes.title}>{title}</span>}
       </>
     );
 }

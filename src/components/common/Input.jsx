@@ -1,22 +1,31 @@
 import React from 'react'
 import { TextField } from "@mui/material";
-
-export default function Input({ name, label, value, defaultValue, error = null, onChange, ...other },props) {
+import { useTheme } from "@mui/material/styles";
+import commonStyles from "../../styles/components/commonStyles";
+export default function Input({ name, className, label, value, defaultValue, error = null, onChange, ...other }, props) {
+      const theme = useTheme();
+    const classes = commonStyles();
+    
     return (
-        <TextField
-            fullWidth variant="outlined"
-            label={label}
-            name={name}
-            value={value}
-            onChange={onChange}
-            onWheel={(e) => {
-                if (props?.inputProps?.type === 'number')
-                    e.target.blur()
-            }}
-            defaultValue={defaultValue}
-        
-            {...other}
-            {...(error && { error: true, helperText: error })}
-        />
-    )
+      <TextField
+        fullWidth
+        variant="outlined"
+        label={label}
+        name={name}
+        value={value}
+        onChange={onChange}
+        onWheel={(e) => {
+          if (props?.inputProps?.type === "number") e.target.blur();
+        }}
+        defaultValue={defaultValue}
+        className={className ?? classes.searchInput}
+        sx={{
+          [theme.breakpoints.up("md")]: {
+            width: "30vw", // Adjust width for screens wider than 'md' breakpoint
+          },
+        }}
+        {...other}
+        {...(error && { error: true, helperText: error })}
+      />
+    );
 }

@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
-import skillsStyles from "../../styles/components/skillsStyles";
+import commonStyles from "../../styles/components/commonStyles";
 import { useTheme } from "@mui/material/styles";
 
 export default function SearchInput(
@@ -21,11 +21,13 @@ export default function SearchInput(
   props
 ) {
   const theme = useTheme();
-  const classes = skillsStyles();
+  const classes = commonStyles();
   const dispatch = useDispatch();
+  
   const handleClearClick = useCallback(() => {
     dispatch(onChange(""));
-  });
+  }, [dispatch]);
+  
   const handleTextChange = useCallback((e) => {
     const query = e.target.value;
     dispatch(onChange(query));

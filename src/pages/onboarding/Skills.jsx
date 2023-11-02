@@ -2,13 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { addSelectedChip, removeSelectedChip, setSearchText } from '../../redux/skillsSlice';
 import {  Container } from '@mui/material';
-import skillsStyles from '../../styles/components/skillsStyles';
+import commonStyles from '../../styles/components/commonStyles';
 import { createAction } from '@reduxjs/toolkit'
 import common from '../../components/common';
 const fetchSkills = createAction('skills/fetchSkills');
 
 function Skills() {
-  const classes = skillsStyles();
+  const classes = commonStyles();
   const { selectedChips, nextPage,searchText, filterChipData } = useSelector((state) => state.skills);
 
   return (

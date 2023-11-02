@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Button, Chip } from "@mui/material";
 import { useDispatch } from "react-redux";
-import skillsStyles from "../../styles/components/skillsStyles";
+import commonStyles from "../../styles/components/commonStyles";
 
 function SearchTags({
   addSelectedChip,
@@ -14,7 +14,7 @@ function SearchTags({
   filterChipData,
 }) {
   const dispatch = useDispatch();
-  const classes = skillsStyles();
+  const classes = commonStyles();
 
   const handleAddToSelectedChips = useCallback(
     (chipToAdd) => () => {

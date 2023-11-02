@@ -7,11 +7,10 @@ import {
   fetchInterests,
   setSearchText,
 } from "../../redux/interestsSlice";
-import skillsStyles from '../../styles/components/skillsStyles';
-import common from "../../components/common";
-
+import commonStyles from '../../styles/components/commonStyles';
+import common from '../../components/common'
 function Interests() {
-    const classes = skillsStyles();
+    const classes = commonStyles();
     const { selectedChips, nextPage, searchText, filterChipData } = useSelector((state) => state.interests);
 
     return (
