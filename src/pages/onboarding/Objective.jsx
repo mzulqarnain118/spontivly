@@ -7,7 +7,7 @@ import {
   fetchObjectives,
   setSearchText,
 } from "../../redux/objectiveSlice";
-import commonStyles from '../../styles/components/commonStyles';
+import commonStyles from '../../styles/commonStyles';
 import common from '../../components/common'
 function Objective() {
     const classes = commonStyles();

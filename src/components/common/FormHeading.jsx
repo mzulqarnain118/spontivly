@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 
 export default function FormHeading({heading,title}) {
       const classes = commonStyles();

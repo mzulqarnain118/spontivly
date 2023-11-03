@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLocationText } from '../../redux/locationSlice'; // Import your action
 import { useTheme } from '@mui/material/styles';
-import commonStyles from '../../styles/components/commonStyles';
+import commonStyles from '../../styles/commonStyles';
 function Location() {
     const dispatch = useDispatch();
     const theme = useTheme();

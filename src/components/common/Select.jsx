@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormControl, InputLabel, Select as MuiSelect, MenuItem, FormHelperText, TextField } from '@mui/material';
 import { useTheme } from "@mui/material/styles";
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 export default function Select(
   {
     name,
@@ -42,15 +42,15 @@ export default function Select(
         required={required}
         fullWidth
         {...(error && { error: true, helperText: error })}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            {...props}
-            fullWidth
-            label={label}
-            variant="outlined"
-          />
-        )}
+        // renderInput={(params) => (
+        //   <TextField
+        //     {...params}
+        //     {...props}
+        //     fullWidth
+        //     label={label}
+        //     variant="outlined"
+        //   />
+        // )}
         displayEmpty
         {...other}
       >

@@ -89,5 +89,16 @@ const commonStyles = makeStyles((theme) => ({
     borderRadius: "8px !important",
     width: "100%",
   },
+  textArea: {
+    marginTop: "24px",
+    border: "1px solid var(--petroleum-p-45, #93A5B4)",
+    background: "var(--petroleum-p-05, #F9FBFD)",
+    borderRadius: "0px",
+    width: "100%",
+    overflowY: "auto",
+    "&:focus": {
+      outline: "none", // Remove the focus outline
+    },
+  },
 }));
 export default commonStyles;

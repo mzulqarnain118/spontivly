@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 export default function Input({ name, className, label, value, defaultValue, error = null, onChange, ...other }, props) {
       const theme = useTheme();
     const classes = commonStyles();

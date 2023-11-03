@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompanyInfo } from "../../redux/companySlice";
 import common from "../../components/common";
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 function Company() {
   const dispatch = useDispatch();
   const { companyInfo } = useSelector((state) => state.company);

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Button, Chip } from "@mui/material";
 import { useDispatch } from "react-redux";
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 
 function SearchTags({
   addSelectedChip,

@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
-import commonStyles from "../../styles/components/commonStyles";
+import commonStyles from "../../styles/commonStyles";
 import { useTheme } from "@mui/material/styles";
 
 export default function SearchInput(
@@ -23,7 +23,7 @@ export default function SearchInput(
   const theme = useTheme();
   const classes = commonStyles();
   const dispatch = useDispatch();
-  
+
   const handleClearClick = useCallback(() => {
     dispatch(onChange(""));
   }, [dispatch]);

@@ -3,6 +3,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import common from "./components/common";
+import "./App.css";
 
 const OnBoarding = lazy(() => import("./pages/onboarding/OnBoarding"));
 
@@ -17,11 +19,16 @@ function App() {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="body-overlay">
+            <common.Spinner isLoading={true} />
+          </div>
+        }
+      >
         <RouterProvider router={router} />
       </Suspense>
     </>
-
   );
 }
 export default App;

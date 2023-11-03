@@ -8,6 +8,9 @@ import Autocomplete from "./Autocomplete";
 import SearchInput from "./SearchInput";
 import FormHeading from "./FormHeading";
 import SearchTags from "./SearchTags";
+import ContainerToast from "./Toast/ContainerToast"
+import TextArea from "./TextArea";
+import Spinner from "./Spinner"
 
 const Controls = {
 //   DateTimePicker,
@@ -15,7 +18,10 @@ const Controls = {
   Select,
 //   DatePicker,
 //   Checkbox,
-    Input,
+  Input,
+  TextArea,
+  ContainerToast,
+    Spinner,
   SearchTags,
   Autocomplete,
   SearchInput,

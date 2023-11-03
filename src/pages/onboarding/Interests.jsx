@@ -7,7 +7,7 @@ import {
   fetchInterests,
   setSearchText,
 } from "../../redux/interestsSlice";
-import commonStyles from '../../styles/components/commonStyles';
+import commonStyles from '../../styles/commonStyles';
 import common from '../../components/common'
 function Interests() {
     const classes = commonStyles();

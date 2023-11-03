@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { addSelectedChip, removeSelectedChip, setSearchText } from '../../redux/skillsSlice';
 import {  Container } from '@mui/material';
-import commonStyles from '../../styles/components/commonStyles';
+import commonStyles from '../../styles/commonStyles';
 import { createAction } from '@reduxjs/toolkit'
 import common from '../../components/common';
 const fetchSkills = createAction('skills/fetchSkills');
