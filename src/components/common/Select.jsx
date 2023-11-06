@@ -31,26 +31,18 @@ export default function Select(
         label={label && `${label}${props.required ? `*` : ``}`}
         name={name}
         onChange={onChange}
-        className={className ?? classes.select}
+        className={className ?? classes.inputContainer}
         sx={{
           [theme.breakpoints.up("md")]: {
             width: "30vw", // Adjust width for screens wider than 'md' breakpoint
+            alignSelf:"center"
           },
         }}
+        fullWidth
         disabled={disabled}
         multiple={multiple}
         required={required}
-        fullWidth
         {...(error && { error: true, helperText: error })}
-        // renderInput={(params) => (
-        //   <TextField
-        //     {...params}
-        //     {...props}
-        //     fullWidth
-        //     label={label}
-        //     variant="outlined"
-        //   />
-        // )}
         displayEmpty
         {...other}
       >

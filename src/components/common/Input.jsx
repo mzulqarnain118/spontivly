@@ -18,7 +18,7 @@ export default function Input({ name, className, label, value, defaultValue, err
           if (props?.inputProps?.type === "number") e.target.blur();
         }}
         defaultValue={defaultValue}
-        className={className ?? classes.searchInput}
+        className={className ?? classes.inputContainer}
         sx={{
           [theme.breakpoints.up("md")]: {
             width: "30vw", // Adjust width for screens wider than 'md' breakpoint
