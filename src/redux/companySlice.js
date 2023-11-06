@@ -1,28 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const companySlice = createSlice({
-  name: 'company',
+  name: "company",
   initialState: {
-    companyName: '',
-    position: '',
-    stage: '',
+    companyInfo: {
+      companyName: "",
+      position: "",
+      stage: null,
+    },
   },
   reducers: {
-    setCompanyName: (state, action) => {
-      state.companyName = action.payload;
-    },
-    setPosition: (state, action) => {
-      state.position = action.payload;
-    },
-    setStage: (state, action) => {
-      state.stage = action.payload;
+    setCompanyInfo: (state, action) => {
+      const { companyName, position, stage } = action.payload;
+      state.companyInfo.companyName =
+        companyName !== undefined ? companyName : state.companyInfo.companyName;
+      state.companyInfo.position =
+        position !== undefined ? position : state.companyInfo.position;
+      state.companyInfo.stage =
+        stage !== undefined ? stage : state.companyInfo.stage;
     },
   },
 });
 
-export const {
-  setCompanyName,
-  setPosition,
-  setStage,
-} = companySlice.actions;
+export const { setCompanyInfo } = companySlice.actions;
 export default companySlice.reducer;

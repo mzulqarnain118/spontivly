@@ -6,11 +6,11 @@ import IconButton from '@mui/material/IconButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLocationText } from '../../redux/locationSlice'; // Import your action
 import { useTheme } from '@mui/material/styles';
-import skillsStyles from '../../styles/components/skillsStyles';
+import commonStyles from '../../styles/commonStyles';
 function Location() {
     const dispatch = useDispatch();
     const theme = useTheme();
-    const classes = skillsStyles();
+    const classes = commonStyles();
     const searchText = useSelector((state) => state.location.searchText);
   
   const handleClearClick = () => {
