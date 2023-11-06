@@ -1,10 +1,8 @@
-import { Button, SvgIcon } from '@mui/joy'
 import React from 'react'
-import { styled } from '@mui/joy';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhotoURL } from '../../redux/photoSlice';
 import commonStyles from '../../styles/commonStyles';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import common from "../../components/common";
 
 function Profile() {
