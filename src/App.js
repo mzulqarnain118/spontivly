@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import common from "./components/common";
 import "./App.css";
-
+import "./styles/flexboxClasses.css" 
 const OnBoarding = lazy(() => import("./pages/onboarding/OnBoarding"));
 
 function App() {

@@ -1,0 +1,106 @@
+/*! Dynamic Flexbox classes */
+.row-center {
+  display: flex;
+  justify-content: center; /* Horizontally center items */
+  align-items: center; /* Vertically center items */
+  gap:1.5rem;
+}
+
+.col-center {
+  display: flex;
+  direction: column;
+    flex-wrap: wrap;
+  justify-content: center; /* Horizontally center items */
+  align-items: center; /* Vertically center items */
+  gap:2.5rem;
+}
+/* Override the gap size for a specific element */
+.custom-gap {
+  --flex-gap: 2.5rem;
+}
+
+/*! Flexbox classes for rows */
+.row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .row-start {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  
+  .row-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .row-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  
+  .row-evenly {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+  
+  /*! Flexbox classes for columns */
+  .column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .column-start {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .column-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  .column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .column-around {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .column-evenly {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }

@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
@@ -144,7 +143,7 @@ function OnBoarding() {
                     ))}
                 </List>
             </Drawer>
-            <Main open={open}>
+            <Main open={open} >
                 <DrawerHeader />
                 {(!isSmallScreen || (isSmallScreen && !open)) &&
                     <>

@@ -13,12 +13,11 @@ const commonStyles = makeStyles((theme) => ({
     lineHeight: "20px",
     color: "#698296",
   },
-  searchInput: {
+  inputContainer: {
     marginTop: "24px !important",
     border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
     background: "var(--petroleum-p-05, #F9FBFD) !important",
     borderRadius: "8px !important",
-    width: "100%",
   },
   mainContainer: {
     gap: "40px !important",
@@ -82,13 +81,7 @@ const commonStyles = makeStyles((theme) => ({
     fontSize: "14px !important",
     fontWeight: "600 !important",
   },
-  select: {
-    marginTop: "24px !important",
-    border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
-    background: "var(--petroleum-p-05, #F9FBFD) !important",
-    borderRadius: "8px !important",
-    width: "100%",
-  },
+
   textArea: {
     marginTop: "24px",
     border: "1px solid var(--petroleum-p-45, #93A5B4)",

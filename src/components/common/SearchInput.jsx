@@ -57,7 +57,7 @@ export default function SearchInput(
           </IconButton>
         ),
       }}
-      className={className ?? classes.searchInput}
+      className={className ?? classes.inputContainer}
       sx={{
         [theme.breakpoints.up("md")]: {
           width: "30vw",

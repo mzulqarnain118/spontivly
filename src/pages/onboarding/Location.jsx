@@ -46,7 +46,7 @@ function Location() {
                     </IconButton>
                 ),
             }}
-            className={classes.searchInput}
+            className={classes.inputContainer}
             sx={{
                 [theme.breakpoints.up('md')]: {
                   width: '30vw', // Adjust width for screens wider than 'md' breakpoint
