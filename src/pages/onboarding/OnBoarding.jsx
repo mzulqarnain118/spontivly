@@ -19,6 +19,7 @@ import success from '../../assets/icons/success.svg';
 import lock from '../../assets/icons/lock.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import common from "../../components/common";
 import { onBoarding, Main, AppBar, DrawerFooter, DrawerHeader } from '../../styles/components/onBoardingStyles';
 const Skills = lazy(() => import('./Skills'));
 const Interests = lazy(() => import('./Interests'));
@@ -98,93 +99,119 @@ function OnBoarding() {
     })();
 
     return (
-        <Container>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={classes.toolbarIcon}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    {!isSmallScreen &&
-                        <Typography noWrap component="div" className={classes.label}>
-                            {steps[activeStep].label}
-                        </Typography>
-                    }
-                </Toolbar>
-            </AppBar>
-            <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                anchor="left"
-                open={open}
+      <Container>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={classes.toolbarIcon}
             >
-                <DrawerHeader className={classes.drawerHeader}>
-                    <img src={companyLogo} alt="Company Logo" />
-                    <Link to="/member-portal" className={classes.link}>
-                        {'Save and exit'}
-                    </Link>
-                </DrawerHeader>
-                <Divider />
-                <Typography className={classes.sidebarHeader}>Complete your profile</Typography>
-                <List className={classes.list}>
-                    {['Skills', 'Interests', 'Location', 'Company', 'Objective', 'Bio', 'Social', 'Profile'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton disabled={index !== activeStep}>
-                                <ListItemText primary={text} className={classes.listItemButton} />
-                            </ListItemButton>
-                            {index !== activeStep ? (index < activeStep ? <img src={success} className={classes.listItemSuccessIcon} /> : <img src={lock} className={classes.listItemIcon} />) : ''}
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
-            <Main open={open} >
-                <DrawerHeader />
-                {(!isSmallScreen || (isSmallScreen && !open)) &&
-                    <>
-                        <Container className={classes.mainContainer}
-                        >
-                            {steps[activeStep].component}
-                        </Container>
-                        <DrawerFooter position="fixed" open={open} className={classes.drawerFooter}>
-                            <MobileStepper
-                                variant="progress"
-                                steps={8}
-                                position="static"
-                                activeStep={activeStep}
-                                className={classes.mobileStepper}
-                            />
-                            <div className={classes.footerButtonDiv}>
-                                <Button
-                                    variant="outlined"
-                                    size="small"
-                                    onClick={handleBack}
-                                    disabled={activeStep === 0}
-                                    className={classes.footerBackButton}
-                                >
-                                    Back
-                                </Button>
-                                <Button
-                                    variant="outlined"
-                                    onClick={handleNext}
-                                    disabled={isNextButtonDisabled}
-                                    className={classes.footerNextButton}
-
-                                >
-                                    {nextButtonText}
-                                </Button>
-                            </div>
-                        </DrawerFooter>
-                    </>
-                }
-
-            </Main>
-        </Container>
+              <MenuIcon />
+            </IconButton>
+            {!isSmallScreen && (
+              <Typography noWrap component="div" className={classes.label}>
+                {steps[activeStep].label}
+              </Typography>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader className={classes.drawerHeader}>
+            <img src={companyLogo} alt="Company Logo" />
+            <Link to="/member-portal" className={classes.link}>
+              {"Save and exit"}
+            </Link>
+          </DrawerHeader>
+          <Divider />
+          <Typography className={classes.sidebarHeader}>
+            Complete your profile
+          </Typography>
+          <List className={classes.list}>
+            {[
+              "Skills",
+              "Interests",
+              "Location",
+              "Company",
+              "Objective",
+              "Bio",
+              "Social",
+              "Profile",
+            ].map((text, index) => (
+              <ListItem key={text} disablePadding>
+                <ListItemButton disabled={index !== activeStep}>
+                  <ListItemText
+                    primary={text}
+                    className={classes.listItemButton}
+                  />
+                </ListItemButton>
+                {index !== activeStep ? (
+                  index < activeStep ? (
+                    <img
+                      loading="lazy"
+                      src={success}
+                      className={classes.listItemSuccessIcon}
+                    />
+                  ) : (
+                    <img
+                      loading="lazy"
+                      src={lock}
+                      className={classes.listItemIcon}
+                    />
+                  )
+                ) : (
+                  ""
+                )}
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <Main open={open}>
+          <DrawerHeader />
+          {(!isSmallScreen || (isSmallScreen && !open)) && (
+            <>
+              <Container className={classes.mainContainer}>
+                {steps[activeStep].component}
+              </Container>
+              <DrawerFooter
+                position="fixed"
+                open={open}
+                className={classes.drawerFooter}
+              >
+                <MobileStepper
+                  variant="progress"
+                  steps={8}
+                  position="static"
+                  activeStep={activeStep}
+                  className={classes.mobileStepper}
+                />
+                <div className={classes.footerButtonDiv}>
+                  <common.MuiButton
+                    onClick={handleBack}
+                    disabled={activeStep === 0}
+                    className={classes.footerBackButton}
+                    label="Back"
+                  />
+                  <common.MuiButton
+                    onClick={handleNext}
+                    disabled={isNextButtonDisabled}
+                    className={classes.footerNextButton}
+                    label={nextButtonText}
+                  />
+                </div>
+              </DrawerFooter>
+            </>
+          )}
+        </Main>
+      </Container>
     );
 }
 

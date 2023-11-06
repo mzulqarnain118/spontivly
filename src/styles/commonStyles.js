@@ -93,5 +93,15 @@ const commonStyles = makeStyles((theme) => ({
       outline: "none", // Remove the focus outline
     },
   },
+  profileImage: {
+    padding: "8px !important",
+    marginTop: "40px!important",
+    width: "96px !important",
+    height: "96px !important",
+    borderRadius: "99px !important",
+  },
+  button: {
+    padding: "16px 20px !important",
+  },
 }));
 export default commonStyles;

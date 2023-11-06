@@ -4,6 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Button, Chip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import commonStyles from "../../styles/commonStyles";
+import common from "../../components/common";
 
 function SearchTags({
   addSelectedChip,
@@ -69,13 +70,11 @@ function SearchTags({
         ))}
       </Container>
       {nextPage && (
-        <Button
-          variant="outlined"
+        <common.MuiButton
           onClick={handleLoadMore}
           className={classes.loadMoreButton}
-        >
-          Load More
-        </Button>
+          label="Load More"
+        />
       )}
     </>
   );
