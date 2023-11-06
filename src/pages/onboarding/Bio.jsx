@@ -23,7 +23,7 @@ function Bio() {
         title="This helps people in the community get to know you"
       />
       <Container className={classes.mainContainer}>
-        <common.Textarea
+        <common.TextArea
           placeholder="Tell us anything you want the community to know..."
           value={bioText}
           onChange={handleBioChange}

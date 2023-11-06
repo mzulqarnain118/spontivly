@@ -11,6 +11,8 @@ import photoReducer from './photoSlice';
 import { watchFetchSkills } from './saga/skillsSagas'; // Import your new saga
 import { watchFetchInterests } from './saga/interestsSaga';
 import { watchFetchObjectives } from './saga/objectivesSaga';
+import { watchLocationText } from './saga/locationSaga';
+import { watchFetchCompanyStages } from './saga/companySaga';
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
@@ -29,7 +31,9 @@ sagaMiddleware.run(function* rootSaga() {
   yield all([
     watchFetchSkills(), // Include your new saga here
     watchFetchInterests(),
-    watchFetchObjectives() // Include your new saga here
+    watchFetchObjectives(),
+    watchLocationText(),
+    watchFetchCompanyStages() // Include your new saga here
   ]);
 });
 export default store;

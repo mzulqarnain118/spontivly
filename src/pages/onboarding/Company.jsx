@@ -1,27 +1,21 @@
 import { Container } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCompanyInfo } from "../../redux/companySlice";
+import { fetchCompanyStages, setCompanyInfo } from "../../redux/companySlice";
 import common from "../../components/common";
 import commonStyles from "../../styles/commonStyles";
 function Company() {
   const dispatch = useDispatch();
-  const { companyInfo } = useSelector((state) => state.company);
-  const classes = commonStyles();
-  const stages = [
-    { id: 1, title: "Startup" },
-    { id: 2, title: "Growth Stage" },
-    { id: 3, title: "Established" },
-    { id: 4, title: "Maturity Stage" },
-    { id: 5, title: "Decline/Turnaround" },
-    { id: 6, title: "Exit Stage" },
-    { id: 7, title: "Post-Exit Stage" },
-  ];
+  const { companyInfo ,stages } = useSelector((state) => state.company);
 
+  const classes = commonStyles();
   const onChange = (e) => {
     const { name, value } = e.target;
     dispatch(setCompanyInfo({ [name]: value }));
   };
+  useEffect(()=>{
+    dispatch((fetchCompanyStages()));
+  },[])
   return (
     <>
       <common.FormHeading heading="Tell us about your company" />
