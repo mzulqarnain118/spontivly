@@ -3,6 +3,7 @@ const socialStyles = makeStyles((theme) => ({
   container: {
     display: "flex !important",
     flexDirection: "column !important",
+    alignItems: "center",
     gap: "1.25rem",
   },
   subContainer: {
@@ -11,7 +12,7 @@ const socialStyles = makeStyles((theme) => ({
     marginTop: "1.25rem",
     flexWrap: "wrap",
     gap: "1.25rem",
-    marginLeft: "17rem !important",
+    justifyContent: "center",
   },
   card: {
     width: "25.54rem",

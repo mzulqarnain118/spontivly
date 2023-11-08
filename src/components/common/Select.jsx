@@ -1,5 +1,12 @@
-import React from 'react'
-import { FormControl, InputLabel, Select as MuiSelect, MenuItem, FormHelperText, TextField } from '@mui/material';
+import React from "react";
+import {
+  FormControl,
+  InputLabel,
+  Select as MuiSelect,
+  MenuItem,
+  FormHelperText,
+  TextField,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import commonStyles from "../../styles/commonStyles";
 export default function Select(
@@ -12,7 +19,7 @@ export default function Select(
     value,
     error = null,
     onChange,
-        defaultValue,
+    defaultValue,
     multiple,
     options,
     ...other
@@ -35,7 +42,7 @@ export default function Select(
         sx={{
           [theme.breakpoints.up("md")]: {
             width: "30vw", // Adjust width for screens wider than 'md' breakpoint
-            alignSelf:"center"
+            alignSelf: "center",
           },
         }}
         fullWidth

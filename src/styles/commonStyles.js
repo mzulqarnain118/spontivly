@@ -18,6 +18,7 @@ const commonStyles = makeStyles((theme) => ({
     border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
     background: "var(--petroleum-p-05, #F9FBFD) !important",
     borderRadius: "8px !important",
+    textAlign: "start"
   },
   mainContainer: {
     gap: "40px !important",

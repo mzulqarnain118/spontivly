@@ -6,16 +6,13 @@ import * as ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import common from "./components/common";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "./Theme"; // Import your theme
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <ThemeProvider theme={theme}> */}
         <App />
-      {/* </ThemeProvider> */}
     </Provider>
     <common.ContainerToast />
   </React.StrictMode>

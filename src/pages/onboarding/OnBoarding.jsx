@@ -1,26 +1,29 @@
-import React, { lazy } from 'react';
+import React, { lazy, useEffect } from "react";
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import { Container } from '@mui/system';
-import { Button, useMediaQuery } from '@mui/material';
 import companyLogo from '../../assets/images/CompanyLogo.png';
-import MobileStepper from '@mui/material/MobileStepper';
-import IconButton from '@mui/material/IconButton';
+import {
+  MobileStepper,
+  IconButton,
+  useMediaQuery,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  List,
+  ListItem,
+  Divider,
+} from "@mui/material";
 import success from '../../assets/icons/success.svg';
 import lock from '../../assets/icons/lock.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import common from "../../components/common";
 import { onBoarding, Main, AppBar, DrawerFooter, DrawerHeader } from '../../styles/components/onBoardingStyles';
+import { setLocal,getLocal } from '../../utils';
 const Skills = lazy(() => import('./Skills'));
 const Interests = lazy(() => import('./Interests'));
 const Location = lazy(() => import('./Location'));
@@ -36,8 +39,8 @@ const drawerWidth = 313;
 
 function OnBoarding() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [activeStep, setActiveStep] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+    const [activeStep, setActiveStep] = React.useState(getLocal("activeStep"));
     const { selectedChips: skillsSelectedChips, chipData: skillsChipData } = useSelector((state) => state.skills);
     const { selectedChips: interestsSelectedChips, chipData: interestsChipData } = useSelector((state) => state.interests);
     const setSelectedLocation = useSelector((state) => state.location.selectedLocation);
@@ -84,13 +87,19 @@ function OnBoarding() {
     const handleDrawerOpen = () => {
         setOpen(!open);
     };
+ 
+  useEffect(() => {
+    !activeStep && setLocal("activeStep",0);
+  }, [activeStep]);
 
-    const handleNext = React.useCallback(() => {
-        setActiveStep((activeStep) => activeStep + 1);
+  const handleNext = React.useCallback(() => {
+      setLocal("activeStep", activeStep + 1);
+      setActiveStep(getLocal("activeStep"));
     }, [activeStep]);
 
     const handleBack = React.useCallback(() => {
-        setActiveStep((activeStep) => activeStep - 1);
+      setLocal("activeStep", activeStep - 1);
+      setActiveStep(getLocal("activeStep"));
     }, [activeStep]);
     const isNextButtonDisabled = () => {
       switch (activeStep) {
@@ -141,7 +150,7 @@ function OnBoarding() {
         >
           <DrawerHeader className={classes.drawerHeader}>
             <img src={companyLogo} alt="Company Logo" />
-            <Link  to={true ? '#' : '/member-portal'} className={classes.link}>
+            <Link to={true ? "#" : "/member-portal"} className={classes.link}>
               {"Save and exit"}
             </Link>
           </DrawerHeader>

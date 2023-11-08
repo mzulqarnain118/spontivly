@@ -5,148 +5,136 @@ import { Chip } from '@mui/material';
 
 const drawerWidth = 313;
 const onBoarding = makeStyles((theme) => ({
-    container: {
-        display: 'flex !important',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        
+  toolbar: {
+    color: "black",
+    display: "flex",
+    alignItems: "center",
+    gap: "1.25rem",
+  },
+  toolbarIcon: {
+    outline: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
+    borderRadius: "4px !important",
+    marginRight: "2px !important",
+  },
+  label: {
+    color: "var(--text-primary, #222) !important",
+    fontSize: "14px !important",
+    fontStyle: "normal",
+    fontWeight: "600 !important",
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    "& .MuiDrawer-paper": {
+      width: drawerWidth,
+      boxSizing: "border-box",
+      backgroundColor: "#FAFAFA",
+      boxShadow: "-4px 0px 20px 0px rgba(0, 0, 0, 0.05) inset",
     },
-    toolbar: {
-        color: 'black',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '1.25rem'
+  },
+  link: {
+    color: " var(--brand-complimentary, #323E48)",
+    fontFamily: "Public Sans",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 700,
+  },
+  sidebarHeader: {
+    color: "var(--text-primary, #222) !important",
+    fontFamily: "Public Sans !important",
+    fontSize: "1.5rem !important",
+    fontStyle: "normal !important",
+    fontWeight: "600 !important",
+    padding: "15px !important",
+  },
+  list: {
+    display: "inline-flex",
+    padding: "2rem 1.5rem !important",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "1.25rem",
+  },
+  listItemButton: {
+    color: "var(--petroleum-p-100, #2D3840)",
+    fontFamily: "Public Sans",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 600,
+  },
+  listItemIcon: {
+    width: "16px",
+    height: "16px",
+    padding: "4px",
+    borderRadius: "8px",
+    border: "1px solid var(--brand-complimentary, #323E48)",
+  },
+  listItemSuccessIcon: {
+    width: "20px",
+    padding: "2px",
+  },
+  drawerHeader: {
+    display: "flex !important",
+    padding: "1rem 1.5rem !important",
+    justifyContent: "space-between !important",
+    alignItems: "center !important",
+  },
+  mainContainer: {
+    display: "flex !important",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "0.5rem",
+    marginBottom: "80px",
+  },
+  drawerFooter: {
+    display: "flex !important",
+    flexDirection: "column !important",
+  },
+  mobileStepper: {
+    padding: "0px !important",
+    justifyContent: "center !important",
+    "& .MuiMobileStepper-progress": {
+      width: "100% !important",
+      background: "linear-gradient(270deg, #E9EDF0 60.42%, #323E48 60.43%)",
     },
-    toolbarIcon: {
-        outline: '1px solid var(--petroleum-p-30, #BFC9D2) !important',
-        borderRadius: '4px !important',
-        marginRight: '2px !important',
+    "& .MuiLinearProgress-bar": {
+      backgroundColor: "var(--brand-complimentary, #323E48)",
     },
-    label: {
-        color: 'var(--text-primary, #222) !important',
-        fontSize: '14px !important',
-        fontStyle: 'normal',
-        fontWeight: '600 !important'
+  },
+  footerButtonDiv: {
+    display: "flex !important",
+    justifyContent: "space-between !important",
+    alignItems: "center !important",
+    padding: "20px !important",
+  },
+  footerBackButton: {
+    height: "52px !important",
+    width: "10% !important",
+    borderRadius: "6px !important",
+    color: "black !important",
+    border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
+    background: "#FFF !important",
+    "&:hover": {
+      border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
+      background: "#FFF !important",
     },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            backgroundColor: '#FAFAFA',
-            boxShadow: '-4px 0px 20px 0px rgba(0, 0, 0, 0.05) inset',
-        },
+  },
+  footerNextButton: {
+    height: "52px !important",
+    width: "10% !important",
+    borderRadius: "6px !important",
+    color: "#FFFFFF !important",
+    border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
+    backgroundColor: " var(--brand-complimentary, #323E48) !important",
+    "&:hover": {
+      border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
+      backgroundColor: " var(--brand-complimentary, #323E48) !important",
     },
-    link: {
-        color: ' var(--brand-complimentary, #323E48)',
-        fontFamily: 'Public Sans',
-        fontSize: '12px',
-        fontStyle: 'normal',
-        fontWeight: 700
+    "&.Mui-disabled": {
+      color: "#FFFFFF !important",
+      opacity: "0.4 !important", // Change the background color when disabled
     },
-    sidebarHeader: {
-        color: 'var(--text-primary, #222) !important',
-        fontFamily: 'Public Sans !important',
-        fontSize: '1.5rem !important',
-        fontStyle: 'normal !important',
-        fontWeight: '600 !important',
-        padding: '15px !important'
-    },
-    list: {
-        display: 'inline-flex',
-        padding: '2rem 1.5rem !important',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: '1.25rem'
-    },
-    listItemButton: {
-        color: 'var(--petroleum-p-100, #2D3840)',
-        fontFamily: 'Public Sans',
-        fontSize: '16px',
-        fontStyle: 'normal',
-        fontWeight: 600
-    },
-    listItemIcon: {
-        width: '16px',
-        height: '16px',
-        padding: '4px',
-        borderRadius: '8px',
-        border: '1px solid var(--brand-complimentary, #323E48)'
-    },
-    listItemSuccessIcon: {
-        width: '20px',
-        padding: '2px',
-    },
-    drawerHeader: {
-        display: 'flex !important',
-        padding: '1rem 1.5rem !important',
-        justifyContent: 'space-between !important',
-        alignItems: 'center !important',
-    },
-    mainContainer: {
-        display: 'flex !important',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1.25rem',
-        marginBottom: '80px',
-        // position: 'relative', // Add relative positioning
-        // zIndex: 1,
-    },
-    drawerFooter: {
-        display:"flex !important",
-        flexDirection:"column !important"
-    },
-    mobileStepper: {
-        padding: '0px !important',
-        justifyContent: 'center !important',
-        '& .MuiMobileStepper-progress': {
-            width: '100% !important',
-        },
-        '& .MuiMobileStepper-root': {
-            background: 'linear-gradient(270deg, #E9EDF0 60.42%, #323E48 60.43%)'
-        },
-    },
-    footerButtonDiv: {
-        display: 'flex !important',
-        justifyContent: 'space-between !important',
-        alignItems: 'center !important',
-        padding: '20px !important'
-    },
-    footerBackButton: {
-        height: '52px !important',
-        width: '10% !important',
-        // padding: '8px 20px !important',
-        borderRadius: '6px !important',
-        color: 'black !important',
-        border: '1px solid var(--petroleum-p-30, #BFC9D2) !important',
-        background: '#FFF !important',
-        '&:hover': {
-            border: '1px solid var(--petroleum-p-30, #BFC9D2) !important',
-            background: '#FFF !important',
-        },
-    },
-    footerNextButton: {
-        height: '52px !important',
-        width: '10% !important',
-        // padding: '8px 20px !important',
-        borderRadius: '6px !important',
-        color: '#FFFFFF !important',
-        border: '1px solid var(--petroleum-p-30, #BFC9D2) !important',
-        backgroundColor: ' var(--brand-complimentary, #323E48) !important',
-        '&:hover': {
-            border: '1px solid var(--petroleum-p-30, #BFC9D2) !important',
-            backgroundColor: ' var(--brand-complimentary, #323E48) !important',
-        },
-        '&.Mui-disabled': {
-            color: '#FFFFFF !important',
-            opacity: '0.4 !important' // Change the background color when disabled
-        },
-    },
-
-}
-))
+  },
+}));
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         flexGrow: 1,
