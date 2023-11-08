@@ -34,7 +34,7 @@ const socialData = [
   },
 ];
 
-const REDIRECT_URI = 'http://localhost:3000';
+const REDIRECT_URI = 'https://spontivly-op-git-feature-onboarding-c26953-zulqarnains-projects.vercel.app/';
 
 function Social() {
   const classes = socialStyles();
@@ -111,13 +111,12 @@ function Social() {
               {social.name === 'Facebook' && 
                 renderSocialLogin(LoginSocialFacebook, {
                   appId: REACT_APP_FB_APP_ID,
-                  checked:facebookToggle,
                   fieldsProfile: 'id,first_name,last_name,middle_name,name,name_format',
                 })}
               {social.name === 'Twitter' &&
                 renderSocialLogin(LoginSocialTwitter, {
                   client_id: REACT_APP_TWITTER_V2_APP_KEY,
-                },linkedi)}
+                })}
             </Card>
           </div>
         ))}
