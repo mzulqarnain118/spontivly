@@ -34,14 +34,20 @@ const socialData = [
   },
 ];
 
-const REDIRECT_URI = 'https://spontivly-op-git-feature-onboarding-c26953-zulqarnains-projects.vercel.app/';
-
 function Social() {
   const classes = socialStyles();
   const theme = useTheme();
   const [provider, setProvider] = useState('');
   const [profile, setProfile] = useState('');
-  const { REACT_APP_LINKEDIN_APP_ID, REACT_APP_LINKEDIN_APP_SECRET, REACT_APP_INSTAGRAM_APP_ID, REACT_APP_INSTAGRAM_APP_SECRET, REACT_APP_FB_APP_ID, REACT_APP_TWITTER_V2_APP_KEY } = config;
+  const {
+    SOCIAL_AUTH_LINKEDIN_APP_ID,
+    SOCIAL_AUTH_LINKEDIN_APP_SECRET,
+    SOCIAL_AUTH_INSTAGRAM_APP_ID,
+    SOCIAL_AUTH_INSTAGRAM_APP_SECRET,
+    SOCIAL_AUTH_FB_APP_ID,
+    SOCIAL_AUTH_TWITTER_V2_APP_KEY,
+    SOCIAL_AUTH_REDIRECT_URI,
+  } = config;
 
   const onLoginStart = useCallback(() => {
     alert('login start');
@@ -55,11 +61,11 @@ function Social() {
 
   const renderSocialLogin = (Component, props) => {
     return (
-       <Component
+      <Component
         {...props}
         onLoginStart={onLoginStart}
         onLogoutSuccess={onLogoutSuccess}
-        redirect_uri={REDIRECT_URI}
+        redirect_uri={SOCIAL_AUTH_REDIRECT_URI}
         onResolve={({ provider, data }) => {
           setProvider(provider);
           setProfile(data);
@@ -99,23 +105,23 @@ function Social() {
               </CardContent>
               {social.name === 'LinkedIn' &&
                 renderSocialLogin(LoginSocialLinkedin, {
-                  client_id: REACT_APP_LINKEDIN_APP_ID,
-                  client_secret: REACT_APP_LINKEDIN_APP_SECRET,
+                  client_id: SOCIAL_AUTH_LINKEDIN_APP_ID,
+                  client_secret: SOCIAL_AUTH_LINKEDIN_APP_SECRET,
                   scope: 'profile',
                 })}
               {social.name === 'Instagram' &&
                 renderSocialLogin(LoginSocialInstagram, {
-                  client_id: REACT_APP_INSTAGRAM_APP_ID,
-                  client_secret: REACT_APP_INSTAGRAM_APP_SECRET,
+                  client_id: SOCIAL_AUTH_INSTAGRAM_APP_ID,
+                  client_secret: SOCIAL_AUTH_INSTAGRAM_APP_SECRET,
                 })}
               {social.name === 'Facebook' && 
                 renderSocialLogin(LoginSocialFacebook, {
-                  appId: REACT_APP_FB_APP_ID,
+                  appId: SOCIAL_AUTH_FB_APP_ID,
                   fieldsProfile: 'id,first_name,last_name,middle_name,name,name_format',
                 })}
               {social.name === 'Twitter' &&
                 renderSocialLogin(LoginSocialTwitter, {
-                  client_id: REACT_APP_TWITTER_V2_APP_KEY,
+                  client_id: SOCIAL_AUTH_TWITTER_V2_APP_KEY,
                 })}
             </Card>
           </div>
