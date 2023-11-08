@@ -12,8 +12,6 @@ export function useForm(initialFValues) {
     const handleChange = (e, format) => {
         const { name, value } = e.target;
 
-        console.log(name, value);
-
         setValues({
             ...values,
             [name]: (format === true) ? CurdateFormated(new Date(value)) : value

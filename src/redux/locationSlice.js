@@ -4,6 +4,7 @@ const locationSlice = createSlice({
   name: 'location',
   initialState: {
     searchText: '',
+    selectedLocation:null,
     locations: [],
     error: null
   },
@@ -11,6 +12,9 @@ const locationSlice = createSlice({
     setLocationText: (state, action) => {
       state.searchText = action.payload;
       state.loading = true;
+    },
+    setSelectedLocation: (state, action) => {
+      state.selectedLocation = action.payload;
     },
     fetchDataSuccess: (state, action) => {
 
@@ -24,5 +28,5 @@ const locationSlice = createSlice({
   },
 });
 
-export const { setLocationText, fetchDataSuccess, fetchDataFailure } = locationSlice.actions;
+export const { setLocationText, fetchDataSuccess,setSelectedLocation, fetchDataFailure } = locationSlice.actions;
 export default locationSlice.reducer;

@@ -10,7 +10,6 @@ const fetchSkills = createAction('skills/fetchSkills');
 function Skills() {
   const classes = commonStyles();
   const { selectedChips, nextPage,searchText, filterChipData } = useSelector((state) => state.skills);
-
   return (
     <>
       <common.FormHeading

@@ -40,8 +40,8 @@ function OnBoarding() {
     const [activeStep, setActiveStep] = React.useState(0);
     const { selectedChips: skillsSelectedChips, chipData: skillsChipData } = useSelector((state) => state.skills);
     const { selectedChips: interestsSelectedChips, chipData: interestsChipData } = useSelector((state) => state.interests);
-    const searchText = useSelector((state) => state.location.searchText);
-    const { companyName, position, stage } = useSelector((state) => state.company);
+    const setSelectedLocation = useSelector((state) => state.location.selectedLocation);
+    const { companyName, position, stage } = useSelector((state) => state.company.companyInfo);
     const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } = useSelector((state) => state.objective);
     const bioText = useSelector((state) => state.bio.bioText);
     const isSmallScreen = useMediaQuery('(max-width:414px)');
@@ -96,18 +96,19 @@ function OnBoarding() {
       switch (activeStep) {
         case 0:
           return !skillsSelectedChips || skillsSelectedChips.length === 0;
+        case 1:
+          return !interestsSelectedChips || interestsSelectedChips.length === 0;
         case 2:
-          return searchText === '';
+          return setSelectedLocation === null;
         case 3:
-          return companyName === '' || position === '' || stage === '';
+          return companyName === '' || position === '' || stage === null;
         default:
           return activeStep === 7;
       }
     };
 
     const nextButtonText = (() => {
-      return (activeStep === 1 && interestsSelectedChips.length <= 0) ||
-      (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
+      return (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
       (activeStep === 5 && bioText == '') ? 'Skip': 'Next';
     })();
 
@@ -140,7 +141,7 @@ function OnBoarding() {
         >
           <DrawerHeader className={classes.drawerHeader}>
             <img src={companyLogo} alt="Company Logo" />
-            <Link to="/member-portal" className={classes.link}>
+            <Link  to={true ? '#' : '/member-portal'} className={classes.link}>
               {"Save and exit"}
             </Link>
           </DrawerHeader>

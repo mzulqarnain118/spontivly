@@ -37,7 +37,6 @@ const skillsSlice = createSlice({
       state.loading = true;
     },
     fetchDataSuccess: (state, action) => {
-
       state.chipData = action.payload.page == true ? state.chipData.concat(action.payload.response.results) : action.payload.response.results;
       state.filterChipData = state.chipData
         .filter((chip) =>

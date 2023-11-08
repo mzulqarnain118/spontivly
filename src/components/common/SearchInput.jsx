@@ -14,6 +14,7 @@ export default function SearchInput(
     label,
     value,
     defaultValue,
+    customHandleClearClick,
     error = null,
     onChange,
     ...other
@@ -52,7 +53,7 @@ export default function SearchInput(
           </IconButton>
         ),
         endAdornment: value && (
-          <IconButton onClick={handleClearClick}>
+          <IconButton onClick={customHandleClearClick ?? handleClearClick}>
             <ClearIcon />
           </IconButton>
         ),
