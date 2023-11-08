@@ -1,7 +1,7 @@
-import { makeStyles } from '@mui/styles';
-import MuiAppBar from '@mui/material/AppBar';
-import { styled } from '@mui/material/styles';
-import { Chip } from '@mui/material';
+import { makeStyles } from "@mui/styles";
+import MuiAppBar from "@mui/material/AppBar";
+import { styled } from "@mui/material/styles";
+import { Chip } from "@mui/material";
 
 const drawerWidth = 313;
 const onBoarding = makeStyles((theme) => ({
@@ -94,7 +94,7 @@ const onBoarding = makeStyles((theme) => ({
     justifyContent: "center !important",
     "& .MuiMobileStepper-progress": {
       width: "100% !important",
-      background: "linear-gradient(270deg, #E9EDF0 60.42%, #323E48 60.43%)",
+      background: " #E9EDF0",
     },
     "& .MuiLinearProgress-bar": {
       backgroundColor: "var(--brand-complimentary, #323E48)",
@@ -135,110 +135,109 @@ const onBoarding = makeStyles((theme) => ({
     },
   },
 }));
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: `${drawerWidth}px`,
-        }),
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
+    ...(open && {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: `${drawerWidth}px`,
+    }),
+  })
 );
 
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-    boxShadow: 'none',
-    backgroundColor: 'white',
-    transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+  boxShadow: "none",
+  backgroundColor: "white",
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    ...(open && {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
+  }),
 }));
 const DrawerFooter = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-    top: 'auto',
-    bottom: 0,
-    boxShadow: 'none',
-    backgroundColor: 'white',
-    transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+  top: "auto",
+  bottom: 0,
+  boxShadow: "none",
+  backgroundColor: "white",
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    ...(open && {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
+  }),
 }));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
 }));
-
 
 const StyledChip = styled(Chip)(({ theme }) => ({
-    position: 'relative',
-    '& .MuiChip-deleteIcon': {
-        position: 'absolute',
-        right: -12,
-        top: -12,
-        borderRadius: '50%',
-        border: '1px solid rgba(233, 237, 240, 1) !important',
-        background: 'white',
-        color: 'black',
-        width: '24px',
-        height: '24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'background 0.3s',
-        '&:hover': {
-            border: '1px solid rgba(233, 237, 240, 1)',
-            background: 'rgba(50, 62, 72, 1)',
-            color: 'white',
-        },
+  position: "relative",
+  "& .MuiChip-deleteIcon": {
+    position: "absolute",
+    right: -12,
+    top: -12,
+    borderRadius: "50%",
+    border: "1px solid rgba(233, 237, 240, 1) !important",
+    background: "white",
+    color: "black",
+    width: "24px",
+    height: "24px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    transition: "background 0.3s",
+    "&:hover": {
+      border: "1px solid rgba(233, 237, 240, 1)",
+      background: "rgba(50, 62, 72, 1)",
+      color: "white",
     },
-    '& .MuiChip-deleteIcon::before, & .MuiChip-deleteIcon::after': {
-        content: '""',
-        width: '50%',
-        height: '2px',
-        background: 'black',
-        position: 'absolute',
-        top: 'calc(50% - 1px)',
-    },
-    '& .MuiChip-deleteIcon::before': {
-        left: 0,
-        transform: 'rotate(45deg)',
-    },
-    '& .MuiChip-deleteIcon::after': {
-        right: 0,
-        transform: 'rotate(-45deg)',
-    },
+  },
+  "& .MuiChip-deleteIcon::before, & .MuiChip-deleteIcon::after": {
+    content: '""',
+    width: "50%",
+    height: "2px",
+    background: "black",
+    position: "absolute",
+    top: "calc(50% - 1px)",
+  },
+  "& .MuiChip-deleteIcon::before": {
+    left: 0,
+    transform: "rotate(45deg)",
+  },
+  "& .MuiChip-deleteIcon::after": {
+    right: 0,
+    transform: "rotate(-45deg)",
+  },
 }));
 
 export { onBoarding, Main, AppBar, DrawerFooter, DrawerHeader, StyledChip };

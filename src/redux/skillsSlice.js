@@ -1,21 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const skillsSlice = createSlice({
-  name: 'skills',
+  name: "skills",
   initialState: {
     nextPage: null,
+    activeStep: 0,
     previousPage: null,
     selectedChips: [],
-    searchText: '',
+    searchText: "",
     chipData: [],
     filterChipData: [],
     loading: false,
   },
   reducers: {
-
     addSelectedChip: (state, action) => {
       state.selectedChips.push(action.payload);
-      state.filterChipData = state.filterChipData.filter((chip) => chip.id !== action.payload.id);
+      state.filterChipData = state.filterChipData.filter(
+        (chip) => chip.id !== action.payload.id
+      );
     },
     setSearchText: (state, action) => {
       state.searchText = action.payload;
@@ -24,29 +26,43 @@ const skillsSlice = createSlice({
           chip.name.toLowerCase().includes(action.payload.toLowerCase())
         )
         .filter((chip) => {
-          return state.selectedChips.every((selectedChip) => selectedChip.name !== chip.name);
+          return state.selectedChips.every(
+            (selectedChip) => selectedChip.name !== chip.name
+          );
         });
     },
-
+    handleNext: (state, action) => {
+      state.activeStep += 1;
+    },
+    handleBack: (state, action) => {
+      state.activeStep -= 1;
+    },
     removeSelectedChip: (state, action) => {
-      state.selectedChips = state.selectedChips.filter((chip) => chip.id !== action.payload.id);
+      state.selectedChips = state.selectedChips.filter(
+        (chip) => chip.id !== action.payload.id
+      );
       state.chipData.push(action.payload);
-      state.filterChipData.push(action.payload)
+      state.filterChipData.push(action.payload);
     },
     fetchSkills: (state) => {
       state.loading = true;
     },
     fetchDataSuccess: (state, action) => {
-      state.chipData = action.payload.page == true ? state.chipData.concat(action.payload.response.results) : action.payload.response.results;
+      state.chipData =
+        action.payload.page == true
+          ? state.chipData.concat(action.payload.response.results)
+          : action.payload.response.results;
       state.filterChipData = state.chipData
         .filter((chip) =>
           chip.name.toLowerCase().includes(state.searchText.toLowerCase())
         )
         .filter((chip) => {
-          return state.selectedChips.every((selectedChip) => selectedChip.name !== chip.name);
-        })
+          return state.selectedChips.every(
+            (selectedChip) => selectedChip.name !== chip.name
+          );
+        });
       state.nextPage = action.payload.response.next;
-      state.previousPage = action.payload.response.previous
+      state.previousPage = action.payload.response.previous;
       state.error = null;
     },
     fetchDataFailure: (state, action) => {
@@ -55,5 +71,14 @@ const skillsSlice = createSlice({
   },
 });
 
-export const { setSearchText, addSelectedChip, removeSelectedChip, fetchDataSuccess, fetchDataFailure, fetchSkills } = skillsSlice.actions;
+export const {
+  setSearchText,
+  addSelectedChip,
+  removeSelectedChip,
+  fetchDataSuccess,
+  handleNext,
+  handleBack,
+  fetchDataFailure,
+  fetchSkills,
+} = skillsSlice.actions;
 export default skillsSlice.reducer;
