@@ -1,36 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import Typography from '@mui/joy/Typography';
+import { Card, CardContent, Typography } from '@mui/joy';
 import { Grid, Switch, Container } from "@mui/material";
 import socialStyles from '../../styles/components/socialStyles';
 import { useTheme } from '@mui/material/styles';
 import common from '../../components/common';
+import config from "../../config";
 import {
-  LoginSocialGoogle,
-  LoginSocialAmazon,
   LoginSocialFacebook,
-  LoginSocialGithub,
   LoginSocialInstagram,
   LoginSocialLinkedin,
-  LoginSocialMicrosoft,
-  LoginSocialPinterest,
   LoginSocialTwitter,
-  LoginSocialApple,
-  IResolveParams,
 } from 'reactjs-social-login';
-
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-  GithubLoginButton,
-  AmazonLoginButton,
-  InstagramLoginButton,
-  LinkedInLoginButton,
-  MicrosoftLoginButton,
-  TwitterLoginButton,
-  AppleLoginButton,
-} from 'react-social-login-buttons';
 const socialData = [
   {
     name: "LinkedIn",
@@ -54,12 +34,14 @@ const socialData = [
   },
 ];
 
+const REDIRECT_URI = 'http://localhost:3000';
+
 function Social() {
   const classes = socialStyles();
   const theme = useTheme();
-  const REDIRECT_URI = 'http://localhost:3000'
   const [provider, setProvider] = useState('');
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState('');
+  const { REACT_APP_LINKEDIN_APP_ID, REACT_APP_LINKEDIN_APP_SECRET, REACT_APP_INSTAGRAM_APP_ID, REACT_APP_INSTAGRAM_APP_SECRET, REACT_APP_FB_APP_ID, REACT_APP_TWITTER_V2_APP_KEY } = config;
 
   const onLoginStart = useCallback(() => {
     alert('login start');
@@ -70,6 +52,27 @@ function Social() {
     setProvider('');
     alert('logout success');
   }, []);
+
+  const renderSocialLogin = (Component, props) => {
+    return (
+       <Component
+        {...props}
+        onLoginStart={onLoginStart}
+        onLogoutSuccess={onLogoutSuccess}
+        redirect_uri={REDIRECT_URI}
+        onResolve={({ provider, data }) => {
+          setProvider(provider);
+          setProfile(data);
+        }}
+        onReject={(err) => {
+          console.log(err);
+        }}
+      >
+        <Switch />
+      </Component>
+    );
+  };
+
   return (
     <Grid className={classes.container}>
       <common.FormHeading
@@ -84,108 +87,41 @@ function Social() {
               variant="outlined"
               className={classes.card}
               sx={{
-                [theme.breakpoints.down("md")]: {
-                  width: "20rem",
+                [theme.breakpoints.down('md')]: {
+                  width: '20rem',
                 },
               }}
             >
-              <img
-                src={social.image}
-                className={classes.cardImage}
-                loading="lazy"
-                alt=""
-              />
+              <img src={social.image} className={classes.cardImage} loading="lazy" alt="" />
               <CardContent>
-                <Typography className={classes.cardTitle}>
-                  {social.name}
-                </Typography>
-                <Typography className={classes.cardLink}>
-                  {social.link}
-                </Typography>
+                <Typography className={classes.cardTitle}>{social.name}</Typography>
+                <Typography className={classes.cardLink}>{social.link}</Typography>
               </CardContent>
-              {social.name == 'LinkedIn' &&
-                <LoginSocialLinkedin
-                  client_id={process.env.REACT_APP_LINKEDIN_APP_ID || ''}
-                  client_secret={process.env.REACT_APP_LINKEDIN_APP_SECRET || ''}
-                  scope='profile'
-                  redirect_uri={REDIRECT_URI}
-                  onLoginStart={onLoginStart}
-                  onResolve={({ provider, data }) => {
-                    setProvider(provider);
-                    setProfile(data);
-                  }}
-                  onReject={(err) => {
-                    console.log(err);
-                  }}
-                >
-                  <Switch />
-                </LoginSocialLinkedin>
-              }
-              {social.name == 'Instagram' &&
-                <LoginSocialInstagram
-                  client_id={process.env.REACT_APP_INSTAGRAM_APP_ID || ''}
-                  client_secret={process.env.REACT_APP_INSTAGRAM_APP_SECRET || ''}
-                  redirect_uri={REDIRECT_URI}
-                  onLoginStart={onLoginStart}
-                  onLogoutSuccess={onLogoutSuccess}
-                  onResolve={({ provider, data }) => {
-                    setProvider(provider);
-                    setProfile(data);
-                  }}
-                  onReject={(err) => {
-                    console.log(err);
-                  }}
-                >
-                  <Switch />
-                </LoginSocialInstagram>
-              }
-              {social.name == 'Facebook' &&
-                <LoginSocialFacebook
-                  appId={process.env.REACT_APP_FB_APP_ID || ''}
-                  fieldsProfile={
-                    'id,first_name,last_name,middle_name,name,name_format'
-                  }
-                  onLoginStart={onLoginStart}
-                  onLogoutSuccess={onLogoutSuccess}
-                  redirect_uri={REDIRECT_URI}
-                  onResolve={({ provider, data }) => {
-                    setProvider(provider);
-                    setProfile(data);
-                  }}
-                  onReject={(err) => {
-                    console.log(err);
-                  }}
-                >
-                  <Switch />
-                </LoginSocialFacebook>
-              }
-              {social.name == 'Twitter' &&
-                <LoginSocialTwitter
-                  client_id={process.env.REACT_APP_TWITTER_V2_APP_KEY || ''}
-                  redirect_uri={REDIRECT_URI}
-                  onLoginStart={onLoginStart}
-                  onLogoutSuccess={onLogoutSuccess}
-                  onResolve={({ provider, data }) => {
-                    setProvider(provider);
-                    setProfile(data);
-                  }}
-                  onReject={(err) => {
-                    console.log(err);
-                  }}
-                >
-                  <Switch />
-                </LoginSocialTwitter>
-              }
-
-
+              {social.name === 'LinkedIn' &&
+                renderSocialLogin(LoginSocialLinkedin, {
+                  client_id: REACT_APP_LINKEDIN_APP_ID,
+                  client_secret: REACT_APP_LINKEDIN_APP_SECRET,
+                  scope: 'profile',
+                })}
+              {social.name === 'Instagram' &&
+                renderSocialLogin(LoginSocialInstagram, {
+                  client_id: REACT_APP_INSTAGRAM_APP_ID,
+                  client_secret: REACT_APP_INSTAGRAM_APP_SECRET,
+                })}
+              {social.name === 'Facebook' && 
+                renderSocialLogin(LoginSocialFacebook, {
+                  appId: REACT_APP_FB_APP_ID,
+                  checked:facebookToggle,
+                  fieldsProfile: 'id,first_name,last_name,middle_name,name,name_format',
+                })}
+              {social.name === 'Twitter' &&
+                renderSocialLogin(LoginSocialTwitter, {
+                  client_id: REACT_APP_TWITTER_V2_APP_KEY,
+                },linkedi)}
             </Card>
           </div>
         ))}
-
-
       </Container>
-
-
     </Grid>
   );
 }
