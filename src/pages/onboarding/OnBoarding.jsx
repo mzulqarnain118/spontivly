@@ -1,7 +1,4 @@
 import React, { lazy, useEffect } from "react";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/system";
 import { handleNext, handleBack } from "../../redux/skillsSlice";
@@ -16,6 +13,9 @@ import {
   List,
   ListItem,
   Divider,
+  CssBaseline,
+  Typography,
+  Drawer,
 } from "@mui/material";
 import success from "../../assets/icons/success.svg";
 import lock from "../../assets/icons/lock.svg";
@@ -46,10 +46,6 @@ function OnBoarding() {
     chipData: skillsChipData,
     activeStep,
   } = useSelector((state) => state.skills);
-    console.log(
-      "🚀 ~ file: OnBoarding.jsx:49 ~ OnBoarding ~ activeStep:",
-      activeStep
-    );
 
   const { selectedChips: interestsSelectedChips, chipData: interestsChipData } =
     useSelector((state) => state.interests);
@@ -153,7 +149,7 @@ function OnBoarding() {
         open={open}
       >
         <DrawerHeader className={classes.drawerHeader}>
-          <img src={companyLogo} alt="Company Logo" />
+          <common.Img src={companyLogo} />
           <Link to={true ? "#" : "/member-portal"} className={classes.link}>
             {"Save and exit"}
           </Link>
@@ -182,17 +178,12 @@ function OnBoarding() {
               </ListItemButton>
               {index !== activeStep ? (
                 index < activeStep ? (
-                  <img
-                    loading="lazy"
+                  <common.Img
                     src={success}
                     className={classes.listItemSuccessIcon}
                   />
                 ) : (
-                  <img
-                    loading="lazy"
-                    src={lock}
-                    className={classes.listItemIcon}
-                  />
+                  <common.Img src={lock} className={classes.listItemIcon} />
                 )
               ) : (
                 ""

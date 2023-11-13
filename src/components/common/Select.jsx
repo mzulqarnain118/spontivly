@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import {
   FormControl,
   InputLabel,
   Select as MuiSelect,
   MenuItem,
   FormHelperText,
-  TextField,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import commonStyles from "../../styles/commonStyles";
 export default function Select(
   {
@@ -21,13 +20,35 @@ export default function Select(
     onChange,
     defaultValue,
     multiple,
+    objOnChange,
+    reduxHandleChange,
+    reduxObjHandleChange,
+    customHandleChange,
     options,
     ...other
   },
   props
 ) {
-  const theme = useTheme();
   const classes = commonStyles();
+  const dispatch = useDispatch();
+
+  const handleChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      reduxHandleChange
+        ? dispatch(reduxHandleChange(value))
+        : reduxObjHandleChange
+        ? dispatch(reduxObjHandleChange({ [name]: value }))
+        : objOnChange
+        ? objOnChange((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+          }))
+        : onChange(value);
+    },
+    [dispatch]
+  );
+
   return (
     <FormControl fullWidth variant="outlined" {...(error && { error: true })}>
       {label && (
@@ -37,14 +58,8 @@ export default function Select(
         value={value ?? ""}
         label={label && `${label}${props.required ? `*` : ``}`}
         name={name}
-        onChange={onChange}
+        onChange={customHandleChange ?? handleChange}
         className={className ?? classes.inputContainer}
-        sx={{
-          [theme.breakpoints.up("md")]: {
-            width: "30vw", // Adjust width for screens wider than 'md' breakpoint
-            alignSelf: "center",
-          },
-        }}
         fullWidth
         disabled={disabled}
         multiple={multiple}

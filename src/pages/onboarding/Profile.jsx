@@ -1,22 +1,33 @@
 import { Button, SvgIcon } from '@mui/joy'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPhotoURL } from '../../redux/photoSlice';
+import { setPhotoURL } from '../../redux/uploadProfileSlice';
 import commonStyles from '../../styles/commonStyles';
 import { Container } from '@mui/material';
 import common from "../../components/common";
 
 function Profile() {
   const dispatch = useDispatch();
-  const photoURL = useSelector((state) => state.photo.photoURL);
+  const photoURL = useSelector((state) => state.photo?.file);
   const classes = commonStyles();
-  const handleUploadPhoto = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const photoObjectURL = URL.createObjectURL(file);
-      dispatch(setPhotoURL(photoObjectURL));
-    }
-  };
+const handleUploadPhoto = (event) => {
+  const file = event.target.files;
+
+  console.log("🚀 ~ file: Profile.jsx:16 ~ handleUploadPhoto ~ file:", file)
+
+  // Check if a file is selected
+  if (!file) {
+    console.error("No file selected");
+    return;
+  }
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("name", "dp");
+  formData.append("type", "dp");
+  formData.append("owner_id", 1);
+  dispatch(setPhotoURL(formData));
+};
+
 
   return (
     <>
@@ -25,12 +36,7 @@ function Profile() {
         title=" This helps people put a face to the name"
       />
       <Container className={classes.mainContainer}>
-        <img
-          src={photoURL}
-          className={classes.profileImage}
-          loading="lazy"
-          alt=""
-        />
+        <common.Img src={photoURL} className={classes.profileImage} />
         <common.CustomIconButton
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}

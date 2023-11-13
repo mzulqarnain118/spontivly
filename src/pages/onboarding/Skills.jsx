@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { addSelectedChip, removeSelectedChip, setSearchText } from '../../redux/skillsSlice';
-import {  Container } from '@mui/material';
+import {  Container,Box } from '@mui/material';
 import commonStyles from '../../styles/commonStyles';
 import { createAction } from '@reduxjs/toolkit'
 import common from '../../components/common';
@@ -16,21 +16,25 @@ function Skills() {
         heading="What are your skills?"
         title="Select all that apply"
       />
-      <Container className={classes.mainContainer}>
-        <common.SearchInput
-          placeholder="Search Skills"
-          value={searchText}
-          onChange={setSearchText}
-        />
-        <common.SearchTags
-          selectedChips={selectedChips}
-          nextPage={nextPage}
-          filterChipData={filterChipData}
-          addSelectedChip={addSelectedChip}
-          removeSelectedChip={removeSelectedChip}
-          fetchTags={fetchSkills}
-        />
+      <Container maxWidth="sm" className={classes.container}>
+        <Box className={classes.mainContainer}>
+          <common.Input
+            placeholder="Search Skills"
+            value={searchText}
+            reduxHandleChange={setSearchText}
+            startIcon={true}
+            endIcon={true}
+          />
+        </Box>
       </Container>
+      <common.SearchTags
+        selectedChips={selectedChips}
+        nextPage={nextPage}
+        filterChipData={filterChipData}
+        addSelectedChip={addSelectedChip}
+        removeSelectedChip={removeSelectedChip}
+        fetchTags={fetchSkills}
+      />
     </>
   );
 }

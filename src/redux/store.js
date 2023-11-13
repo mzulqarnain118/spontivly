@@ -7,12 +7,13 @@ import locationReducer from './locationSlice';
 import companyReduce from './companySlice';
 import objectiveReducer from './objectiveSlice';
 import bioReducer from './bioSlice';
-import photoReducer from './photoSlice';
+import photoReducer from './uploadProfileSlice';
 import { watchFetchSkills } from './saga/skillsSagas'; // Import your new saga
 import { watchFetchInterests } from './saga/interestsSaga';
 import { watchFetchObjectives } from './saga/objectivesSaga';
 import { watchLocationText } from './saga/locationSaga';
 import { watchFetchCompanyStages } from './saga/companySaga';
+import { watchUploadProfile } from "./saga/uploadProfileSaga";
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
@@ -33,7 +34,8 @@ sagaMiddleware.run(function* rootSaga() {
     watchFetchInterests(),
     watchFetchObjectives(),
     watchLocationText(),
-    watchFetchCompanyStages() // Include your new saga here
+    watchFetchCompanyStages(),
+    watchUploadProfile()
   ]);
 });
 export default store;

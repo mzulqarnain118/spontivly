@@ -6,7 +6,6 @@ import {
 import common from "./components/common";
 import "./App.css";
 import "./styles/flexboxClasses.css" 
-const Login = lazy(() => import('./pages/auth/Login'));
 const Signup = lazy(() => import('./pages/auth/Signup'));
 const OnBoarding = lazy(() => import("./pages/onboarding/OnBoarding"));
 
@@ -23,7 +22,7 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      element: <Signup />,
     },
   ]);
 

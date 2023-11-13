@@ -18,10 +18,20 @@ const commonStyles = makeStyles((theme) => ({
     border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
     background: "var(--petroleum-p-05, #F9FBFD) !important",
     borderRadius: "8px !important",
-    textAlign: "start"
+    textAlign: "start",
+  },
+  logo: {
+    width: "15.75194rem",
+    height: "5rem",
+    marginTop: 128,
+  },
+  container: {
+    display: "flex !important",
+    justifyContent: "center !important",
   },
   mainContainer: {
-    gap: "40px !important",
+    width: "100% !important",
+    gap: "0.4rem !important",
     display: "flex !important",
     flexDirection: "column !important",
     alignItems: "center !important",

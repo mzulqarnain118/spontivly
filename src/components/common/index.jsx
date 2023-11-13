@@ -5,7 +5,6 @@ import Select from "./Select";
 import Input from './Input'
 // import DateTimePicker from "./DateTimePicker";
 import Autocomplete from "./Autocomplete";
-import SearchInput from "./SearchInput";
 import FormHeading from "./FormHeading";
 import SearchTags from "./SearchTags";
 import ContainerToast from "./Toast/ContainerToast"
@@ -13,7 +12,7 @@ import TextArea from "./TextArea";
 import Spinner from "./Spinner";
 import CustomIconButton from "./CustomIconButton";
 import MuiButton from "./MuiButton";
-
+import Img from "./Img";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -21,6 +20,7 @@ const Controls = {
 //   DatePicker,
 //   Checkbox,
   Input,
+  Img,
   CustomIconButton,
   MuiButton,
   TextArea,
@@ -28,7 +28,6 @@ const Controls = {
     Spinner,
   SearchTags,
   Autocomplete,
-  SearchInput,
   FormHeading,
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Button} from "@mui/joy";
 import commonStyles from "../../styles/commonStyles";
 import { styled } from "@mui/joy";
-
+import Img from './Img'
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -38,7 +38,7 @@ export default function CustomIconButton(
       label={label}
       className={className ?? classes.button}
       onClick={onClick}
-      startDecorator={<img src={CustomIcon} loading="lazy" />}
+      startDecorator={<Img src={CustomIcon}/>}
       {...other}
     >
       {handleUploadPhoto && (

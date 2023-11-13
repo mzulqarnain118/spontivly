@@ -8,8 +8,7 @@ const CustomButton = ({ disable, onClick, text }) => {
       onClick();
     }
   };
-console.log('text', text)
-  // Conditionally render the Link based on the text prop
+
   const buttonContent = (
     <>
       {text === 'Login' || text === 'Create account' ? (
