@@ -11,10 +11,10 @@ import common from "../../components/common";
 import config from "../../config";
 import { setSoicalData } from "../../redux/socialSlice";
 import { useDispatch, useSelector } from "react-redux";
-import LinkedIn from "../../assets/images/linkedin.png";
-import Instagram from "../../assets/images/instagram.png";
-import Facebook from "../../assets/images/facebook.png";
-import Twitter from "../../assets/images/twitter.png";
+import linkedIn from "../../assets/images/linkedin.png";
+import instagram from "../../assets/images/instagram.png";
+import facebook from "../../assets/images/facebook.png";
+import twitter from "../../assets/images/twitter.png";
 import {
   LoginSocialFacebook,
   LoginSocialInstagram,
@@ -24,22 +24,22 @@ import {
 const socialData = [
   {
     name: "LinkedIn",
-    image: LinkedIn,
+    image: linkedIn,
     link: "linkedin.com",
   },
   {
     name: "Instagram",
-    image: Instagram,
+    image: instagram,
     link: "instagram.com",
   },
   {
     name: "Facebook",
-    image: Facebook,
+    image: facebook,
     link: "facebook.com",
   },
   {
     name: "Twitter",
-    image: Twitter,
+    image: twitter,
     link: "twitter.com",
   },
 ];
