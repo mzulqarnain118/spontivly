@@ -25,6 +25,8 @@ const onBoardingSlice = createSlice({
       interests: [],
       objectives: [],
     },
+    saveProfileResponse: null,
+    error:null
   },
   reducers: {
     setBioText: (state, action) => {
@@ -36,8 +38,14 @@ const onBoardingSlice = createSlice({
     saveProfile: (state, action) => {
       state.photo = action.payload;
     },
+    fetchDataFailure: (state, action) => {
+      state.error = action.payload;
+    },
+    fetchDataSuccess: (state, action) => {
+      state.saveProfileResponse = action.payload;
+    },
   },
 });
 
-export const { setBioText, setPhotoURL } = onBoardingSlice.actions;
+export const { setBioText,fetchDataFailure,fetchDataSuccess, setPhotoURL } = onBoardingSlice.actions;
 export default onBoardingSlice.reducer;

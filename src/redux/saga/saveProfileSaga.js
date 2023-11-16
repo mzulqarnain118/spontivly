@@ -1,6 +1,6 @@
 // skillsSagas.js
 import { call, put, takeLatest } from "redux-saga/effects";
-// import { fetchDataSuccess, fetchDataFailure } from "../uploadProfileSlice";
+import { fetchDataSuccess, fetchDataFailure } from "../onBoardingSlice";
 import * as api from "../apis/saveProfile";
 function* saveProfileSaga(page) {
   console.log(

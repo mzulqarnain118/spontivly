@@ -11,25 +11,6 @@ const skillsSlice = createSlice({
     chipData: [],
     filterChipData: [],
     loading: false,
-    profilePayload: {
-      dashboard_user: null,
-      company_name: "",
-      position: "",
-      introduction: "",
-      linkedin_id: "",
-      instagram_id: "",
-      facebook_id: "",
-      twitter_id: "",
-      profile_pic: "",
-      updated_at: null,
-      created_at: null,
-      user: null,
-      location: null,
-      company_stage: null,
-      skills: [],
-      interests: [],
-      objectives: [],
-    },
   },
   reducers: {
     addSelectedChip: (state, action) => {
@@ -52,7 +33,6 @@ const skillsSlice = createSlice({
     },
     handleNext: (state, action) => {
       state.activeStep += 1;
-      state.profilePayload = { ...state.profilePayload, ...action.payload };
     },
     handleBack: (state, action) => {
       state.activeStep -= 1;
