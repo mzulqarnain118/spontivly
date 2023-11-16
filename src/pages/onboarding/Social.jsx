@@ -17,30 +17,30 @@ import {
   LoginSocialLinkedin,
   LoginSocialTwitter,
 } from "reactjs-social-login";
-const socialData = [
-  {
-    name: "LinkedIn",
-    image: require("../../assets/images/linkedin.png"),
-    link: "linkedin.com",
-  },
-  {
-    name: "Instagram",
-    image: require("../../assets/images/instagram.png"),
-    link: "instagram.com",
-  },
-  {
-    name: "Facebook",
-    image: require("../../assets/images/facebook.png"),
-    link: "facebook.com",
-  },
-  {
-    name: "Twitter",
-    image: require("../../assets/images/twitter.png"),
-    link: "twitter.com",
-  },
-];
 
 function Social() {
+  const socialData = [
+    {
+      name: "LinkedIn",
+      image: require("../../assets/images/linkedin.png"),
+      link: "linkedin.com",
+    },
+    {
+      name: "Instagram",
+      image: require("../../assets/images/instagram.png"),
+      link: "instagram.com",
+    },
+    {
+      name: "Facebook",
+      image: require("../../assets/images/facebook.png"),
+      link: "facebook.com",
+    },
+    {
+      name: "Twitter",
+      image: require("../../assets/images/twitter.png"),
+      link: "twitter.com",
+    },
+  ];
   const classes = socialStyles();
   const dispatch = useDispatch();
   const social = useSelector((state) => state.social);
