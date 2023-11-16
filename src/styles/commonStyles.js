@@ -27,13 +27,14 @@ const commonStyles = makeStyles((theme) => ({
     width: "15.75194rem",
     height: "5rem",
     marginTop: 128,
+    marginLeft:"10rem !important"
   },
   container: {
     display: "flex !important",
   },
   mainContainer: {
     width: "100% !important",
-    gap: "0.4rem !important",
+    gap: "1.5rem !important",
     display: "flex !important",
     flexDirection: "column !important",
     alignItems: "center !important",

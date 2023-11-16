@@ -5,7 +5,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
 import commonStyles from "../../styles/commonStyles";
-import { useTheme } from "@mui/material/styles";
 
 export default function Input(
   {
@@ -18,20 +17,20 @@ export default function Input(
     error = null,
     startIcon,
     endIcon,
+    readOnly,
     onChange,
     objOnChange,
     reduxHandleChange,
     reduxObjHandleChange,
     customHandleChange,
-    required,
-    multiline,rows,
+    multiline,
+    rows,
     ...other
   },
   props
 ) {
   const classes = commonStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const handleClearClick = useCallback(() => {
     reduxHandleChange ? dispatch(reduxHandleChange("")) : onChange("");
@@ -56,7 +55,6 @@ export default function Input(
 
   return (
     <TextField
-      isRequired={required}
       fullWidth
       variant="outlined"
       multiline={multiline}
@@ -70,6 +68,7 @@ export default function Input(
       }}
       defaultValue={defaultValue}
       InputProps={{
+        readOnly: readOnly,
         startAdornment: startIcon && (
           <IconButton disabled>
             <SearchIcon />

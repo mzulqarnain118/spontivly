@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Stack, Divider, Container, Typography } from "@mui/material";
+import { Stack, Divider, Container, Typography,Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
@@ -19,7 +19,8 @@ function Signup() {
   const classes = loginStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
-const handleContinueClick = useCallback(async () => {
+  const onSubmit = useCallback(async (e) => {
+    e.preventDefault();
   try {
     setLoading(true);
 
@@ -48,7 +49,7 @@ const handleContinueClick = useCallback(async () => {
       }
     }
   } catch (error) {
-    console.error("Error in handleContinueClick:", error);
+    console.error("Error in onSubmit:", error);
   } finally {
     setLoading(false);
   }
@@ -77,66 +78,66 @@ const handleContinueClick = useCallback(async () => {
         <Typography>or</Typography>
         <Divider className={classes.divider} />
       </Stack>
-      {/* <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleContinueClick();
-        }}
-      > */}
-      {buttonText === "Create account" && (
+      <form onSubmit={onSubmit} className={classes.subContainer}>
+        {buttonText === "Create account" && (
+          <common.Input
+            name="fullName"
+            value={formData.fullName}
+            objOnChange={setFormData}
+            placeholder="Full name"
+            startIcon={true}
+            required
+          />
+        )}
         <common.Input
-          name="fullName"
-          value={formData.fullName}
+          name="email"
+          placeholder="Search"
+          type="email"
           objOnChange={setFormData}
-          placeholder="Full name"
+          value={formData.email}
           startIcon={true}
-          required={true}
+          required
         />
-      )}
-      <common.Input
-        name="email"
-        placeholder="Search"
-        objOnChange={setFormData}
-        value={formData.email}
-        startIcon={true}
-        required={true}
-      />
 
-      {["Create account", "Login"].includes(buttonText) && (
-        <common.Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          objOnChange={setFormData}
-          startIcon={true}
-          required={true}
+        {["Create account", "Login"].includes(buttonText) && (
+          <common.Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            objOnChange={setFormData}
+            startIcon={true}
+            required
+          />
+        )}
+        <common.MuiButton
+          type="submit"
+          label={buttonText}
+          color="white"
+          size="large"
+          variant="contained"
+          disabled={formData?.email === ""}
         />
-      )}
-      <common.MuiButton
-        onClick={handleContinueClick}
-        label={buttonText}
-        color="white"
-        size="large"
-        variant="contained"
-        disabled={formData?.email === ""}
-      />
-      {/* </form> */}
-        <Typography variant="body2" className={classes.bodyText}>
-          By clicking{" "}
-          <Link to="/signup" className={classes.createAccountLink}>
-            {" "}
-            "Create account" ,
-          </Link>{" "}
-          I agree to Tampa Bay Wave’s{" "}
-          <Link to="#" className={classes.createAccountLink}>
-            TOS
-          </Link>{" "}
-          and{" "}
-          <Link to="#" className={classes.createAccountLink}>
-            Privacy Policy
-          </Link>
-        </Typography>
+      </form>
+
+      <Typography variant="body2" className={classes.bodyText}>
+        {buttonText === "Create account" && (
+          <>
+            By clicking{" "}
+            <Link to="#" className={classes.createAccountLink}>
+              "Create account" ,
+            </Link>
+          </>
+        )}
+        I agree to Tampa Bay Wave’s{" "}
+        <Link to="#" className={classes.createAccountLink}>
+          TOS
+        </Link>{" "}
+        and{" "}
+        <Link to="#" className={classes.createAccountLink}>
+          Privacy Policy
+        </Link>
+      </Typography>
     </Container>
   );
 }

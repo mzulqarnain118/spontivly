@@ -73,6 +73,7 @@ function SearchTags({
         <common.MuiButton
           onClick={handleLoadMore}
           label="Load More"
+          size="medium"
         />
       )}
     </>

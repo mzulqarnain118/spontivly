@@ -5,9 +5,9 @@ export default function Img({ src, className,logo }) {
     <img
       alt="Image"
       src={src}
-      className={className ?className: logo && classes.logo}
+      className={className ? className : logo && classes.logo}
       loading="lazy"
     />
-  );
+);
 }
 

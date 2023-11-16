@@ -1,7 +1,16 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  container:{display:"flex !important",flexDirection:"column",gap:"1.5rem",alignItems:"center"},
+  container: {
+    display: "flex !important",
+    flexDirection: "column",
+    gap: "1.5rem",
+  },
+  subContainer: {
+    display: "flex !important",
+    flexDirection: "column",
+    gap: "1.5rem",
+  },
   divider: {
     width: "13rem",
   },

@@ -34,14 +34,11 @@ const onBoarding = makeStyles((theme) => ({
   },
   link: {
     color: " var(--brand-complimentary, #323E48)",
-    fontFamily: "Public Sans",
     fontSize: "12px",
     fontStyle: "normal",
     fontWeight: 700,
   },
   sidebarHeader: {
-    color: "var(--text-primary, #222) !important",
-    fontFamily: "Public Sans !important",
     fontSize: "1.5rem !important",
     fontStyle: "normal !important",
     fontWeight: "600 !important",
@@ -55,8 +52,6 @@ const onBoarding = makeStyles((theme) => ({
     gap: "1.25rem",
   },
   listItemButton: {
-    color: "var(--petroleum-p-100, #2D3840)",
-    fontFamily: "Public Sans",
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: 600,
@@ -65,7 +60,7 @@ const onBoarding = makeStyles((theme) => ({
     width: "1.62rem",
     padding: "0.25rem",
     borderRadius: "12px",
-    border: "1px solid var(--brand-complimentary, #323E48)",
+    border: `1px solid ${theme.palette.primary.main}`,
   },
   listItemSuccessIcon: {
     width: "1.62rem",
@@ -93,10 +88,10 @@ const onBoarding = makeStyles((theme) => ({
     justifyContent: "center !important",
     "& .MuiMobileStepper-progress": {
       width: "100% !important",
-      background: " #E9EDF0",
+      background: theme.palette.grey[300],
     },
     "& .MuiLinearProgress-bar": {
-      backgroundColor: "var(--brand-complimentary, #323E48)",
+      backgroundColor: theme.palette.primary.main,
     },
   },
   footerButtonDiv: {
