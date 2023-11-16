@@ -57,6 +57,11 @@ const theme = createTheme({
             backgroundColor: "#ADB2B6",
           },
         },
+        outlined: {
+          "&:disabled": {
+            backgroundColor: "inherit",
+          },
+        },
         sizeSmall: {
           width: "10%", // Set the width to 10% for small size
         },

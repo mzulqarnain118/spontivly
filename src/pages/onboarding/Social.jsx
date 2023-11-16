@@ -11,36 +11,40 @@ import common from "../../components/common";
 import config from "../../config";
 import { setSoicalData } from "../../redux/socialSlice";
 import { useDispatch, useSelector } from "react-redux";
+import LinkedIn from "../../assets/images/linkedin.png";
+import Instagram from "../../assets/images/instagram.png";
+import Facebook from "../../assets/images/facebook.png";
+import Twitter from "../../assets/images/twitter.png";
 import {
   LoginSocialFacebook,
   LoginSocialInstagram,
   LoginSocialLinkedin,
   LoginSocialTwitter,
 } from "reactjs-social-login";
+const socialData = [
+  {
+    name: "LinkedIn",
+    image: LinkedIn,
+    link: "linkedin.com",
+  },
+  {
+    name: "Instagram",
+    image: Instagram,
+    link: "instagram.com",
+  },
+  {
+    name: "Facebook",
+    image: Facebook,
+    link: "facebook.com",
+  },
+  {
+    name: "Twitter",
+    image: Twitter,
+    link: "twitter.com",
+  },
+];
 
 function Social() {
-  const socialData = [
-    {
-      name: "LinkedIn",
-      image: require("../../assets/images/linkedin.png"),
-      link: "linkedin.com",
-    },
-    {
-      name: "Instagram",
-      image: require("../../assets/images/instagram.png"),
-      link: "instagram.com",
-    },
-    {
-      name: "Facebook",
-      image: require("../../assets/images/facebook.png"),
-      link: "facebook.com",
-    },
-    {
-      name: "Twitter",
-      image: require("../../assets/images/twitter.png"),
-      link: "twitter.com",
-    },
-  ];
   const classes = socialStyles();
   const dispatch = useDispatch();
   const social = useSelector((state) => state.social);
