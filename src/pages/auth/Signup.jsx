@@ -39,8 +39,8 @@ function Signup() {
       }
     } else if (buttonText === "Login") {
       const response = await ApiCall("auth/login", "POST", {
-        username: "saad",
-        password: "123123",
+        email: formData.email,
+        password: formData.password,
       });
 
       if (response.status === 200) {

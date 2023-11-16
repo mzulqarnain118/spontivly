@@ -4,7 +4,7 @@ const skillsSlice = createSlice({
   name: "skills",
   initialState: {
     nextPage: null,
-    activeStep: 0,
+    activeStep: 7,
     previousPage: null,
     selectedChips: [],
     searchText: "",
@@ -33,6 +33,7 @@ const skillsSlice = createSlice({
     },
     handleNext: (state, action) => {
       state.activeStep += 1;
+
     },
     handleBack: (state, action) => {
       state.activeStep -= 1;

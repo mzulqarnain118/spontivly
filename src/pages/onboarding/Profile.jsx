@@ -10,21 +10,13 @@ function Profile() {
   const photoURL = useSelector((state) => state.photo?.file);
   const classes = commonStyles();
 const handleUploadPhoto = (event) => {
-  const file = event.target.files;
-
-  console.log("🚀 ~ file: Profile.jsx:16 ~ handleUploadPhoto ~ file:", file)
-
+  const file = event.target.files[0];
   // Check if a file is selected
   if (!file) {
     console.error("No file selected");
     return;
   }
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("name", "dp");
-  formData.append("type", "dp");
-  formData.append("owner_id", 1);
-  dispatch(setPhotoURL(formData));
+  dispatch(setPhotoURL(file));
 };
 
 

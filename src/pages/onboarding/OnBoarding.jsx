@@ -30,6 +30,8 @@ import {
   DrawerFooter,
   DrawerHeader,
 } from "../../styles/components/onBoardingStyles";
+import { saveProfile } from "redux/onBoardingSlice";
+import { generatePayload, getLocal } from "utils";
 const Skills = lazy(() => import("./Skills"));
 const Interests = lazy(() => import("./Interests"));
 const Location = lazy(() => import("./Location"));
@@ -47,7 +49,7 @@ function OnBoarding() {
     chipData: skillsChipData,
     activeStep,
   } = useSelector((state) => state.skills);
- const {skills,} = useSelector((state) => state);
+  const { linkedin, twitter, facebook, instagram } = useSelector((state) => state.social);
   const { selectedChips: interestsSelectedChips, chipData: interestsChipData } =
     useSelector((state) => state.interests);
   const setSelectedLocation = useSelector(
@@ -59,6 +61,7 @@ function OnBoarding() {
   const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } =
     useSelector((state) => state.objective);
   const bioText = useSelector((state) => state.onBoarding.bioText);
+  const { photoFlag, photo } = useSelector((state) => state.onBoarding);
   const isSmallScreen = useMediaQuery("(max-width:414px)");
   const classes = onBoarding();
   const steps = [
@@ -99,43 +102,34 @@ function OnBoarding() {
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
+  const handleFinish = () => {
+    const skills = generatePayload(skillsSelectedChips);
+    const interests = generatePayload(interestsSelectedChips);
+    const objectives = generatePayload(objectiveSelectedChips);
 
-const generatePayload = () => {
-  switch (activeStep) {
-    case 0:
-      return {
-        skills: skillsSelectedChips.reduce((acc, cur) => {
-          acc.push(cur.id);
-          return acc;
-        }, []),
-        // Add other properties specific to this case
-      };
-    case 1:
-      return {
-        interests: skillsSelectedChips.reduce((acc, cur) => {
-          // Custom logic for interests
-          // acc.push(cur.someOtherProperty);
-          return acc;
-        }, []),
-        // Add other properties specific to this case
-      };
-    // case 2:
-    //   return {
-    //     location: otherData.selectedLocation,
-    //     // Add other properties specific to this case
-    //   };
-    // case 3:
-    //   return {
-    //     company: otherData.companyName,
-    //     position: otherData.position,
-    //     stage: otherData.stage,
-    //     // Add other properties specific to this case
-    //   };
-    // Add more cases as needed
-    default:
-      return {};
-  }
-};
+    const formData = new FormData();
+    formData.append("dashboard_user", getLocal("token"));
+    formData.append("company_name", companyName);
+    formData.append("position", position);
+    formData.append("introduction", bioText);
+    formData.append("linkedin_id", linkedin.id);
+    formData.append("instagram_id", instagram.id);
+    formData.append("facebook_id", facebook.id);
+    formData.append("twitter_id", twitter.id);
+    formData.append("file", photo);
+    formData.append("updated_at", null);
+    formData.append("created_at", null);
+    formData.append("user", getLocal("token"));
+    formData.append("location", setSelectedLocation);
+    formData.append("company_stage", stage);
+    formData.append("skills", skills);
+    formData.append("interests", interests);
+    formData.append("objectives", objectives);
+    dispatch(saveProfile(formData))
+
+  };
+
+
   const isNextButtonDisabled = () => {
     switch (activeStep) {
       case 0:
@@ -147,15 +141,24 @@ const generatePayload = () => {
       case 3:
         return companyName === "" || position === "" || stage === null;
       default:
-        return activeStep === 7;
+        return activeStep === 7 && photoFlag === false;
     }
   };
 
   const nextButtonText = (() => {
-    return (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
-      (activeStep === 5 && bioText == "")
-      ? "Skip"
-      : "Next";
+    let nextButtonText = "Next";
+
+    if (activeStep === 7) {
+      nextButtonText = "Finish";
+    } else if (
+      (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
+      (activeStep === 5 && bioText === "")
+    ) {
+      nextButtonText = "Skip";
+    }
+
+    return nextButtonText;
+
   })();
 
   return (
@@ -258,11 +261,11 @@ const generatePayload = () => {
                   }}
                   disabled={activeStep === 0}
                   label="Back"
-                  
+
                 />
                 <common.MuiButton
                   onClick={() => {
-                    dispatch(handleNext());
+                    activeStep === 7 ? handleFinish() : dispatch(handleNext());
                   }}
                   disabled={isNextButtonDisabled()}
                   variant="contained"
