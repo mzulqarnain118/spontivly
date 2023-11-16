@@ -1,28 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const socialSlice = createSlice({
-  name: 'social',
+  name: "social",
   initialState: {
-    linkedInChecked:null, // Store the photo URL
-    twitterChecked:null, // Store the photo URL
-    facebookChecked:null, // Store the photo URL
-    instaChecked:null, // Store the photo URL
+    linkedin: {
+      id: null,
+    },
+    twitter: {
+      id: null,
+    },
+    facebook: {
+      id: null,
+    },
+    instagram: {
+      id: null,
+    },
   },
   reducers: {
-    setLinkedInChecked: (state, action) => {
-      state.linkedInChecked = action.payload;
-    },
-    setTwitterChecked: (state, action) => {
-      state.twitterChecked = action.payload;
-    },
-    setFacebookChecked: (state, action) => {
-      state.facebookChecked = action.payload;
-    },
-    setInstaChecked: (state, action) => {
-      state.instaChecked = action.payload;
+    setSoicalData: (state, action) => {
+      const { provider, id } = action.payload;
+
+      console.log("🚀 ~ file: socialSlice.js:35 ~ provider, id:", provider, id)
+
+      state[provider].id = id;
+
+      console.log("🚀 ~ file: socialSlice.js:36 ~ state:", state)
+
     },
   },
 });
 
-export const { setLinkedInChecked,setTwitterChecked,setFacebookChecked,setInstaChecked } = socialSlice.actions;
+export const {setSoicalData, setLinkedInChecked,setTwitterChecked,setFacebookChecked,setInstaChecked } = socialSlice.actions;
 export default socialSlice.reducer;

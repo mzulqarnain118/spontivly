@@ -72,7 +72,6 @@ function SearchTags({
       {nextPage && (
         <common.MuiButton
           onClick={handleLoadMore}
-          className={classes.loadMoreButton}
           label="Load More"
         />
       )}

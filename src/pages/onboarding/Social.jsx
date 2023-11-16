@@ -1,30 +1,36 @@
-import React, { useCallback, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/joy';
-import { Grid, Switch, Container } from "@mui/material";
-import socialStyles from '../../styles/components/socialStyles';
-import { useTheme } from '@mui/material/styles';
-import common from '../../components/common';
+import React from "react";
+import {
+  Grid,
+  Container,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import socialStyles from "../../styles/components/socialStyles";
+import common from "../../components/common";
 import config from "../../config";
+import { setSoicalData } from "../../redux/socialSlice";
+import { useDispatch, useSelector } from "react-redux";
 import {
   LoginSocialFacebook,
   LoginSocialInstagram,
   LoginSocialLinkedin,
   LoginSocialTwitter,
-} from 'reactjs-social-login';
+} from "reactjs-social-login";
 const socialData = [
   {
     name: "LinkedIn",
-    image: require("../../assets/images/Linkedin.png"),
+    image: require("../../assets/images/linkedin.png"),
     link: "linkedin.com",
   },
   {
     name: "Instagram",
-    image: require("../../assets/images/Instagram.png"),
+    image: require("../../assets/images/instagram.png"),
     link: "instagram.com",
   },
   {
     name: "Facebook",
-    image: require("../../assets/images/Facebook.png"),
+    image: require("../../assets/images/facebook.png"),
     link: "facebook.com",
   },
   {
@@ -36,45 +42,39 @@ const socialData = [
 
 function Social() {
   const classes = socialStyles();
-  const theme = useTheme();
-  const [provider, setProvider] = useState('');
-  const [profile, setProfile] = useState('');
+  const dispatch = useDispatch();
+  const social = useSelector((state) => state.social);
   const {
-    SOCIAL_AUTH_LINKEDIN_APP_ID,
-    SOCIAL_AUTH_LINKEDIN_APP_SECRET,
-    SOCIAL_AUTH_INSTAGRAM_APP_ID,
-    SOCIAL_AUTH_INSTAGRAM_APP_SECRET,
-    SOCIAL_AUTH_FB_APP_ID,
-    SOCIAL_AUTH_TWITTER_V2_APP_KEY,
-    SOCIAL_AUTH_REDIRECT_URI,
+    REACT_APP_LINKEDIN_APP_ID,
+    REACT_APP_LINKEDIN_APP_SECRET,
+    REACT_APP_INSTAGRAM_APP_ID,
+    REACT_APP_INSTAGRAM_APP_SECRET,
+    REACT_APP_FB_APP_ID,
+    REACT_APP_TWITTER_V2_APP_KEY,
+    REACT_APP_REDIRECT_URI,
   } = config;
 
-  const onLoginStart = useCallback(() => {
-    alert('login start');
-  }, []);
-
-  const onLogoutSuccess = useCallback(() => {
-    setProfile(null);
-    setProvider('');
-    alert('logout success');
-  }, []);
-
   const renderSocialLogin = (Component, props) => {
+    const platform = props.platform;
     return (
       <Component
         {...props}
-        onLoginStart={onLoginStart}
-        onLogoutSuccess={onLogoutSuccess}
-        redirect_uri={SOCIAL_AUTH_REDIRECT_URI}
+        redirect_uri={REACT_APP_REDIRECT_URI}
         onResolve={({ provider, data }) => {
-          setProvider(provider);
-          setProfile(data);
+          dispatch(
+            setSoicalData({
+              provider,
+              id: provider == "facebook" ? data.userID : data.id ,
+            })
+          );
         }}
         onReject={(err) => {
           console.log(err);
         }}
       >
-        <Switch />
+        <common.CustomSwitch
+          checked={social[platform].id === null ? false : true}
+        />
       </Component>
     );
   };
@@ -92,36 +92,43 @@ function Social() {
               orientation="horizontal"
               variant="outlined"
               className={classes.card}
-              sx={{
-                [theme.breakpoints.down('md')]: {
-                  width: '20rem',
-                },
-              }}
             >
-              <img src={social.image} className={classes.cardImage} loading="lazy" alt="" />
-              <CardContent>
-                <Typography className={classes.cardTitle}>{social.name}</Typography>
-                <Typography className={classes.cardLink}>{social.link}</Typography>
-              </CardContent>
-              {social.name === 'LinkedIn' &&
+              <div className="row-center">
+                <common.Img src={social.image} className={classes.cardImage} />
+                <CardContent>
+                  <Typography className={classes.cardTitle}>
+                    {social.name}
+                  </Typography>
+                  <Typography className={classes.cardLink}>
+                    {social.link}
+                  </Typography>
+                </CardContent>
+              </div>
+
+              {social.name === "LinkedIn" &&
                 renderSocialLogin(LoginSocialLinkedin, {
-                  client_id: SOCIAL_AUTH_LINKEDIN_APP_ID,
-                  client_secret: SOCIAL_AUTH_LINKEDIN_APP_SECRET,
-                  scope: 'profile',
+                  client_id: REACT_APP_LINKEDIN_APP_ID,
+                  client_secret: REACT_APP_LINKEDIN_APP_SECRET,
+                  scope: "profile",
+                  platform: social.name.toLocaleLowerCase(),
                 })}
-              {social.name === 'Instagram' &&
+              {social.name === "Instagram" &&
                 renderSocialLogin(LoginSocialInstagram, {
-                  client_id: SOCIAL_AUTH_INSTAGRAM_APP_ID,
-                  client_secret: SOCIAL_AUTH_INSTAGRAM_APP_SECRET,
+                  client_id: REACT_APP_INSTAGRAM_APP_ID,
+                  client_secret: REACT_APP_INSTAGRAM_APP_SECRET,
+                  platform: social.name.toLocaleLowerCase(),
                 })}
-              {social.name === 'Facebook' && 
+              {social.name === "Facebook" &&
                 renderSocialLogin(LoginSocialFacebook, {
-                  appId: SOCIAL_AUTH_FB_APP_ID,
-                  fieldsProfile: 'id,first_name,last_name,middle_name,name,name_format',
+                  appId: REACT_APP_FB_APP_ID,
+                  fieldsProfile:
+                    "id,first_name,last_name,middle_name,name,name_format",
+                  platform: social.name.toLocaleLowerCase(),
                 })}
-              {social.name === 'Twitter' &&
+              {social.name === "Twitter" &&
                 renderSocialLogin(LoginSocialTwitter, {
-                  client_id: SOCIAL_AUTH_TWITTER_V2_APP_KEY,
+                  client_id: REACT_APP_TWITTER_V2_APP_KEY,
+                  platform: social.name.toLocaleLowerCase(),
                 })}
             </Card>
           </div>

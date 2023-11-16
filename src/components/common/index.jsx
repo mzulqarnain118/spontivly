@@ -8,11 +8,10 @@ import Autocomplete from "./Autocomplete";
 import FormHeading from "./FormHeading";
 import SearchTags from "./SearchTags";
 import ContainerToast from "./Toast/ContainerToast"
-import TextArea from "./TextArea";
 import Spinner from "./Spinner";
-import CustomIconButton from "./CustomIconButton";
 import MuiButton from "./MuiButton";
 import Img from "./Img";
+import CustomSwitch from "./CustomSwitch";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -21,9 +20,8 @@ const Controls = {
 //   Checkbox,
   Input,
   Img,
-  CustomIconButton,
   MuiButton,
-  TextArea,
+  CustomSwitch,
   ContainerToast,
     Spinner,
   SearchTags,

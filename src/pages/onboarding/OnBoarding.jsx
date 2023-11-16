@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import success from "../../assets/icons/success.svg";
 import lock from "../../assets/icons/lock.svg";
+import warning from "../../assets/icons/Warming.svg";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import common from "../../components/common";
@@ -46,7 +47,7 @@ function OnBoarding() {
     chipData: skillsChipData,
     activeStep,
   } = useSelector((state) => state.skills);
-
+ const {skills,} = useSelector((state) => state);
   const { selectedChips: interestsSelectedChips, chipData: interestsChipData } =
     useSelector((state) => state.interests);
   const setSelectedLocation = useSelector(
@@ -57,7 +58,7 @@ function OnBoarding() {
   );
   const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } =
     useSelector((state) => state.objective);
-  const bioText = useSelector((state) => state.bio.bioText);
+  const bioText = useSelector((state) => state.onBoarding.bioText);
   const isSmallScreen = useMediaQuery("(max-width:414px)");
   const classes = onBoarding();
   const steps = [
@@ -99,6 +100,42 @@ function OnBoarding() {
     setOpen(!open);
   };
 
+const generatePayload = () => {
+  switch (activeStep) {
+    case 0:
+      return {
+        skills: skillsSelectedChips.reduce((acc, cur) => {
+          acc.push(cur.id);
+          return acc;
+        }, []),
+        // Add other properties specific to this case
+      };
+    case 1:
+      return {
+        interests: skillsSelectedChips.reduce((acc, cur) => {
+          // Custom logic for interests
+          // acc.push(cur.someOtherProperty);
+          return acc;
+        }, []),
+        // Add other properties specific to this case
+      };
+    // case 2:
+    //   return {
+    //     location: otherData.selectedLocation,
+    //     // Add other properties specific to this case
+    //   };
+    // case 3:
+    //   return {
+    //     company: otherData.companyName,
+    //     position: otherData.position,
+    //     stage: otherData.stage,
+    //     // Add other properties specific to this case
+    //   };
+    // Add more cases as needed
+    default:
+      return {};
+  }
+};
   const isNextButtonDisabled = () => {
     switch (activeStep) {
       case 0:
@@ -186,7 +223,10 @@ function OnBoarding() {
                   <common.Img src={lock} className={classes.listItemIcon} />
                 )
               ) : (
-                ""
+                <common.Img
+                  src={warning}
+                  className={classes.listItemSuccessIcon}
+                />
               )}
             </ListItem>
           ))}
@@ -217,15 +257,15 @@ function OnBoarding() {
                     dispatch(handleBack());
                   }}
                   disabled={activeStep === 0}
-                  className={classes.footerBackButton}
                   label="Back"
+                  
                 />
                 <common.MuiButton
                   onClick={() => {
                     dispatch(handleNext());
                   }}
                   disabled={isNextButtonDisabled()}
-                  className={classes.footerNextButton}
+                  variant="contained"
                   label={nextButtonText}
                 />
               </div>

@@ -1,9 +1,7 @@
 import { makeStyles } from "@mui/styles";
 const commonStyles = makeStyles((theme) => ({
   heading: {
-    color: "var(--text-primary, #222) !important",
     textAlign: "center !important",
-    fontFamily: "Public Sans !important",
     fontSize: "36px !important",
     fontStyle: "normal !important",
     fontWeight: "600 !important",
@@ -13,11 +11,16 @@ const commonStyles = makeStyles((theme) => ({
     lineHeight: "20px",
     color: "#698296",
   },
+  whiteTitle: {
+    color: "#FFF",
+    textAlign: "center !important",
+    fontSize: "1rem !important",
+    fontStyle: "normal !important",
+    fontWeight: "600 !important",
+  },
   inputContainer: {
-    marginTop: "24px !important",
-    border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
-    background: "var(--petroleum-p-05, #F9FBFD) !important",
-    borderRadius: "8px !important",
+    border: theme.palette.primary.light,
+    background: theme.palette.bg.light,
     textAlign: "start",
   },
   logo: {
@@ -27,7 +30,6 @@ const commonStyles = makeStyles((theme) => ({
   },
   container: {
     display: "flex !important",
-    justifyContent: "center !important",
   },
   mainContainer: {
     width: "100% !important",
@@ -54,7 +56,6 @@ const commonStyles = makeStyles((theme) => ({
     padding: "16px 40px !important",
     borderRadius: "60px !important",
     border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
-    background: "#FFF !important",
   },
 
   selectedChip: {
@@ -82,20 +83,9 @@ const commonStyles = makeStyles((theme) => ({
       background: "white !important",
     },
   },
-  loadMoreButton: {
-    padding: "8px 32px !important",
-    borderRadius: "6px !important",
-    border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
-    background: "#FFF !important",
-    color: "var(--petroleum-p-100, #2D3840) !important",
-    fontFamily: "Public Sans !important",
-    fontSize: "14px !important",
-    fontWeight: "600 !important",
-  },
-
   textArea: {
     marginTop: "24px",
-    border: "1px solid var(--petroleum-p-45, #93A5B4)",
+    border: "1px solid var(--petroleum-p-45, #93A5B4) !important",
     background: "var(--petroleum-p-05, #F9FBFD)",
     borderRadius: "0px",
     width: "100%",
@@ -103,6 +93,10 @@ const commonStyles = makeStyles((theme) => ({
     "&:focus": {
       outline: "none", // Remove the focus outline
     },
+    [theme.breakpoints.up("md")]: {
+      width: "34.1875rem",
+      height: "11.34rem", // Adjust width for screens wider than 'md' breakpoint
+    }, // Initially use full width
   },
   profileImage: {
     padding: "8px !important",
@@ -110,9 +104,6 @@ const commonStyles = makeStyles((theme) => ({
     width: "96px !important",
     height: "96px !important",
     borderRadius: "99px !important",
-  },
-  button: {
-    padding: "16px 20px !important",
   },
 }));
 export default commonStyles;

@@ -1,7 +1,6 @@
-import { Button, SvgIcon } from '@mui/joy'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setPhotoURL } from '../../redux/uploadProfileSlice';
+import { setPhotoURL } from '../../redux/onBoardingSlice';
 import commonStyles from '../../styles/commonStyles';
 import { Container } from '@mui/material';
 import common from "../../components/common";
@@ -37,10 +36,13 @@ const handleUploadPhoto = (event) => {
       />
       <Container className={classes.mainContainer}>
         <common.Img src={photoURL} className={classes.profileImage} />
-        <common.CustomIconButton
+        <common.MuiButton
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}
-          CustomIcon={require("../../assets/icons/upload.png")}
+          size="medium"
+          startIcon={
+            <common.Img src={require("../../assets/icons/upload.png")} />
+          }
         />
       </Container>
     </>

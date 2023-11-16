@@ -4,6 +4,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import common from "./components/common";
+import { red } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Theme from './styles/Theme'
 import "./App.css";
 import "./styles/flexboxClasses.css" 
 const Signup = lazy(() => import('./pages/auth/Signup'));
@@ -13,11 +16,11 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/onboarding",
       element: <OnBoarding />,
     },
     {
-      path: "/signup",
+      path: "/",
       element: <Signup />,
     },
     {
@@ -35,7 +38,9 @@ function App() {
           </div>
         }
       >
-        <RouterProvider router={router} />
+        <ThemeProvider theme={Theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </Suspense>
     </>
   );

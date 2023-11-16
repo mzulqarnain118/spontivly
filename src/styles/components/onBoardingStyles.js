@@ -62,14 +62,13 @@ const onBoarding = makeStyles((theme) => ({
     fontWeight: 600,
   },
   listItemIcon: {
-    width: "16px",
-    height: "16px",
-    padding: "4px",
-    borderRadius: "8px",
+    width: "1.62rem",
+    padding: "0.25rem",
+    borderRadius: "12px",
     border: "1px solid var(--brand-complimentary, #323E48)",
   },
   listItemSuccessIcon: {
-    width: "20px",
+    width: "1.62rem",
     padding: "2px",
   },
   drawerHeader: {
@@ -105,34 +104,6 @@ const onBoarding = makeStyles((theme) => ({
     justifyContent: "space-between !important",
     alignItems: "center !important",
     padding: "20px !important",
-  },
-  footerBackButton: {
-    height: "52px !important",
-    width: "10% !important",
-    borderRadius: "6px !important",
-    color: "black !important",
-    border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
-    background: "#FFF !important",
-    "&:hover": {
-      border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
-      background: "#FFF !important",
-    },
-  },
-  footerNextButton: {
-    height: "52px !important",
-    width: "10% !important",
-    borderRadius: "6px !important",
-    color: "#FFFFFF !important",
-    border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
-    backgroundColor: " var(--brand-complimentary, #323E48) !important",
-    "&:hover": {
-      border: "1px solid var(--petroleum-p-30, #BFC9D2) !important",
-      backgroundColor: " var(--brand-complimentary, #323E48) !important",
-    },
-    "&.Mui-disabled": {
-      color: "#FFFFFF !important",
-      opacity: "0.4 !important", // Change the background color when disabled
-    },
   },
 }));
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(

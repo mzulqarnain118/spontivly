@@ -1,16 +1,13 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
+  container:{display:"flex !important",flexDirection:"column",gap:"1.5rem",alignItems:"center"},
   divider: {
     width: "13rem",
   },
   dividerText: {
-    marginTop: "1.5rem",
     justifyContent: "center",
     alignItems: "center",
-  },
-  info: {
-    marginTop: "1.5rem",
   },
   bodyText: {
     fontSize: "0.75rem",

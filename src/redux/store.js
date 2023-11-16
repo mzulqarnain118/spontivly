@@ -5,15 +5,16 @@ import createSagaMiddleware from 'redux-saga';
 import interestsReducer from './interestsSlice';
 import locationReducer from './locationSlice';
 import companyReduce from './companySlice';
+import socialReducer from "./socialSlice";
 import objectiveReducer from './objectiveSlice';
-import bioReducer from './bioSlice';
-import photoReducer from './uploadProfileSlice';
+import onBoardingReducer from './onBoardingSlice';
 import { watchFetchSkills } from './saga/skillsSagas'; // Import your new saga
 import { watchFetchInterests } from './saga/interestsSaga';
 import { watchFetchObjectives } from './saga/objectivesSaga';
 import { watchLocationText } from './saga/locationSaga';
 import { watchFetchCompanyStages } from './saga/companySaga';
-import { watchUploadProfile } from "./saga/uploadProfileSaga";
+import { watchSaveProfile } from "./saga/saveProfileSaga";
+
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
@@ -21,9 +22,9 @@ const store = configureStore({
     interests: interestsReducer,
     location: locationReducer,
     company: companyReduce,
+    social:socialReducer,
     objective: objectiveReducer,
-    bio: bioReducer,
-    photo: photoReducer
+    onBoarding: onBoardingReducer,
     // Add other reducers as needed
   },
   middleware: [sagaMiddleware],
@@ -35,7 +36,7 @@ sagaMiddleware.run(function* rootSaga() {
     watchFetchObjectives(),
     watchLocationText(),
     watchFetchCompanyStages(),
-    watchUploadProfile()
+    watchSaveProfile()
   ]);
 });
 export default store;

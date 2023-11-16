@@ -14,7 +14,7 @@ function Company() {
   return (
     <>
       <common.FormHeading heading="Tell us about your company" />
-      <Container maxWidth="sm" className={classes.container}>
+      <Container maxWidth="sm">
         <Box className={classes.mainContainer}>
           <common.Input
             name="companyName"
