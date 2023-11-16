@@ -7,7 +7,7 @@ import {
 import commonStyles from "../../styles/commonStyles";
 import common from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
-import locationIcon from "../../assets/icons/location.png";
+import locationIcon from "assets/icons/location.png";
 import locationStyles from "../../styles/components/locationStyles";
 function Location() {
   const classes = commonStyles();

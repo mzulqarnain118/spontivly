@@ -11,10 +11,10 @@ import common from "../../components/common";
 import config from "../../config";
 import { setSoicalData } from "../../redux/socialSlice";
 import { useDispatch, useSelector } from "react-redux";
-import linkedIn from "../../assets/images/linkedin.png";
-import instagram from "../../assets/images/instagram.png";
-import facebook from "../../assets/images/facebook.png";
-import twitter from "../../assets/images/twitter.png";
+import linkedIn from "assets/images/linkedin.png";
+import instagram from "assets/images/instagram.png";
+import facebook from "assets/images/facebook.png";
+import twitter from "assets/images/twitter.png";
 import {
   LoginSocialFacebook,
   LoginSocialInstagram,

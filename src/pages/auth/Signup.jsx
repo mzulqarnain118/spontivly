@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Stack, Divider, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { loginStyles } from "../../styles";
-import logo from "../../assets/images/logo-1.png";
+import logo from "assets/images/logo-1.png";
 import common from "../../components/common";
 import { useNavigate } from "react-router-dom";
 import { ApiCall, setLocal } from "../../utils";

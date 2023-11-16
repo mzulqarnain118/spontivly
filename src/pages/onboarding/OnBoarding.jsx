@@ -2,7 +2,7 @@ import React, { lazy, useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/system";
 import { handleNext, handleBack } from "../../redux/skillsSlice";
-import companyLogo from "../../assets/images/CompanyLogo.png";
+import companyLogo from "assets/images/CompanyLogo.png";
 import {
   MobileStepper,
   IconButton,
@@ -17,9 +17,9 @@ import {
   Typography,
   Drawer,
 } from "@mui/material";
-import success from "../../assets/icons/success.svg";
-import lock from "../../assets/icons/lock.svg";
-import warning from "../../assets/icons/Warming.svg";
+import success from "assets/icons/success.svg";
+import lock from "assets/icons/lock.svg";
+import warning from "assets/icons/Warming.svg";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import common from "../../components/common";

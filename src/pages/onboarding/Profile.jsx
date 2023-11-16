@@ -41,7 +41,7 @@ const handleUploadPhoto = (event) => {
           label={"Upload Photo"}
           size="medium"
           startIcon={
-            <common.Img src={require("../../assets/icons/upload.png")} />
+            <common.Img src={require("assets/icons/upload.png")} />
           }
         />
       </Container>
