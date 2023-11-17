@@ -129,7 +129,7 @@ function OnBoarding() {
     combinedFormData.append("data", JSON.stringify(jsonData));
     const response = await ApiCall("profile/", "POST", combinedFormData);
     if (response.status === 200) {
-      setLocal("onboarding",true)
+      setLocal("onboarding", true);
       navigate("/")
     }
   };
