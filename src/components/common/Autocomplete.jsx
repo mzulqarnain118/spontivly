@@ -31,7 +31,6 @@ export default function Autocomplete(props) {
     const PopperMy = function (props) {
         return (<Popper {...props} style={{ width: 'fitContent' }} placement='bottom-start' />)
     }
-    // console.log(valueField)
     return (
         <MuiAutocomplete
             {...defaultProps}

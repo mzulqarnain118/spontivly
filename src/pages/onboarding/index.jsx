@@ -62,7 +62,7 @@ function OnBoarding() {
     (state) => state.objective
   );
   const bioText = useSelector((state) => state.onBoarding.bioText);
-  const { photoFlag, photo } = useSelector((state) => state.onBoarding);
+  const { photoFlag, profilePicPayload } = useSelector((state) => state.onBoarding);
   const isSmallScreen = useMediaQuery("(max-width:414px)");
   const classes = onBoarding();
   const steps = [
@@ -108,7 +108,7 @@ function OnBoarding() {
     const interests = generatePayload(interestsSelectedChips);
     const objectives = generatePayload(objectiveSelectedChips);
     const photoFormData = new FormData();
-    photoFormData.append("file", photo);
+    photoFormData.append("file", profilePicPayload);
     const jsonData = {
       company_name: companyName,
       position,
@@ -125,12 +125,16 @@ function OnBoarding() {
     };
 
     const combinedFormData = new FormData();
-    combinedFormData.append("file", photo);
+    combinedFormData.append("file", profilePicPayload);
     combinedFormData.append("data", JSON.stringify(jsonData));
-    const response = await ApiCall("profile/", "POST", combinedFormData);
-    if (response.status === 200) {
-      setLocal("onboarding", true);
-      navigate("/");
+    try {
+      const response = await ApiCall("profile/", "POST", combinedFormData);
+      if (response?.status === 200) {
+        setLocal("onboarding", true);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("🚀 ~ file: index.jsx:136 ~ handleFinish ~ error:", error);
     }
   };
 

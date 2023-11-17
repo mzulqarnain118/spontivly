@@ -12,8 +12,12 @@ const generatePayload = (selectedChips) => {
     return acc;
   }, []);
 };
-const readFile = file => {
+const readFile = (file, callback) => {
   const reader = new FileReader();
-  return reader.readAsDataURL(file);
+  reader.onload = (e) => {
+    const result = e.target.result;
+    callback(result);
+  };
+  reader.readAsDataURL(file);
 };
 export { ApiCall, getLocal, setLocal,readFile, parseJSON, AL, rmLocal, generatePayload };

@@ -5,19 +5,22 @@ const onBoardingSlice = createSlice({
   name: "onBoarding",
   initialState: {
     bioText: "", // Store the bio text
-    photo: null,
+    profilePic: null,
+    profilePicPayload: null,
     photoFlag: false,
     saveProfileResponse: null,
     error: null,
-    loading:null,
+    loading: null,
   },
   reducers: {
     setBioText: (state, action) => {
       state.bioText = action.payload;
     },
     setPhotoURL: (state, action) => {
-      state.photo = action.payload;
- state.photoFlag = true
+      const { profilePic, profilePicPayload } = action.payload;
+      state.profilePicPayload = profilePicPayload;
+      state.profilePic = profilePic;
+      state.photoFlag = true;
     },
     fetchDataFailure: (state, action) => {
       state.error = action.payload;

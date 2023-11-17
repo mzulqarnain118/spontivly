@@ -9,33 +9,20 @@ import { readFile } from "utils";
 
 function Profile() {
   const dispatch = useDispatch();
-  const photoURL = useSelector((state) => state.onBoarding.file);
-
-  console.log("🚀 ~ file: Profile.jsx:13 ~ Profile ~ photoURL:", photoURL)
-
+  const profilePic = useSelector((state) => state.onBoarding.profilePic);
   const classes = commonStyles();
   const handleUploadPhoto = (event) => {
     const file = event.target.files[0];
-    const reader = new FileReader();
-        console.log(
-          "🚀 ~ file: Profile.jsx:19 ~ handleUploadPhoto ~ file:",
-          file
-        );
-
-    const uploadFile = reader.readAsDataURL(file);
-
-
-    console.log(
-      "🚀 ~ file: Profile.jsx:21 ~ handleUploadPhoto ~ uploadFile:",
-      uploadFile
-    );
-
     // Check if a file is selected
     if (!file) {
       console.error("No file selected");
       return;
     }
-    dispatch(setPhotoURL(file));
+     readFile(file, (uploadedImage) => {
+       dispatch(
+         setPhotoURL({ profilePic:uploadedImage, profilePicPayload: file })
+       );
+     });
   };
 
   return (
@@ -46,7 +33,7 @@ function Profile() {
       />
       <Container className={classes.mainContainer}>
         <common.Img
-          src={photoURL ?? defaultProfile}
+          src={profilePic ?? defaultProfile}
           className={classes.profileImage}
         />
         <common.MuiButton
