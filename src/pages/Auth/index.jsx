@@ -6,7 +6,7 @@ import common from "../../components/common";
 import { useNavigate } from "react-router-dom";
 import { ApiCall, setLocal } from "../../utils";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-function Signup() {
+export default function Auth() {
   const [buttonText, setButtonText] = useState("Continue");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,7 +43,9 @@ function Signup() {
       };
       const response = await ApiCall("auth/login", "POST", payload);
       if (response.status === 200) {
-        setLocal("token", response.data.token);
+        const { token, onboarding } = response.data;
+        setLocal("token", token);
+        setLocal("onboarding", onboarding);
         navigate("/onboarding");
       }
     }
@@ -131,5 +133,3 @@ function Signup() {
     </Container>
   );
 }
-
-export default Signup;

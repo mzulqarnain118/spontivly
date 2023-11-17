@@ -3,9 +3,8 @@ import Toast from "../components/common/Toast/Toast";
 export default function ExceptionHandler(error) {
   const handleAuthError = () => {
     Toast("Your session has expired", "success");
-    localStorage.removeItem("loggedIn");
     localStorage.removeItem("token");
-    window.location = "/login";
+    window.location = "/auth";
   };
 
   const handleStatusCodeError = (status, msg) => {

@@ -12,7 +12,6 @@ import {
   Toolbar,
   List,
   ListItem,
-  Divider,
   CssBaseline,
   Typography,
   Drawer,
@@ -20,7 +19,7 @@ import {
 import success from "assets/icons/success.svg";
 import lock from "assets/icons/lock.svg";
 import warning from "assets/icons/Warming.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import common from "../../components/common";
 import {
@@ -30,8 +29,7 @@ import {
   DrawerFooter,
   DrawerHeader,
 } from "../../styles/components/onBoardingStyles";
-import { saveProfile } from "redux/onBoardingSlice";
-import { ApiCall, generatePayload, getLocal } from "utils";
+import { ApiCall, generatePayload, setLocal } from "utils";
 const Skills = lazy(() => import("./Skills"));
 const Interests = lazy(() => import("./Interests"));
 const Location = lazy(() => import("./Location"));
@@ -44,12 +42,15 @@ const Profile = lazy(() => import("./Profile"));
 function OnBoarding() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     selectedChips: skillsSelectedChips,
     chipData: skillsChipData,
     activeStep,
   } = useSelector((state) => state.skills);
-  const { linkedin, twitter, facebook, instagram } = useSelector((state) => state.social);
+  const { linkedin, twitter, facebook, instagram } = useSelector(
+    (state) => state.social
+  );
   const { selectedChips: interestsSelectedChips, chipData: interestsChipData } =
     useSelector((state) => state.interests);
   const setSelectedLocation = useSelector(
@@ -102,33 +103,36 @@ function OnBoarding() {
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
-  const handleFinish = async() => {
-    const skills = JSON.stringify(generatePayload(skillsSelectedChips));
-    const interests = JSON.stringify(generatePayload(interestsSelectedChips));
-    const objectives = JSON.stringify(generatePayload(objectiveSelectedChips));
+  const handleFinish = async () => {
+    const skills = generatePayload(skillsSelectedChips);
+    const interests = generatePayload(interestsSelectedChips);
+    const objectives = generatePayload(objectiveSelectedChips);
+    const photoFormData = new FormData();
+    photoFormData.append("file", photo);
+    const jsonData = {
+      company_name: companyName,
+      position,
+      introduction: bioText,
+      linkedin_id: linkedin.id,
+      instagram_id: instagram.id,
+      facebook_id: facebook.id,
+      twitter_id: twitter.id,
+      location: setSelectedLocation,
+      company_stage: stage,
+      skills,
+      interests,
+      objectives,
+    };
 
-    const formData = new FormData();
-    formData.append("company_name", companyName);
-    formData.append("position", position);
-    formData.append("introduction", bioText);
-    formData.append("linkedin_id", linkedin.id);
-    formData.append("instagram_id", instagram.id);
-    formData.append("facebook_id", facebook.id);
-    formData.append("twitter_id", twitter.id);
-    formData.append("file", photo);
-    formData.append("location", setSelectedLocation);
-    formData.append("company_stage", stage);
-    formData.append("skills", skills);
-    // skills?.map(element =>  formData.append("skills", element))
-    formData.append("interests", interests);
-    formData.append("objectives", objectives);
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
+    const combinedFormData = new FormData();
+    combinedFormData.append("file", photo);
+    combinedFormData.append("data", JSON.stringify(jsonData));
+    const response = await ApiCall("profile/", "POST", combinedFormData);
+    if (response.status === 200) {
+      setLocal("onboarding",true)
+      navigate("/")
     }
-
-    const response = await ApiCall("profile/", "POST", formData);
   };
-
 
   const isNextButtonDisabled = () => {
     switch (activeStep) {
@@ -158,7 +162,6 @@ function OnBoarding() {
     }
 
     return nextButtonText;
-
   })();
 
   return (
@@ -260,7 +263,6 @@ function OnBoarding() {
                   }}
                   disabled={activeStep === 0}
                   label="Back"
-
                 />
                 <common.MuiButton
                   onClick={() => {

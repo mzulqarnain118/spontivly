@@ -1,34 +1,13 @@
-import React, { Suspense, lazy } from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import React, { Suspense } from "react";
+import { RouterProvider } from "react-router-dom";
 import common from "./components/common";
-import { red } from "@mui/material/colors";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Theme from './styles/Theme'
+import { ThemeProvider } from "@mui/material/styles";
+import Theme from "./styles/Theme";
+import Routes from "./Routes";
 import "./App.css";
-import "./styles/flexboxClasses.css" 
-const Signup = lazy(() => import('./pages/auth/Signup'));
-const OnBoarding = lazy(() => import("./pages/onboarding/OnBoarding"));
+import "./styles/flexboxClasses.css";
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: "/onboarding",
-      element: <OnBoarding />,
-    },
-    {
-      path: "/",
-      element: <Signup />,
-    },
-    {
-      path: "/login",
-      element: <Signup />,
-    },
-  ]);
-
   return (
     <>
       <Suspense
@@ -39,7 +18,7 @@ function App() {
         }
       >
         <ThemeProvider theme={Theme}>
-          <RouterProvider router={router} />
+          <RouterProvider router={Routes} />
         </ThemeProvider>
       </Suspense>
     </>
