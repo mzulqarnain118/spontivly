@@ -65,10 +65,11 @@ function Social() {
         {...props}
         redirect_uri={REACT_APP_REDIRECT_URI}
         onResolve={({ provider, data }) => {
+          console.log('data........', data, provider)
           dispatch(
             setSoicalData({
               provider,
-              id: provider == "facebook" ? data.userID : data.id ,
+              id: provider == "facebook" ? data.userID : data.access_token ,
             })
           );
         }}
