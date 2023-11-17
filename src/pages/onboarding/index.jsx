@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from "react";
+import React, { lazy } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/system";
 import { handleNext, handleBack } from "../../redux/skillsSlice";
@@ -43,24 +43,24 @@ function OnBoarding() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    selectedChips: skillsSelectedChips,
-    chipData: skillsChipData,
-    activeStep,
-  } = useSelector((state) => state.skills);
+  const { selectedChips: skillsSelectedChips, activeStep } = useSelector(
+    (state) => state.skills
+  );
   const { linkedin, twitter, facebook, instagram } = useSelector(
     (state) => state.social
   );
-  const { selectedChips: interestsSelectedChips, chipData: interestsChipData } =
-    useSelector((state) => state.interests);
+  const { selectedChips: interestsSelectedChips } = useSelector(
+    (state) => state.interests
+  );
   const setSelectedLocation = useSelector(
     (state) => state.location.selectedLocation
   );
   const { companyName, position, stage } = useSelector(
     (state) => state.company.companyInfo
   );
-  const { selectedChips: objectiveSelectedChips, chipData: objectiveChipData } =
-    useSelector((state) => state.objective);
+  const { selectedChips: objectiveSelectedChips } = useSelector(
+    (state) => state.objective
+  );
   const bioText = useSelector((state) => state.onBoarding.bioText);
   const { photoFlag, photo } = useSelector((state) => state.onBoarding);
   const isSmallScreen = useMediaQuery("(max-width:414px)");
@@ -130,7 +130,7 @@ function OnBoarding() {
     const response = await ApiCall("profile/", "POST", combinedFormData);
     if (response.status === 200) {
       setLocal("onboarding", true);
-      navigate("/")
+      navigate("/");
     }
   };
 

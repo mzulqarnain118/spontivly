@@ -15,7 +15,7 @@ const ProtectedRoute = (WrappedComponent) => {
       } else if (!isOnBoarded) {
         navigate("/onboarding");
       }
-    }, [navigate]);
+    }, [navigate, isAuthenticated, isOnBoarded]);
 
     if (isAuthenticated) {
       return <WrappedComponent {...props} />;
