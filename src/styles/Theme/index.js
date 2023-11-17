@@ -42,6 +42,13 @@ const theme = createTheme({
   },
   shadows: [boxShadow],
   components: {
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: "red", // Set the default color for links
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

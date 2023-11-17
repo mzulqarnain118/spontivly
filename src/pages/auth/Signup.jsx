@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { Stack, Divider, Container, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
 import common from "../../components/common";
@@ -123,20 +122,11 @@ function Signup() {
       <Typography variant="body2" className={classes.bodyText}>
         {buttonText === "Create account" && (
           <>
-            By clicking{" "}
-            <Link to="#" className={classes.createAccountLink}>
-              "Create account" ,
-            </Link>
+            By clicking <common.Link to="#" label="Create account" />
           </>
         )}
-        I agree to Tampa Bay Wave’s{" "}
-        <Link to="#" className={classes.createAccountLink}>
-          TOS
-        </Link>{" "}
-        and{" "}
-        <Link to="#" className={classes.createAccountLink}>
-          Privacy Policy
-        </Link>
+        I agree to Tampa Bay Wave’s <common.Link to="#" label="TOS" />
+        and <common.Link to="#" label="Privacy Policy" />
       </Typography>
     </Container>
   );

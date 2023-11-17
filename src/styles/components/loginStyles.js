@@ -13,10 +13,12 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     width: "13rem",
+    color: theme.palette.grey[400],
   },
   dividerText: {
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center", 
+    color: theme.palette.grey[400],
   },
   bodyText: {
     fontSize: "0.75rem",

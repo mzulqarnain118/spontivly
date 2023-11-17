@@ -12,6 +12,8 @@ import Spinner from "./Spinner";
 import MuiButton from "./MuiButton";
 import Img from "./Img";
 import CustomSwitch from "./CustomSwitch";
+import Link from "./Link";
+
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -23,6 +25,7 @@ const Controls = {
   MuiButton,
   CustomSwitch,
   ContainerToast,
+  Link,
     Spinner,
   SearchTags,
   Autocomplete,

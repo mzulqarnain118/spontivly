@@ -18,6 +18,13 @@ const commonStyles = makeStyles((theme) => ({
     fontStyle: "normal !important",
     fontWeight: "600 !important",
   },
+  Link:{
+  color: theme.palette.primary.main, // Set the default color for links
+  textDecoration: "none", // Remove underline
+  // "&:hover": {
+  //   textDecoration: "underline", // Add underline on hover if needed
+  // },
+},
   inputContainer: {
     border: theme.palette.primary.light,
     background: theme.palette.bg.light,

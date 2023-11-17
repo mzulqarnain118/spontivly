@@ -4,6 +4,7 @@ import { setPhotoURL } from '../../redux/onBoardingSlice';
 import commonStyles from '../../styles/commonStyles';
 import { Container } from '@mui/material';
 import common from "../../components/common";
+import defaultProfile from "assets/images/defaultProfile.png";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const handleUploadPhoto = (event) => {
         title=" This helps people put a face to the name"
       />
       <Container className={classes.mainContainer}>
-        <common.Img src={photoURL} className={classes.profileImage} />
+        <common.Img src={photoURL ?? defaultProfile} className={classes.profileImage} />
         <common.MuiButton
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}

@@ -119,24 +119,14 @@ function OnBoarding() {
     formData.append("location", setSelectedLocation);
     formData.append("company_stage", stage);
     formData.append("skills", skills);
-    formData.append("user", 1);
-    formData.append("dashboard_user", 2);
+    // skills?.map(element =>  formData.append("skills", element))
     formData.append("interests", interests);
     formData.append("objectives", objectives);
-    // Assuming formData is already created
-
-    console.log("FormData:");
-
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
 
     const response = await ApiCall("profile/", "POST", formData);
-
-    console.log(
-      "🚀 ~ file: OnBoarding.jsx:126 ~ handleFinish ~ response:",
-      response
-    );
   };
 
 
@@ -204,7 +194,6 @@ function OnBoarding() {
             {"Save and exit"}
           </Link>
         </DrawerHeader>
-        <Divider />
         <Typography className={classes.sidebarHeader}>
           Complete your profile
         </Typography>
