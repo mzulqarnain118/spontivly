@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useMemo } from "react";
-import { Stack, Divider, Container, Typography,Box } from "@mui/material";
+import React, { useState, useCallback } from "react";
+import { Stack, Divider, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
@@ -15,10 +15,10 @@ function Signup() {
     password: "",
     email: "",
   });
+
   const navigate = useNavigate();
   const classes = loginStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
   try {
@@ -38,11 +38,11 @@ function Signup() {
         setButtonText("Create account");
       }
     } else if (buttonText === "Login") {
-      const response = await ApiCall("auth/login", "POST", {
+      const payload = {
         email: formData.email,
-        password: formData.password,
-      });
-
+        password: formData?.password,
+      };
+      const response = await ApiCall("auth/login", "POST", payload);
       if (response.status === 200) {
         setLocal("token", response.data.token);
         navigate("/onboarding");
@@ -53,7 +53,7 @@ function Signup() {
   } finally {
     setLoading(false);
   }
-}, [buttonText, formData.email, navigate, setButtonText, setLocal]);
+}, [buttonText, formData, navigate, setButtonText, setLocal]);
 
 
   const handleLinkedInButtonClick = (event) => {
@@ -101,9 +101,9 @@ function Signup() {
 
         {["Create account", "Login"].includes(buttonText) && (
           <common.Input
-            type="password"
             name="password"
             placeholder="Password"
+            type="password"
             value={formData.password}
             objOnChange={setFormData}
             startIcon={true}

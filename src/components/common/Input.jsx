@@ -63,9 +63,6 @@ export default function Input(
       name={name}
       value={value}
       onChange={customHandleChange ?? handleChange}
-      onWheel={(e) => {
-        if (props?.inputProps?.type === "number") e.target.blur();
-      }}
       defaultValue={defaultValue}
       InputProps={{
         readOnly: readOnly,
