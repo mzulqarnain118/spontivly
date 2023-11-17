@@ -3,11 +3,11 @@ import config from "../config";
 import ExceptionHandler from "./ExceptionHandler";
 import { getLocal } from "./index";
 
-export default function ApiCall(url, method, data) {
+export default function ApiCall(url, method="GET", data) {
   const token = getLocal("token");
   const base_url = `${config.REACT_APP_BACKEND_URL}/api/`;
   const headers = {
-    "Content-type": "application/json; charset=UTF-8",
+    // "Content-type": "application/json; charset=UTF-8",
   };
   if (token) {
     headers["Authorization"] = `Token ${token}`;

@@ -19,9 +19,6 @@ const onBoardingSlice = createSlice({
       state.photo = action.payload;
  state.photoFlag = true
     },
-    saveProfile: (state, action) => {
-      state.loading =true;
-    },
     fetchDataFailure: (state, action) => {
       state.error = action.payload;
     },

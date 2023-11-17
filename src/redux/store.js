@@ -13,7 +13,6 @@ import { watchFetchInterests } from './saga/interestsSaga';
 import { watchFetchObjectives } from './saga/objectivesSaga';
 import { watchLocationText } from './saga/locationSaga';
 import { watchFetchCompanyStages } from './saga/companySaga';
-import { watchSaveProfile } from "./saga/saveProfileSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -36,7 +35,6 @@ sagaMiddleware.run(function* rootSaga() {
     watchFetchObjectives(),
     watchLocationText(),
     watchFetchCompanyStages(),
-    watchSaveProfile()
   ]);
 });
 export default store;

@@ -31,7 +31,7 @@ import {
   DrawerHeader,
 } from "../../styles/components/onBoardingStyles";
 import { saveProfile } from "redux/onBoardingSlice";
-import { generatePayload, getLocal } from "utils";
+import { ApiCall, generatePayload, getLocal } from "utils";
 const Skills = lazy(() => import("./Skills"));
 const Interests = lazy(() => import("./Interests"));
 const Location = lazy(() => import("./Location"));
@@ -102,13 +102,12 @@ function OnBoarding() {
   const handleDrawerOpen = () => {
     setOpen(!open);
   };
-  const handleFinish = () => {
-    const skills = generatePayload(skillsSelectedChips);
-    const interests = generatePayload(interestsSelectedChips);
-    const objectives = generatePayload(objectiveSelectedChips);
+  const handleFinish = async() => {
+    const skills = JSON.stringify(generatePayload(skillsSelectedChips));
+    const interests = JSON.stringify(generatePayload(interestsSelectedChips));
+    const objectives = JSON.stringify(generatePayload(objectiveSelectedChips));
 
     const formData = new FormData();
-    formData.append("dashboard_user", getLocal("token"));
     formData.append("company_name", companyName);
     formData.append("position", position);
     formData.append("introduction", bioText);
@@ -117,16 +116,27 @@ function OnBoarding() {
     formData.append("facebook_id", facebook.id);
     formData.append("twitter_id", twitter.id);
     formData.append("file", photo);
-    formData.append("updated_at", null);
-    formData.append("created_at", null);
-    formData.append("user", getLocal("token"));
     formData.append("location", setSelectedLocation);
     formData.append("company_stage", stage);
     formData.append("skills", skills);
+    formData.append("user", 1);
+    formData.append("dashboard_user", 2);
     formData.append("interests", interests);
     formData.append("objectives", objectives);
-    dispatch(saveProfile(formData))
+    // Assuming formData is already created
 
+    console.log("FormData:");
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    const response = await ApiCall("profile/", "POST", formData);
+
+    console.log(
+      "🚀 ~ file: OnBoarding.jsx:126 ~ handleFinish ~ response:",
+      response
+    );
   };
 
 
