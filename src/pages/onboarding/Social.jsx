@@ -55,6 +55,7 @@ function Social() {
     REACT_APP_INSTAGRAM_APP_SECRET,
     REACT_APP_FB_APP_ID,
     REACT_APP_TWITTER_V2_APP_KEY,
+    REACT_APP_TWITTER_V2_APP_SECRET,
     REACT_APP_REDIRECT_URI,
   } = config;
 
@@ -133,6 +134,7 @@ function Social() {
               {social.name === "Twitter" &&
                 renderSocialLogin(LoginSocialTwitter, {
                   client_id: REACT_APP_TWITTER_V2_APP_KEY,
+                  // client_secret: REACT_APP_TWITTER_V2_APP_SECRET,
                   platform: social.name.toLocaleLowerCase(),
                 })}
             </Card>
