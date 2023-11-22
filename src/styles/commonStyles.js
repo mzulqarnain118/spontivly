@@ -18,13 +18,13 @@ const commonStyles = makeStyles((theme) => ({
     fontStyle: "normal !important",
     fontWeight: "600 !important",
   },
-  Link:{
-  color: theme.palette.primary.main, // Set the default color for links
-  textDecoration: "none", // Remove underline
-  // "&:hover": {
-  //   textDecoration: "underline", // Add underline on hover if needed
-  // },
-},
+  Link: {
+    color: theme.palette.primary.main, // Set the default color for links
+    textDecoration: "none", // Remove underline
+    // "&:hover": {
+    //   textDecoration: "underline", // Add underline on hover if needed
+    // },
+  },
   inputContainer: {
     border: theme.palette.primary.light,
     background: theme.palette.bg.light,
@@ -34,7 +34,7 @@ const commonStyles = makeStyles((theme) => ({
     width: "15.75194rem",
     height: "5rem",
     marginTop: 128,
-    marginLeft:"10rem !important"
+    marginLeft: "10rem !important",
   },
   container: {
     display: "flex !important",

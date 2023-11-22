@@ -127,15 +127,11 @@ function OnBoarding() {
     const combinedFormData = new FormData();
     combinedFormData.append("file", profilePicPayload);
     combinedFormData.append("data", JSON.stringify(jsonData));
-    try {
-      const response = await ApiCall("profile/", "POST", combinedFormData);
-      if (response?.status === 200) {
+      const response = await ApiCall("profile/",null, "POST", combinedFormData);
+      if (response) {
         setLocal("onboarding", true);
         navigate("/");
       }
-    } catch (error) {
-      console.log("🚀 ~ file: index.jsx:136 ~ handleFinish ~ error:", error);
-    }
   };
 
   const isNextButtonDisabled = () => {

@@ -27,11 +27,9 @@ export default function Auth() {
       navigate("/onboarding");
     } else if (buttonText === "Continue") {
       const response = await ApiCall(
-        `auth/is-email-exist?email=${formData.email}`,
-        "GET"
-      );
+        `auth/is-email-exist?email=${formData.email}`);
 
-      if (response?.status === 200) {
+      if (response) {
         setButtonText("Login");
       } else {
         setButtonText("Create account");
@@ -41,9 +39,9 @@ export default function Auth() {
         email: formData.email,
         password: formData?.password,
       };
-      const response = await ApiCall("auth/login", "POST", payload);
-      if (response.status === 200) {
-        const { token, onboarding } = response.data;
+      const response = await ApiCall("auth/login",null, "POST", payload);
+      if (response) {
+        const { token, onboarding } = response;
         setLocal("token", token);
         setLocal("onboarding", onboarding);
         navigate("/onboarding");

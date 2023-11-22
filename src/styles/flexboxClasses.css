@@ -23,42 +23,48 @@
 .row {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
   
   .row-center {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
   
   .row-start {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
   }
   
   .row-end {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: flex-end;
   }
   
   .row-between {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
   }
   
   .row-around {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-around;
   }
   
   .row-evenly {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-evenly;
   }
   

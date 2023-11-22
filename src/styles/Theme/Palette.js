@@ -23,6 +23,8 @@ const Palette = (mode, themeColor) => {
   return {
     customColors: {
       main: mainColor,
+      subtitle1: `#698296`,
+      subtitle2: `#93A5B4`,
       primaryGradient: primaryGradient(),
       tableHeaderBg: mode === "light" ? "#FFF" : "#312D4B",
       borderColor: themeColor === "primary" ? "#93A5B4" : "#93A5B4",
@@ -98,7 +100,7 @@ const Palette = (mode, themeColor) => {
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
       paper: mode === "light" ? "#FFF" : "#312D4B",
-      default: mode === "light" ? "#F4F5FA" : "#28243D",
+      default: mode === "light" ? "#FFF" : "#28243D",
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,

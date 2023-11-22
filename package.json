@@ -31,8 +31,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=3082 react-scripts start",
-    "build": "react-scripts build",
+    "start": "PORT=3082 env-cmd -f .env react-scripts start",
+    "dev": "PORT=3082 env-cmd -f .env.local react-scripts start",
+    "stg": "PORT=3082 env-cmd -f .env.staging react-scripts start",
+    "build:stg": "env-cmd -f .env.staging react-scripts build",
+    "build:prod": "env-cmd -f .env react-scripts build",
+    "build:dev": "env-cmd -f .env.local react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -53,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

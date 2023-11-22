@@ -1,88 +1,46 @@
-import { createTheme } from "@mui/material/styles";
-import commonTypography from "./Typography";
-import Palette from "./Palette";
+// ** MUI Imports
+import CssBaseline from "@mui/material/CssBaseline";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 
-// Additional customization options
-const borderRadius = "8px";
-const boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
-const spacingUnit = 8;
+// ** Theme Config
+import themeConfig from "./themeConfig";
 
-const customTypography = (theme) => ({
-  ...commonTypography(theme),
-  // Add any additional custom typography styles if needed
-});
+// ** Theme Override Imports
+import overrides from "./overrides";
+import typography from "./Typography";
 
-const themeColor = "primary"; // Change this based on your desired theme color
-const themeMode = "light"; // Change this based on your desired theme mode
+// ** Theme
+import themeOptions from "./ThemeOptions";
 
-const theme = createTheme({
-  palette: {
-    ...Palette(themeMode, themeColor),
-    background: {
-      paper: "#FFF", // Set the default background color to white
-      default: "#FFF", // Set the default background color to white
-    },
-  },
-  typography: {
-    fontFamily: "Public Sans, sans-serif", // Your default font family
-    ...customTypography,
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
-    },
-  },
-  spacing: spacingUnit,
-  shape: {
-    borderRadius,
-  },
-  shadows: [boxShadow],
-  components: {
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          color: "red", // Set the default color for links
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius,
-          boxShadow,
-          padding: "16px 20px !important", // Set the default padding
-          fontSize: "14px !important",
-          fontStyle: "normal !important",
-          fontWeight: "600 !important",
-          color: ({ color }) => (color ? color : "inherit"),
-          backgroundColor: ({ color }) => (color ? "transparent" : "inherit"),
-          "&:disabled": {
-            backgroundColor: "#ADB2B6",
-          },
-        },
-        outlined: {
-          "&:disabled": {
-            backgroundColor: "inherit",
-          },
-        },
-        sizeSmall: {
-          width: "10%", // Set the width to 10% for small size
-        },
-        sizeMedium: {
-          width: "15%", // Set the width to 15% for medium size
-        },
-        sizeLarge: {
-          width: "100%", // Set the width to 15% for medium size
-        },
-      },
-    },
-    // Add more component customizations as needed
-  },
-  // Other theme properties...
-});
+const Theme = ({ children }) => {
+  // ** Props
 
-export default theme;
+  // ** Merged ThemeOptions of Core and User
+  const coreThemeConfig = themeOptions();
+
+  // ** Pass ThemeOptions to CreateTheme Function to create partial theme without component overrides
+  let theme = createTheme(coreThemeConfig);
+  // ** Continue theme creation and pass merged component overrides to CreateTheme function
+  theme = createTheme(theme, {
+    components: { ...overrides(theme) },
+    typography: { ...typography(theme) },
+  });
+
+  // ** Set responsive font sizes to true
+  if (themeConfig.responsiveFontSizes) {
+    theme = responsiveFontSizes(theme);
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+};
+
+export default Theme;
