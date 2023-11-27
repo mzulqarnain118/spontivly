@@ -4,10 +4,20 @@ import { makeStyles } from "@mui/styles";
 const dashboardStyles = makeStyles((theme) => ({
   card: {
     p: 0,
+    marginTop:'0.5rem',
     border: "1px solid var(--day-5, #D9D9D9) !important ",
     boxShadow: "none !important ",
     borderRadius: "8px !important ",
     padding: "20px !important ",
+  },
+  filterCard: {
+    p: 0,
+    marginTop:'0.5rem',
+    width:'12.5rem',
+    border: "1px solid var(--day-5, #D9D9D9) !important ",
+    boxShadow: "none !important ",
+    borderRadius: "1rem !important ",
+    padding: "1rem 2rem 1rem 1rem !important ",
   },
   content: {
     display: "flex !important ",
@@ -104,6 +114,16 @@ const dashboardStyles = makeStyles((theme) => ({
   dropdownIcon: {
     color: "black !important",
   },
+  addContentButton: {
+    padding: ' 0.5rem 1.25rem',
+  },
+  mainBox:{
+    padding:'20px'
+  },
+  contentCard:{
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', // Add box shadow
+    padding: theme.spacing(6), // Add padding as needed
+  }
 }));
 
 export default dashboardStyles;

@@ -1,6 +1,6 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Property1Default1 from '../../components/common/Property1Default1'
-import { Button, Card, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material'
+import { Button, Card,  Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ToggleButtons from '../../components/common/ToggleButtons';
 import filter from 'assets/icons/filter.svg'
@@ -10,10 +10,32 @@ import avenger from 'assets/images/avenger.png';
 import superheros from 'assets/images/superheros.jpeg';
 import superpower from 'assets/images/super.png';
 import dummy from 'assets/images/dummy.png';
-
+import dashboardStyles from 'styles/components/dashboardStyles';
+import common from "components/common";
+import AddIcon from '@mui/icons-material/Add';
+import CreateContent from './CreateContent';
+import FilterLibrary from './FilterLibrary';
 function Library() {
   const [view, setView] = useState('list');
-  console.log("Library",view)
+
+
+  const [isContentDialogOpen, setContentDialogOpen] = useState(false);
+  const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
+  const classes = dashboardStyles();
+
+  const openContentModal = () => {
+    setContentDialogOpen(true);
+  };
+  const closeContentModal = () => {
+    setContentDialogOpen(false);
+  };
+  const openFilterModal = () => {
+    setFilterDialogOpen(true);
+  };
+  const closeFilterModal = () => {
+    setFilterDialogOpen(false);
+  };
+  // console.log("Library",view)
 
   const data = [
     {
@@ -87,9 +109,26 @@ function Library() {
     },
 
   ]
+
   return (
     <>
-      <Card sx={{ p: 0, border: '1px solid var(--petroleum-p-15, #E9EDF0)', boxShadow: 'none', borderRadius: '8px', padding: '20px' }}>
+      <Grid container alignItems="center">
+        <Grid item xs={9}>
+          <Typography variant="h5" align="left">
+            Library
+          </Typography>
+        </Grid>
+        <Grid item xs={3} >
+          <common.MuiButton variant="contained"
+            size="large" label="Add Content"
+            className={classes.addContentButton}
+            startIcon={<AddIcon />}
+            onClick={openContentModal} />
+
+        </Grid>
+      </Grid>
+
+      <Card className={classes.card}>
         <Grid container spacing={1} sx={{ marginBottom: '20px' }}>
           <Grid item xs={6} sx={{ pr: 1 }}> {/* Add padding on the right side */}
             <TextField
@@ -123,7 +162,12 @@ function Library() {
 
           </Grid>
           <Grid item xs={1}>
-            <Button sx={{ border: ' 1.5px solid var(--petroleum-p-100, #2D3840)', height: '100%', borderRadius: '6px' }}> <img src={filter} /> </Button>
+          <common.MuiButton
+            img={filter}
+            onClick={openFilterModal}
+             />
+
+            {/* <Button sx={{ border: ' 1.5px solid var(--petroleum-p-100, #2D3840)', height: '100%', borderRadius: '6px' }}> <img src={filter} /> </Button> */}
 
           </Grid>
         </Grid>
@@ -139,6 +183,8 @@ function Library() {
 
 
       </Card>
+        <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
+        <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal}  />
     </>
   )
 }

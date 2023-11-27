@@ -3,6 +3,7 @@ import Select from "./Select";
 // import DatePicker from "./DatePicker";
 // import Checkbox from './Checkbox';
 import Input from './Input'
+import RichText from './RichText'
 // import DateTimePicker from "./DateTimePicker";
 import Autocomplete from "./Autocomplete";
 import FormHeading from "./FormHeading";
@@ -18,6 +19,7 @@ const Controls = {
 //   DateTimePicker,
   RadioGroup,
   Select,
+  RichText,
 //   DatePicker,
 //   Checkbox,
   Input,
