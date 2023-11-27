@@ -1,88 +1,80 @@
-import { Avatar, Card, ListItemButton, ListItemIcon } from '@mui/material'
-import React from 'react';
-import { List, ListItemText } from '@mui/material';
+import { Avatar, Typography } from "@mui/material";
+import React from "react";
 
-import profile from 'assets/images/profile.jpg';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SearchIcon from '@mui/icons-material/Search';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-function SideMenuCard({onPortalChange}) {
-    const data = [
-        'Brouce',
-        'Thor',
-        'Hank',
-        'Shuri'
+import profile from "assets/images/profile.jpg";
+import common from "components/common";
+import { useSelector } from "react-redux";
+function SideMenuCard({ onPortalChange }) {
+  const { currentUser } = useSelector((state) => state.dashboard);
 
-    ]
-    const handleClick = (text) => {
-        onPortalChange(text)
-      };
-    return (
-        <Card sx={{ p: 0, boxShadow: 'none', borderRadius: '8px' }}>
-            <List>
+  console.log("🚀 ~ file: SideMenuCard.jsx:10 ~ SideMenuCard ~ currentUser:", currentUser)
 
-                <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="CHANNELS" />
-                <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}  onClick={() => handleClick('general')}>
-
-                        <ListItemText primary="# General" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon sx={{ minWidth: '34px' }}>
-                            <AddCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="Create Channel" />
-                    </ListItemButton>
-                </List>
-                <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="COMMUNITY" />
-
-                <List component="div" disablePadding>
-                    {data.map((post, index) => (
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <Avatar src={profile}>
-                                {/* User Avatar */}
-                            </Avatar>
-                            <ListItemText sx={{
-                                marginLeft: '8px', color: 'var(--petroleum-p-100, #2D3840)',
-                                fontFamily: 'Public Sans',
-                                fontSize: '14px',
-                                fontStyle: 'normal',
-                                fontWeight: 600
-                            }} primary={<>
-                                {post} <StarRateRoundedIcon style={{ color: '#EAA915' }} />
-                            </>} />
-
-                        </ListItemButton>
-
-                    ))}
-
-                    <ListItemButton sx={{ pl: 4 }}>
-                        <ListItemIcon sx={{ minWidth: '34px' }}>
-                            <AddCircleIcon />
-                        </ListItemIcon>
-                        <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="Add Member" />
-                    </ListItemButton>
-                </List>
-                <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="RESOURCES" />
-                <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => handleClick('find')}>
-                        <ListItemIcon sx={{ minWidth: '34px' }}>
-                            <SearchIcon />
-                        </ListItemIcon>
-                        <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="Find Member" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}  onClick={() => handleClick('library')}>
-                        <ListItemIcon sx={{ minWidth: '34px' }}>
-                            <YouTubeIcon />
-                        </ListItemIcon>
-                        <ListItemText sx={{ color: 'var(--petroleum-p-60, #698296)' }} primary="Library" />
-                    </ListItemButton>
-                </List>
-            </List>
-
-        </Card>
-    )
+  const channels = [
+    {
+      header: "CHANNELS",
+      items: [
+        { url: "general", label: "General", icon: "Tag" },
+        { url: "#", label: "Create Channel", icon: "AddCircle" },
+      ],
+    },
+    {
+      header: "COMMUNITY",
+      items: [
+        { url: "#", label: "Brouce" },
+        { url: "#", label: "Thor" },
+        { url: "#", label: "Hank" },
+        { url: "#", label: "Shuri" },
+        { url: "#", label: "Add Member", icon: "AddCircle" },
+      ],
+    },
+    {
+      header: "RESOURCES",
+      items: [
+        { url: "find", label: "Find Member", icon: "Search" },
+        { url: "library", label: "Library", icon: "YouTube" },
+      ],
+    },
+  ];
+  const handleClick = (text) => {
+    onPortalChange(text);
+  };
+  return (
+    <dl
+      className="col-start gap-2"
+      style={{
+        color: "#698296",
+      }}
+    >
+      {channels.map((list, index) => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+            alignItems: "flex-start",
+          }}
+        >
+          <dt>{list.header}</dt>
+          {list.items.map((item, itemIndex) => (
+            <dd
+              className="row-between gap-05 cursor"
+              onClick={() => handleClick(item.url)}
+            >
+              {index == 1 && itemIndex != 4 ? (
+                <Avatar src={profile} />
+              ) : (
+                <common.MuiIcon name={item.icon} />
+              )}
+              <Typography>{item.label}</Typography>
+              {index == 1 && itemIndex != 4 && (
+                <common.MuiIcon name={"StarRateRounded"} color="warning.main" />
+              )}
+            </dd>
+          ))}
+        </div>
+      ))}
+    </dl>
+  );
 }
 
-export default SideMenuCard
+export default SideMenuCard;

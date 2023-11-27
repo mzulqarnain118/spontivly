@@ -36,7 +36,7 @@ function RecommendationCard() {
                     <CardContent>
                         <Typography sx={{
                             color: 'var(--brand-complimentary, #323E48)',
-                            fontFamily: 'Public Sans',
+                            
                             fontSize: '18px',
                             fontStyle: 'normal',
                             fontWeight: 600
@@ -50,7 +50,7 @@ function RecommendationCard() {
                     <CardContent sx={{padding:'0px', pb: 0 }}>
                         <Typography sx={{
                             color: 'var(--brand-complimentary, #323E48)',
-                            fontFamily: 'Public Sans',
+                            
                             fontSize: '18px',
                             fontStyle: 'normal',
                             fontWeight: 600
@@ -66,8 +66,8 @@ function RecommendationCard() {
                                     <Grid item >
                                         <Box sx={{ display: 'flex' }}>
                                             <Typography sx={{
-                                                color: 'black', marginLeft: '8px', color: 'var(--petroleum-p-100, #2D3840)',
-                                                fontFamily: 'Public Sans',
+                                                color: 'black', marginLeft: '8px', 
+                                                
                                                 fontSize: '14px',
                                                 fontStyle: 'normal',
                                                 fontWeight: 600,
@@ -81,14 +81,14 @@ function RecommendationCard() {
                                 </Grid>
                                 <Typography sx={{
                                     color: 'var(--petroleum-p-60, #698296)',
-                                    fontFamily: 'Public Sans',
+                                    
                                     fontSize: '12px',
                                     fontStyle: 'normal',
                                     fontWeight: 400,
                                     display: 'inline'
                                 }}>You and {rec.name} {rec.action} <Typography sx={{
-                                    color: 'var(--petroleum-p-100, #2D3840)',
-                                    fontFamily: 'Public Sans',
+                                    
+                                    
                                     fontSize: '12px',
                                     fontStyle: 'normal',
                                     fontWeight: 600,

@@ -42,7 +42,7 @@ const ModuleView = (data) => {
                                     <Grid container>
                                         <Grid item xs={11}>
                                             <Typography sx={{
-                                                color: 'color: var(--petroleum-p-100, #2D3840)', fontFamily: 'Public Sans',
+                                                color: 'color: var(--petroleum-p-100, #2D3840)', 
                                                 fontSize: '16px',
                                                 fontStyle: 'normal',
                                                 fontWeight: 600,

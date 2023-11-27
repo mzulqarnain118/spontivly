@@ -128,7 +128,7 @@ function Library() {
           </Grid>
         </Grid>
         <Typography sx={{
-          color: 'var(--petroleum-p-60, #698296)', fontFamily: 'Public Sans',
+          color: 'var(--petroleum-p-60, #698296)', 
           fontSize: '12px',
           fontStyle: 'normal',
           fontWeight: 600,

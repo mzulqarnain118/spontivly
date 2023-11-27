@@ -4,40 +4,45 @@ const Typography = (theme) => {
     h1: {
       fontWeight: 600,
       letterSpacing: "-1.5px",
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
     },
     h2: {
       fontWeight: 600,
       letterSpacing: "-0.5px",
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
     },
     h3: {
       //48px fontSize
       fontWeight: 600,
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
     },
     h4: {
       //34px fontSize
       fontWeight: 600,
       letterSpacing: "0.25px",
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
     },
     h5: {
       //24px fontsize
       fontWeight: 600,
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
     },
     h6: {
       letterSpacing: "0.15px",
-      color: theme.palette.primary,
+      color: theme.palette.primary.main,
+    },
+    subtitle: {
+      fontSize: "15px",
+      fontWeight: 600,
+      color: theme.palette.primary.light,
     },
     subtitle1: {
       fontSize: "14px",
       fontWeight: 400,
-      color: theme.palette.customColors.subtitle1,
+      color: theme.palette.primary.main,
     },
     subtitle2: {
-      color: theme.palette.customColors.subtitle2,
+      color: theme.palette.primary.main.lighter,
       fontSize: "13px",
       fontWeight: 400,
     },

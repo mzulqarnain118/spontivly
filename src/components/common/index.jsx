@@ -13,7 +13,7 @@ import MuiButton from "./MuiButton";
 import Img from "./Img";
 import CustomSwitch from "./CustomSwitch";
 import Link from "./Link";
-
+import MuiIcon from "./MuiIcon";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -21,6 +21,7 @@ const Controls = {
 //   DatePicker,
 //   Checkbox,
   Input,
+  MuiIcon,
   Img,
   MuiButton,
   CustomSwitch,
@@ -33,3 +34,13 @@ const Controls = {
 };
 
 export default Controls;
+
+
+      //   : list.items.map((item) => (
+            //       <dd onClick={() => handleClick(item.url)}>
+            //         <ListItemButton>
+            //           {item.icon && item.icon}
+            //           <ListItemText primary={item.label} />
+            //         </ListItemButton>
+            //       </dd>
+            //     ))}

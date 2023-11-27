@@ -23,8 +23,6 @@ const Palette = (mode, themeColor) => {
   return {
     customColors: {
       main: mainColor,
-      subtitle1: `#698296`,
-      subtitle2: `#93A5B4`,
       primaryGradient: primaryGradient(),
       tableHeaderBg: mode === "light" ? "#FFF" : "#312D4B",
       borderColor: themeColor === "primary" ? "#93A5B4" : "#93A5B4",
@@ -34,19 +32,15 @@ const Palette = (mode, themeColor) => {
       white: "#FFF",
     },
     mode: mode,
-    bg: {
-      light: "#F9FBFD",
-      main: "#93A5B4",
-      dark: "#2D3840",
-      contrastText: "#FFF",
-    },
     primary: {
-      light: "#93A5B4",
+      lighter: "#93A5B4",
+      light: `#698296`,
       main: "#2D3840",
       dark: "#2D3840",
       contrastText: "#FFF",
     },
     secondary: {
+      lightest: "#F9FBFD",
       light: "#9C9FA4",
       main: "#2D3840",
       dark: "#777B82",

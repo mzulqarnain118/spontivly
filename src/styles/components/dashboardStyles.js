@@ -10,9 +10,7 @@ const dashboardStyles = makeStyles((theme) => ({
     padding: "20px !important ",
   },
   content: {
-    display: "flex !important ",
-    marginTop: "18px !important ",
-    marginBottom: "18px !important ",
+    margin: "18px 0px !important ",
     padding: "0px !important ",
   },
   userCard: {
