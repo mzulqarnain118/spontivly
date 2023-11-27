@@ -1,5 +1,5 @@
 // ResponsiveAppBar.js
-import React from "react";
+import React,{useEffect, useState} from "react";
 import {
   AppBar,
   Menu,
@@ -18,20 +18,31 @@ import profile from "assets/images/profile.jpg";
 import dashboardStyles from "styles/components/dashboardStyles";
 import common from "components/common";
 import { useTheme } from "@mui/material/styles";
+import { rmLocal } from "utils";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const classes = dashboardStyles();
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const theme = useTheme();
+  const [anchorElUser, setAnchorElUser] = useState(null);
+    const [logout, setLogout] = useState(false);
+  const theme = useTheme();
+  
+  useEffect(() => {
+   
+  }, [logout]);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => {
+    if (setting == "Logout") {
+      rmLocal("token");
+      setLogout(true);
+    } 
     setAnchorElUser(null);
   };
+
+
 
   return (
     <AppBar position="static" className={classes.appBar}>
@@ -80,7 +91,7 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting} onClick={()=>handleCloseUserMenu(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

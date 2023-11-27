@@ -28,7 +28,7 @@ function PostsCard({post}) {
             <CardContent>
                 <Typography sx={{
                     color: 'var(--brand-complimentary, #323E48)',
-                    fontFamily: 'Public Sans',
+                    
                     fontSize: '18px',
                     fontStyle: 'normal',
                     fontWeight: 600,
@@ -37,7 +37,7 @@ function PostsCard({post}) {
                 </Typography>
                 <Typography sx={{
                     color: 'var(--brand-complimentary, #323E48)',
-                    fontFamily: 'Public Sans',
+                    
                     fontSize: '16px',
                     fontStyle: 'normal',
                     fontWeight: 400,
@@ -57,7 +57,7 @@ function PostsCard({post}) {
                         <Box sx={{ display: 'flex' }}>
                             <img src={like} style={{marginRight:'11px'}} />
                             <Typography sx={{
-                                color: 'var(--petroleum-p-45, #93A5B4)', fontFamily: 'Public Sans',
+                                color: 'var(--petroleum-p-45, #93A5B4)', 
                                 fontSize: '16px',
                                 fontStyle: 'normal',
                                 fontWeight: 400,
@@ -65,7 +65,7 @@ function PostsCard({post}) {
                             }}> 0 Likes</Typography>
                             <img src={comment} style={{marginRight:'11px'}} />
                             <Typography sx={{
-                                color: 'var(--petroleum-p-45, #93A5B4)', fontFamily: 'Public Sans',
+                                color: 'var(--petroleum-p-45, #93A5B4)', 
                                 fontSize: '16px',
                                 fontStyle: 'normal',
                                 fontWeight: 400,
@@ -76,7 +76,7 @@ function PostsCard({post}) {
                     <Grid item>
                         <Box sx={{ display: 'flex', marginLeft: 2 }}>
                             <Typography sx={{
-                                color: 'var(--petroleum-p-45, #93A5B4)', fontFamily: 'Public Sans',
+                                color: 'var(--petroleum-p-45, #93A5B4)', 
                                 fontSize: '16px',
                                 fontStyle: 'normal',
                                 fontWeight: 400,

@@ -10,11 +10,13 @@ import companyReduce from "./companySlice";
 import socialReducer from "./socialSlice";
 import objectiveReducer from "./objectiveSlice";
 import onBoardingReducer from "./onBoardingSlice";
+import dashboardReducer from "./dashboardSlice";
 import { watchFetchSkills } from "./saga/skillsSagas";
 import { watchFetchInterests } from "./saga/interestsSaga";
 import { watchFetchObjectives } from "./saga/objectivesSaga";
 import { watchLocationText } from "./saga/locationSaga";
 import { watchFetchCompanyStages } from "./saga/companySaga";
+import { watchFetchCurrentUser } from "./saga/dashboardSaga";
 
 // Combine reducers (exclude OtherReduce)
 const rootReducer = combineReducers({
@@ -25,6 +27,7 @@ const rootReducer = combineReducers({
   social: persistReducer(persistConfig("social"), socialReducer),
   objective: persistReducer(persistConfig("objective"), objectiveReducer),
   onBoarding: persistReducer(persistConfig("onBoarding"), onBoardingReducer),
+  dashboard: persistReducer(persistConfig("dashboard"), dashboardReducer),
   // OtherReduce is not persisted
   // other: OtherReduce,
   // Add other reducers as needed
@@ -43,6 +46,7 @@ sagaMiddleware.run(function* rootSaga() {
     watchFetchObjectives(),
     watchLocationText(),
     watchFetchCompanyStages(),
+    watchFetchCurrentUser(),
   ]);
 });
 

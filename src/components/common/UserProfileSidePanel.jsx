@@ -25,7 +25,12 @@ const UserProfileSidePanel = ({ user, isOpen, onClose }) => {
   const openModal = () => {
     setModalOpen(true);
   };
-
+  const data = [
+    "About",
+    ["Education", "Gender"],
+    ["Age", "Profession"],
+    "Interests tags",
+  ];
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -95,127 +100,38 @@ const UserProfileSidePanel = ({ user, isOpen, onClose }) => {
           </Button>
         </Box>
       </Drawer>
-      <Modal
-        open={isModalOpen}
-        onClose={closeModal}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Card sx={{ padding: "20px", maxWidth: "583px" }}>
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{
-                    color: " var(--petroleum-p-60, #698296)",
-
-                    fontSize: "15px",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  About
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography
-                  sx={{
-                    color: "var(--day-title, #262626)",
-
-                    fontSize: "14px",
-
-                    fontWeight: 400,
-                  }}
-                >
-                  {user.introduction}
-                </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-          <Divider></Divider>
-          <CardContent>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  sx={{
-                    color: "var(--petroleum-p-60, #698296)",
-
-                    fontSize: "15px",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  Education
-                </Typography>
-                <Typography variant="body2">Graduated</Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  sx={{
-                    color: "var(--petroleum-p-60, #698296)",
-
-                    fontSize: "15px",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  Gender
-                </Typography>
-                <Typography variant="body2">Female</Typography>
-              </Grid>
-              <Divider></Divider>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  sx={{
-                    color: "var(--petroleum-p-60, #698296)",
-
-                    fontSize: "15px",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  Age
-                </Typography>
-                <Typography variant="body2">34</Typography>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  sx={{
-                    color: "var(--petroleum-p-60, #698296)",
-
-                    fontSize: "15px",
-
-                    fontWeight: 600,
-                  }}
-                >
-                  Profession
-                </Typography>
-                <Typography variant="body2">
-                  HR Manager in Pharmacy industry
-                </Typography>
-              </Grid>
-            </Grid>
-          </CardContent>
-
-          <CardContent>
-            <Typography
-              sx={{
-                color: "var(--petroleum-p-60, #698296)",
-                fontSize: "15px",
-                fontWeight: 600,
-              }}
-            >
-              Interests tags
-            </Typography>
-            <Box sx={{ display: "flex" }}>
-              {user.interests.map((item) => (
-                <Typography className={classes.tag}>{item.title}</Typography>
-              ))}
-            </Box>
-          </CardContent>
+      <Modal open={isModalOpen} onClose={closeModal} className="row-center">
+        <Card sx={{ padding: "20px", width: "583px" }}>
+          {data.map((item, index) => (
+            <CardContent className="col-start">
+              {[1, 2].includes(index) ? (
+                <div className="row-between" style={{ width: "100%" }}>
+                  {item.map((child) => (
+                    <Typography
+                      key={child}
+                      variant="subtitle"
+                    >
+                      {child}
+                    </Typography>
+                  ))}
+                </div>
+              ) : (
+                <Typography variant="subtitle">{item}</Typography>
+              )}
+              {index == 0 ? (
+                <Typography variant="subtitle1">{user.introduction}</Typography>
+              ) : index == 3 ? (
+                <div className="flex">
+                  {user.interests.map((item) => (
+                    <Typography key={item.title} className={classes.tag}>
+                      {item.title}
+                    </Typography>
+                  ))}
+                </div>
+              ) : null}
+              <Divider />
+            </CardContent>
+          ))}
         </Card>
       </Modal>
     </>
@@ -223,3 +139,5 @@ const UserProfileSidePanel = ({ user, isOpen, onClose }) => {
 };
 
 export default UserProfileSidePanel;
+
+                

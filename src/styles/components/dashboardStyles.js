@@ -20,9 +20,7 @@ const dashboardStyles = makeStyles((theme) => ({
     padding: "1rem 2rem 1rem 1rem !important ",
   },
   content: {
-    display: "flex !important ",
-    marginTop: "18px !important ",
-    marginBottom: "18px !important ",
+    margin: "18px 0px !important ",
     padding: "0px !important ",
   },
   userCard: {

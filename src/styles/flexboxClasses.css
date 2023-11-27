@@ -1,112 +1,233 @@
-/*! Dynamic Flexbox classes */
-.row-center {
-  display: flex;
-  justify-content: center; /* Horizontally center items */
-  align-items: center; /* Vertically center items */
-  gap:1.5rem;
+/*! Override the gap size for a specific element */
+.gap-025 {
+  --flex-gap: 0.25rem;
 }
 
-.col-center {
-  display: flex;
-  direction: column;
-    flex-wrap: wrap;
-  justify-content: center; /* Horizontally center items */
-  align-items: center; /* Vertically center items */
-  gap:2.5rem;
+.gap-05 {
+  --flex-gap: 0.5rem;
 }
-/* Override the gap size for a specific element */
-.custom-gap {
+
+.gap-075 {
+  --flex-gap: 0.75rem;
+}
+
+.gap-1 {
+  --flex-gap: 1rem;
+}
+
+.gap-2 {
+  --flex-gap: 2rem;
+}
+
+.gap-25 {
   --flex-gap: 2.5rem;
 }
 
 /*! Flexbox classes for rows */
+.flex{
+  display: flex;
+}
+.wrap{
+  flex-wrap: wrap;
+}
 .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .row-center {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .row-start {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .row-end {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .row-between {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .row-around {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-  }
-  
-  .row-evenly {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  
-  /*! Flexbox classes for columns */
-  .column {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .column-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .column-start {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  
-  .column-end {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-  
-  .column-between {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .column-around {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  
-  .column-evenly {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-  }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-start {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-around {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.row-evenly {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+/*! Flexbox classes for columns */
+.col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-around {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+.col-evenly {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-evenly;
+
+  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+}
+
+/*! Margin Classes */
+.m-0 {
+  margin: 0rem;
+}
+.m-025 {
+  margin: 0.25rem;
+}
+
+.m-05 {
+  margin: 0.5rem;
+}
+
+.m-1 {
+  margin: 1rem;
+}
+.ml-025 {
+  margin-left: 0.25rem;
+}
+
+.mr-025 {
+  margin-right: 0.25rem;
+}
+
+.mt-025 {
+  margin-top: 0.25rem;
+}
+
+.mb-025 {
+  margin-bottom: 0.25rem;
+}
+.m-tb-025 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.m-tb-09 {
+  margin:"18px 0rem !important";
+}
+
+.m-lr-025 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+/*! Padding Classes */
+.pad-0 {
+  padding: 0px 0px;
+}
+.p-025 {
+  padding: 0.25rem;
+}
+
+.p-05 {
+  padding: 0.5rem;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+.p-tb-025 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.p-lr-025 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.pl-025 {
+  padding-left: 0.25rem;
+}
+
+.pr-025 {
+  padding-right: 0.25rem;
+}
+
+.pt-025 {
+  padding-top: 0.25rem;
+}
+
+.pb-025 {
+  padding-bottom: 0.25rem;
+}
+
+.cursor{
+  cursor: pointer;
+}
+

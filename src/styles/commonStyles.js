@@ -26,8 +26,8 @@ const commonStyles = makeStyles((theme) => ({
     // },
   },
   inputContainer: {
-    border: theme.palette.primary.light,
-    background: theme.palette.bg.light,
+    border: theme.palette.primary.lighter,
+    background: theme.palette.secondary.lightest,
     textAlign: "start",
   },
   logo: {

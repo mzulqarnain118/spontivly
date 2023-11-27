@@ -25,7 +25,7 @@ const Property1Default1 = (data) => {
                             <Grid item xs={10}>
                                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography sx={{
-                                        color: 'color: var(--petroleum-p-100, #2D3840)', fontFamily: 'Public Sans',
+                                        color: 'color: var(--petroleum-p-100, #2D3840)', 
                                         fontSize: '16px',
                                         fontStyle: 'normal',
                                         fontWeight: 600,
@@ -35,7 +35,7 @@ const Property1Default1 = (data) => {
                                     </Typography>
                                     {/* <Grid item xs={10}> */}
                                     <Typography sx={{
-                                        color: ' var(--petroleum-p-60, #698296)', fontFamily: 'Public Sans',
+                                        color: ' var(--petroleum-p-60, #698296)', 
                                         fontSize: '14px',
                                         fontStyle: 'normal',
                                         fontWeight: 400,
@@ -49,7 +49,7 @@ const Property1Default1 = (data) => {
                                         <Avatar src={rec.profile} alt="Media" sx={{ marginRight: '4px', maxWidth: '20px', maxHeight: '20px' }}>
                                         </Avatar>
                                         <Typography sx={{
-                                            color: 'var(--petroleum-p-100, #2D3840', fontFamily: 'Public Sans',
+                                            color: 'var(--petroleum-p-100, #2D3840', 
                                             fontSize: '12px',
                                             fontStyle: 'normal',
                                             fontWeight: 400
@@ -93,7 +93,7 @@ const Property1Default1 = (data) => {
                                 {rec.source == 'docs' && <img src={doc} />}
 
                                 {/* <Typography sx={{
-                                    color: 'var(--petroleum-p-100, #2D3840', fontFamily: 'Public Sans',
+                                    color: 'var(--petroleum-p-100, #2D3840', 
                                     fontSize: '2px',
                                     fontStyle: 'normal',
                                     fontWeight: 400
