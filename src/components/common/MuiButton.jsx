@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import common from "components/common";
 
 const VisuallyHiddenInput = styled("input")`
   opacity: 0;
@@ -23,6 +24,7 @@ export default function MuiButton(
     bgcolor,
     color,
     onClick,
+    img,
     handleUploadPhoto,
     ...other
   },
@@ -53,6 +55,7 @@ export default function MuiButton(
         />
       )}
       {label}
+      {img && <common.Img src={img} />}
       {children}
     </Button>
   );

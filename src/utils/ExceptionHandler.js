@@ -36,6 +36,9 @@ export default function ExceptionHandler(error) {
       case 430:
         Toast(msg ?? error.response.data, "error");
         break;
+      case 413:
+        Toast(msg ?? "Payload Too Large", "error");
+        break;
       default:
         Toast(msg ?? "Unknown Error", "error");
         break;
@@ -45,7 +48,7 @@ export default function ExceptionHandler(error) {
   if (error.response) {
     const { msg } = error.response.data || {};
     const status = error.response.status;
-    
+
     if (status === 401) {
       handleAuthError();
     } else {
