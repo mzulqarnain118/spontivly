@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Grid, useMediaQuery, useTheme } from "@mui/material";
 import SideMenuCard from "./SideMenuCard"; // Import SideMenuCard directly
 import General from "./General";
@@ -7,8 +7,12 @@ import Library from "./Library";
 import RecommendationCard from "./RecommendationCard";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import SidePanel from "components/common/SidePanel";
+import { fetchCurrentUser } from "redux/dashboardSlice";
+import { useDispatch } from "react-redux";
 
 function Dashboard() {
+    const dispatch = useDispatch();
+
   const theme = useTheme();
   const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
 const [Panel, setPanel] = useState(false);
@@ -17,7 +21,9 @@ const [Panel, setPanel] = useState(false);
   const handlePortalChange = (newPortal) => {
     setPortal(newPortal);
   };
-
+    useEffect(() => {
+      dispatch(fetchCurrentUser());
+    }, []);
   const getPortalSizes = (portal) => {
     if (portal === "general") {
       return { sideMenuSize: 3, mainContentSize: 6.5, recommendationSize: 2.5 };
