@@ -19,7 +19,10 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.dashboard);
-  const user = currentUser?.[0].user;
+
+  console.log("🚀 ~ file: ResponsiveAppBar.jsx:23 ~ ResponsiveAppBar ~ currentUser:", currentUser)
+
+  const user = currentUser?.[0]?.user;
   const classes = dashboardStyles();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenUserMenu = (event) => {
