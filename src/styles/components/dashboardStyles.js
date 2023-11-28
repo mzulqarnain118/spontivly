@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 const dashboardStyles = makeStyles((theme) => ({
   card: {
     p: 0,
-    marginTop:'0.5rem',
+    marginTop: '0.5rem',
     border: "1px solid var(--day-5, #D9D9D9) !important ",
     boxShadow: "none !important ",
     borderRadius: "8px !important ",
@@ -12,12 +12,34 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   filterCard: {
     p: 0,
-    marginTop:'0.5rem',
-    width:'12.5rem',
+    marginTop: '0.5rem',
+    width: '10.5rem',
     border: "1px solid var(--day-5, #D9D9D9) !important ",
     boxShadow: "none !important ",
     borderRadius: "1rem !important ",
     padding: "1rem 2rem 1rem 1rem !important ",
+    [theme.breakpoints.down("sm")]: {
+      width: "8rem",
+    },
+
+  },
+  filterCardContent: {
+    display: 'flex',
+    padding: '0px !important',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    gap: '1.25rem',
+
+  },
+  filterCardIcon: {
+    width: '3rem',
+    height: '3rem',
+    padding: '0.5rem',
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.625rem',
+
   },
   content: {
     margin: "18px 0px !important ",
@@ -115,13 +137,41 @@ const dashboardStyles = makeStyles((theme) => ({
   addContentButton: {
     padding: ' 0.5rem 1.25rem',
   },
-  mainBox:{
-    padding:'20px'
+  mainBox: {
+    padding: '20px'
   },
-  contentCard:{
-    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', // Add box shadow
+  contentCard: {
+    boxShadow: 'none !important', // Add box shadow
     padding: theme.spacing(6), // Add padding as needed
-  }
+  },
+  filterDialogTitle: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  filterDialogContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(10)
+  },
+  filterDialogActions: {
+    display: "flex !important",
+    justifyContent: 'space-between !important',
+    padding: `${theme.spacing(7)} !important `
+  },
+  filterDialogTypography: {
+    flex: 1,
+    textAlign: 'center'
+  },
+  createContentDivider: {
+    color: 'customColors.subtitle2 !important',
+    marginTop: `${theme.spacing(20)} !important`,
+    marginBottom: `${theme.spacing(20)} !important`
+  },
+  createContentItem: {
+    display: "flex",
+    flexDirection: "column !important",
+    gap: theme.spacing(10)
+  },
 }));
 
 export default dashboardStyles;

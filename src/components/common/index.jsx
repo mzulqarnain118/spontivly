@@ -1,7 +1,7 @@
 import RadioGroup from "./RadiaGroup";
 import Select from "./Select";
 // import DatePicker from "./DatePicker";
-// import Checkbox from './Checkbox';
+import Checkbox from './Checkbox';
 import Input from './Input'
 import RichText from './RichText'
 // import DateTimePicker from "./DateTimePicker";
@@ -13,6 +13,7 @@ import Spinner from "./Spinner";
 import MuiButton from "./MuiButton";
 import Img from "./Img";
 import CustomSwitch from "./CustomSwitch";
+import FilterContentTypeCard from "./FilterContentTypeCard";
 import Link from "./Link";
 import MuiIcon from "./MuiIcon";
 const Controls = {
@@ -21,7 +22,7 @@ const Controls = {
   Select,
   RichText,
 //   DatePicker,
-//   Checkbox,
+  Checkbox,
   Input,
   MuiIcon,
   Img,
@@ -33,6 +34,7 @@ const Controls = {
   SearchTags,
   Autocomplete,
   FormHeading,
+  FilterContentTypeCard
 };
 
 export default Controls;
