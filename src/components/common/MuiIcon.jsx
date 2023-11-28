@@ -7,12 +7,19 @@ import {
   Tag,
   StarBorderRounded,
   FiberManualRecord,
+  ArrowDropDown,
+  Adb,
+  MoreHorizRounded,
+  Close,
+  Menu,
 } from "@mui/icons-material";
 const ReusableIcon = ({
   name,
-  IconColor,color,
+  IconColor,
+  color,
   fontSize,
-  size,
+  bgColor,
+  size,variant,
   width,
   height,
   onClick,
@@ -21,11 +28,15 @@ const ReusableIcon = ({
     {
       StarRateRounded,
       Search,
-      YouTube,
+      YouTube,Menu,
       AddCircle,
       Tag,
       StarBorderRounded,
       FiberManualRecord,
+      ArrowDropDown,
+      Adb,
+      MoreHorizRounded,
+      Close,
     }[name] || StarRateRounded;
 
   return (
@@ -33,11 +44,13 @@ const ReusableIcon = ({
       onClick={onClick}
       color={IconColor}
       fontSize={size}
+      variant={variant}
       sx={{
         color: !IconColor && (color || "inherit"),
         fontSize: fontSize,
         width: width,
         height: height,
+        backgroundColor: bgColor,
       }}
     />
   );

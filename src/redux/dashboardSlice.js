@@ -12,8 +12,6 @@ const dashboardSlice = createSlice({
       state.loading = true;
     },
     fetchDataSuccess: (state, action) => {
-
-      console.log("🚀 ~ file: dashboardSlics.js:16 ~ action:", action)
       state.currentUser = action.payload;
     },
     fetchDataFailure: (state, action) => {
