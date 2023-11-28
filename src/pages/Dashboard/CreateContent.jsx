@@ -49,6 +49,14 @@ const CreateContent = ({isOpen,onClose}) => {
         {
             id: "doc",
             title: "Doc"
+        },
+        {
+            id: "link",
+            title: "Link"
+        },
+        {
+            id: "pdf",
+            title: "PDF"
         }
     ]
 
@@ -75,7 +83,7 @@ const CreateContent = ({isOpen,onClose}) => {
             <DialogContent>
                 <Card className={classes.contentCard}>
                     <Grid container spacing={8}>
-                        <Grid item xs={4}>
+                        <Grid item  xs={12}  md={4}>
                             <Typography variant="h5" align="left">
                                 Heading
                             </Typography>
@@ -83,7 +91,7 @@ const CreateContent = ({isOpen,onClose}) => {
                                 What's your post all about?
                             </Typography>
                         </Grid>
-                        <Grid item xs={8} display="flex" flexDirection="column" gap={theme.spacing(10)}>
+                        <Grid item xs={12}  md={8} className={classes.createContentItem}>
                             <common.Input name="title" value={title} onChange={setTitle} placeholder="Title" />
                             <Box display="flex" gap={theme.spacing(10)}>
                                 <common.Input name="author" value={author} onChange={setAuthor} placeholder="Author" />
@@ -104,9 +112,9 @@ const CreateContent = ({isOpen,onClose}) => {
                             />
                         </Grid>
                     </Grid>
-                    <Divider sx={{ color: 'customColors.subtitle2', marginTop: theme.spacing(20), marginBottom: theme.spacing(20) }} />
+                    <Divider className={classes.createContentDivider} />
                     <Grid container spacing={8}>
-                        <Grid item xs={4}>
+                        <Grid item xs={12}  md={4}>
                             <Typography variant="h5" align="left">
                                 Content
                             </Typography>
@@ -114,7 +122,7 @@ const CreateContent = ({isOpen,onClose}) => {
                                 Provide some more details about your post
                             </Typography>
                         </Grid>
-                        <Grid item xs={8} display="flex" flexDirection="column" gap={theme.spacing(10)}>
+                        <Grid item xs={12}  md={8} className={classes.createContentItem}>
                             <common.Input name="url" value={contentURL} onChange={setContentURL} placeholder="Content URL" />
                             <common.Input name="summary" value={summary} onChange={setSummary} placeholder="Summary" />
                             <common.RichText value={description} onBlur={setDescription} />

@@ -25,6 +25,7 @@ export default function MuiButton(
     color,
     onClick,
     img,
+    minWidth,
     handleUploadPhoto,
     ...other
   },
@@ -43,7 +44,9 @@ export default function MuiButton(
       sx={{
         backgroundColor: bgcolor && `${bgcolor} !important`,
         textTransform: "none",
-        color:color
+        color:color,
+        minWidth:minWidth
+
       }}
       {...other}
     >

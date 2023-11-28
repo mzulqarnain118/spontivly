@@ -1,69 +1,109 @@
-import { Box, Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Card, CardContent, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, IconButton, Link, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import ClearIcon from "@mui/icons-material/Clear";
 import dashboardStyles from 'styles/components/dashboardStyles';
 import common from "components/common";
 import { useTheme } from '@mui/material/styles';
+import youtube from 'assets/images/utubefilter.png'
+import doc from 'assets/images/docs.png'
+import pdf from 'assets/images/pdf.png'
+import link from 'assets/images/link.png'
 
 const FilterLibrary = ({ isOpen, onClose }) => {
-  const classes = dashboardStyles();
-  const theme = useTheme();
+    const classes = dashboardStyles();
+    const theme = useTheme();
+    const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
 
+
+    const checkboxes = [
+        { id: 'gilad', name: 'Gilad Gray', label: 'Gilad Gray' },
+        { id: 'jason', name: 'jason', label: 'Jason Killian' },
+        { id: 'antoine', name: 'antoine', label: 'Antoine Llorca' },
+        { id: 'emma', name: 'emma', label: 'Emma Johnson' },
+        { id: 'lucas', name: 'lucas', label: 'Lucas Smith' },
+        { id: 'mia', name: 'mia', label: 'Mia Thompson' },
+        { id: 'oliver', name: 'oliver', label: 'Oliver Wilson' },
+        { id: 'sophia', name: 'sophia', label: 'Sophia Garcia' },
+    ];
+    const types = [
+        { id: '1', name: 'youtube', label: 'Youtube', img: youtube },
+        { id: '2', name: 'doc', label: 'Document', img: doc },
+        { id: '3', name: 'pdf', label: 'PDF', img: pdf },
+        { id: '4', name: 'link', label: 'Link', img: link },
+    ];
+    const handleChange = (event) => {
+        const { name, checked } = event.target;
+        setSelectedCheckboxes((prevSelected) => ({
+            ...prevSelected,
+            [name]: checked,
+        }));
+    };
+    const handleClear = () => {
+        setSelectedCheckboxes({})
+    };
     return (
         <Dialog
             open={isOpen}
             onClose={onClose}
-            fullWidth
-            maxWidth="md">
-            <DialogTitle sx={{ display: 'flex', alignItems: 'center'}} >
+            // fullWidth
+            maxWidth='48.75rem'
+        >
+            <DialogTitle className={classes.filterDialogTitle}>
                 <IconButton onClick={onClose} >
                     <ClearIcon />
                 </IconButton>
-                <Typography variant="h6" sx={{ flex: 1, textAlign: 'center' }}>
+                <Typography variant="h6" className={classes.filterDialogTypography}>
                     Filters
                 </Typography>
             </DialogTitle>
-            <DialogContent sx={{display:'flex' ,flexDirection:'column',gap:theme.spacing(10)}}>
-         
-                    <Typography variant="h5" align="left">
-                        Type
-                    </Typography>
-                <Box display='flex' gap={theme.spacing(6)}>
-                    <Card className={classes.filterCard}>
-                        <CardContent>
-                            <Typography>
-                                Youtube Video
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.filterCard}>
-                        <CardContent>
-                            <Typography>
-                                PDF Document
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.filterCard} >
-                        <CardContent>
-                            <Typography>
-                                Link
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                    <Card className={classes.filterCard}>
-                        <CardContent>
-                            <Typography>
-                                Google Doc
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Box>
+            <DialogContent className={classes.filterDialogContent}>
+
                 <Typography variant="h5" align="left">
-                        Tags
-                    </Typography>
+                    Type
+                </Typography>
+                <Grid container spacing={2}>
+                    {types.map((card, index) => (
+                        <Grid key={index} item xs={6} sm={6} md={6} lg={3}>
+                            <common.FilterContentTypeCard title={card.label} img={card.img} />
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Typography variant="h5" align="left">
+                    Tags
+                </Typography>
+                <Grid container>
+                    <Grid item xs={12} sm={6} md={6} display="flex" alignContent='flex-start'>
+                        <FormControl component="fieldset" variant="standard">
+                            <FormGroup>
+                                {checkboxes.slice(0, Math.ceil(checkboxes.length / 2)).map((checkbox) => (
+                                    <common.Checkbox label={checkbox.label} key={checkbox.id} name={checkbox.name} size='large' onChange={handleChange} value={selectedCheckboxes[checkbox.name] || false} />
+
+                                ))}
+                            </FormGroup>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} display="flex" alignContent='flex-start'>
+
+                        <FormControl component="fieldset" variant="standard">
+                            <FormGroup>
+                                {checkboxes.slice(Math.ceil(checkboxes.length / 2)).map((checkbox) => (
+                                    <common.Checkbox label={checkbox.label} key={checkbox.id} name={checkbox.name} size='large' onChange={handleChange} value={selectedCheckboxes[checkbox.name] || false} />
+
+                                ))}
+                            </FormGroup>
+                        </FormControl>
+                    </Grid>
+                    <Link>
+                        Show more
+                    </Link>
+                </Grid>
             </DialogContent>
-            <DialogActions>
-                <common.MuiButton variant="contained" label={"Show 100+"} />
+            <DialogActions className={classes.filterDialogActions} >
+                <Link onClick={handleClear}>
+                    Clear all
+                </Link>
+                <common.MuiButton size="medium" variant="contained" label={"Show 100+"} minWidth='117px' />
             </DialogActions>
         </Dialog>
     )
