@@ -42,7 +42,7 @@ const Typography = (theme) => {
       color: theme.palette.primary.main,
     },
     subtitle2: {
-      color: theme.palette.primary.main.lighter,
+      color: theme.palette.primary.lighter,
       fontSize: "13px",
       fontWeight: 400,
     },

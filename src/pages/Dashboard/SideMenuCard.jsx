@@ -1,31 +1,24 @@
 import { Avatar, Typography } from "@mui/material";
-import React from "react";
-
-import profile from "assets/images/profile.jpg";
+import React, { useEffect, useState } from "react";
 import common from "components/common";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { ApiCall } from "utils";
+import { fetchCurrentUser } from "redux/dashboardSlice";
 function SideMenuCard({ onPortalChange }) {
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.dashboard);
-
-  console.log("🚀 ~ file: SideMenuCard.jsx:10 ~ SideMenuCard ~ currentUser:", currentUser)
-
+  const [refetch, setrefetch] = useState(false)
   const channels = [
     {
       header: "CHANNELS",
       items: [
-        { url: "general", label: "General", icon: "Tag" },
-        { url: "#", label: "Create Channel", icon: "AddCircle" },
+        { url: "", label: "General", icon: "Tag" },//!replace url:"" with url:"general"
+        { url: "", label: "Create Channel", icon: "AddCircle" },
       ],
     },
     {
       header: "COMMUNITY",
-      items: [
-        { url: "#", label: "Brouce" },
-        { url: "#", label: "Thor" },
-        { url: "#", label: "Hank" },
-        { url: "#", label: "Shuri" },
-        { url: "#", label: "Add Member", icon: "AddCircle" },
-      ],
+      items: [{ url: "", label: "Add Member", icon: "AddCircle" }],
     },
     {
       header: "RESOURCES",
@@ -35,9 +28,19 @@ function SideMenuCard({ onPortalChange }) {
       ],
     },
   ];
-  const handleClick = (text) => {
-    onPortalChange(text);
+    useEffect(() => {
+      dispatch(fetchCurrentUser());
+    }, [refetch]);
+  const unFavorite = async (id) => {
+    const response = await ApiCall(`profile/favorite/${id}`, null, "DELETE");
+    if (response) {
+     setrefetch(true);
+    }
   };
+  const handleClick = (text) => {
+    text!="" && onPortalChange(text);
+  };
+  
   return (
     <dl
       className="col-start gap-2"
@@ -46,29 +49,29 @@ function SideMenuCard({ onPortalChange }) {
       }}
     >
       {channels.map((list, index) => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "2rem",
-            alignItems: "flex-start",
-          }}
-        >
+        <div className="col-start gap-2">
           <dt>{list.header}</dt>
+          {index == 1 &&
+            currentUser[0]?.favorites?.map((user) => (
+              <dd className="row-between gap-05">
+                <Avatar src={user.profile_pic} />
+                <Typography color="primary.main">
+                  {user.user.first_name}
+                </Typography>
+                <common.MuiIcon
+                  name={"StarRateRounded"}
+                  color="warning.main"
+                  onClick={() => unFavorite(user.id)}
+                />
+              </dd>
+            ))}
           {list.items.map((item, itemIndex) => (
             <dd
-              className="row-between gap-05 cursor"
+              className="row-between gap-06 cursor"
               onClick={() => handleClick(item.url)}
             >
-              {index == 1 && itemIndex != 4 ? (
-                <Avatar src={profile} />
-              ) : (
-                <common.MuiIcon name={item.icon} />
-              )}
+              <common.MuiIcon name={item.icon} />
               <Typography>{item.label}</Typography>
-              {index == 1 && itemIndex != 4 && (
-                <common.MuiIcon name={"StarRateRounded"} color="warning.main" />
-              )}
             </dd>
           ))}
         </div>

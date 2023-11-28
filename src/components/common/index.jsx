@@ -16,6 +16,9 @@ import CustomSwitch from "./CustomSwitch";
 import FilterContentTypeCard from "./FilterContentTypeCard";
 import Link from "./Link";
 import MuiIcon from "./MuiIcon";
+import MenuList from "./MenuList";
+import Popup from "./Popup";
+import SidePanel from "./SidePanel";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -24,6 +27,9 @@ const Controls = {
 //   DatePicker,
   Checkbox,
   Input,
+  Popup,
+  SidePanel,
+  MenuList,
   MuiIcon,
   Img,
   MuiButton,

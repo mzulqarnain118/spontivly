@@ -4,11 +4,12 @@ import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
 import common from "../../components/common";
 import { useNavigate } from "react-router-dom";
-import { ApiCall, setLocal } from "../../utils";
+import { ApiCall, getLocal, setLocal } from "../../utils";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 export default function Auth() {
   const [buttonText, setButtonText] = useState("Continue");
   const [loading, setLoading] = useState(false);
+  const isOnBoarded = getLocal("onboarding");
   const [formData, setFormData] = useState({
     fullName: "",
     password: "",
@@ -18,42 +19,45 @@ export default function Auth() {
   const navigate = useNavigate();
   const classes = loginStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  const onSubmit = useCallback(async (e) => {
-    e.preventDefault();
-  try {
-    setLoading(true);
+  const onSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        setLoading(true);
 
-    if (buttonText === "Create account") {
-      navigate("/onboarding");
-    } else if (buttonText === "Continue") {
-      const response = await ApiCall(
-        `auth/is-email-exist?email=${formData.email}`);
+        if (buttonText === "Create account") {
+          navigate("/onboarding");
+        } else if (buttonText === "Continue") {
+          const response = await ApiCall(
+            `auth/is-email-exist?email=${formData.email}`
+          );
 
-      if (response) {
-        setButtonText("Login");
-      } else {
-        setButtonText("Create account");
+          if (response) {
+            setButtonText("Login");
+          } else {
+            setButtonText("Create account");
+          }
+        } else if (buttonText === "Login") {
+          const payload = {
+            email: formData.email,
+            password: formData?.password,
+          };
+          const response = await ApiCall("auth/login", null, "POST", payload);
+          if (response) {
+            const { token, onboarding } = response;
+            setLocal("token", token);
+            !isOnBoarded && setLocal("onboarding", onboarding);
+            navigate(isOnBoarded?"/":"/onboarding");
+          }
+        }
+      } catch (error) {
+        console.error("Error in onSubmit:", error);
+      } finally {
+        setLoading(false);
       }
-    } else if (buttonText === "Login") {
-      const payload = {
-        email: formData.email,
-        password: formData?.password,
-      };
-      const response = await ApiCall("auth/login",null, "POST", payload);
-      if (response) {
-        const { token, onboarding } = response;
-        setLocal("token", token);
-        setLocal("onboarding", onboarding);
-        navigate("/onboarding");
-      }
-    }
-  } catch (error) {
-    console.error("Error in onSubmit:", error);
-  } finally {
-    setLoading(false);
-  }
-}, [buttonText, formData, navigate, setButtonText, setLocal]);
-
+    },
+    [buttonText, formData, navigate, setButtonText, setLocal]
+  );
 
   const handleLinkedInButtonClick = (event) => {
     setAnchorEl(event.currentTarget);
