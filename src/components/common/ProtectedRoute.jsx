@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
 import { getLocal } from "utils";
 
-const ProtectedRoute = (WrappedComponent) => {
+const ProtectedRoute = (WrappedComponent, redirectPath = "/") => {
   const Wrapper = (props) => {
     const navigate = useNavigate();
     const isAuthenticated = getLocal("token");
@@ -16,7 +16,7 @@ const ProtectedRoute = (WrappedComponent) => {
         navigate("/onboarding");
       }
       else {
-        navigate("/");
+        navigate(redirectPath);
       }
     }, [navigate, isAuthenticated, isOnBoarded]);
 
