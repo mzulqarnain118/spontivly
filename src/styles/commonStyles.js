@@ -113,5 +113,11 @@ const commonStyles = makeStyles((theme) => ({
     height: "96px !important",
     borderRadius: "99px !important",
   },
+  settingsProfileImage: {
+    padding: "8px !important",
+    width: "96px !important",
+    height: "96px !important",
+    borderRadius: "99px !important",
+  },
 }));
 export default commonStyles;

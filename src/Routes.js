@@ -6,6 +6,7 @@ import ProtectedRoute from "components/common/ProtectedRoute";
 const Auth = lazy(() => import("pages/Auth"));
 const OnBoarding = ProtectedRoute(lazy(() => import("pages/onboarding")));
 const Dashboard = ProtectedRoute(lazy(() => import("pages/Dashboard")));
+const Setting = ProtectedRoute(lazy(() => import("pages/Setting")),"/settings");
 
 const Routes = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const Routes = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
+  },
+  {
+    path: "/settings",
+    element: <Setting />,
   },
 ]);
 

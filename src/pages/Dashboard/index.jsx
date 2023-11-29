@@ -50,7 +50,26 @@ function Dashboard() {
     padding: "20px",
     p: 3,
   };
-
+  const channels = [
+    {
+      header: "CHANNELS",
+      items: [
+        { url: "", label: "General", icon: "Tag" }, //!replace url:"" with url:"general"
+        { url: "", label: "Create Channel", icon: "AddCircle" },
+      ],
+    },
+    {
+      header: "COMMUNITY",
+      items: [{ url: "", label: "Add Member", icon: "AddCircle" }],
+    },
+    {
+      header: "RESOURCES",
+      items: [
+        { url: "find", label: "Find Member", icon: "Search" },
+        { url: "library", label: "Library", icon: "YouTube" },
+      ],
+    },
+  ];
   return (
     <>
       <ResponsiveAppBar
@@ -61,7 +80,7 @@ function Dashboard() {
       <Container component="main" sx={containerStyles}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={sideMenuSize}>
-            <SideMenuCard onPortalChange={handlePortalChange} />
+            <SideMenuCard onPortalChange={handlePortalChange} channels={channels} />
           </Grid>
           {/* {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>

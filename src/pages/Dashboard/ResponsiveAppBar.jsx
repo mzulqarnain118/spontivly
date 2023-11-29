@@ -14,15 +14,12 @@ import { rmLocal } from "utils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Account", "Settings"];
 
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate();
-  const { currentUser,loading } = useSelector((state) => state.dashboard);
-
-  console.log("🚀 ~ file: ResponsiveAppBar.jsx:23 ~ ResponsiveAppBar ~ currentUser:", currentUser)
-
-  const user = currentUser?.[0]?.user;
+  const { currentUser } = useSelector((state) => state.dashboard);
+  const user = currentUser?.[0].user;
   const classes = dashboardStyles();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenUserMenu = (event) => {
@@ -33,6 +30,12 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
     //   rmLocal("token");
     //   navigate("/auth");
     // }
+    if (setting == "Settings") {
+      navigate("/settings");
+    } 
+    if (setting == "Dashboard") {
+      navigate("/");
+    } 
     setAnchorElUser(null);
   };
 

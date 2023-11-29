@@ -6,13 +6,14 @@ import {
   Search,
   Tag,
   StarBorderRounded,
-  FiberManualRecord,
   ArrowDropDown,
   Adb,
   MoreHorizRounded,
   Close,
   Menu,
+  FiberManualRecord
 } from "@mui/icons-material";
+import PersonIcon from '@mui/icons-material/Person';
 const ReusableIcon = ({
   name,
   IconColor,
@@ -37,6 +38,7 @@ const ReusableIcon = ({
       Adb,
       MoreHorizRounded,
       Close,
+      PersonIcon
     }[name] || StarRateRounded;
 
   return (
