@@ -14,7 +14,7 @@ import { rmLocal } from "utils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const settings = ["Dashboard", "Account", "Settings"];
+const settings = ["Dashboard", "Account", "Settings","Logout"];
 
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate();
