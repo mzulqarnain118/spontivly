@@ -19,6 +19,7 @@ import MuiIcon from "./MuiIcon";
 import MenuList from "./MenuList";
 import Popup from "./Popup";
 import SidePanel from "./SidePanel";
+import DragDropFile from "./DragDropFile";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -40,7 +41,8 @@ const Controls = {
   SearchTags,
   Autocomplete,
   FormHeading,
-  FilterContentTypeCard
+  FilterContentTypeCard,
+  DragDropFile
 };
 
 export default Controls;
