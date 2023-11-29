@@ -41,9 +41,24 @@ const Typography = (theme) => {
       fontWeight: 400,
       color: theme.palette.primary.main,
     },
-    subtitle2: {
+    lightSubtitle1: {
+      fontSize: "14px",
+      fontWeight: 400,
+      color: theme.palette.primary.light,
+    },
+    lighterSubtitle2: {
       color: theme.palette.primary.lighter,
       fontSize: "13px",
+      fontWeight: 400,
+    },
+    lightSubtitle2: {
+      color: theme.palette.primary.light,
+      fontSize: "12px",
+      fontWeight: 400,
+    },
+    subtitle2: {
+      color: theme.palette.primary.main,
+      fontSize: "12px",
       fontWeight: 400,
     },
     body1: {
