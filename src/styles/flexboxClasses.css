@@ -3,6 +3,9 @@
   --flex-gap: 0.25rem;
 }
 
+.gap-025 {
+  --flex-gap: 0.25rem;
+}
 .gap-05 {
   --flex-gap: 0.5rem;
 }

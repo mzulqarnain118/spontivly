@@ -9,7 +9,6 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 export default function Auth() {
   const [buttonText, setButtonText] = useState("Continue");
   const [loading, setLoading] = useState(false);
-  const isOnBoarded = getLocal("onboarding");
   const [formData, setFormData] = useState({
     fullName: "",
     password: "",
@@ -45,9 +44,10 @@ export default function Auth() {
           const response = await ApiCall("auth/login", null, "POST", payload);
           if (response) {
             const { token, onboarding } = response;
+            !onboarding && localStorage.clear();
             setLocal("token", token);
-            !isOnBoarded && setLocal("onboarding", onboarding);
-            navigate(isOnBoarded?"/":"/onboarding");
+            setLocal("onboarding", onboarding);
+            navigate(onboarding ? "/" : "/onboarding");
           }
         }
       } catch (error) {

@@ -163,7 +163,7 @@ const dashboardStyles = makeStyles((theme) => ({
     textAlign: 'center'
   },
   createContentDivider: {
-    color: 'customColors.subtitle2 !important',
+    color: 'customColors.lighterSubtitle2 !important',
     marginTop: `${theme.spacing(20)} !important`,
     marginBottom: `${theme.spacing(20)} !important`
   },

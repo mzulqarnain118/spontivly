@@ -31,7 +31,7 @@ const UserProfileSidePanel = ({ user,openPanel,setPanel }) => {
             sx={{ width: "3.33rem", height: "3.33rem" }}
           />
           <Typography>{user.user.first_name + user.user.last_name}</Typography>
-          <Typography variant="subtitle2">{user.user.email}</Typography>
+          <Typography variant="lighterSubtitle2">{user.user.email}</Typography>
           <Box className="flex">
             <img src={twitter} />
             <img src={fb} />

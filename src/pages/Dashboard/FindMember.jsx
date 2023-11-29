@@ -146,7 +146,7 @@ function FindMember() {
                         />
                       )}
                     </Box>
-                    <Typography variant="subtitle2">
+                    <Typography variant="lighterSubtitle2">
                       {rec.user.email}
                     </Typography>
                   </Box>
