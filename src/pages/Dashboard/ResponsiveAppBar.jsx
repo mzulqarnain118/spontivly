@@ -26,21 +26,21 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseUserMenu = (setting) => {
-    // if (setting == "Logout") {
-    //   rmLocal("token");
-    //   navigate("/auth");
-    // }
-    if (setting == "Settings") {
-      navigate("/settings");
-    } 
-    if (setting == "Dashboard") {
+    if (setting == "Logout") {
+      rmLocal("token");
+      navigate("/auth");
+    }
+    // else if (setting == "Settings") {
+    //   navigate("/settings");
+    // } 
+    else if (setting == "Dashboard") {
       navigate("/");
     } 
     setAnchorElUser(null);
   };
 
   return (
-   currentUser && <AppBar position="static" className={classes.appBar}>
+   currentUser.length!==0 && <AppBar position="static" className={classes.appBar}>
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           {/* {isBelowLG && <common.MuiIcon
