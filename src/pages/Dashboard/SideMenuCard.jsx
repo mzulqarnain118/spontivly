@@ -7,12 +7,11 @@ import { fetchCurrentUser } from "redux/dashboardSlice";
 function SideMenuCard({ onPortalChange }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.dashboard);
-  const [refetch, setrefetch] = useState(false)
   const channels = [
     {
       header: "CHANNELS",
       items: [
-        { url: "", label: "General", icon: "Tag" },//!replace url:"" with url:"general"
+        { url: "", label: "General", icon: "Tag" }, //!replace url:"" with url:"general"
         { url: "", label: "Create Channel", icon: "AddCircle" },
       ],
     },
@@ -28,19 +27,16 @@ function SideMenuCard({ onPortalChange }) {
       ],
     },
   ];
-    useEffect(() => {
-      dispatch(fetchCurrentUser());
-    }, [refetch]);
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, "DELETE");
     if (response) {
-     setrefetch(true);
+      dispatch(fetchCurrentUser());
     }
   };
   const handleClick = (text) => {
-    text!="" && onPortalChange(text);
+    text != "" && onPortalChange(text);
   };
-  
+
   return (
     <dl
       className="col-start gap-2"
