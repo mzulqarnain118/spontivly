@@ -16,6 +16,7 @@ const CreateContent = ({isOpen,onClose}) => {
     const [select, setSelect] = useState('');
     const [description, setDescription] = useState('');
     const [selectedTags, setSelectedTags] = useState([]);
+    const [pdfFile, setPdfFile] = useState(null);
     const classes = dashboardStyles();
 
     const tags = [
@@ -126,6 +127,8 @@ const CreateContent = ({isOpen,onClose}) => {
                             <common.Input name="url" value={contentURL} onChange={setContentURL} placeholder="Content URL" />
                             <common.Input name="summary" value={summary} onChange={setSummary} placeholder="Summary" />
                             <common.RichText value={description} onBlur={setDescription} />
+                            {select=="pdf" && <common.DragDropFile onChange={setPdfFile} />}
+                            
 
                         </Grid>
                     </Grid>
