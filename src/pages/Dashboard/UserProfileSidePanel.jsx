@@ -55,7 +55,7 @@ const UserProfileSidePanel = ({ user,openPanel,setPanel }) => {
           <CardContent className="col-start gap-075">
             <Typography variant="subtitle">{item}</Typography>
             {index == 0 ? (
-              <Typography variant="subtitle1">{user.introduction}</Typography>
+              <Typography variant="subtitle1" sx={{textAlign:"start"}}>{user.introduction}</Typography>
             ) : index == 2 ? (
               <div className="flex">
                 {user.interests.map((item) => (

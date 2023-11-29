@@ -19,11 +19,12 @@ export default function SidePanel({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const drawerPaperStyles = {
-    width: isMobile ? "100vw" : width || "30.71vw",
-    padding: "2.4rem 2.5rem",
-    // Add any other styles dynamically as needed
-  };
+const drawerPaperStyles = {
+  width: isMobile ? "100vw" : width || "30.71vw",
+  padding: "2.4rem 2.5rem",
+  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Dark black shadow
+};
+
 
   return (
     <Drawer

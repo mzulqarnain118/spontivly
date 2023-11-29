@@ -7,6 +7,7 @@ import { ApiCall } from "utils";
 import Spinner from "components/common/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "redux/dashboardSlice";
+import Send from "assets/icons/send.svg"
 function FindMember() {
   const dispatch = useDispatch();
   const classes = dashboardStyles();
@@ -27,7 +28,7 @@ function FindMember() {
   ];
   const moreOptions = ["View Profile", "Email", "Message via Slack"];
   const isFavorite = (id) =>
-    currentUser[0].favorites.some((item) => item.id == id);
+    currentUser?.[0]?.favorites.some((item) => item.id == id);
 
   const addFavorites = async (id) => {
     const response = await ApiCall("profile/favorite/", null, "POST", {
@@ -79,9 +80,25 @@ function FindMember() {
     <Spinner isLoading={loading} />
   ) : (
     <>
-      <Typography variant="h5" align="left">
-        {members?.length} Members
-      </Typography>
+      <Grid container alignItems="center">
+        <Grid item xs={8}>
+          <Typography variant="h5" align="left">
+            {members?.length} Members
+          </Typography>
+        </Grid>
+        {currentUser?.[0]?.user.groups[0].name == "Moderator" && (
+          <Grid item xs={4}>
+            <common.MuiButton
+              variant="contained"
+              size="large"
+              label="Invite Member"
+              className={classes.addContentButton}
+              startIcon={<common.Img src={Send} />}
+              // onClick={openContentModal}
+            />
+          </Grid>
+        )}
+      </Grid>
       <Card className={classes.card}>
         <Grid container spacing={1}>
           <Grid item xs={8} sx={{ pr: 1 }}>
