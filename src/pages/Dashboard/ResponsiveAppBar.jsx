@@ -30,9 +30,9 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
       rmLocal("token");
       navigate("/auth");
     }
-    // else if (setting == "Settings") {
-    //   navigate("/settings");
-    // } 
+    else if (setting == "Settings") {
+      navigate("/settings");
+    } 
     else if (setting == "Dashboard") {
       navigate("/");
     } 
