@@ -11,19 +11,20 @@ import { fetchCurrentUser } from "redux/dashboardSlice";
 import { useDispatch } from "react-redux";
 
 function Dashboard() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const theme = useTheme();
   const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
-const [Panel, setPanel] = useState(false);
+  const [Panel, setPanel] = useState(false);
   const [portal, setPortal] = React.useState("find");
 
   const handlePortalChange = (newPortal) => {
     setPortal(newPortal);
   };
-    useEffect(() => {
-      dispatch(fetchCurrentUser());
-    }, []);
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, []);
+  
   const getPortalSizes = (portal) => {
     if (portal === "general") {
       return { sideMenuSize: 3, mainContentSize: 6.5, recommendationSize: 2.5 };

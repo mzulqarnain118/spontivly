@@ -18,7 +18,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.dashboard);
+  const { currentUser,loading } = useSelector((state) => state.dashboard);
 
   console.log("🚀 ~ file: ResponsiveAppBar.jsx:23 ~ ResponsiveAppBar ~ currentUser:", currentUser)
 
@@ -37,7 +37,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   };
 
   return (
-    <AppBar position="static" className={classes.appBar}>
+   currentUser && <AppBar position="static" className={classes.appBar}>
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           {/* {isBelowLG && <common.MuiIcon
