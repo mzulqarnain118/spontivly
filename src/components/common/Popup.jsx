@@ -22,16 +22,15 @@ export default function Popup({ width, title, subTitle, children, openPopup, set
       fullWidth
       maxWidth={width ?? "md"}
       open={openPopup}
+      classes={{ paper: classes.dialogWrapper }}
     >
       <DialogTitle>
-        {/* <div className="row-center"> */}
         <Typography variant="h5" align="left">
           {title}
         </Typography>
         <Typography align="left" sx={{ color: 'customColors.subtitle1' }}>
           {subTitle}
         </Typography>
-        {/* </div> */}
       </DialogTitle>
       <DialogContent dividers>{children}</DialogContent>
       <DialogActions>
