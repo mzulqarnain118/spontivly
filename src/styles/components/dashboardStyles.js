@@ -8,7 +8,7 @@ const dashboardStyles = makeStyles((theme) => ({
     border: "1px solid var(--day-5, #D9D9D9) !important ",
     boxShadow: "none !important ",
     borderRadius: "8px !important ",
-    padding: "20px !important ",
+    // padding: "20px !important ",
   },
   filterCard: {
     p: 0,

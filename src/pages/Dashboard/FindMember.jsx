@@ -8,6 +8,7 @@ import Spinner from "components/common/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "redux/dashboardSlice";
 import Send from "assets/icons/send.svg"
+import InviteMember from "./InviteMember";
 function FindMember() {
   const dispatch = useDispatch();
   const classes = dashboardStyles();
@@ -17,6 +18,8 @@ function FindMember() {
   const [handleMore, setHandleMore] = useState(null);
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState([]);
+  const [isMemberDialogOpen, setMemberDialogOpen] = useState(false);
+
   const [findMember, setFindMember] = useState({
     member: "",
     sortBy: null,
@@ -53,7 +56,9 @@ function FindMember() {
     const response = await ApiCall(`profile?sort=${sortBy}`, setLoading);
     response && setMembers(response?.results);
   };
-
+  const openMemberDialog = () => {
+    setMemberDialogOpen(true);
+  };
   useEffect(() => {
     fetchMembers();
   }, []);
@@ -81,26 +86,26 @@ function FindMember() {
   ) : (
     <>
       <Grid container alignItems="center">
-        <Grid item xs={8}>
+        <Grid item xs={6} sm={8} md={9}>
           <Typography variant="h5" align="left">
             {members?.length} Members
           </Typography>
         </Grid>
         {currentUser?.[0]?.user.groups[0].name == "Moderator" && (
-          <Grid item xs={4}>
+          <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
               size="large"
               label="Invite Member"
               className={classes.addContentButton}
               startIcon={<common.Img src={Send} />}
-              // onClick={openContentModal}
+              onClick={openMemberDialog}
             />
           </Grid>
         )}
       </Grid>
       <Card className={classes.card}>
-        <Grid container spacing={1}>
+        <Grid container spacing={3} padding={'20px'}>
           <Grid item xs={8} sx={{ pr: 1 }}>
             <common.Input
               name="member"
@@ -195,6 +200,7 @@ function FindMember() {
           setPanel={setViewProfile}
         />
       )}
+      <common.Popup openPopup={isMemberDialogOpen} setPopup={setMemberDialogOpen} width={"sm"} children={<InviteMember />} title={"Manage Members"} subTitle={"Invite members to your Directory."} />
     </>
   );
 }

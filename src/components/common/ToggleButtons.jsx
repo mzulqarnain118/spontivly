@@ -8,7 +8,10 @@ import { Box } from '@mui/material';
 export default function ToggleButtons({setView,view}) {
 
   const handleChange = (event, nextView) => {
+    if (nextView !== null) {
     setView(nextView);
+      
+    }
   };
 
   return (
