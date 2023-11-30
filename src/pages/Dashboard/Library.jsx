@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import Property1Default1 from '../../components/common/Property1Default1'
-import { Button, Card,  Divider, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, useMediaQuery } from '@mui/material'
+import {Card, Grid, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import ToggleButtons from '../../components/common/ToggleButtons';
 import filter from 'assets/icons/filter.svg'
-import ModuleView from '../../components/common/ModuleView';
+import ModuleView from './ModuleView';
 import profile from 'assets/images/profile.jpg';
 import avenger from 'assets/images/avenger.png';
 import superheros from 'assets/images/superheros.jpeg';
@@ -15,9 +14,14 @@ import common from "components/common";
 import AddIcon from '@mui/icons-material/Add';
 import CreateContent from './CreateContent';
 import FilterLibrary from './FilterLibrary';
+import LibraryContent from './LibraryContent';
 function Library() {
   const [view, setView] = useState('list');
-
+  const [findContent, setFindContent] = useState({
+    content: "",
+    sortBy: null,
+    favorites: [],
+  });
 
   const [isContentDialogOpen, setContentDialogOpen] = useState(false);
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
@@ -35,7 +39,6 @@ function Library() {
   const closeFilterModal = () => {
     setFilterDialogOpen(false);
   };
-  // console.log("Library",view)
 
   const data = [
     {
@@ -109,16 +112,19 @@ function Library() {
     },
 
   ]
-
+  const sortByData = [
+    { id: "Most Recent", title: "Most Recent" },
+    { id: "Recommendation", title: "Recommendations" },
+  ];
   return (
     <>
       <Grid container alignItems="center">
-        <Grid item xs={9}>
+        <Grid item xs={6} sm={8} md={9}>
           <Typography variant="h5" align="left">
             Library
           </Typography>
         </Grid>
-        <Grid item xs={3} >
+        <Grid item xs={6} sm={4} md={3} >
           <common.MuiButton variant="contained"
             size="large" label="Add Content"
             className={classes.addContentButton}
@@ -129,62 +135,46 @@ function Library() {
       </Grid>
 
       <Card className={classes.card}>
-        <Grid container spacing={1} sx={{ marginBottom: '20px' }}>
-          <Grid item xs={6} sx={{ pr: 1 }}> {/* Add padding on the right side */}
-            <TextField
-              fullWidth
-              variant="outlined"
-              type="text"
-              InputProps={{
-                startAdornment:
-                  <SearchIcon />
-              }}
-              placeholder="Search library"
-              sx={{
-                background: 'var(--petroleum-p-05, #F9FBFD)',
-                borderRadius: '8px',
-              }}
+        <Grid container spacing={3} padding={'20px'}>
+          <Grid item xs={12} sm={4.5}  md={6} lg={6} >
+            <common.Input
+              name="member"
+              placeholder="Search members"
+              value={findContent.member}
+              objOnChange={setFindContent}
+              startIcon={true}
             />
           </Grid>
-          <Grid item xs={3}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel id="select-label">Sort By</InputLabel>
-              <Select
-                labelId="select-label"
-              >
-                <MenuItem value="mostRecent">Most Recent</MenuItem>
-                <MenuItem value="recommendations">Recommendations</MenuItem>
-              </Select>
-            </FormControl>
+
+          <Grid item xs={5} sm={3.5} md={3} lg={3.5}>
+            <common.Select
+              name="sortBy"
+              value={findContent.sortBy}
+              defaultValue="Sort By"
+              objOnChange={setFindContent}
+              options={sortByData}
+            />
           </Grid>
-          <Grid item xs={1.5}>
+          <Grid item xs={4.5} sm={2.5} md={2} lg={1.5}>
             <ToggleButtons setView={setView} view={view} />
 
           </Grid>
-          <Grid item xs={1}>
-          <common.MuiButton
-            img={filter}
-            onClick={openFilterModal}
-             />
-
-            {/* <Button sx={{ border: ' 1.5px solid var(--petroleum-p-100, #2D3840)', height: '100%', borderRadius: '6px' }}> <img src={filter} /> </Button> */}
+          <Grid item xs={1} sm={1} md={1} lg={1}>
+            <common.MuiButton
+              img={filter}
+              onClick={openFilterModal}
+            />
 
           </Grid>
         </Grid>
-        <Typography sx={{
-          color: 'var(--petroleum-p-60, #698296)', 
-          fontSize: '12px',
-          fontStyle: 'normal',
-          fontWeight: 600,
-          marginBottom: '8px'
-        }} >Most RECENT</Typography>
-        <Divider></Divider>
-        {view === 'list' ? <Property1Default1 data={data} /> : <ModuleView data={data} />}
+
+        <Typography  variant="lightSubtitle2" align='left'>MOST RECENT</Typography>
+        {view === 'list' ? <LibraryContent data={data} /> : <ModuleView data={data} />}
 
 
       </Card>
-        <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
-        <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal}  />
+      <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
+      <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal} />
     </>
   )
 }

@@ -34,6 +34,7 @@ const Palette = (mode, themeColor) => {
     mode: mode,
     primary: {
       lighter: "#93A5B4",
+      lightest: "#E9EDF0",
       light: `#698296`,
       main: "#2D3840",
       dark: "#2D3840",
@@ -45,6 +46,7 @@ const Palette = (mode, themeColor) => {
       main: "#2D3840",
       dark: "#777B82",
       contrastText: "#FFF",
+      lighter: "#F7F7F7"
     },
     success: {
       light: "#6AD01F",

@@ -6,12 +6,15 @@
 .gap-025 {
   --flex-gap: 0.25rem;
 }
+
 .gap-05 {
   --flex-gap: 0.5rem;
 }
+
 .gap-06 {
   --flex-gap: 0.6rem;
 }
+
 .gap-075 {
   --flex-gap: 0.75rem;
 }
@@ -29,17 +32,25 @@
 }
 
 /*! Flexbox classes for rows */
-.flex{
+.flex {
   display: flex;
 }
-.wrap{
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrap {
   flex-wrap: wrap;
 }
+
 .row {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-center {
@@ -47,7 +58,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-start {
@@ -55,7 +67,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-end {
@@ -63,7 +76,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-between {
@@ -71,7 +85,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-around {
@@ -79,7 +94,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .row-evenly {
@@ -87,7 +103,8 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 /*! Flexbox classes for columns */
@@ -95,7 +112,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-center {
@@ -103,7 +121,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-start {
@@ -111,7 +130,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-end {
@@ -119,15 +139,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-between {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: space-between;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-around {
@@ -135,7 +157,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: space-around;
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
 
 .col-evenly {
@@ -144,13 +167,18 @@
   justify-content: center;
   align-items: space-evenly;
 
-  gap: var(--flex-gap, 0); /* Default to 0 if not provided */
+  gap: var(--flex-gap, 0);
+  /* Default to 0 if not provided */
 }
-
+.relative-full-width {
+  position: relative;
+  width: 100%;
+}
 /*! Margin Classes */
 .m-0 {
   margin: 0rem;
 }
+
 .m-025 {
   margin: 0.25rem;
 }
@@ -162,6 +190,7 @@
 .m-1 {
   margin: 1rem;
 }
+
 .ml-025 {
   margin-left: 0.25rem;
 }
@@ -177,13 +206,14 @@
 .mb-025 {
   margin-bottom: 0.25rem;
 }
+
 .m-tb-025 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
 }
 
 .m-tb-09 {
-  margin:"18px 0rem !important";
+  margin: "18px 0rem !important";
 }
 
 .m-lr-025 {
@@ -195,6 +225,7 @@
 .pad-0 {
   padding: 0px 0px;
 }
+
 .p-025 {
   padding: 0.25rem;
 }
@@ -206,6 +237,7 @@
 .p-1 {
   padding: 1rem;
 }
+
 .p-tb-025 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -237,7 +269,6 @@
   padding-bottom: 0.25rem;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
-
