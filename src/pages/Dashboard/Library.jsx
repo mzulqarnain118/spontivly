@@ -181,11 +181,13 @@ function Library() {
         <Typography variant="lightSubtitle2" align="left">
           MOST RECENT
         </Typography>
-        {libraryData.length!==0 ? view === "list" ? (
-          <LibraryContent data={libraryData} />
-        ) : (
-          <ModuleView data={libraryData} />
-        ):null}
+        {libraryData.length !== 0 ? (
+          view === "list" ? (
+            <LibraryContent libraryData={libraryData} />
+          ) : (
+            <ModuleView libraryData={libraryData} />
+          )
+        ) : null}
       </Card>
       <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
       <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal} />
