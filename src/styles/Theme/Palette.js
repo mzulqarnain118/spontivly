@@ -46,7 +46,8 @@ const Palette = (mode, themeColor) => {
       main: "#2D3840",
       dark: "#777B82",
       contrastText: "#FFF",
-      lighter: "#F7F7F7"
+      lighter: "#F7F7F7",
+
     },
     success: {
       light: "#6AD01F",
@@ -92,6 +93,7 @@ const Palette = (mode, themeColor) => {
       primary: `rgba(${mainColor}, 0.87)`,
       secondary: `rgba(${mainColor}, 0.68)`,
       disabled: `rgba(${mainColor}, 0.38)`,
+      customColor: "#4B5D6B"
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {

@@ -127,14 +127,14 @@ function FindMember() {
           </Grid>
         </Grid>
         {members?.map((rec, index) => (
-          <Box>
+          <Box padding={'0.75rem 1.25rem'}>
             <Grid container className={`row-between ${classes.content}`}>
-              <Grid item xs={4}>
-                <Box className="row gap-025">
+              <Grid item xs={8} md={4} lg={4}>
+                <Box className="row gap-1">
                   <Avatar src={rec.profile_pic} />
-                  <Box className="col-start">
+                  <Box className="col-start gap-05">
                     <Box className="row-start gap-05">
-                      <Typography className={classes.name}>
+                      <Typography variant="author">
                         {rec.user.first_name + rec.user.last_name}
                       </Typography>
                       {isFavorite(rec.id) ? (
@@ -157,17 +157,17 @@ function FindMember() {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs={4} md={2} lg={2}>
                 <Typography className={classes.role}>
                   {rec.user.groups[0].name == "Moderator"
                     ? "Moderator"
                     : "Member"}
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={3} md={3} lg={3}>
                 <Typography className={classes.role}>{rec.position}</Typography>
               </Grid>
-              <Grid item xs={2} className="row-around">
+              <Grid item xs={4} md={2} lg={2} className="row-around">
                 <common.MuiIcon
                   name="FiberManualRecord"
                   fontSize="10px"
@@ -176,7 +176,7 @@ function FindMember() {
                 {rec?.match_count ? rec?.match_count : "No"} Matches
               </Grid>
 
-              <Grid item xs={1} onClick={() => setHandleMore(rec)}>
+              <Grid item xs={1} md={1} lg={1} onClick={() => setHandleMore(rec)}>
                 <common.MenuList
                   items={moreOptions}
                   onClose={handleCloseUserMenu}

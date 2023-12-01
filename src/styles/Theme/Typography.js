@@ -61,6 +61,11 @@ const Typography = (theme) => {
       fontSize: "12px",
       fontWeight: 400,
     },
+    author: {
+      color: theme.palette.text.customColor,
+      fontSize: "1rem",
+      fontWeight: 600,
+    },
     body1: {
       letterSpacing: "0.15px",
       color: theme.palette.text.primary,

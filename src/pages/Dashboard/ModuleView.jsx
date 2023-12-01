@@ -27,19 +27,19 @@ const ModuleView = (data) => {
                                     </div>
                                 </div>
 
-                                <Box className="flex-container" mt={'12px'}>
-                                    <Grid container>
-                                        <Grid item xs={11}>
+                                <Box className="flex-container wrap" mt={'12px'}>
+                                    <Grid container spacing={0.5}>
+                                        <Grid item xs={11} sm={11} md={11} lg={11}>
                                             <Typography sx={{ fontWeight: 600 }} align='left'>
                                                 {rec.title}
                                             </Typography>
-                                            <Box className={classes.flexStart}>
-                                                {rec.tags.length > 0 && (
+                                            <Box className="flex-container wrap" sx={{ alignItems: 'flex-start',gap:' 0.625rem '}}>
+                                            {rec.tags.map((tag, index) => (
                                                     <Chip
-                                                        label={rec.tags[0]} // Accessing the first tag
+                                                        label={tag} // Accessing the first tag
                                                         className={classes.moduleContentChip}
                                                     />
-                                                )}
+                                                    ))}
                                             </Box>
                                         </Grid>
                                         <Grid item xs={1}>

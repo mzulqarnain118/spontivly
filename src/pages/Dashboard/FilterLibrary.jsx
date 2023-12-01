@@ -4,7 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import dashboardStyles from 'styles/components/dashboardStyles';
 import common from "components/common";
 import { useTheme } from '@mui/material/styles';
-import youtube from 'assets/images/utubefilter.png'
+import youtube from 'assets/images/youtube.png'
 import doc from 'assets/images/docs.png'
 import pdf from 'assets/images/pdf.png'
 import link from 'assets/images/link.png'

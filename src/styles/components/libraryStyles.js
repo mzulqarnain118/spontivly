@@ -51,15 +51,17 @@ const libraryStyles = makeStyles((theme) => ({
         maxWidth: '20px', maxHeight: '20px' 
     },
     moduleContentChip: {
-        marginTop: '4px',
-        borderRadius: '5px !important', // Corrected the typo
+        
+        borderRadius: '0.3125rem !important', // Corrected the typo
         border: `1px solid ${theme.palette.primary.lightest} !important`,
-        padding: '3px 10px !important',
-        marginRight: '8px',
+        padding: '0.1875rem 0.625rem !important',
+ 
+        gap: '0.625rem'
     },
     contentChip: {
         border: `1px solid ${theme.palette.primary.lightest} !important`,
         padding: '3px 10px !important',
+        borderRadius: '0.3125rem !important',
     }
 }));
 
