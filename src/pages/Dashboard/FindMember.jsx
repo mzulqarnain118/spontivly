@@ -111,7 +111,7 @@ function FindMember() {
               name="member"
               placeholder="Search members"
               value={findMember.member}
-              objOnChange={setFindMember}
+              listUpdater={setFindMember}
               startIcon={true}
             />
           </Grid>
@@ -121,7 +121,7 @@ function FindMember() {
               name="sortBy"
               value={findMember.sortBy}
               label="Sort By"
-              objOnChange={setFindMember}
+              listUpdater={setFindMember}
               options={sortByData}
             />
           </Grid>

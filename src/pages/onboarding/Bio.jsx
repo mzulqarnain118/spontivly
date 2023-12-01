@@ -21,7 +21,7 @@ function Bio() {
             value={bioText}
             rows={5}
             multiline={true}
-            reduxHandleChange={setBioText}
+            reduxValueUpdater={setBioText}
           />
         </Box>
       </Container>

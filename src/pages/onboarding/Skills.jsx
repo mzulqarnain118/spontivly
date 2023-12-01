@@ -21,7 +21,7 @@ function Skills() {
           <common.Input
             placeholder="Search Skills"
             value={searchText}
-            reduxHandleChange={setSearchText}
+            reduxValueUpdater={setSearchText}
             startIcon={true}
             endIcon={true}
           />

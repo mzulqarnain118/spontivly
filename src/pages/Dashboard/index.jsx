@@ -79,18 +79,24 @@ function Dashboard() {
       />
       <Container component="main" sx={containerStyles}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={sideMenuSize}>
+          {/* <Grid item xs={12} sm={sideMenuSize}>
             <SideMenuCard onPortalChange={handlePortalChange} channels={channels} />
-          </Grid>
-          {/* {!isBelowLG ? (
+          </Grid> */}
+          {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>
-              <SideMenuCard onPortalChange={handlePortalChange} />
+              <SideMenuCard
+                onPortalChange={handlePortalChange}
+                channels={channels}
+              />
             </Grid>
           ) : (
             <SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
-              <SideMenuCard onPortalChange={handlePortalChange} />
+              <SideMenuCard
+                onPortalChange={handlePortalChange}
+                channels={channels}
+              />
             </SidePanel>
-          )} */}
+          )}
           <Grid item xs={12} sm={mainContentSize}>
             {mainContent}
           </Grid>

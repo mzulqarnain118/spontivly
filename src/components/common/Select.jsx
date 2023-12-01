@@ -17,12 +17,13 @@ export default function Select(
     required,
     value,
     error = null,
-    onChange,
+    valueUpdater,
     defaultValue,
     multiple,
-    objOnChange,
-    reduxHandleChange,
-    reduxObjHandleChange,
+    register,
+    listUpdater,
+    reduxValueUpdater,
+    reduxListUpdater,
     customHandleChange,
     options,
     ...other
@@ -35,18 +36,20 @@ export default function Select(
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      reduxHandleChange
-        ? dispatch(reduxHandleChange(value))
-        : reduxObjHandleChange
-        ? dispatch(reduxObjHandleChange({ [name]: value }))
-        : objOnChange
-        ? objOnChange((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-          }))
-        : onChange(value);
+      if (reduxValueUpdater) {
+        dispatch(reduxValueUpdater(value));
+      } else if (reduxListUpdater) {
+        dispatch(reduxListUpdater({ [name]: value }));
+      } else if (listUpdater) {
+        listUpdater((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      } else if (valueUpdater) {
+        valueUpdater(value);
+      }
     },
-    [dispatch]
+    [dispatch, reduxValueUpdater, reduxListUpdater, listUpdater, valueUpdater]
   );
 
   return (
@@ -61,6 +64,7 @@ export default function Select(
         onChange={customHandleChange ?? handleChange}
         className={className ?? classes.inputContainer}
         fullWidth
+        {...register}
         disabled={disabled}
         multiple={multiple}
         required={required}

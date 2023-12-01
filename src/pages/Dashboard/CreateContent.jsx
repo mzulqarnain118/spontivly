@@ -1,145 +1,187 @@
-import { Box, Card, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, Typography } from '@mui/material'
-import { useTheme } from '@mui/material/styles';
+import {
+  Box,
+  Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import common from "components/common";
+import { ApiCall, reduceArrayByKeys } from "utils";
+import React, { useState, useEffect } from "react";
+import dashboardStyles from "styles/components/dashboardStyles";
+import { useForm } from "react-hook-form";
+const contentTypes = [
+  {
+    id: "youtube_video",
+    title: "Youtube Video",
+  },
+  {
+    id: "doc",
+    title: "Doc",
+  },
+  {
+    id: "link",
+    title: "Link",
+  },
+  {
+    id: "pdf",
+    title: "PDF",
+  },
+];
+const CreateContent = ({ isOpen, onClose }) => {
+  const theme = useTheme();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    title: "",
+  });
+  const [type, setType] = useState("");
+  const [description, setDescription] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [pdfFile, setPdfFile] = useState(null);
+  const [tagOptions, setTagOptions] = useState();
+  const classes = dashboardStyles();
+  const fetchTags = async () => {
+    const tags = await ApiCall("tags");
+    tags && setTagOptions(tags?.results);
+  };
 
+  const addTag = async (tag) => {
+    const addedTag = await ApiCall("tags/", null, "POST", {
+      name: tag,
+      title: tag,
+    });
+    addedTag && fetchTags();
+  };
 
-import React, { useState } from 'react'
-import dashboardStyles from 'styles/components/dashboardStyles';
+  useEffect(() => {
+    fetchTags();
+  }, []);
 
-const CreateContent = ({isOpen,onClose}) => {
-    const theme = useTheme();
-   
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [contentURL, setContentURL] = useState('');
-    const [summary, setSummary] = useState('');
-    const [select, setSelect] = useState('');
-    const [description, setDescription] = useState('');
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [pdfFile, setPdfFile] = useState(null);
-    const classes = dashboardStyles();
+  const onSubmit = async (formData) => {
+    const tags = reduceArrayByKeys(selectedTags, ["id"]);
+    let payload = { ...formData, type, description, tags };
+    if (pdfFile) {
+      const combinedFormData = new FormData();
+      combinedFormData.append("file", pdfFile);
+      combinedFormData.append("data", JSON.stringify(payload));
+      await ApiCall("libraries/", null, "POST", combinedFormData);
+      return;
+    }
+    await ApiCall("libraries/", null, "POST", payload);
+  };
 
-    const tags = [
-
-        {
-            id: 1,
-            title: "Islamic"
-        },
-        {
-            id: 2,
-            title: "Technology"
-        },
-        {
-            id: 3,
-            title: "Industry"
-        },
-        {
-            id: 4,
-            title: "Healthcare"
-        },
-        {
-            id: 5,
-            title: "Entertainment"
-        }
-    ];
-    const types = [
-        {
-            id: "youtube_video",
-            title: "Youtube Video"
-        },
-        {
-            id: "doc",
-            title: "Doc"
-        },
-        {
-            id: "link",
-            title: "Link"
-        },
-        {
-            id: "pdf",
-            title: "PDF"
-        }
-    ]
-
-    const handleTagChange = (value) => {
-        setSelectedTags(value);
-    };
-    return (
-
-        <Dialog
-            open={isOpen}
-            onClose={onClose}
-            fullWidth
-            maxWidth="xl"
-
-        >
-            <DialogTitle>
-                <Typography variant="h2" align="left">
-                    Create Content
+  const handleTagChange = (value) => {
+    setSelectedTags(value);
+  };
+  return (
+    <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="xl">
+      <form key="2000" onSubmit={handleSubmit(onSubmit)}>
+        <DialogTitle>
+          <Typography variant="h2" align="left">
+            Create Content
+          </Typography>
+          <Typography
+            variant="h6"
+            align="left"
+            sx={{ color: "customColors.subtitle1" }}
+          >
+            Fill out a few details to get started!
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Card className={classes.contentCard}>
+            <Grid container spacing={8}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h5" align="left">
+                  Heading
                 </Typography>
-                <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
-                    Fill out a few details to get started!
+                <Typography
+                  variant="h6"
+                  align="left"
+                  sx={{ color: "customColors.subtitle1" }}
+                >
+                  What's your post all about?
                 </Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Card className={classes.contentCard}>
-                    <Grid container spacing={8}>
-                        <Grid item  xs={12}  md={4}>
-                            <Typography variant="h5" align="left">
-                                Heading
-                            </Typography>
-                            <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
-                                What's your post all about?
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}  md={8} className={classes.createContentItem}>
-                            <common.Input name="title" value={title} onChange={setTitle} placeholder="Title" />
-                            <Box display="flex" gap={theme.spacing(10)}>
-                                <common.Input name="author" value={author} onChange={setAuthor} placeholder="Author" />
-                                <common.Select
-                                    name="type"
-                                    defaultValue="Select content type"
-                                    options={types}
-                                    value={select}
-                                    onChange={setSelect}
-                                />
+              </Grid>
+              <Grid item xs={12} md={8} className={classes.createContentItem}>
+                <common.Input
+                  register={register("title", { required: true })}
+                  placeholder="Title"
+                />
+                <Box display="flex" gap={theme.spacing(10)}>
+                  <common.Input
+                    register={register("author", { required: true })}
+                    placeholder="Author"
+                  />
+                  <common.Select
+                    defaultValue="Select content type"
+                    options={contentTypes}
+                    valueUpdater={setType}
+                    value={type}
+                    required
+                  />
+                </Box>
+                <common.Autocomplete
+                  placeholder="Tags"
+                  variant="outlined"
+                  value={selectedTags} // Pass your array of selected values here
+                  onChange={handleTagChange} // Pass your state setter function here
+                  options={tagOptions}
+                  addNewTag={addTag}
+                  required
+                />
+              </Grid>
+            </Grid>
+            <Divider className={classes.createContentDivider} />
+            <Grid container spacing={8}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h5" align="left">
+                  Content
+                </Typography>
+                <Typography
+                  variant="h6"
+                  align="left"
+                  sx={{ color: "customColors.subtitle1" }}
+                >
+                  Provide some more details about your post
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8} className={classes.createContentItem}>
+                <common.Input
+                  register={register("url", { required: true })}
+                  placeholder="Content URL"
+                />
+                <common.Input
+                  register={register("summary", { required: true })}
+                  placeholder="Summary"
+                />
+                <common.RichText
+                  value={description}
+                  onBlur={setDescription}
+                  required
+                />
+                {type == "pdf" && (
+                  <common.DragDropFile onChange={setPdfFile} type={type} />
+                )}
+              </Grid>
+            </Grid>
+          </Card>
+        </DialogContent>
+        <DialogActions>
+          <common.MuiButton label={"Cancel"} onClick={onClose} />
+          <common.MuiButton variant="contained" type="submit" label={"Save"} />
+        </DialogActions>
+      </form>
+    </Dialog>
+  );
+};
 
-                            </Box>
-                            <common.Autocomplete placeholder="Tags"
-                                variant="outlined"
-                                value={selectedTags} // Pass your array of selected values here
-                                onChange={handleTagChange}// Pass your state setter function here
-                                options={tags}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Divider className={classes.createContentDivider} />
-                    <Grid container spacing={8}>
-                        <Grid item xs={12}  md={4}>
-                            <Typography variant="h5" align="left">
-                                Content
-                            </Typography>
-                            <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
-                                Provide some more details about your post
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}  md={8} className={classes.createContentItem}>
-                            <common.Input name="url" value={contentURL} onChange={setContentURL} placeholder="Content URL" />
-                            <common.Input name="summary" value={summary} onChange={setSummary} placeholder="Summary" />
-                            <common.RichText value={description} onBlur={setDescription} />
-                            {select=="pdf" && <common.DragDropFile onChange={setPdfFile} />}
-                            
-
-                        </Grid>
-                    </Grid>
-                </Card>
-            </DialogContent>
-            <DialogActions>
-                <common.MuiButton label={"Cancel"} onClick={onClose} />
-                <common.MuiButton variant="contained" label={"Save"} />
-            </DialogActions>
-        </Dialog>
-    )
-}
-
-export default CreateContent
+export default CreateContent;

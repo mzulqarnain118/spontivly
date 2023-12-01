@@ -26,7 +26,7 @@ function Interests() {
           <common.Input
             placeholder="Search Interests"
             value={searchText}
-            reduxHandleChange={setSearchText}
+            reduxValueUpdater={setSearchText}
             startIcon={true}
             endIcon={true}
           />

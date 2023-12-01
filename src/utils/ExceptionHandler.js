@@ -18,6 +18,9 @@ export default function ExceptionHandler(error) {
       case 500:
         Toast(msg ?? "Internal Server Error", "error");
         break;
+      case 503:
+        Toast(msg ?? "Service Unavailable", "error");
+        break;
       case 422:
         Toast(msg ?? "Cannot Process Please Try Again", "error");
         break;

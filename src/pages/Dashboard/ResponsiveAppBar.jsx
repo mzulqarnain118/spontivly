@@ -43,11 +43,11 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
       <AppBar position="static" className={classes.appBar}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
-            {/* {isBelowLG && <common.MuiIcon
+            {isBelowLG && <common.MuiIcon
             name="Menu"
             color="primary.main"
             onClick={() => setPanel(!Panel)}
-          />} */}
+          />}
             <common.MuiIcon name="Adb" className={classes.logo} />
             <common.Img src={logo} />
             <Box className={classes.userBox}>

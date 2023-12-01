@@ -20,11 +20,13 @@ import MenuList from "./MenuList";
 import Popup from "./Popup";
 import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
+import ReactFormHook from "./ReactFormHook";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
   Select,
   RichText,
+  ReactFormHook,
 //   DatePicker,
   Checkbox,
   Input,

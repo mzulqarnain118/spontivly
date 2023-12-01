@@ -20,19 +20,19 @@ function Company() {
             name="companyName"
             placeholder="Company name"
             value={companyInfo.companyName}
-            reduxObjHandleChange={setCompanyInfo}
+            reduxListUpdater={setCompanyInfo}
           />
           <common.Input
             name="position"
             placeholder="Your Position"
             value={companyInfo.position}
-            reduxObjHandleChange={setCompanyInfo}
+            reduxListUpdater={setCompanyInfo}
           />
           <common.Select
             name="stage"
             value={companyInfo.stage}
             defaultValue="Select company stage"
-            reduxObjHandleChange={setCompanyInfo}
+            reduxListUpdater={setCompanyInfo}
             options={stages}
           />
         </Box>

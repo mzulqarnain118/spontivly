@@ -86,7 +86,7 @@ export default function Auth() {
           <common.Input
             name="fullName"
             value={formData.fullName}
-            objOnChange={setFormData}
+            listUpdater={setFormData}
             placeholder="Full name"
             startIcon={true}
             required
@@ -96,7 +96,7 @@ export default function Auth() {
           name="email"
           placeholder="Search"
           type="email"
-          objOnChange={setFormData}
+          listUpdater={setFormData}
           value={formData.email}
           startIcon={true}
           required
@@ -108,7 +108,7 @@ export default function Auth() {
             placeholder="Password"
             type="password"
             value={formData.password}
-            objOnChange={setFormData}
+            listUpdater={setFormData}
             startIcon={true}
             required
           />

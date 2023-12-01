@@ -18,10 +18,11 @@ export default function Input(
     startIcon,
     endIcon,
     readOnly,
-    onChange,
-    objOnChange,
-    reduxHandleChange,
-    reduxObjHandleChange,
+    register,
+    valueUpdater,
+    listUpdater,
+    reduxValueUpdater,
+    reduxListUpdater,
     customHandleChange,
     multiline,
     rows,
@@ -33,25 +34,29 @@ export default function Input(
   const dispatch = useDispatch();
 
   const handleClearClick = useCallback(() => {
-    reduxHandleChange ? dispatch(reduxHandleChange("")) : onChange("");
+    reduxValueUpdater ? dispatch(reduxValueUpdater("")) : valueUpdater("");
   }, [dispatch]);
 
-  const handleChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      reduxHandleChange
-        ? dispatch(reduxHandleChange(value))
-        : reduxObjHandleChange
-        ? dispatch(reduxObjHandleChange({ [name]: value }))
-        : objOnChange
-        ? objOnChange((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-          }))
-        : onChange(value);
-    },
-    [dispatch]
-  );
+const handleChange = useCallback(
+  (e) => {
+    const { name, value } = e.target;
+
+    if (reduxValueUpdater) {
+      dispatch(reduxValueUpdater(value));
+    } else if (reduxListUpdater) {
+      dispatch(reduxListUpdater({ [name]: value }));
+    } else if (listUpdater) {
+      listUpdater((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    } else  if (valueUpdater) {
+      valueUpdater(value);
+    }
+  },
+  [dispatch, reduxValueUpdater, reduxListUpdater, listUpdater, valueUpdater]
+);
+
 
   return (
     <TextField
@@ -62,6 +67,7 @@ export default function Input(
       label={label}
       name={name}
       value={value}
+      {...register}
       onChange={customHandleChange ?? handleChange}
       defaultValue={defaultValue}
       InputProps={{
@@ -88,9 +94,9 @@ export default function Input(
 /* 
   <common.Input
      placeholder="Search"
-     reduxHandleChange={setSearchText}
+     reduxValueUpdater={setSearchText}
      value={searchText}
-     onChange={setLocationText}
+     valueUpdater={setLocationText}
      customHandleClearClick={customHandleClearClick}
    />;
    */

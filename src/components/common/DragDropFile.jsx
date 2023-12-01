@@ -1,14 +1,18 @@
-import React from 'react'
+import React from "react";
 import { FileUploader } from "react-drag-drop-files";
-const fileTypes = ["JPG", "PNG", "GIF"];
-const DragDropFile = (onChange) => {
-    const handleChange = (file) => {
-        onChange(file);
-      };
+const imageTypes = ["JPG", "PNG", "GIF"];
+const fileTypes = ["PDF"];
+const DragDropFile = ({onChange, type}) => {
+  const handleChange = (file) => {
+    onChange(file);
+  };
+  return (
+    <FileUploader
+      handleChange={handleChange}
+      name="file"
+      types={type == "pdf" ? fileTypes : imageTypes}
+    />
+  );
+};
 
-    return (
-    <FileUploader handleChange={handleChange} name="file" types={fileTypes} /> 
-    )
-}
-
-export default DragDropFile
+export default DragDropFile;
