@@ -12,6 +12,10 @@ const generatePayload = (selectedChips) => {
     return acc;
   }, []);
 };
+
+const reduceArrayByKeys = (array, keys) =>
+  array.flatMap((item) => keys.map((key) => item[key]));
+
 const readFile = (file, callback) => {
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -20,4 +24,14 @@ const readFile = (file, callback) => {
   };
   reader.readAsDataURL(file);
 };
-export { ApiCall, getLocal, setLocal,readFile, parseJSON, AL, rmLocal, generatePayload };
+export {
+  ApiCall,
+  getLocal,
+  setLocal,
+  readFile,
+  parseJSON,
+  AL,
+  rmLocal,
+  generatePayload,
+  reduceArrayByKeys,
+};

@@ -34,7 +34,7 @@ function Location() {
           <common.Input
             placeholder="Search Location"
             value={searchText}
-            reduxHandleChange={setLocationText}
+            reduxValueUpdater={setLocationText}
             customHandleClearClick={customHandleClearClick}
             startIcon={true}
             endIcon={true}

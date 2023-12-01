@@ -26,7 +26,7 @@ function Objective() {
           <common.Input
             placeholder="Search Objective"
             value={searchText}
-            reduxHandleChange={setSearchText}
+            reduxValueUpdater={setSearchText}
             startIcon={true}
             endIcon={true}
           />

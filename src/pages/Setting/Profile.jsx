@@ -58,27 +58,6 @@ const ProfileContent = () => {
                 </Grid>
 
             </Grid>
-            {/* <Typography variant='h6' align='left'>Full Name</Typography>
-            <common.Input
-            name="fullName"
-            value={formData.fullName}
-            objOnChange={setFormData}
-            placeholder="Full name"
-            startIcon={true}
-            required
-          />
-            <Typography variant='h6' align='left'>Email</Typography>
-
-        <common.Input
-          name="email"
-          placeholder="Search"
-          type="email"
-          objOnChange={setFormData}
-          value={formData.email}
-          startIcon={true}
-          required
-        /> */}
-
         </Box>
     );
 };
