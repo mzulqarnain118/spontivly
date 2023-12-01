@@ -50,7 +50,7 @@ function Library() {
       profile: profile,
 
       tags: [
-        "Combat Training",
+        "Combat",
         "Non-LethalCombat",
         "TeamworkExercises"
       ],
