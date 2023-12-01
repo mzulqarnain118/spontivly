@@ -38,10 +38,8 @@ const CreateContent = ({ isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({
-    title: "",
-  });
+     isSubmitting, isValid
+  } = useForm();
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
@@ -75,7 +73,9 @@ const CreateContent = ({ isOpen, onClose }) => {
       await ApiCall("libraries/", null, "POST", combinedFormData);
       return;
     }
-    await ApiCall("libraries/", null, "POST", payload);
+    await ApiCall("libraries/", null, "POST", {
+      data: JSON.stringify(payload),
+    });
   };
 
   const handleTagChange = (value) => {
@@ -156,8 +156,9 @@ const CreateContent = ({ isOpen, onClose }) => {
               </Grid>
               <Grid item xs={12} md={8} className={classes.createContentItem}>
                 <common.Input
-                  register={register("url", { required: true })}
+                  register={register("url", { required: type !== "pdf" })}
                   placeholder="Content URL"
+                  disabled={type === "pdf"}
                 />
                 <common.Input
                   register={register("summary", { required: true })}
@@ -169,7 +170,7 @@ const CreateContent = ({ isOpen, onClose }) => {
                   required
                 />
                 {type == "pdf" && (
-                  <common.DragDropFile onChange={setPdfFile} type={type} />
+                  <common.DragDropFile onChange={setPdfFile} type={type} required={type === "pdf"} />
                 )}
               </Grid>
             </Grid>
