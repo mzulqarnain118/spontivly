@@ -1,48 +1,50 @@
-import React, { useEffect } from "react";
-import { Avatar, Box, Chip, Grid, Typography } from '@mui/material';
-import youtube from 'assets/icons/youtube.png';
-import doc from 'assets/icons/docs.svg';
-import event from 'assets/icons/eventbrite.png';
-import libraryStyles from 'styles/components/libraryStyles';
+import React from "react";
+import { Avatar, Box, Chip, Grid, Typography } from "@mui/material";
+import youtube from "assets/icons/youtube.png";
+import doc from "assets/icons/docs.svg";
+import event from "assets/icons/eventbrite.png";
+import libraryStyles from "styles/components/libraryStyles";
 import common from "components/common";
+import superheros from "assets/images/superheros.jpeg";
 
-const LibraryContent = (data) => {
-
-  // useEffect(() => {
-  //    console.log(data?.length,data);
-  //     data.length !== 0 && data?.map((item) => console.log(item?.id));
-  //  }, []);
+const LibraryContent = ({ libraryData }) => {
   const classes = libraryStyles();
 
   return (
     <>
-      {/* {data.length!==0 && data?.map((library) => (
+      {libraryData?.map((library) => (
         <>
           <Box key={library.id} className={classes.mainBox}>
-            <common.Img src={library.url} className={classes.contentImg} />
-
+            <common.Img src={superheros} className={classes.contentImg} />
             <Grid container>
               <Grid item xs={10} sm={10} md={10}>
                 <Box className="col-start gap-025">
                   <Typography sx={{ fontWeight: 600 }} align="left">
                     {library.title}
                   </Typography>
-                  <Typography variant="lightSubtitle1" align="left">
-                    {library.description}
-                  </Typography>
+                  <Typography
+                    variant="lightSubtitle1"
+                    align="left"
+                    dangerouslySetInnerHTML={{ __html: library.description }}
+                  />
                   <Box className="flex">
                     <Avatar
                       src={library?.profile}
+                      alt="Media"
                       className={classes.contentAvatar}
                     />
                     <Typography variant="subtitle2">
-                      {library.author}
+                      {`${library.created_by.first_name} ${library.created_by.last_name}`}
                     </Typography>
                   </Box>
 
                   <Box className={classes.flexStart}>
-                    {library.tags.map((tag, index) => (
-                      <Chip label={tag} className={classes.contentChip} />
+                    {library.tags.map((tag) => (
+                      <Chip
+                        key={tag.title}
+                        label={tag.title}
+                        className={classes.contentChip}
+                      />
                     ))}
                   </Box>
                 </Box>
@@ -57,7 +59,7 @@ const LibraryContent = (data) => {
             </Grid>
           </Box>
         </>
-      ))} */}
+      ))}
     </>
   );
 };
