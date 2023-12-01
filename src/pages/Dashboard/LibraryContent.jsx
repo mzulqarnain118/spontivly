@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material';
 import youtube from 'assets/icons/youtube.png';
 import doc from 'assets/icons/docs.svg';
@@ -7,59 +7,57 @@ import libraryStyles from 'styles/components/libraryStyles';
 import common from "components/common";
 
 const LibraryContent = (data) => {
+
+  // useEffect(() => {
+  //    console.log(data?.length,data);
+  //     data.length !== 0 && data?.map((item) => console.log(item?.id));
+  //  }, []);
   const classes = libraryStyles();
 
   return (
     <>
-      {data.data.map((rec, index) => (
+      {/* {data.length!==0 && data?.map((library) => (
         <>
-          <Box className={classes.mainBox}>
-            <common.Img src={rec.img} className={classes.contentImg} />
-
+          <Box key={library.id} className={classes.mainBox}>
+            <common.Img src={library.url} className={classes.contentImg} />
 
             <Grid container>
               <Grid item xs={10} sm={10} md={10}>
                 <Box className="col-start gap-025">
-                  <Typography sx={{ fontWeight: 600 }} align='left'>
-                    {rec.title}
+                  <Typography sx={{ fontWeight: 600 }} align="left">
+                    {library.title}
                   </Typography>
-                  <Typography variant="lightSubtitle1" align='left'>
-                    {rec.description}
+                  <Typography variant="lightSubtitle1" align="left">
+                    {library.description}
                   </Typography>
                   <Box className="flex">
                     <Avatar
-                      src={rec.profile}
-                      alt="Media"
+                      src={library?.profile}
                       className={classes.contentAvatar}
-                    ></Avatar>
+                    />
                     <Typography variant="subtitle2">
-                      {rec.author}
+                      {library.author}
                     </Typography>
                   </Box>
 
                   <Box className={classes.flexStart}>
-                    {rec.tags.map((tag, index) => (
-                      <Chip
-                        label={tag}
-                        className={classes.contentChip}
-                      />
+                    {library.tags.map((tag, index) => (
+                      <Chip label={tag} className={classes.contentChip} />
                     ))}
                   </Box>
                 </Box>
               </Grid>
 
-              <Grid item xs={2} className='col-between'>
-                <Typography variant="lightSubtitle2">
-                  {rec.date}
-                </Typography>
-                {rec.source == 'youtube' && <common.Img src={youtube} />}
-                {rec.source == 'eventbrite' && <common.Img src={event} />}
-                {rec.source == 'docs' && <common.Img src={doc} />}
+              <Grid item xs={2} className="col-between">
+                <Typography variant="lightSubtitle2">{library.date}</Typography>
+                {library.type == "youtube" && <common.Img src={youtube} />}
+                {library.type == "eventbrite" && <common.Img src={event} />}
+                {library.type == "docs" && <common.Img src={doc} />}
               </Grid>
             </Grid>
           </Box>
         </>
-      ))}
+      ))} */}
     </>
   );
 };

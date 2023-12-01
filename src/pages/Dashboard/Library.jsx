@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from "react";
 import {Card, Grid, Typography } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
 import ToggleButtons from '../../components/common/ToggleButtons';
 import filter from 'assets/icons/filter.svg'
 import ModuleView from './ModuleView';
@@ -15,14 +14,28 @@ import AddIcon from '@mui/icons-material/Add';
 import CreateContent from './CreateContent';
 import FilterLibrary from './FilterLibrary';
 import LibraryContent from './LibraryContent';
+import { ApiCall, reduceArrayByKeys } from "utils";
+
 function Library() {
   const [view, setView] = useState('list');
+    const [libraryData, setLibraryData] = useState([]);
+
+    console.log( libraryData)
+
   const [findContent, setFindContent] = useState({
     content: "",
     sortBy: null,
     favorites: [],
   });
+  const fetchLibraries = async () => {
+    const libraries = await ApiCall("libraries");
+    libraries && setLibraryData(libraries?.results);
+  };
 
+    useEffect(() => {
+      fetchLibraries();
+    }, []);
+  
   const [isContentDialogOpen, setContentDialogOpen] = useState(false);
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
   const classes = dashboardStyles();
@@ -124,19 +137,21 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={4} md={3} >
-          <common.MuiButton variant="contained"
-            size="large" label="Add Content"
+        <Grid item xs={6} sm={4} md={3}>
+          <common.MuiButton
+            variant="contained"
+            size="large"
+            label="Add Content"
             className={classes.addContentButton}
             startIcon={<AddIcon />}
-            onClick={openContentModal} />
-
+            onClick={openContentModal}
+          />
         </Grid>
       </Grid>
 
       <Card className={classes.card}>
-        <Grid container spacing={3} padding={'20px'}>
-          <Grid item xs={12} sm={4.5}  md={6} lg={6} >
+        <Grid container spacing={3} padding={"20px"}>
+          <Grid item xs={12} sm={4.5} md={6} lg={6}>
             <common.Input
               name="member"
               placeholder="Search members"
@@ -157,26 +172,25 @@ function Library() {
           </Grid>
           <Grid item xs={4.5} sm={2.5} md={2} lg={1.5}>
             <ToggleButtons setView={setView} view={view} />
-
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1}>
-            <common.MuiButton
-              img={filter}
-              onClick={openFilterModal}
-            />
-
+            <common.MuiButton img={filter} onClick={openFilterModal} />
           </Grid>
         </Grid>
 
-        <Typography  variant="lightSubtitle2" align='left'>MOST RECENT</Typography>
-        {view === 'list' ? <LibraryContent data={data} /> : <ModuleView data={data} />}
-
-
+        <Typography variant="lightSubtitle2" align="left">
+          MOST RECENT
+        </Typography>
+        {libraryData.length!==0 ? view === "list" ? (
+          <LibraryContent data={libraryData} />
+        ) : (
+          <ModuleView data={libraryData} />
+        ):null}
       </Card>
       <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
       <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal} />
     </>
-  )
+  );
 }
 
 export default Library
