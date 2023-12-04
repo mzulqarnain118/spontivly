@@ -32,6 +32,19 @@ const dashboardStyles = makeStyles((theme) => ({
     gap: '1.25rem',
 
   },
+  selectedCard: {
+    p: 0,
+    marginTop: '0.5rem',
+    width: '10.5rem',
+    border: "1px solid !important ",
+    boxShadow: "none !important ",
+    borderRadius: "1rem !important ",
+    padding: "1rem 2rem 1rem 1rem !important ",
+    [theme.breakpoints.down("sm")]: {
+      width: "8rem",
+    },
+
+  },
   filterCardIcon: {
     width: '3rem',
     height: '3rem',
@@ -172,6 +185,9 @@ const dashboardStyles = makeStyles((theme) => ({
     flexDirection: "column !important",
     gap: theme.spacing(10)
   },
+  imgLogo: {
+    height: '34px'
+  }
 }));
 
 export default dashboardStyles;

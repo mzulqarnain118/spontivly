@@ -4,15 +4,16 @@ import ClearIcon from "@mui/icons-material/Clear";
 import dashboardStyles from 'styles/components/dashboardStyles';
 import common from "components/common";
 import { useTheme } from '@mui/material/styles';
-import youtube from 'assets/images/youtube.png'
-import doc from 'assets/images/docs.png'
-import pdf from 'assets/images/pdf.png'
-import link from 'assets/images/link.png'
+import youtube from 'assets/images/icons8-youtube-48.png'
+import doc from 'assets/images/ddd.png'
+import pdf from 'assets/images/icons8-pdf-48.png'
+import link from 'assets/images/icons8-link-24 (1).png'
 
 const FilterLibrary = ({ isOpen, onClose }) => {
     const classes = dashboardStyles();
     const theme = useTheme();
     const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
+    const [selectedTypes, setSelectedTypes] = useState([]);
 
 
     const checkboxes = [
@@ -41,6 +42,15 @@ const FilterLibrary = ({ isOpen, onClose }) => {
     const handleClear = () => {
         setSelectedCheckboxes({})
     };
+    const handleTypeSelection = (typeId) => {
+        console.log('typeId', typeId)
+        if(selectedTypes.includes(typeId)){
+            setSelectedTypes(selectedTypes.filter((type)=>type !== typeId));
+        }
+        else{
+            setSelectedTypes([...selectedTypes,typeId])
+        }
+    };
     return (
         <Dialog
             open={isOpen}
@@ -64,7 +74,7 @@ const FilterLibrary = ({ isOpen, onClose }) => {
                 <Grid container spacing={2}>
                     {types.map((card, index) => (
                         <Grid key={index} item xs={6} sm={6} md={6} lg={3}>
-                            <common.FilterContentTypeCard title={card.label} img={card.img} />
+                            <common.FilterContentTypeCard title={card.label} img={card.img} selected={selectedTypes.includes(card.id)} onClick={() => handleTypeSelection(card.id)} />
                         </Grid>
                     ))}
                 </Grid>
