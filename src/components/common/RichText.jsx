@@ -1,12 +1,15 @@
 import React, { useState, useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
 
-export default function RichText({ value, onBlur,...others }) {
+export default function RichText({ value, onBlur, placeholder, ...others }) {
   const editor = useRef(null);
   const config = {
     readonly: false,
-      height: 400,
+    height: 400,
+    direction: 'ltr',
+    placeholder: placeholder || 'Description',
     ...others,
+    align:'justifyleft',
     // toolbarAdaptive: false,
     buttons: [
       "source",
@@ -49,7 +52,9 @@ export default function RichText({ value, onBlur,...others }) {
         ref={editor}
         value={value}
         config={config}
+        
         onBlur={(newContent) => onBlur && onBlur(newContent)}
+        
       />
     </>
   );
