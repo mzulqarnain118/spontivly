@@ -34,15 +34,20 @@ const ModuleView = ({ libraryData, typeIcons }) => {
                   </div>
                 </div>
 
-                <Box className="flex-container wrap" mt={"12px"}>
+                <Box className="flex" mt={"12px"}>
                   <Grid container spacing={0.5}>
                     <Grid item xs={11} sm={11} md={11} lg={11}>
                       <Typography sx={{ fontWeight: 600 }} align="left">
                         {library.title}
                       </Typography>
                       <Box
-                        className="flex-container wrap"
-                        sx={{ alignItems: "flex-start", gap: " 0.625rem " }}
+                        className="flex"
+                        sx={{
+                          alignItems: "flex-start",
+                          gap: "0.625rem",
+                          maxHeight: "80px", // Adjust the height accordingly
+                          overflowY: "auto", // Make it scrollable
+                        }}
                       >
                         {library.tags.map((tag, index) => (
                           <Chip

@@ -45,6 +45,9 @@ const dashboardStyles = makeStyles((theme) => ({
     },
 
   },
+  editor: {
+    textAlign: 'left'
+  },
   filterCardIcon: {
     width: '3rem',
     height: '3rem',
@@ -155,7 +158,7 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   contentCard: {
     boxShadow: 'none !important', // Add box shadow
-    padding: theme.spacing(6), // Add padding as needed
+    // padding: theme.spacing(6), // Add padding as needed
   },
   filterDialogTitle: {
     display: 'flex',
@@ -164,7 +167,7 @@ const dashboardStyles = makeStyles((theme) => ({
   filterDialogContent: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(10)
+    gap: `${theme.spacing(10)}`
   },
   filterDialogActions: {
     display: "flex !important",
@@ -187,6 +190,9 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   imgLogo: {
     height: '34px'
+  },
+  addContentDialogAction: {
+    paddingRight:'20px !important'
   }
 }));
 

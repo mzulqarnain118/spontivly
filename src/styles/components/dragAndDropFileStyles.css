@@ -1,0 +1,8 @@
+.guZdik {
+    border: 2px dashed black !important;
+    max-width: 980px !important;
+  }
+  
+  .guZdik path {
+    fill: black;
+  }
