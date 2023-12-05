@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -15,13 +16,14 @@ import { ApiCall, reduceArrayByKeys } from "utils";
 import React, { useState, useEffect } from "react";
 import dashboardStyles from "styles/components/dashboardStyles";
 import { useForm } from "react-hook-form";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
   const theme = useTheme();
   const {
     register,
     handleSubmit,
-     isSubmitting, isValid
+    isSubmitting, isValid
   } = useForm();
   const [type, setType] = useState("");
   const [description, setDescription] = useState("");
@@ -59,9 +61,15 @@ const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
     <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="xl">
       <form key="2000" onSubmit={handleSubmit(onSubmit)}>
         <DialogTitle>
-          <Typography variant="h2" align="left">
-            Create Content
-          </Typography>
+          <Box className='row-between'>
+            <Typography variant="h2" align="left">
+              Create Content
+            </Typography>
+            <IconButton onClick={onClose} >
+              <ClearIcon />
+            </IconButton>
+          </Box>
+
           <Typography
             variant="h6"
             align="left"
@@ -141,6 +149,7 @@ const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
                 <common.RichText
                   value={description}
                   onBlur={setDescription}
+                  cssClass={classes.editor}
                   required
                 />
                 {type == "pdf" && (
@@ -150,8 +159,7 @@ const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
             </Grid>
           </Card>
         </DialogContent>
-        <DialogActions>
-          <common.MuiButton label={"Cancel"} onClick={onClose} />
+        <DialogActions className={classes.addContentDialogAction}>
           <common.MuiButton variant="contained" type="submit" label={"Save"} />
         </DialogActions>
       </form>
