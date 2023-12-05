@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
 import commonStyles from "../../styles/commonStyles";
+import { debounce } from "utils";
 
 export default function Input(
   {
@@ -46,16 +47,31 @@ const handleChange = useCallback(
     } else if (reduxListUpdater) {
       dispatch(reduxListUpdater({ [name]: value }));
     } else if (listUpdater) {
-      listUpdater((prevFormData) => ({
+      const updateFunction = (prevFormData) => ({
         ...prevFormData,
         [name]: value,
-      }));
-    } else  if (valueUpdater) {
+      });
+
+      if (props.debounce) {
+        const debouncedUpdate = debounce(listUpdater, 500); // Adjust the debounce delay as needed
+        debouncedUpdate(updateFunction);
+      } else {
+        listUpdater(updateFunction);
+      }
+    } else if (valueUpdater) {
       valueUpdater(value);
     }
   },
-  [dispatch, reduxValueUpdater, reduxListUpdater, listUpdater, valueUpdater]
+  [
+    dispatch,
+    reduxValueUpdater,
+    reduxListUpdater,
+    listUpdater,
+    valueUpdater,
+    props.debounce,
+  ]
 );
+
 
 
   return (

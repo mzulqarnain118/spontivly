@@ -1,41 +1,68 @@
 import React, { useState, useEffect } from "react";
-import {Card, Grid, Typography } from '@mui/material'
-import ToggleButtons from '../../components/common/ToggleButtons';
-import filter from 'assets/icons/filter.svg'
-import ModuleView from './ModuleView';
-import profile from 'assets/images/profile.jpg';
-import avenger from 'assets/images/avenger.png';
-import superheros from 'assets/images/superheros.jpeg';
-import superpower from 'assets/images/super.png';
-import dummy from 'assets/images/dummy.png';
-import dashboardStyles from 'styles/components/dashboardStyles';
+import { Card, Grid, Typography } from "@mui/material";
+import ToggleButtons from "../../components/common/ToggleButtons";
+import filter from "assets/icons/filter.svg";
+import ModuleView from "./ModuleView";
+import dashboardStyles from "styles/components/dashboardStyles";
 import common from "components/common";
-import AddIcon from '@mui/icons-material/Add';
-import CreateContent from './CreateContent';
-import FilterLibrary from './FilterLibrary';
-import LibraryContent from './LibraryContent';
-import { ApiCall, reduceArrayByKeys } from "utils";
+import AddIcon from "@mui/icons-material/Add";
+import CreateContent from "./CreateContent";
+import FilterLibrary from "./FilterLibrary";
+import LibraryContent from "./LibraryContent";
+import { ApiCall } from "utils";
+import youtube from "assets/icons/youtube.png";
+import youtubeText from "assets/icons/youtubeText.png";
+import doc from "assets/icons/doc.png";
+import pdf from "assets/icons/pdf.png";
+import link from "assets/icons/link.png";
 
+const contentTypes = [
+  {
+    id: "youtube",
+    title: "Youtube",
+    img: youtube,
+  },
+  {
+    id: "doc",
+    title: "Document",
+    img: doc,
+  },
+  {
+    id: "link",
+    title: "Link",
+    img: link,
+  },
+  {
+    id: "pdf",
+    title: "PDF",
+    img: pdf,
+  },
+];
+const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf };
 function Library() {
-  const [view, setView] = useState('list');
-    const [libraryData, setLibraryData] = useState([]);
-
-    console.log( libraryData)
-
+  const [view, setView] = useState("list");
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tags, setTags] = useState();
+  const [selectedTypes, setSelectedTypes] = useState([]);
   const [findContent, setFindContent] = useState({
     content: "",
     sortBy: null,
-    favorites: [],
   });
-  const fetchLibraries = async () => {
-    const libraries = await ApiCall("libraries");
-    libraries && setLibraryData(libraries?.results);
+
+  const fetchLibraries = async ({ pageParam = 1 }) => {
+    const apiUrl = `libraries?page=${pageParam}&types[]=${selectedTypes}&tags[]=${selectedTags}&name=${findContent.content}&sort=${findContent.sortBy}`;
+    const response = await ApiCall(apiUrl);
+    return response;
   };
 
-    useEffect(() => {
-      fetchLibraries();
-    }, []);
-  
+  const fetchTags = async () => {
+    const tags = await ApiCall("tags");
+    tags && setTags(tags?.results);
+  };
+  useEffect(() => {
+    fetchTags();
+  }, []);
+    useEffect(() => {console.log("done")}, [selectedTypes, selectedTags, findContent]);
   const [isContentDialogOpen, setContentDialogOpen] = useState(false);
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
   const classes = dashboardStyles();
@@ -53,81 +80,8 @@ function Library() {
     setFilterDialogOpen(false);
   };
 
-  const data = [
-    {
-      title: "Hand-to-Hand Combat Techniques for Superheroes",
-      description: "A comprehensive guide to mastering hand-to-hand combat for various skill levels.",
-      author: "Steve Rogers",
-      date: "Jan 5, 2023",
-      source: 'docs',
-      profile: profile,
-
-      tags: [
-        "Combat",
-        "Non-LethalCombat",
-        "TeamworkExercises"
-      ],
-      img: superheros,
-    },
-    {
-      title: "Mastering Your Superpowers",
-      description: "A video series that provides tips and exercises for controlling and enhancing your superpowers.",
-      author: "Stephen Strange",
-      date: "Jan 5, 2023",
-      source: 'youtube',
-      profile: profile,
-
-      tags: [
-      ],
-      img: superpower,
-    },
-    {
-      title: "Avengers Assemble: Team Building Activities",
-      description: "A collection of team-building exercises designed to improve communication and collaboration among ...",
-      author: "Nick Fury",
-      date: "Jan 5, 2023",
-      source: 'youtube',
-      profile: profile,
-      tags: [
-        "Combat Training",
-        "Non-LethalCombat",
-        "TeamworkExercises"
-      ],
-      img: avenger,
-    },
-    {
-      title: "Avengers Assemble: Team Building Activities",
-      description: "A collection of team-building exercises designed to improve communication and collaboration among ...",
-      author: "Nick Fury",
-      date: "Jan 5, 2023",
-      source: 'youtube',
-      profile: profile,
-      tags: [
-        "Combat Training",
-        "Non-LethalCombat",
-        "TeamworkExercises"
-      ],
-      img: dummy,
-    },
-    {
-      title: "Avengers Assemble: Team Building Activities",
-      description: "A collection of team-building exercises designed to improve communication and collaboration among ...",
-      author: "Nick Fury",
-      date: "Jan 5, 2023",
-      source: 'eventbrite',
-      profile: profile,
-      tags: [
-        "Combat Training",
-        "Non-LethalCombat",
-        "TeamworkExercises"
-      ],
-      img: dummy,
-    },
-
-  ]
   const sortByData = [
     { id: "Most Recent", title: "Most Recent" },
-    { id: "Recommendation", title: "Recommendations" },
   ];
   return (
     <>
@@ -153,9 +107,9 @@ function Library() {
         <Grid container spacing={3} padding={"20px"}>
           <Grid item xs={12} sm={4.5} md={6} lg={6}>
             <common.Input
-              name="member"
-              placeholder="Search members"
-              value={findContent.member}
+              name="content"
+              placeholder="Search libraries"
+              value={findContent.content}
               objOnChange={setFindContent}
               startIcon={true}
             />
@@ -181,18 +135,40 @@ function Library() {
         <Typography variant="lightSubtitle2" align="left">
           MOST RECENT
         </Typography>
-        {libraryData.length !== 0 ? (
-          view === "list" ? (
-            <LibraryContent libraryData={libraryData} />
-          ) : (
-            <ModuleView libraryData={libraryData} />
-          )
-        ) : null}
+        <common.DataFetchingComponent
+          queryKey="members"
+          fetchFn={fetchLibraries}
+          render={(data) =>
+            view === "list" ? (
+              <LibraryContent
+                libraryData={data?.results}
+                typeIcons={typeIcons}
+              />
+            ) : (
+              <ModuleView libraryData={data?.results} typeIcons={typeIcons} />
+            )
+          }
+        />
       </Card>
-      <CreateContent isOpen={isContentDialogOpen} onClose={closeContentModal} />
-      <FilterLibrary isOpen={isFilterDialogOpen} onClose={closeFilterModal} />
+      <CreateContent
+        isOpen={isContentDialogOpen}
+        onClose={closeContentModal}
+        contentTypes={contentTypes}
+        tags={tags}
+        fetchTags={fetchTags}
+      />
+      <FilterLibrary
+        isOpen={isFilterDialogOpen}
+        onClose={closeFilterModal}
+        contentTypes={contentTypes}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        selectedTypes={selectedTypes}
+        setSelectedTypes={setSelectedTypes}
+        tags={tags}
+      />
     </>
   );
 }
 
-export default Library
+export default Library;

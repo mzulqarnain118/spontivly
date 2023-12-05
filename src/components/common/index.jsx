@@ -21,6 +21,7 @@ import Popup from "./Popup";
 import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
 import ReactFormHook from "./ReactFormHook";
+import DataFetchingComponent from "./DataFetchingComponent";
 const Controls = {
 //   DateTimePicker,
   RadioGroup,
@@ -35,6 +36,7 @@ const Controls = {
   MenuList,
   MuiIcon,
   Img,
+  DataFetchingComponent,
   MuiButton,
   CustomSwitch,
   ContainerToast,

@@ -13,6 +13,18 @@ const generatePayload = (selectedChips) => {
   }, []);
 };
 
+const debounce = (func, delay) => {
+  let timeoutId;
+  return function (...args) {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
+
 const reduceArrayByKeys = (array, keys) =>
   array.flatMap((item) => keys.map((key) => item[key]));
 
@@ -32,6 +44,7 @@ export {
   parseJSON,
   AL,
   rmLocal,
+  debounce,
   generatePayload,
   reduceArrayByKeys,
 };

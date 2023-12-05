@@ -1,13 +1,10 @@
 import React from "react";
 import { Avatar, Box, Chip, Grid, Typography } from "@mui/material";
-import youtube from "assets/icons/youtube.png";
-import doc from "assets/icons/docs.svg";
-import event from "assets/icons/eventbrite.png";
 import libraryStyles from "styles/components/libraryStyles";
 import common from "components/common";
-import superheros from "assets/images/superheros.jpeg";
+import defaultThumbnail from "assets/images/dummy.png";
 
-const LibraryContent = ({ libraryData }) => {
+const LibraryContent = ({ libraryData, typeIcons }) => {
   const classes = libraryStyles();
 
   return (
@@ -15,7 +12,7 @@ const LibraryContent = ({ libraryData }) => {
       {libraryData?.map((library) => (
         <>
           <Box key={library.id} className={classes.mainBox}>
-            <common.Img src={superheros} className={classes.contentImg} />
+            <common.Img src={defaultThumbnail} className={classes.contentImg} />
             <Grid container>
               <Grid item xs={10} sm={10} md={10}>
                 <Box className="col-start gap-025">
@@ -29,7 +26,10 @@ const LibraryContent = ({ libraryData }) => {
                   />
                   <Box className="flex">
                     <Avatar
-                      src={library?.profile}
+                      src={
+                        library?.created_by?.profile?.profile_pic ??
+                        defaultThumbnail
+                      }
                       alt="Media"
                       className={classes.contentAvatar}
                     />
@@ -52,9 +52,7 @@ const LibraryContent = ({ libraryData }) => {
 
               <Grid item xs={2} className="col-between">
                 <Typography variant="lightSubtitle2">{library.date}</Typography>
-                {library.type == "youtube" && <common.Img src={youtube} />}
-                {library.type == "eventbrite" && <common.Img src={event} />}
-                {library.type == "docs" && <common.Img src={doc} />}
+                  <common.Img src={typeIcons[library?.type]} />
               </Grid>
             </Grid>
           </Box>
