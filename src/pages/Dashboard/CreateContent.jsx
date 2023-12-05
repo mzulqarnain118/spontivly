@@ -15,25 +15,8 @@ import { ApiCall, reduceArrayByKeys } from "utils";
 import React, { useState, useEffect } from "react";
 import dashboardStyles from "styles/components/dashboardStyles";
 import { useForm } from "react-hook-form";
-const contentTypes = [
-  {
-    id: "youtube_video",
-    title: "Youtube Video",
-  },
-  {
-    id: "doc",
-    title: "Doc",
-  },
-  {
-    id: "link",
-    title: "Link",
-  },
-  {
-    id: "pdf",
-    title: "PDF",
-  },
-];
-const CreateContent = ({ isOpen, onClose }) => {
+
+const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
   const theme = useTheme();
   const {
     register,
@@ -44,12 +27,7 @@ const CreateContent = ({ isOpen, onClose }) => {
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [pdfFile, setPdfFile] = useState(null);
-  const [tagOptions, setTagOptions] = useState();
   const classes = dashboardStyles();
-  const fetchTags = async () => {
-    const tags = await ApiCall("tags");
-    tags && setTagOptions(tags?.results);
-  };
 
   const addTag = async (tag) => {
     const addedTag = await ApiCall("tags/", null, "POST", {
@@ -58,10 +36,6 @@ const CreateContent = ({ isOpen, onClose }) => {
     });
     addedTag && fetchTags();
   };
-
-  useEffect(() => {
-    fetchTags();
-  }, []);
 
   const onSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ["id"]);
@@ -134,7 +108,7 @@ const CreateContent = ({ isOpen, onClose }) => {
                   variant="outlined"
                   value={selectedTags} // Pass your array of selected values here
                   onChange={handleTagChange} // Pass your state setter function here
-                  options={tagOptions}
+                  options={tags}
                   addNewTag={addTag}
                   required
                 />

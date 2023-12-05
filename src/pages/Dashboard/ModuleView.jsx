@@ -1,14 +1,10 @@
 import React from "react";
 import { Avatar, Box, Chip, Grid, Typography } from "@mui/material";
-import media from "assets/images/media.png";
-import youtube from "assets/icons/youtube.png";
-import doc from "assets/icons/docs.svg";
-import event from "assets/icons/eventbrite.png";
 import libraryStyles from "styles/components/libraryStyles";
 import common from "components/common";
-import superheros from "assets/images/superheros.jpeg";
+import defaultThumbnail from "assets/images/dummy.png";
 
-const ModuleView = ({ libraryData }) => {
+const ModuleView = ({ libraryData, typeIcons }) => {
   const classes = libraryStyles();
 
   return (
@@ -28,13 +24,13 @@ const ModuleView = ({ libraryData }) => {
               <Box>
                 <div className="relative-full-width">
                   <common.Img
-                    src={superheros}
+                    src={defaultThumbnail}
                     className={classes.moduleContentImg}
                   />
                   <div className={classes.moduleContentSource}>
-                    {library.type == "youtube" && <common.Img src={youtube} />}
-                    {library.type == "eventbrite" && <common.Img src={event} />}
-                    {library.type == "docs" && <common.Img src={doc} />}
+                    {typeIcons[library.type] == "youtube" && (
+                      <common.Img src={typeIcons[library.type]} />
+                    )}
                   </div>
                 </div>
 
@@ -59,7 +55,10 @@ const ModuleView = ({ libraryData }) => {
                     </Grid>
                     <Grid item xs={1}>
                       <Avatar
-                        src={library?.profile}
+                        src={
+                          library?.created_by?.profile?.profile_pic ??
+                          defaultThumbnail
+                        }
                         className={classes.moduleContentAvatar}
                       />
                     </Grid>
