@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StarRateRounded,
   YouTube,
@@ -11,8 +10,8 @@ import {
   MoreHorizRounded,
   Close,
   Menu,
-  FiberManualRecord
-} from "@mui/icons-material";
+  FiberManualRecord,
+} from '@mui/icons-material';
 import PersonIcon from '@mui/icons-material/Person';
 const ReusableIcon = ({
   name,
@@ -20,26 +19,29 @@ const ReusableIcon = ({
   color,
   fontSize,
   bgColor,
-  size,variant,
+  size,
+  variant,
   width,
   height,
   onClick,
-}) => {
-  const IconComponent =
-    {
-      StarRateRounded,
-      Search,
-      YouTube,Menu,
-      AddCircle,
-      Tag,
-      StarBorderRounded,
-      FiberManualRecord,
-      ArrowDropDown,
-      Adb,
-      MoreHorizRounded,
-      Close,
-      PersonIcon
-    }[name] || StarRateRounded;
+}: any) => {
+  const iconNames: any = {
+    StarRateRounded,
+    Search,
+    YouTube,
+    Menu,
+    AddCircle,
+    Tag,
+    StarBorderRounded,
+    FiberManualRecord,
+    ArrowDropDown,
+    Adb,
+    MoreHorizRounded,
+    Close,
+    PersonIcon,
+  };
+
+  const IconComponent: any = iconNames[name] || StarRateRounded;
 
   return (
     <IconComponent
@@ -48,7 +50,7 @@ const ReusableIcon = ({
       fontSize={size}
       variant={variant}
       sx={{
-        color: !IconColor && (color || "inherit"),
+        color: !IconColor && (color || 'inherit'),
         fontSize: fontSize,
         width: width,
         height: height,

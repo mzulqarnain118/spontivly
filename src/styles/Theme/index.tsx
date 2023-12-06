@@ -1,26 +1,27 @@
 // ** MUI Imports
-import CssBaseline from "@mui/material/CssBaseline";
+import CssBaseline from '@mui/material/CssBaseline';
 import {
+  ThemeOptions,
   ThemeProvider,
   createTheme,
   responsiveFontSizes,
-} from "@mui/material/styles";
+} from '@mui/material/styles';
 
 // ** Theme Config
-import themeConfig from "./themeConfig";
+import themeConfig from './themeConfig';
 
 // ** Theme Override Imports
-import overrides from "./overrides";
-import typography from "./Typography";
+import overrides from './overrides';
+import typography from './Typography';
 
 // ** Theme
-import themeOptions from "./ThemeOptions";
+import themeOptions from './ThemeOptions';
 
-const Theme = ({ children }) => {
+const Theme = ({ children }: any) => {
   // ** Props
 
   // ** Merged ThemeOptions of Core and User
-  const coreThemeConfig = themeOptions();
+  const coreThemeConfig: any = themeOptions();
 
   // ** Pass ThemeOptions to CreateTheme Function to create partial theme without component overrides
   let theme = createTheme(coreThemeConfig);

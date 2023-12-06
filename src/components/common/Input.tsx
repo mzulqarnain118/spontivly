@@ -1,11 +1,11 @@
-import React, { useCallback } from "react";
-import { TextField } from "@mui/material";
-import { useDispatch } from "react-redux";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
-import IconButton from "@mui/material/IconButton";
-import commonStyles from "../../styles/commonStyles";
-import { debounce } from "utils";
+import { useCallback } from 'react';
+import { ClassNameMap, TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
+import commonStyles from '../../styles/commonStyles';
+import { debounce } from 'utils';
 
 export default function Input(
   {
@@ -28,51 +28,49 @@ export default function Input(
     multiline,
     rows,
     ...other
-  },
-  props
+  }: any,
+  props: any
 ) {
-  const classes = commonStyles();
+  const classes: ClassNameMap<any> = commonStyles();
   const dispatch = useDispatch();
 
   const handleClearClick = useCallback(() => {
-    reduxValueUpdater ? dispatch(reduxValueUpdater("")) : valueUpdater("");
+    reduxValueUpdater ? dispatch(reduxValueUpdater('')) : valueUpdater('');
   }, [dispatch]);
 
-const handleChange = useCallback(
-  (e) => {
-    const { name, value } = e.target;
+  const handleChange = useCallback(
+    (e: any) => {
+      const { name, value } = e.target;
 
-    if (reduxValueUpdater) {
-      dispatch(reduxValueUpdater(value));
-    } else if (reduxListUpdater) {
-      dispatch(reduxListUpdater({ [name]: value }));
-    } else if (listUpdater) {
-      const updateFunction = (prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      });
+      if (reduxValueUpdater) {
+        dispatch(reduxValueUpdater(value));
+      } else if (reduxListUpdater) {
+        dispatch(reduxListUpdater({ [name]: value }));
+      } else if (listUpdater) {
+        const updateFunction = (prevFormData: any) => ({
+          ...prevFormData,
+          [name]: value,
+        });
 
-      if (props.debounce) {
-        const debouncedUpdate = debounce(listUpdater, 500); // Adjust the debounce delay as needed
-        debouncedUpdate(updateFunction);
-      } else {
-        listUpdater(updateFunction);
+        if (props.debounce) {
+          const debouncedUpdate = debounce(listUpdater, 500); // Adjust the debounce delay as needed
+          debouncedUpdate(updateFunction);
+        } else {
+          listUpdater(updateFunction);
+        }
+      } else if (valueUpdater) {
+        valueUpdater(value);
       }
-    } else if (valueUpdater) {
-      valueUpdater(value);
-    }
-  },
-  [
-    dispatch,
-    reduxValueUpdater,
-    reduxListUpdater,
-    listUpdater,
-    valueUpdater,
-    props.debounce,
-  ]
-);
-
-
+    },
+    [
+      dispatch,
+      reduxValueUpdater,
+      reduxListUpdater,
+      listUpdater,
+      valueUpdater,
+      props.debounce,
+    ]
+  );
 
   return (
     <TextField

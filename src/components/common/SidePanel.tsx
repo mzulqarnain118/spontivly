@@ -1,12 +1,6 @@
-import React, { useEffect } from "react";
-import {
-  Drawer,
-  Typography,
-  Box,
-  useMediaQuery,
-} from "@mui/material";
-import MuiIcon from "./MuiIcon";
- import { useTheme } from "@mui/material/styles";
+import { Drawer, Typography, Box, useMediaQuery } from '@mui/material';
+import MuiIcon from './MuiIcon';
+import { useTheme } from '@mui/material/styles';
 
 export default function SidePanel({
   width,
@@ -15,20 +9,19 @@ export default function SidePanel({
   openPanel,
   anchor,
   setPanel,
-}) {
+}: any) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-const drawerPaperStyles = {
-  width: isMobile ? "100vw" : width || "30.71vw",
-  padding: "2.4rem 2.5rem",
-  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", // Dark black shadow
-};
-
+  const drawerPaperStyles = {
+    width: isMobile ? '100vw' : width || '30.71vw',
+    padding: '2.4rem 2.5rem',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Dark black shadow
+  };
 
   return (
     <Drawer
-      anchor={anchor ?? "right"}
+      anchor={anchor ?? 'right'}
       open={openPanel}
       onClose={() => {
         setPanel(!openPanel);
@@ -37,9 +30,9 @@ const drawerPaperStyles = {
       ModalProps={{
         keepMounted: true,
       }}
-      variant={isMobile ? "temporary" : "persistent"}
+      variant={isMobile ? 'temporary' : 'persistent'}
     >
-      <div className="row-end" style={{ position: "relative" }}>
+      <div className="row-end" style={{ position: 'relative' }}>
         <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
           {title}
         </Typography>
@@ -50,7 +43,7 @@ const drawerPaperStyles = {
           name="Close"
         />
       </div>
-      <Box dividers>{children}</Box>
+      <Box>{children}</Box>
     </Drawer>
   );
 }

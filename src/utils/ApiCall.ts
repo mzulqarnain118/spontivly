@@ -4,16 +4,16 @@ import ExceptionHandler from "./ExceptionHandler";
 import { getLocal } from "./index";
 
 export default function ApiCall(
-  url,
-  setLoading = null,
-  method = "GET",
-  data = null
+  url: string | string[],
+  setLoading: any = null,
+  method: string = "GET",
+  data: any = null
 ) {
   const api_url =
     method === "GET" ? (url.includes("?") ? url : `${url}/`) : url;
   const token = getLocal("token");
-  const base_url = config.REACT_APP_BACKEND_URL;
-  const headers = {};
+  const base_url: string = config.VITE_BACKEND_URL ?? '';
+  const headers: any = {};
 
   if (token) {
     headers["Authorization"] = `Token ${token}`;
@@ -24,7 +24,8 @@ export default function ApiCall(
       if (setLoading) {
         setLoading(true);
       }
-
+      
+      console.log("🚀 ~ file: ApiCall.ts:30 ~ performApiCall ~ base_url:", base_url)
       const response = await axios({
         url: base_url + api_url,
         headers,

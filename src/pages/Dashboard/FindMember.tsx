@@ -1,40 +1,47 @@
-import { Avatar, Box, Card, Grid, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import UserProfileSidePanel from "./UserProfileSidePanel";
-import dashboardStyles from "styles/components/dashboardStyles";
-import common from "components/common";
-import { ApiCall } from "utils";
-import Spinner from "components/common/Spinner";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentUser } from "redux/dashboardSlice";
-import Send from "assets/icons/send.svg"
-import InviteMember from "./InviteMember";
+import {
+  Avatar,
+  Box,
+  Card,
+  ClassNameMap,
+  Grid,
+  Typography,
+} from '@mui/material';
+import { useState, useEffect } from 'react';
+import UserProfileSidePanel from './UserProfileSidePanel';
+import dashboardStyles from 'styles/components/dashboardStyles';
+import common from 'components/common';
+import { ApiCall } from 'utils';
+import Spinner from 'components/common/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentUser } from 'redux/dashboardSlice';
+import Send from 'assets/icons/send.svg';
+import InviteMember from './InviteMember';
 function FindMember() {
   const dispatch = useDispatch();
-  const classes = dashboardStyles();
+  const classes: ClassNameMap<any> = dashboardStyles();
 
-  const { currentUser } = useSelector((state) => state.dashboard);
+  const { currentUser } = useSelector((state: any) => state.dashboard);
   const [viewProfile, setViewProfile] = useState(false);
-  const [handleMore, setHandleMore] = useState(null);
+  const [handleMore, setHandleMore] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState([]);
   const [isMemberDialogOpen, setMemberDialogOpen] = useState(false);
 
   const [findMember, setFindMember] = useState({
-    member: "",
+    member: '',
     sortBy: null,
     favorites: [],
   });
   const sortByData = [
-    { id: "Most Recent", title: "Most Recent" },
-    { id: "Recommendation", title: "Recommendations" },
+    { id: 'Most Recent', title: 'Most Recent' },
+    { id: 'Recommendation', title: 'Recommendations' },
   ];
-  const moreOptions = ["View Profile", "Email", "Message via Slack"];
-  const isFavorite = (id) =>
-    currentUser?.[0]?.favorites.some((item) => item.id == id);
+  const moreOptions = ['View Profile', 'Email', 'Message via Slack'];
+  const isFavorite = (id: any) =>
+    currentUser?.[0]?.favorites?.some((item: any) => item.id == id);
 
-  const addFavorites = async (id) => {
-    const response = await ApiCall("profile/favorite/", null, "POST", {
+  const addFavorites = async (id: any) => {
+    const response = await ApiCall('profile/favorite/', null, 'POST', {
       favorite: id,
     });
     if (response) {
@@ -43,16 +50,16 @@ function FindMember() {
   };
 
   const fetchMembers = async () => {
-    const response = await ApiCall("profile", setLoading);
+    const response = await ApiCall('profile', setLoading);
     response && setMembers(response?.results);
   };
 
-  const searchMember = async (name) => {
+  const searchMember = async (name: any) => {
     const response = await ApiCall(`profile?name=${name}`, setLoading);
     response && setMembers(response?.results);
   };
 
-  const sortByApi = async (sortBy) => {
+  const sortByApi = async (sortBy: any) => {
     const response = await ApiCall(`profile?sort=${sortBy}`, setLoading);
     response && setMembers(response?.results);
   };
@@ -71,10 +78,10 @@ function FindMember() {
     findMember.sortBy && sortByApi(findMember.sortBy);
   }, [findMember.sortBy]);
 
-  const handleCloseUserMenu = (item) => {
-    if (item === "Email") {
+  const handleCloseUserMenu = (item: any) => {
+    if (item === 'Email') {
       window.location.href = `mailto:${handleMore.user.email}`;
-    } else if (item === "View Profile") {
+    } else if (item === 'View Profile') {
       setViewProfile(true);
     } else {
       console.log(item);
@@ -91,7 +98,7 @@ function FindMember() {
             {members?.length} Members
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user.groups[0].name == "Moderator" && (
+        {currentUser?.[0]?.user.groups[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
@@ -126,7 +133,7 @@ function FindMember() {
             />
           </Grid>
         </Grid>
-        {members?.map((rec, index) => (
+        {members?.map((rec: any, index: number) => (
           <Box padding={'0.75rem 1.25rem'}>
             <Grid container className={`row-between ${classes.content}`}>
               <Grid item xs={8} md={4} lg={4}>
@@ -134,7 +141,7 @@ function FindMember() {
                   <Avatar src={rec.profile_pic} />
                   <Box className="col-start gap-05">
                     <Box className="row-start gap-05">
-                      <Typography variant="author">
+                      <Typography>
                         {rec.user.first_name + rec.user.last_name}
                       </Typography>
                       {isFavorite(rec.id) ? (
@@ -151,17 +158,15 @@ function FindMember() {
                         />
                       )}
                     </Box>
-                    <Typography variant="lighterSubtitle2">
-                      {rec.user.email}
-                    </Typography>
+                    <Typography>{rec.user.email}</Typography>
                   </Box>
                 </Box>
               </Grid>
               <Grid item xs={4} md={2} lg={2}>
                 <Typography className={classes.role}>
-                  {rec.user.groups[0].name == "Moderator"
-                    ? "Moderator"
-                    : "Member"}
+                  {rec.user.groups[0]?.name == 'Moderator'
+                    ? 'Moderator'
+                    : 'Member'}
                 </Typography>
               </Grid>
               <Grid item xs={3} md={3} lg={3}>
@@ -171,12 +176,18 @@ function FindMember() {
                 <common.MuiIcon
                   name="FiberManualRecord"
                   fontSize="10px"
-                  IconColor={rec?.match_count ? "success" : "error"}
+                  IconColor={rec?.match_count ? 'success' : 'error'}
                 />
-                {rec?.match_count ? rec?.match_count : "No"} Matches
+                {rec?.match_count ? rec?.match_count : 'No'} Matches
               </Grid>
 
-              <Grid item xs={1} md={1} lg={1} onClick={() => setHandleMore(rec)}>
+              <Grid
+                item
+                xs={1}
+                md={1}
+                lg={1}
+                onClick={() => setHandleMore(rec)}
+              >
                 <common.MenuList
                   items={moreOptions}
                   onClose={handleCloseUserMenu}
@@ -186,7 +197,7 @@ function FindMember() {
               </Grid>
             </Grid>
             <Box className="flex">
-              {rec.interests.map((item) => (
+              {rec.interests.map((item: any) => (
                 <Typography className={classes.tag}>{item.title}</Typography>
               ))}
             </Box>
@@ -200,7 +211,14 @@ function FindMember() {
           setPanel={setViewProfile}
         />
       )}
-      <common.Popup openPopup={isMemberDialogOpen} setPopup={setMemberDialogOpen} width={"sm"} children={<InviteMember />} title={"Manage Members"} subTitle={"Invite members to your Directory."} />
+      <common.Popup
+        openPopup={isMemberDialogOpen}
+        setPopup={setMemberDialogOpen}
+        width={'sm'}
+        children={<InviteMember />}
+        title={'Manage Members'}
+        subTitle={'Invite members to your Directory.'}
+      />
     </>
   );
 }

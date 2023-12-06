@@ -18,14 +18,14 @@ function Dashboard() {
   const [Panel, setPanel] = useState(false);
   const [portal, setPortal] = React.useState("find");
 
-  const handlePortalChange = (newPortal) => {
+  const handlePortalChange = (newPortal: any) => {
     setPortal(newPortal);
   };
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, []);
   
-  const getPortalSizes = (portal) => {
+  const getPortalSizes: any = (portal: any) => {
     if (portal === "general") {
       return { sideMenuSize: 3, mainContentSize: 6.5, recommendationSize: 2.5 };
     } else if (portal === "find" || portal === "library") {
@@ -33,10 +33,10 @@ function Dashboard() {
     }
   };
 
-  const { sideMenuSize, mainContentSize, recommendationSize } =
+  const { sideMenuSize, mainContentSize, recommendationSize }: any =
     getPortalSizes(portal);
 
-  const portalComponents = {
+  const portalComponents: any = {
     general: <General />,
     find: <FindMember />,
     library: <Library />,
