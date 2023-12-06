@@ -2,7 +2,7 @@ import React from 'react';
 import LoadingOverlay from 'react-loading-overlay';
 import { Circles } from 'react-loader-spinner';
 
-export default function Spinner  ({ isLoading, color }) {
+export default function Spinner  ({ isLoading, color = null }) {
   return (
       <LoadingOverlay
         active={isLoading}
