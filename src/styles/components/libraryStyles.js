@@ -62,7 +62,11 @@ const libraryStyles = makeStyles((theme) => ({
         border: `1px solid ${theme.palette.primary.lightest} !important`,
         padding: '3px 10px !important',
         borderRadius: '0.3125rem !important',
-    }
+    },
+    libraryIcon:{
+        maxWidth : '60px'
+      }
+    
 }));
 
 export default libraryStyles;
