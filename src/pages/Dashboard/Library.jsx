@@ -15,7 +15,8 @@ import youtubeText from "assets/icons/youtubeText.png";
 import doc from "assets/icons/doc.png";
 import pdf from "assets/icons/pdf.png";
 import link from "assets/icons/link.png";
-
+import { useSelector } from "react-redux";
+import { useInfiniteQuery } from "react-query";
 const contentTypes = [
   {
     id: "youtube",
@@ -40,31 +41,65 @@ const contentTypes = [
 ];
 const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf };
 function Library() {
+  const { currentUser } = useSelector((state) => state.dashboard);
   const [view, setView] = useState("list");
   const [selectedTags, setSelectedTags] = useState([]);
   const [tags, setTags] = useState();
   const [selectedTypes, setSelectedTypes] = useState([]);
-  const [findContent, setFindContent] = useState({
+  const [isContentDialogOpen, setContentDialogOpen] = useState(false);
+  const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
+  const [libraryContent, setLibraryContent] = useState({
     content: "",
     sortBy: null,
   });
+  async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
+    const apiUrl = `libraries?page=${pageParam}&types[]=${types}&tags[]=${tags}&name=${name}&sort=${sortBy}`;
+    return await ApiCall(apiUrl);
+  }
+  const {
+    data,
+    error,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery(
+    "libraries",
+    ({ pageParam = 1 }) =>
+      fetchLibraries(
+        { pageParam },
+        selectedTypes,
+        selectedTags,
+        libraryContent.content,
+        libraryContent.sortBy
+      ),
+    {
+      getNextPageParam: (lastPage) => lastPage.next,
+    }
+  );
 
-  const fetchLibraries = async ({ pageParam = 1 }) => {
-    const apiUrl = `libraries?page=${pageParam}&types[]=${selectedTypes}&tags[]=${selectedTags}&name=${findContent.content}&sort=${findContent.sortBy}`;
-    const response = await ApiCall(apiUrl);
-    return response;
-  };
+  useEffect(() => {
+    const { content, sortBy } = libraryContent;
+    refetch({
+      pageParam: 1,
+      selectedTypes,
+      selectedTags,
+      content,
+      sortBy,
+    });
+  }, [selectedTypes, selectedTags, libraryContent.content, refetch]);
 
-  const fetchTags = async () => {
-    const tags = await ApiCall("tags");
-    tags && setTags(tags?.results);
-  };
+    const fetchTags = async () => {
+      const tags = await ApiCall("tags");
+      tags && setTags(tags?.results);
+    };
+  
   useEffect(() => {
     fetchTags();
   }, []);
-    useEffect(() => {console.log("done")}, [selectedTypes, selectedTags, findContent]);
-  const [isContentDialogOpen, setContentDialogOpen] = useState(false);
-  const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
+
   const classes = dashboardStyles();
 
   const openContentModal = () => {
@@ -80,9 +115,7 @@ function Library() {
     setFilterDialogOpen(false);
   };
 
-  const sortByData = [
-    { id: "Most Recent", title: "Most Recent" },
-  ];
+  const sortByData = [{ id: "Most Recent", title: "Most Recent" }];
   return (
     <>
       <Grid container alignItems="center">
@@ -91,16 +124,18 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <common.MuiButton
-            variant="contained"
-            size="large"
-            label="Add Content"
-            className={classes.addContentButton}
-            startIcon={<AddIcon />}
-            onClick={openContentModal}
-          />
-        </Grid>
+        {currentUser?.[0]?.user.groups[0].name == "Moderator" && (
+          <Grid item xs={6} sm={4} md={3}>
+            <common.MuiButton
+              variant="contained"
+              size="large"
+              label="Add Content"
+              className={classes.addContentButton}
+              startIcon={<AddIcon />}
+              onClick={openContentModal}
+            />
+          </Grid>
+        )}
       </Grid>
 
       <Card className={classes.card}>
@@ -109,8 +144,8 @@ function Library() {
             <common.Input
               name="content"
               placeholder="Search libraries"
-              value={findContent.content}
-              objOnChange={setFindContent}
+              value={libraryContent.content}
+              listUpdater={setLibraryContent}
               startIcon={true}
             />
           </Grid>
@@ -118,9 +153,9 @@ function Library() {
           <Grid item xs={5} sm={3.5} md={3} lg={3.5}>
             <common.Select
               name="sortBy"
-              value={findContent.sortBy}
+              value={libraryContent.sortBy}
               defaultValue="Sort By"
-              objOnChange={setFindContent}
+              listUpdater={setLibraryContent}
               options={sortByData}
             />
           </Grid>
@@ -131,24 +166,26 @@ function Library() {
             <common.MuiButton img={filter} onClick={openFilterModal} />
           </Grid>
         </Grid>
-
         <Typography variant="lightSubtitle2" align="left">
           MOST RECENT
         </Typography>
-        <common.DataFetchingComponent
-          queryKey="members"
-          fetchFn={fetchLibraries}
-          render={(data) =>
+        <common.InfiniteQueryWrapper
+          status={status}
+          data={data}
+          error={error}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isFetching={isFetching}
+        >
+          {(libraries) =>
             view === "list" ? (
-              <LibraryContent
-                libraryData={data?.results}
-                typeIcons={typeIcons}
-              />
+              <LibraryContent libraryData={libraries} typeIcons={typeIcons} />
             ) : (
-              <ModuleView libraryData={data?.results} typeIcons={typeIcons} />
+              <ModuleView libraryData={libraries} typeIcons={typeIcons} />
             )
           }
-        />
+        </common.InfiniteQueryWrapper>
       </Card>
       <CreateContent
         isOpen={isContentDialogOpen}

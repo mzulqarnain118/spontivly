@@ -10,11 +10,7 @@ function App() {
   return (
     <>
       <Suspense
-        fallback={
-          <div className="body-overlay">
-            <common.Spinner isLoading={true} />
-          </div>
-        }
+        fallback={<common.Spinner isOverlay={true} />}
       >
         <ThemeComponent>
           <RouterProvider router={Routes} />

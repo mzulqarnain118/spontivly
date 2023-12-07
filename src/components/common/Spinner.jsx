@@ -1,13 +1,15 @@
 import React from 'react';
-import LoadingOverlay from 'react-loading-overlay';
-import { Circles } from 'react-loader-spinner';
+import { Typography, CircularProgress } from "@mui/material";
 
-export default function Spinner  ({ isLoading, color }) {
+export default function Spinner  ({isOverlay,text}) {
   return (
-      <LoadingOverlay
-        active={isLoading}
-        spinner={<Circles color={color ?? "var(--text-primary, #222)"} />}
-      />
+    <div
+      className={isOverlay && "body-overlay"}
+      style={{ textAlign: "center", padding: "20px",color: "#2D3840" }}
+    >
+      <CircularProgress />
+      <Typography>{text ?? "Loading..."}</Typography>
+    </div>
   );};
 
 

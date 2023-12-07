@@ -25,11 +25,7 @@ const ProtectedRoute = (WrappedComponent, redirectPath = "/") => {
     }
 
     // Render loading state or error message if needed
-    return (
-      <div className="body-overlay">
-        <Spinner isLoading={true} />
-      </div>
-    );
+    return <Spinner isOverlay={true} />;
   };
 
   return Wrapper;
