@@ -49,14 +49,14 @@ function Social() {
   const dispatch = useDispatch();
   const social = useSelector((state) => state.social);
   const {
-    REACT_APP_LINKEDIN_APP_ID,
-    REACT_APP_LINKEDIN_APP_SECRET,
-    REACT_APP_INSTAGRAM_APP_ID,
-    REACT_APP_INSTAGRAM_APP_SECRET,
-    REACT_APP_FB_APP_ID,
-    REACT_APP_TWITTER_V2_APP_KEY,
-    REACT_APP_TWITTER_V2_APP_SECRET,
-    REACT_APP_REDIRECT_URI,
+    VITE_LINKEDIN_APP_ID,
+    VITE_LINKEDIN_APP_SECRET,
+    VITE_INSTAGRAM_APP_ID,
+    VITE_INSTAGRAM_APP_SECRET,
+    VITE_FB_APP_ID,
+    VITE_TWITTER_V2_APP_KEY,
+    VITE_TWITTER_V2_APP_SECRET,
+    VITE_REDIRECT_URI,
   } = config;
 
   const renderSocialLogin = (Component, props) => {
@@ -64,7 +64,7 @@ function Social() {
     return (
       <Component
         {...props}
-        redirect_uri={REACT_APP_REDIRECT_URI}
+        redirect_uri={VITE_REDIRECT_URI}
         onResolve={({ provider, data }) => {
           console.log('data........', data, provider)
           dispatch(
@@ -113,28 +113,28 @@ function Social() {
 
               {social.name === "LinkedIn" &&
                 renderSocialLogin(LoginSocialLinkedin, {
-                  client_id: REACT_APP_LINKEDIN_APP_ID,
-                  client_secret: REACT_APP_LINKEDIN_APP_SECRET,
+                  client_id: VITE_LINKEDIN_APP_ID,
+                  client_secret: VITE_LINKEDIN_APP_SECRET,
                   scope: "profile",
                   platform: social.name.toLocaleLowerCase(),
                 })}
               {social.name === "Instagram" &&
                 renderSocialLogin(LoginSocialInstagram, {
-                  client_id: REACT_APP_INSTAGRAM_APP_ID,
-                  client_secret: REACT_APP_INSTAGRAM_APP_SECRET,
+                  client_id: VITE_INSTAGRAM_APP_ID,
+                  client_secret: VITE_INSTAGRAM_APP_SECRET,
                   platform: social.name.toLocaleLowerCase(),
                 })}
               {social.name === "Facebook" &&
                 renderSocialLogin(LoginSocialFacebook, {
-                  appId: REACT_APP_FB_APP_ID,
+                  appId: VITE_FB_APP_ID,
                   fieldsProfile:
                     "id,first_name,last_name,middle_name,name,name_format",
                   platform: social.name.toLocaleLowerCase(),
                 })}
               {social.name === "Twitter" &&
                 renderSocialLogin(LoginSocialTwitter, {
-                  client_id: REACT_APP_TWITTER_V2_APP_KEY,
-                  // client_secret: REACT_APP_TWITTER_V2_APP_SECRET,
+                  client_id: VITE_TWITTER_V2_APP_KEY,
+                  // client_secret: VITE_TWITTER_V2_APP_SECRET,
                   platform: social.name.toLocaleLowerCase(),
                 })}
             </Card>

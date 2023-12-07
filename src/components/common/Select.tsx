@@ -1,13 +1,14 @@
-import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   FormControl,
   InputLabel,
   Select as MuiSelect,
   MenuItem,
   FormHelperText,
-} from "@mui/material";
-import commonStyles from "../../styles/commonStyles";
+  ClassNameMap,
+} from '@mui/material';
+import commonStyles from '../../styles/commonStyles';
 export default function Select(
   {
     name,
@@ -27,21 +28,21 @@ export default function Select(
     customHandleChange,
     options,
     ...other
-  },
-  props
+  }: any,
+  props: any
 ) {
-  const classes = commonStyles();
+  const classes: ClassNameMap<any> = commonStyles();
   const dispatch = useDispatch();
 
   const handleChange = useCallback(
-    (e) => {
+    (e: any) => {
       const { name, value } = e.target;
       if (reduxValueUpdater) {
         dispatch(reduxValueUpdater(value));
       } else if (reduxListUpdater) {
         dispatch(reduxListUpdater({ [name]: value }));
       } else if (listUpdater) {
-        listUpdater((prevFormData) => ({
+        listUpdater((prevFormData: any) => ({
           ...prevFormData,
           [name]: value,
         }));
@@ -58,7 +59,7 @@ export default function Select(
         <InputLabel>{`${label}${props.required ? ` *` : ``}`}</InputLabel>
       )}
       <MuiSelect
-        value={value ?? ""}
+        value={value ?? ''}
         label={label && `${label}${props.required ? `*` : ``}`}
         name={name}
         onChange={customHandleChange ?? handleChange}
@@ -78,7 +79,7 @@ export default function Select(
           </MenuItem>
         )}
         {props.children ? props.children : null}
-        {options.map((item) => (
+        {options.map((item: any) => (
           <MenuItem key={item.id} value={item.id}>
             {item.title}
           </MenuItem>

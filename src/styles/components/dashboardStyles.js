@@ -193,7 +193,8 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   addContentDialogAction: {
     paddingRight:'20px !important'
-  }
+  },
+
 }));
 
 export default dashboardStyles;

@@ -1,9 +1,8 @@
-import React from "react";
-import { Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import common from "components/common";
+import { Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import common from 'components/common';
 
-const VisuallyHiddenInput = styled("input")`
+const VisuallyHiddenInput = styled('input')`
   opacity: 0;
   position: absolute;
   width: 100%;
@@ -28,14 +27,14 @@ export default function MuiButton(
     minWidth,
     handleUploadPhoto,
     ...other
-  },
-  props
+  }: any,
+  props: any
 ) {
   return (
     <Button
-      variant={variant ?? "outlined"}
+      variant={variant ?? 'outlined'}
       label={label}
-      size={size ?? "small"}
+      size={size ?? 'small'}
       disabled={disabled}
       className={className}
       onClick={onClick}
@@ -43,10 +42,9 @@ export default function MuiButton(
       endIcon={endIcon}
       sx={{
         backgroundColor: bgcolor && `${bgcolor} !important`,
-        textTransform: "none",
-        color:color,
-        minWidth:minWidth
-
+        textTransform: 'none',
+        color: color,
+        minWidth: minWidth,
       }}
       {...other}
     >

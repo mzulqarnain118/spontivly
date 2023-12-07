@@ -2,7 +2,7 @@
 FROM node:14
 
 # Use Enviroment Variables
-ENV REACT_APP_BACKEND_URL=https://spontivly-be.devcrew.io \
+ENV VITE_BACKEND_URL=https://spontivly-be.devcrew.io \
     MONGO_DOCKER_PATH=mongodb://admin:password@mongodb
 
 # Set the working directory in the container

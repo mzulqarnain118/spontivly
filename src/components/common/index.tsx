@@ -21,14 +21,14 @@ import Popup from "./Popup";
 import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
 import ReactFormHook from "./ReactFormHook";
-import InfiniteQueryWrapper from "./InfiniteQueryWrapper";
+import DataFetchingComponent from "./DataFetchingComponent";
 const Controls = {
-//   DateTimePicker,
+  //   DateTimePicker,
   RadioGroup,
   Select,
   RichText,
   ReactFormHook,
-//   DatePicker,
+  //   DatePicker,
   Checkbox,
   Input,
   Popup,
@@ -36,12 +36,12 @@ const Controls = {
   MenuList,
   MuiIcon,
   Img,
-  InfiniteQueryWrapper,
+  DataFetchingComponent,
   MuiButton,
   CustomSwitch,
   ContainerToast,
   Link,
-    Spinner,
+  Spinner,
   SearchTags,
   Autocomplete,
   FormHeading,
@@ -52,11 +52,11 @@ const Controls = {
 export default Controls;
 
 
-      //   : list.items.map((item) => (
-            //       <dd onClick={() => handleClick(item.url)}>
-            //         <ListItemButton>
-            //           {item.icon && item.icon}
-            //           <ListItemText primary={item.label} />
-            //         </ListItemButton>
-            //       </dd>
-            //     ))}
+//   : list.items.map((item) => (
+//       <dd onClick={() => handleClick(item.url)}>
+//         <ListItemButton>
+//           {item.icon && item.icon}
+//           <ListItemText primary={item.label} />
+//         </ListItemButton>
+//       </dd>
+//     ))}

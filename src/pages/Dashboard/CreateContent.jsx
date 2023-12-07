@@ -137,11 +137,13 @@ const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={8} className={classes.createContentItem}>
+              {type != "pdf" && (
                 <common.Input
                   register={register("url", { required: type !== "pdf" })}
                   placeholder="Content URL"
                   disabled={type === "pdf"}
                 />
+                )}
                 <common.Input
                   register={register("summary", { required: true })}
                   placeholder="Summary"
