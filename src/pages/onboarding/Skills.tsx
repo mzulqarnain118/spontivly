@@ -1,15 +1,20 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { addSelectedChip, removeSelectedChip, setSearchText } from '../../redux/skillsSlice';
-import {  Container,Box } from '@mui/material';
+import {
+  addSelectedChip,
+  removeSelectedChip,
+  setSearchText,
+} from '../../redux/skillsSlice';
+import { Container, Box, ClassNameMap } from '@mui/material';
 import commonStyles from '../../styles/commonStyles';
-import { createAction } from '@reduxjs/toolkit'
+import { createAction } from '@reduxjs/toolkit';
 import common from '../../components/common';
 const fetchSkills = createAction('skills/fetchSkills');
 
 function Skills() {
-  const classes = commonStyles();
-  const { selectedChips, nextPage,searchText, filterChipData } = useSelector((state) => state.skills);
+  const classes: ClassNameMap<any> = commonStyles();
+  const { selectedChips, nextPage, searchText, filterChipData } = useSelector(
+    (state: any) => state.skills
+  );
   return (
     <>
       <common.FormHeading
@@ -39,4 +44,4 @@ function Skills() {
   );
 }
 
-export default Skills
+export default Skills;
