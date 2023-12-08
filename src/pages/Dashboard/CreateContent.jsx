@@ -55,6 +55,7 @@ const CreateContent = ({ isOpen, onClose,contentTypes,tags,fetchTags }) => {
   };
 
   const handleTagChange = (value) => {
+    console.log('value', value)
     setSelectedTags(value);
   };
   return (

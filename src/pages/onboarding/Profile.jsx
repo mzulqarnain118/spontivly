@@ -5,6 +5,7 @@ import commonStyles from "../../styles/commonStyles";
 import { Container } from "@mui/material";
 import common from "../../components/common";
 import defaultProfile from "assets/images/defaultProfile.png";
+import upload from "assets/icons/upload.png";
 import { readFile } from "utils";
 
 function Profile() {
@@ -40,7 +41,7 @@ function Profile() {
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}
           size="medium"
-          startIcon={<common.Img src={require("assets/icons/upload.png")} />}
+          startIcon={<common.Img src={upload} />}
         />
       </Container>
     </>
