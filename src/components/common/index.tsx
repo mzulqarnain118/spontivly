@@ -7,7 +7,6 @@ import RichText from './RichText'
 // import DateTimePicker from "./DateTimePicker";
 import Autocomplete from "./Autocomplete";
 import FormHeading from "./FormHeading";
-import SearchTags from "./SearchTags";
 import ContainerToast from "./Toast/ContainerToast"
 import Spinner from "./Spinner";
 import MuiButton from "./MuiButton";
@@ -21,7 +20,7 @@ import Popup from "./Popup";
 import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
 import ReactFormHook from "./ReactFormHook";
-import DataFetchingComponent from "./DataFetchingComponent";
+import ChipContainer from "./ChipContainer";
 const Controls = {
   //   DateTimePicker,
   RadioGroup,
@@ -32,17 +31,16 @@ const Controls = {
   Checkbox,
   Input,
   Popup,
+  ChipContainer,
   SidePanel,
   MenuList,
   MuiIcon,
   Img,
-  DataFetchingComponent,
   MuiButton,
   CustomSwitch,
   ContainerToast,
   Link,
   Spinner,
-  SearchTags,
   Autocomplete,
   FormHeading,
   FilterContentTypeCard,

@@ -1,4 +1,3 @@
-import React from "react";
 import common from "components/common";
 import { Typography } from "@mui/material";
 
@@ -11,7 +10,7 @@ const InfiniteQueryWrapper = ({
   isFetchingNextPage,
   isFetching,
   children,
-}) => {
+}:any) => {
 
   return (
     <>

@@ -8,6 +8,7 @@ import { commonStyles } from 'styles';
 import { readFile } from "utils";
 import { setPhotoURL } from "../../redux/onBoardingSlice";
 import defaultProfile from "assets/images/defaultProfile.png";
+import uploadIcon from "assets/icons/upload.png";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -38,27 +39,27 @@ const ProfileContent = () => {
         });
     };
     return (
-        <Box display="flex" flexDirection="column" gap={2}>
-            <Typography variant='h6' align='left'>Photo</Typography>
-            <Grid container display={"flex"} alignItems="center">
-                <Grid item md={2}>
-                    <common.Img
-                        src={profilePic ?? defaultProfile}
-                        className={classes.settingsProfileImage}
-                    />
-                </Grid>
-                <Grid item md={3}>
-                    <common.MuiButton
-                        handleUploadPhoto={handleUploadPhoto}
-                        label={"Upload Photo"}
-                        size="large"
-
-                        startIcon={<common.Img src={require("assets/icons/upload.png")} />}
-                    />
-                </Grid>
-
-            </Grid>
-        </Box>
+      <Box display="flex" flexDirection="column" gap={2}>
+        <Typography variant="h6" align="left">
+          Photo
+        </Typography>
+        <Grid container display={"flex"} alignItems="center">
+          <Grid item md={2}>
+            <common.Img
+              src={profilePic ?? defaultProfile}
+              className={classes.settingsProfileImage}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <common.MuiButton
+              handleUploadPhoto={handleUploadPhoto}
+              label={"Upload Photo"}
+              size="large"
+              startIcon={<common.Img src={uploadIcon} />}
+            />
+          </Grid>
+        </Grid>
+      </Box>
     );
 };
 

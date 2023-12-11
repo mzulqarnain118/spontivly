@@ -1,4 +1,3 @@
-import React from "react";
 import { FileUploader } from "react-drag-drop-files";
 import dashboardStyles from "styles/components/dashboardStyles";
 import "../../styles/components/dragAndDropFileStyles.css";

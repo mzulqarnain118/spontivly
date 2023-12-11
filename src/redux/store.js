@@ -11,7 +11,6 @@ import socialReducer from "./socialSlice";
 import objectiveReducer from "./objectiveSlice";
 import onBoardingReducer from "./onBoardingSlice";
 import dashboardReducer from "./dashboardSlice";
-import { watchFetchSkills } from "./saga/skillsSagas";
 import { watchFetchInterests } from "./saga/interestsSaga";
 import { watchFetchObjectives } from "./saga/objectivesSaga";
 import { watchLocationText } from "./saga/locationSaga";
@@ -41,7 +40,6 @@ const store = configureStore({
 
 sagaMiddleware.run(function* rootSaga() {
   yield all([
-    watchFetchSkills(),
     watchFetchInterests(),
     watchFetchObjectives(),
     watchLocationText(),

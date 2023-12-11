@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateContent from "./CreateContent";
 import FilterLibrary from "./FilterLibrary";
 import LibraryContent from "./LibraryContent";
-import { ApiCall } from "utils";
+import { ApiCall, encodeParam } from "utils";
 import youtube from "assets/icons/youtube.png";
 import youtubeText from "assets/icons/youtubeText.png";
 import doc from "assets/icons/doc.png";
@@ -52,10 +52,16 @@ function Library() {
     content: "",
     sortBy: null,
   });
+  
   async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
-    const apiUrl = `libraries?page=${pageParam}&types[]=${types}&tags[]=${tags}&name=${name}&sort=${sortBy}`;
+    const encodedTypes = encodeParam(types);
+    const encodedTags = encodeParam(tags);
+    const encodedName = encodeParam(name);
+    const encodedSortBy = encodeParam(sortBy);
+    const apiUrl = `libraries?page=${pageParam}&types[]=${encodedTypes}&tags[]=${encodedTags}&name=${encodedName}&sort=${encodedSortBy}`;
     return await ApiCall(apiUrl);
   }
+
   const {
     data,
     error,
@@ -91,11 +97,11 @@ function Library() {
     });
   }, [selectedTypes, selectedTags, libraryContent.content, refetch]);
 
-    const fetchTags = async () => {
-      const tags = await ApiCall("tags");
-      tags && setTags(tags?.results);
-    };
-  
+  const fetchTags = async () => {
+    const tags = await ApiCall("tags");
+    tags && setTags(tags?.results);
+  };
+
   useEffect(() => {
     fetchTags();
   }, []);

@@ -36,6 +36,11 @@ const readFile = (file, callback) => {
   };
   reader.readAsDataURL(file);
 };
+
+function encodeParam(param) {
+  return encodeURIComponent(param);
+}
+
 export {
   ApiCall,
   getLocal,
@@ -44,6 +49,7 @@ export {
   parseJSON,
   AL,
   rmLocal,
+  encodeParam,
   debounce,
   generatePayload,
   reduceArrayByKeys,

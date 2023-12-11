@@ -4,6 +4,13 @@ import { Container } from "@mui/system";
 import { handleNext, handleBack } from "../../redux/skillsSlice";
 import companyLogo from "assets/images/CompanyLogo.png";
 import {
+  SKILLS_STEP,
+  INTERESTS_STEP,
+  LOCATION_STEP,
+  EMPLOYMENT_STEP,
+  DEFAULT_STEP,
+} from "./stepNames";
+import {
   MobileStepper,
   IconButton,
   useMediaQuery,
@@ -31,13 +38,13 @@ import {
 } from "../../styles/components/onBoardingStyles";
 import { ApiCall, generatePayload, setLocal } from "utils";
 const Skills = lazy(() => import("./Skills"));
-const Interests = lazy(() => import("./Interests"));
-const Location = lazy(() => import("./Location"));
-const Company = lazy(() => import("./Company"));
-const Objective = lazy(() => import("./Objective"));
-const Bio = lazy(() => import("./Bio"));
-const Social = lazy(() => import("./Social"));
-const Profile = lazy(() => import("./Profile"));
+// const Interests = lazy(() => import("./Interests"));
+// const Location = lazy(() => import("./Location"));
+// const Company = lazy(() => import("./Company"));
+// const Objective = lazy(() => import("./Objective"));
+// const Bio = lazy(() => import("./Bio"));
+// const Social = lazy(() => import("./Social"));
+// const Profile = lazy(() => import("./Profile"));
 
 function OnBoarding() {
   const [open, setOpen] = React.useState(false);
@@ -62,7 +69,9 @@ function OnBoarding() {
     (state) => state.objective
   );
   const bioText = useSelector((state) => state.onBoarding.bioText);
-  const { photoFlag, profilePicPayload } = useSelector((state) => state.onBoarding);
+  const { photoFlag, profilePicPayload } = useSelector(
+    (state) => state.onBoarding
+  );
   const isSmallScreen = useMediaQuery("(max-width:414px)");
   const classes = onBoarding();
   const steps = [
@@ -70,34 +79,34 @@ function OnBoarding() {
       label: "Skills",
       component: <Skills />,
     },
-    {
-      label: "Interests",
-      component: <Interests />,
-    },
-    {
-      label: "Location",
-      component: <Location />,
-    },
-    {
-      label: "Company",
-      component: <Company />,
-    },
-    {
-      label: "Objective",
-      component: <Objective />,
-    },
-    {
-      label: "Bio",
-      component: <Bio />,
-    },
-    {
-      label: "Social",
-      component: <Social />,
-    },
-    {
-      label: "Profile",
-      component: <Profile />,
-    },
+    // {
+    //   label: "Interests",
+    //   component: <Interests />,
+    // },
+    // {
+    //   label: "Location",
+    //   component: <Location />,
+    // },
+    // {
+    //   label: "Company",
+    //   component: <Company />,
+    // },
+    // {
+    //   label: "Objective",
+    //   component: <Objective />,
+    // },
+    // {
+    //   label: "Bio",
+    //   component: <Bio />,
+    // },
+    // {
+    //   label: "Social",
+    //   component: <Social />,
+    // },
+    // {
+    //   label: "Profile",
+    //   component: <Profile />,
+    // },
   ];
 
   const handleDrawerOpen = () => {
@@ -127,29 +136,29 @@ function OnBoarding() {
     const combinedFormData = new FormData();
     combinedFormData.append("file", profilePicPayload);
     combinedFormData.append("data", JSON.stringify(jsonData));
-      const response = await ApiCall("profile/",null, "POST", combinedFormData);
-      if (response) {
-        setLocal("onboarding", true);
-        navigate("/");
-      }
+    const response = await ApiCall("profile/", null, "POST", combinedFormData);
+    if (response) {
+      setLocal("onboarding", true);
+      navigate("/");
+    }
   };
 
   const isNextButtonDisabled = () => {
     switch (activeStep) {
-      case 0:
+      case SKILLS_STEP:
         return !skillsSelectedChips || skillsSelectedChips.length === 0;
-      case 1:
+      case INTERESTS_STEP:
         return !interestsSelectedChips || interestsSelectedChips.length === 0;
-      case 2:
+      case LOCATION_STEP:
         return setSelectedLocation === null;
-      case 3:
+      case EMPLOYMENT_STEP:
         return companyName === "" || position === "" || stage === null;
       default:
-        return activeStep === 7 && photoFlag === false;
+        return activeStep === DEFAULT_STEP && photoFlag === false;
     }
   };
 
-  const nextButtonText = (() => {
+  const nextButtonText = () => {
     let nextButtonText = "Next";
 
     if (activeStep === 7) {
@@ -162,7 +171,7 @@ function OnBoarding() {
     }
 
     return nextButtonText;
-  })();
+  };
 
   return (
     <Container>
@@ -180,7 +189,7 @@ function OnBoarding() {
           </IconButton>
           {!isSmallScreen && (
             <Typography noWrap component="div" className={classes.label}>
-              {steps[activeStep].label}
+              {steps?.[activeStep]?.label}
             </Typography>
           )}
         </Toolbar>
@@ -270,7 +279,7 @@ function OnBoarding() {
                   }}
                   disabled={isNextButtonDisabled()}
                   variant="contained"
-                  label={nextButtonText}
+                  label={nextButtonText()}
                 />
               </div>
             </DrawerFooter>

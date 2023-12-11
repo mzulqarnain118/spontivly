@@ -6,7 +6,7 @@ import { Container } from "@mui/material";
 import common from "../../components/common";
 import defaultProfile from "assets/images/defaultProfile.png";
 import { readFile } from "utils";
-
+import uploadIcon from "assets/icons/upload.png";
 function Profile() {
   const dispatch = useDispatch();
   const profilePic = useSelector((state) => state.onBoarding.profilePic);
@@ -40,7 +40,7 @@ function Profile() {
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}
           size="medium"
-          startIcon={<common.Img src={require("assets/icons/upload.png")} />}
+          startIcon={<common.Img src={uploadIcon} />}
         />
       </Container>
     </>

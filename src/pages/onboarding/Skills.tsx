@@ -1,18 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import {
   addSelectedChip,
   removeSelectedChip,
   setSearchText,
+  setChipData,
 } from '../../redux/skillsSlice';
-import { Container, Box, ClassNameMap } from '@mui/material';
-import commonStyles from '../../styles/commonStyles';
-import { createAction } from '@reduxjs/toolkit';
 import common from '../../components/common';
-const fetchSkills = createAction('skills/fetchSkills');
+import FetchTags from './FetchTags';
 
 function Skills() {
-  const classes: ClassNameMap<any> = commonStyles();
-  const { selectedChips, nextPage, searchText, filterChipData } = useSelector(
+  const { selectedChips, searchText, filterChipData } = useSelector(
     (state: any) => state.skills
   );
   return (
@@ -21,24 +18,16 @@ function Skills() {
         heading="What are your skills?"
         title="Select all that apply"
       />
-      <Container maxWidth="sm" className={classes.container}>
-        <Box className={classes.mainContainer}>
-          <common.Input
-            placeholder="Search Skills"
-            value={searchText}
-            reduxValueUpdater={setSearchText}
-            startIcon={true}
-            endIcon={true}
-          />
-        </Box>
-      </Container>
-      <common.SearchTags
+
+      <FetchTags
         selectedChips={selectedChips}
-        nextPage={nextPage}
         filterChipData={filterChipData}
         addSelectedChip={addSelectedChip}
         removeSelectedChip={removeSelectedChip}
-        fetchTags={fetchSkills}
+        queryKey="skills"
+        searchText={searchText}
+        setSearchText={setSearchText}
+        setChipData={setChipData}
       />
     </>
   );
