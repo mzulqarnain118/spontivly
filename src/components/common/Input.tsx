@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { ClassNameMap, TextField } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
@@ -22,8 +21,6 @@ export default function Input(
     register,
     valueUpdater,
     listUpdater,
-    reduxValueUpdater,
-    reduxListUpdater,
     customHandleChange,
     multiline,
     rows,
@@ -32,21 +29,26 @@ export default function Input(
   props: any
 ) {
   const classes: ClassNameMap<any> = commonStyles();
-  const dispatch = useDispatch();
 
-  const handleClearClick = useCallback(() => {
-    reduxValueUpdater ? dispatch(reduxValueUpdater('')) : valueUpdater('');
-  }, [dispatch]);
+  const handleClearClick = useCallback((e: any) => {
+    const { name } = e.target;
+
+    if (listUpdater) {
+      listUpdater((prevFormData: any) => ({
+        ...prevFormData,
+        [name]: "",
+      }));
+      }
+     else if (valueUpdater) {
+      valueUpdater("");
+    }
+  },[]);
 
   const handleChange = useCallback(
     (e: any) => {
       const { name, value } = e.target;
 
-      if (reduxValueUpdater) {
-        dispatch(reduxValueUpdater(value));
-      } else if (reduxListUpdater) {
-        dispatch(reduxListUpdater({ [name]: value }));
-      } else if (listUpdater) {
+      if (listUpdater) {
         const updateFunction = (prevFormData: any) => ({
           ...prevFormData,
           [name]: value,
@@ -63,9 +65,6 @@ export default function Input(
       }
     },
     [
-      dispatch,
-      reduxValueUpdater,
-      reduxListUpdater,
       listUpdater,
       valueUpdater,
       props.debounce,

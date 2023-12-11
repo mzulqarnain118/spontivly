@@ -38,21 +38,24 @@ import {
 } from "../../styles/components/onBoardingStyles";
 import { ApiCall, generatePayload, setLocal } from "utils";
 const Skills = lazy(() => import("./Skills"));
-// const Interests = lazy(() => import("./Interests"));
-// const Location = lazy(() => import("./Location"));
-// const Company = lazy(() => import("./Company"));
-// const Objective = lazy(() => import("./Objective"));
-// const Bio = lazy(() => import("./Bio"));
-// const Social = lazy(() => import("./Social"));
-// const Profile = lazy(() => import("./Profile"));
+const Interests = lazy(() => import("./Interests"));
+const Location = lazy(() => import("./Location"));
+const Company = lazy(() => import("./Company"));
+const Objective = lazy(() => import("./Objective"));
+const Bio = lazy(() => import("./Bio"));
+const Social = lazy(() => import("./Social"));
+const Profile = lazy(() => import("./Profile"));
 
 function OnBoarding() {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { selectedChips: skillsSelectedChips, activeStep } = useSelector(
+  const { selectedChips: skillsSelectedChips } = useSelector(
     (state) => state.skills
   );
+    const {activeStep } = useSelector(
+      (state) => state.onBoarding
+    );
   const { linkedin, twitter, facebook, instagram } = useSelector(
     (state) => state.social
   );
@@ -79,34 +82,34 @@ function OnBoarding() {
       label: "Skills",
       component: <Skills />,
     },
-    // {
-    //   label: "Interests",
-    //   component: <Interests />,
-    // },
-    // {
-    //   label: "Location",
-    //   component: <Location />,
-    // },
-    // {
-    //   label: "Company",
-    //   component: <Company />,
-    // },
-    // {
-    //   label: "Objective",
-    //   component: <Objective />,
-    // },
-    // {
-    //   label: "Bio",
-    //   component: <Bio />,
-    // },
-    // {
-    //   label: "Social",
-    //   component: <Social />,
-    // },
-    // {
-    //   label: "Profile",
-    //   component: <Profile />,
-    // },
+    {
+      label: "Interests",
+      component: <Interests />,
+    },
+    {
+      label: "Location",
+      component: <Location />,
+    },
+    {
+      label: "Company",
+      component: <Company />,
+    },
+    {
+      label: "Objective",
+      component: <Objective />,
+    },
+    {
+      label: "Bio",
+      component: <Bio />,
+    },
+    {
+      label: "Social",
+      component: <Social />,
+    },
+    {
+      label: "Profile",
+      component: <Profile />,
+    },
   ];
 
   const handleDrawerOpen = () => {

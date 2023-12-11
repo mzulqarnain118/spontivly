@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, CircularProgress } from "@mui/material";
 
-export default function Spinner  ({isOverlay,text}:any) {
+export default function Spinner  ({isOverlay,text}) {
   return (
     <div
       className={isOverlay && "body-overlay"}

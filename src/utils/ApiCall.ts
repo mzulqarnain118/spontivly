@@ -4,6 +4,7 @@ import ExceptionHandler from "./ExceptionHandler";
 import { getLocal } from "./index";
 
 // Create an Axios instance with default configuration
+
 const apiInstance = axios.create({
   baseURL: config.VITE_BACKEND_URL,
 });
@@ -28,7 +29,7 @@ apiInstance.interceptors.response.use(
 
 // ApiCall function using the Axios instance
 export default function ApiCall(
-  url: string | string[],
+  url: string,
   setLoading: any = null,
   method: string = "GET",
   data: any = null

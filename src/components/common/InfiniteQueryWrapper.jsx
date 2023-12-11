@@ -10,7 +10,7 @@ const InfiniteQueryWrapper = ({
   isFetchingNextPage,
   isFetching,
   children,
-}:any) => {
+}) => {
 
   return (
     <>
@@ -24,7 +24,7 @@ const InfiniteQueryWrapper = ({
         </div>
       ) : (
         <>
-          {children(data?.pages?.flatMap((page) => page.results))}
+          {children(data?.pages?.flatMap((page) => page?.results))}
           <div style={{ textAlign: "center", padding: "20px" }}>
             <common.MuiButton
               variant="contained"

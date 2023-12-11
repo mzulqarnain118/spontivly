@@ -1,4 +1,4 @@
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   addSelectedChip,
   removeSelectedChip,
@@ -6,7 +6,7 @@ import {
   setChipData,
 } from '../../redux/skillsSlice';
 import common from '../../components/common';
-import FetchTags from './FetchTags';
+import SearchTags from './SearchTags';
 
 function Skills() {
   const { selectedChips, searchText, filterChipData } = useSelector(
@@ -19,7 +19,7 @@ function Skills() {
         title="Select all that apply"
       />
 
-      <FetchTags
+      <SearchTags
         selectedChips={selectedChips}
         filterChipData={filterChipData}
         addSelectedChip={addSelectedChip}

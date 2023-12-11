@@ -8,6 +8,7 @@ const onBoardingSlice = createSlice({
     profilePic: null,
     profilePicPayload: null,
     photoFlag: false,
+    activeStep: 0,
     saveProfileResponse: null,
     error: null,
     loading: null,
@@ -28,8 +29,22 @@ const onBoardingSlice = createSlice({
     fetchDataSuccess: (state, action) => {
       state.saveProfileResponse = action.payload;
     },
+    handleNext: (state, action) => {
+      state.activeStep +=1;
+    },
+    handleBack: (state, action) => {
+      state.error -= 1;
+    },
   },
 });
 
-export const { setBioText, fetchDataFailure, fetchDataSuccess, setPhotoURL, saveProfile } = onBoardingSlice.actions;
+export const {
+  setBioText,
+  activeStep,fetchDataFailure,
+  fetchDataSuccess,
+  handleNext,
+  handleBack,
+  setPhotoURL,
+  saveProfile,
+} = onBoardingSlice.actions;
 export default onBoardingSlice.reducer;
