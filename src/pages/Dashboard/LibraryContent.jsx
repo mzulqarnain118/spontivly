@@ -52,7 +52,7 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
 
               <Grid item xs={2} className="col-between">
                 <Typography variant="lightSubtitle2">{library.date}</Typography>
-                  <common.Img src={typeIcons[library?.type]} />
+                  <common.Img type="icon" src={typeIcons[library?.type]} />
               </Grid>
             </Grid>
           </Box>

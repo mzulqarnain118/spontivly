@@ -4,10 +4,11 @@ import common from "components/common";
 import { useSelector, useDispatch } from "react-redux";
 import { ApiCall } from "utils";
 import { fetchCurrentUser } from "redux/dashboardSlice";
-function SideMenuCard({ onPortalChange, channels }) {
+function SideMenuCard({ onPortalChange,setPanel, channels }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.dashboard);
   const [refetch, setrefetch] = useState(false)
+  const [channelLabel, setChannelLabel] = useState("")
   useEffect(() => {
     dispatch(fetchCurrentUser());
   }, [refetch]);
@@ -16,8 +17,10 @@ function SideMenuCard({ onPortalChange, channels }) {
     if (response) {
       setrefetch(true);
     }}
-    const handleClick = (text) => {
-      text != "" && onPortalChange(text);
+  const handleClick = (url,label) => {
+      setChannelLabel(label);
+    url, label != "" && onPortalChange(url, label);
+    setPanel(false);
     };
 
     return (
@@ -44,10 +47,11 @@ function SideMenuCard({ onPortalChange, channels }) {
                   />
                 </dd>
               ))}
-            {list.items.map((item, itemIndex) => (
+            {list.items.map((item) => (
               <dd
                 className="row-between gap-06 cursor"
-                onClick={() => handleClick(item.url)}
+                style={{ color: channelLabel === item.label && "black" }}
+                onClick={() => handleClick(item.url, item.label)}
               >
                 <common.MuiIcon name={item.icon} />
                 <Typography>{item.label}</Typography>

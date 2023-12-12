@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   FormControl,
   InputLabel,
@@ -23,8 +22,6 @@ export default function Select(
     multiple,
     register,
     listUpdater,
-    reduxValueUpdater,
-    reduxListUpdater,
     customHandleChange,
     options,
     ...other
@@ -32,16 +29,10 @@ export default function Select(
   props: any
 ) {
   const classes: ClassNameMap<any> = commonStyles();
-  const dispatch = useDispatch();
-
   const handleChange = useCallback(
     (e: any) => {
       const { name, value } = e.target;
-      if (reduxValueUpdater) {
-        dispatch(reduxValueUpdater(value));
-      } else if (reduxListUpdater) {
-        dispatch(reduxListUpdater({ [name]: value }));
-      } else if (listUpdater) {
+      if (listUpdater) {
         listUpdater((prevFormData: any) => ({
           ...prevFormData,
           [name]: value,
@@ -50,7 +41,7 @@ export default function Select(
         valueUpdater(value);
       }
     },
-    [dispatch, reduxValueUpdater, reduxListUpdater, listUpdater, valueUpdater]
+    [ listUpdater, valueUpdater]
   );
 
   return (

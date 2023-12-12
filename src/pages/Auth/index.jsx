@@ -66,7 +66,7 @@ export default function Auth() {
 
   return (
     <Container maxWidth="sm" className={classes.container}>
-      <common.Img src={logo} logo={true} />
+      <common.Img src={logo} type="logo" />
       <common.FormHeading heading=" Welcome to The Avengers" />
       <common.MuiButton
         onClick={handleLinkedInButtonClick}

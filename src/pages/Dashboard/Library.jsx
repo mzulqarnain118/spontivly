@@ -172,9 +172,6 @@ function Library() {
             <common.MuiButton img={filter} onClick={openFilterModal} />
           </Grid>
         </Grid>
-        <Typography variant="lightSubtitle2" align="left">
-          MOST RECENT
-        </Typography>
         <common.InfiniteQueryWrapper
           status={status}
           data={data}

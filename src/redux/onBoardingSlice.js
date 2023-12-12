@@ -29,11 +29,11 @@ const onBoardingSlice = createSlice({
     fetchDataSuccess: (state, action) => {
       state.saveProfileResponse = action.payload;
     },
-    handleNext: (state, action) => {
+    handleNext: (state) => {
       state.activeStep +=1;
     },
-    handleBack: (state, action) => {
-      state.error -= 1;
+    handleBack: (state) => {
+      state.activeStep -= 1;
     },
   },
 });

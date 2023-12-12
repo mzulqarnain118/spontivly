@@ -216,7 +216,8 @@ function FindMember() {
         setPopup={setMemberDialogOpen}
         width={'sm'}
         children={<InviteMember />}
-        title={'Manage Members'}
+          title={'Manage Members'}
+          submitBtnLabel="Send Invite"
         subTitle={'Invite members to your Directory.'}
       />
     </>

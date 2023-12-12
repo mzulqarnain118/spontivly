@@ -29,7 +29,7 @@ const ModuleView = ({ libraryData, typeIcons }) => {
                   />
                   <div className={classes.moduleContentSource}>
                     {typeIcons[library.type] == "youtube" && (
-                      <common.Img src={typeIcons[library.type]} />
+                      <common.Img type="icon" src={typeIcons[library.type]} />
                     )}
                   </div>
                 </div>

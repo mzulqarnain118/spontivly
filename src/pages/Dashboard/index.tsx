@@ -79,9 +79,6 @@ function Dashboard() {
       />
       <Container component="main" sx={containerStyles}>
         <Grid container spacing={2}>
-          {/* <Grid item xs={12} sm={sideMenuSize}>
-            <SideMenuCard onPortalChange={handlePortalChange} channels={channels} />
-          </Grid> */}
           {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>
               <SideMenuCard
@@ -93,7 +90,8 @@ function Dashboard() {
             <SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
               <SideMenuCard
                 onPortalChange={handlePortalChange}
-                channels={channels}
+                  channels={channels}
+                  setPanel={setPanel}
               />
             </SidePanel>
           )}

@@ -21,6 +21,7 @@ import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
 import ReactFormHook from "./ReactFormHook";
 import ChipContainer from "./ChipContainer";
+import  InfiniteQueryWrapper  from './InfiniteQueryWrapper';
 const Controls = {
   //   DateTimePicker,
   RadioGroup,
@@ -36,6 +37,7 @@ const Controls = {
   MenuList,
   MuiIcon,
   Img,
+  InfiniteQueryWrapper,
   MuiButton,
   CustomSwitch,
   ContainerToast,

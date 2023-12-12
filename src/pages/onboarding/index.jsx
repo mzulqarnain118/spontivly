@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/system";
-import { handleNext, handleBack } from "../../redux/skillsSlice";
+import { handleNext, handleBack } from "../../redux/onBoardingSlice";
 import companyLogo from "assets/images/CompanyLogo.png";
 import {
   SKILLS_STEP,

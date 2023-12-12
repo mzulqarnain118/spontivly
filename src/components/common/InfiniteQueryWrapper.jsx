@@ -1,7 +1,8 @@
+import { memo } from "react";
 import common from "components/common";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
-const InfiniteQueryWrapper = ({
+function InfiniteQueryWrapper({
   status,
   error,
   data,
@@ -10,10 +11,14 @@ const InfiniteQueryWrapper = ({
   isFetchingNextPage,
   isFetching,
   children,
-}) => {
-
+}) {
   return (
-    <>
+    <Box
+      sx={{
+        overflowY: "auto",
+        padding: "16px",
+      }}
+    >
       {status === "loading" ? (
         <common.Spinner />
       ) : status === "error" ? (
@@ -25,27 +30,19 @@ const InfiniteQueryWrapper = ({
       ) : (
         <>
           {children(data?.pages?.flatMap((page) => page?.results))}
-          <div style={{ textAlign: "center", padding: "20px" }}>
+          {hasNextPage && (
             <common.MuiButton
-              variant="contained"
-              size="large"
               onClick={() => fetchNextPage()}
-              disabled={!hasNextPage || isFetchingNextPage}
-            >
-              {isFetchingNextPage
-                ? "Loading more..."
-                : hasNextPage
-                ? "Load More"
-                : "Nothing more to load"}
-            </common.MuiButton>
-          </div>
+              label={isFetchingNextPage ? "Loading more..." : "Load More"}
+              size="medium"
+            />
+          )}
           {isFetching && !isFetchingNextPage && (
             <common.Spinner text="Fetching..." />
           )}
         </>
       )}
-    </>
+    </Box>
   );
-};
-
-export default InfiniteQueryWrapper;
+}
+export default memo(InfiniteQueryWrapper);

@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Chip, Box } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ function SearchTags({
   filterChipData,
   setSearchText,
   setChipData,
+  placeholder,
 }) {
   const dispatch = useDispatch();
   const classes = commonStyles();
@@ -66,57 +67,54 @@ function SearchTags({
   });
 
   return (
-    <Box
-      sx={{
-        overflowY: 'auto', // enable vertical scrollbar when content overflows
-        padding: '16px', // optional padding
-      }}>
-      <Container maxWidth="sm" className={classes.container}>
-        <Box className={classes.mainContainer}>
-          <common.Input
-            placeholder="Search Skills"
-            value={searchText}
-            onChange={(e) => dispatch(setSearchText(e.target.value))}
-            customHandleClearClick={() => dispatch(setSearchText(""))}
-            startIcon={true}
-            endIcon={true}
-          />
-        </Box>
-      </Container>
-      <Container className={classes.chipContainer}>
-        {selectedChips.map((data, index) => (
-          <>
-            <Chip
-              key={data.id}
-              label={data.title}
-              size="medium"
-              onDelete={handleRemoveFromSelectedChips(data)}
-              deleteIcon={<ClearIcon />}
-              className={classes.selectedChip}
-            />
-          </>
-        ))}
-      </Container>
-      <Container className={classes.selectedchipContainer}>
-        {filterChipData.map((data, index) => (
-          <>
-            <Chip
-              key={data.id}
-              label={data.title}
-              onClick={handleAddToSelectedChips(data)}
-              className={classes.chip}
-            />
-          </>
-        ))}
-      </Container>
-      {hasNextPage && (
-        <common.MuiButton
-          onClick={() => fetchNextPage()}
-          label={isFetchingNextPage ? "Loading more..." : "Load More"}
-          size="medium"
-        />
+    <common.InfiniteQueryWrapper
+      status={status}
+      data={data}
+      error={error}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      isFetching={isFetching}
+    >
+      {(tags) => (
+        <>
+          <Container maxWidth="sm" className={classes.container}>
+            <Box className={classes.mainContainer}>
+              <common.Input
+                placeholder={placeholder}
+                value={searchText}
+                onChange={(e) => dispatch(setSearchText(e.target.value))}
+                customHandleClearClick={() => dispatch(setSearchText(""))}
+                startIcon={true}
+                endIcon={true}
+              />
+            </Box>
+          </Container>
+          <Container className={classes.chipContainer}>
+            {selectedChips.map((data, index) => (
+                <Chip
+                  key={data.id}
+                  label={data.title}
+                  size="medium"
+                  onDelete={handleRemoveFromSelectedChips(data)}
+                  deleteIcon={<ClearIcon />}
+                  className={classes.selectedChip}
+                />
+            ))}
+          </Container>
+          <Container className={classes.selectedchipContainer}>
+            {filterChipData.map((data, index) => (
+                <Chip
+                  key={data.id}
+                  label={data.title}
+                  onClick={handleAddToSelectedChips(data)}
+                  className={classes.chip}
+                />
+            ))}
+          </Container>
+        </>
       )}
-    </Box>
+    </common.InfiniteQueryWrapper>
   );
 }
 

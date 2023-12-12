@@ -1,16 +1,29 @@
-import { Container,Box } from "@mui/material";
-import React, { useEffect } from "react";
+import { Container, Box } from "@mui/material";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCompanyStages, setCompanyInfo } from "../../redux/companySlice";
+import { setCompanyInfo } from "../../redux/companySlice";
 import common from "../../components/common";
 import commonStyles from "../../styles/commonStyles";
+import { ApiCall } from "utils";
+import { useQuery } from "react-query";
 function Company() {
   const dispatch = useDispatch();
-  const { companyInfo ,stages } = useSelector((state) => state.company);
+  const { companyInfo } = useSelector((state) => state.company);
   const classes = commonStyles();
-  useEffect(()=>{
-    dispatch((fetchCompanyStages()));
-  },[])
+  const fetchCompanyStages = async () => {
+    return await ApiCall("company-stages");
+  };
+
+  const { data: companyStages } = useQuery(["company-stages"], () =>
+    fetchCompanyStages()
+  );
+  const onChangeHandler = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      dispatch(setCompanyInfo({ [name]: value }));
+    },
+    [dispatch, companyInfo]
+  );
   return (
     <>
       <common.FormHeading heading="Tell us about your company" />
@@ -20,20 +33,20 @@ function Company() {
             name="companyName"
             placeholder="Company name"
             value={companyInfo.companyName}
-            reduxListUpdater={setCompanyInfo}
+            onChange={onChangeHandler}
           />
           <common.Input
             name="position"
             placeholder="Your Position"
             value={companyInfo.position}
-            reduxListUpdater={setCompanyInfo}
+            onChange={onChangeHandler}
           />
           <common.Select
             name="stage"
             value={companyInfo.stage}
             defaultValue="Select company stage"
-            reduxListUpdater={setCompanyInfo}
-            options={stages}
+            onChange={onChangeHandler}
+            options={companyStages?.results??[]}
           />
         </Box>
       </Container>
