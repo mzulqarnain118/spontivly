@@ -38,6 +38,7 @@
     "dev": "PORT=3082 env-cmd -f .env.local react-scripts start",
     "stg": "PORT=3082 env-cmd -f .env.staging react-scripts start",
     "build": "tsc && vite build",
+    "build:no-ts": "vite build",
     "build:stg": "env-cmd -f .env.staging react-scripts build",
     "build:prod": "env-cmd -f .env react-scripts build",
     "build:dev": "env-cmd -f .env.local react-scripts build",
