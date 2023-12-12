@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "types": ["vite/client"],
-    "isolatedModules": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,9 +17,15 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "noEmit": true,
+    "jsx": "react-jsx",
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "baseUrl": "src",
+    "downlevelIteration": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", ".eslintrc.js", "vite.config.ts", "setupTests.ts"],
 }
