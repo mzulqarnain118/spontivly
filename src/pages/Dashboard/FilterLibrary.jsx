@@ -1,8 +1,7 @@
-import { Box, Card, CardContent, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, IconButton, Link, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import ClearIcon from "@mui/icons-material/Clear";
-import dashboardStyles from 'styles/components/dashboardStyles';
+import {  FormControl, FormGroup, Grid, Link, Typography } from '@mui/material'
 import common from "components/common";
+import { useInfiniteQuery } from "react-query";
+import { ApiCall } from 'utils';
 
 const FilterLibrary = ({
   isOpen,
@@ -12,9 +11,8 @@ const FilterLibrary = ({
   setSelectedTags,
   selectedTypes,
   setSelectedTypes,
-  tags,
+  setApplyFilters
 }) => {
-  const classes = dashboardStyles();
   const handleTagClick = (tagId) => {
      if (selectedTags.includes(tagId)) {
        setSelectedTags(selectedTags.filter((tag) => tag !== tagId));
@@ -22,8 +20,24 @@ const FilterLibrary = ({
        setSelectedTags([...selectedTags, tagId]);
      }
   };
+ const fetchTags = async ({ pageParam = 1 }) => {
+   return await ApiCall(`tags?page=${pageParam}`);
+ };
+ const {
+   data: libraryTags,
+   error,
+   fetchNextPage,
+   hasNextPage,
+   isFetching,
+   isFetchingNextPage,
+   status,
+ } = useInfiniteQuery("tags", ({ pageParam = 1 }) => fetchTags({ pageParam }), {
+   getNextPageParam: (lastPage) => lastPage?.next,
+ });
+  
   const handleClear = () => {
     setSelectedTags([]);
+    setSelectedTypes([]);
   };
   const handleTypeSelection = (typeId) => {
     if (selectedTypes.includes(typeId)) {
@@ -33,16 +47,16 @@ const FilterLibrary = ({
     }
   };
   return (
-    <Dialog open={isOpen} onClose={onClose} maxWidth="48.75rem">
-      <DialogTitle className={classes.filterDialogTitle}>
-        <IconButton onClick={onClose}>
-          <ClearIcon />
-        </IconButton>
-        <Typography variant="h6" className={classes.filterDialogTypography}>
-          Filters
-        </Typography>
-      </DialogTitle>
-      <DialogContent className={classes.filterDialogContent}>
+    <common.Popup
+      openPopup={isOpen}
+      setPopup={onClose}
+      width={"md"}
+      title="Filters"
+      submitBtnLabel="Apply"
+      submitHandler={() => setApplyFilters(old=>!old)}
+      handleFormClear={handleClear}
+    >
+      <div className="col-start gap-05">
         <Typography variant="h5" align="left">
           Type
         </Typography>
@@ -62,39 +76,41 @@ const FilterLibrary = ({
         <Typography variant="h5" align="left">
           Tags
         </Typography>
-        <div className="col-start">
-          <div className="grid-container">
-            {tags?.length !== 0 &&
-              tags?.map((tag) => (
-                <Grid key={tag.id} item xs={6} sm={6} md={6} lg={3}>
-                  <FormControl component="fieldset" variant="standard">
-                    <FormGroup>
-                      <common.Checkbox
-                        label={tag.title}
-                        key={tag.id}
-                        name={tag.name}
-                        size="large"
-                        onChange={() => handleTagClick(tag.id)}
-                        value={selectedTags.includes(tag.id) || false}
-                      />
-                    </FormGroup>
-                  </FormControl>
-                </Grid>
-              ))}
-          </div>
-          <Link>Show more</Link>
-        </div>
-      </DialogContent>
-      <DialogActions className={classes.filterDialogActions}>
-        <Link onClick={handleClear}>Clear all</Link>
-        <common.MuiButton
-          size="medium"
-          variant="contained"
-          label={"Show 100+"}
-          minWidth="117px"
-        />
-      </DialogActions>
-    </Dialog>
+
+        <common.InfiniteQueryWrapper
+          status={status}
+          data={libraryTags}
+          error={error}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isFetching={isFetching}
+        >
+          {(tags) => (
+            <div className="col-start">
+              <div className="grid-container">
+                {tags?.map((tag) => (
+                  <Grid key={tag.id} item xs={6} sm={6} md={6} lg={3}>
+                    <FormControl component="fieldset" variant="standard">
+                      <FormGroup>
+                        <common.Checkbox
+                          label={tag.title}
+                          key={tag.id}
+                          name={tag.name}
+                          size="large"
+                          onChange={() => handleTagClick(tag.id)}
+                          value={selectedTags.includes(tag.id) || false}
+                        />
+                      </FormGroup>
+                    </FormControl>
+                  </Grid>
+                ))}
+              </div>
+            </div>
+          )}
+        </common.InfiniteQueryWrapper>
+      </div>
+    </common.Popup>
   );
 };
 

@@ -7,10 +7,6 @@ export const {
   setSearchText,
   addSelectedChip,
   removeSelectedChip,
-  fetchData,
-  fetchDataSuccess,
-  fetchDataFailure,
-  fetchInterests,
   setChipData,
 } = interestsSlice.actions;
 

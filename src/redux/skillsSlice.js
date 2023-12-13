@@ -7,9 +7,8 @@ export const {
   setSearchText,
   addSelectedChip,
   removeSelectedChip,
-  fetchData,
-  fetchDataSuccess,
-  fetchDataFailure,
+  
+
   handleNext,
   handleBack,
   handleLoading,

@@ -1,18 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid, useMediaQuery, useTheme } from "@mui/material";
-import SideMenuCard from "./SideMenuCard"; // Import SideMenuCard directly
+import SideMenuCard from "./SideMenuCard";
 import General from "./General";
 import FindMember from "./FindMember";
 import Library from "./Library";
 import RecommendationCard from "./RecommendationCard";
 import ResponsiveAppBar from "./ResponsiveAppBar";
-import SidePanel from "components/common/SidePanel";
-import { fetchCurrentUser } from "redux/dashboardSlice";
+import { setCurrentUser } from "redux/dashboardSlice";
 import { useDispatch } from "react-redux";
+import common from 'components/common';
+import { ApiCall } from "utils";
+import qs from 'qs';
+import { useQuery } from 'react-query';
 
 function Dashboard() {
   const dispatch = useDispatch();
+  const [refetchUser, setRefetchUser] = useState(false);
+  const fetchCurrentUser = async () => {
+    const queryParams = {
+      me: true,
+    };
 
+    const encodedParams = qs.stringify(queryParams);
+    const apiUrl = `profile/?${encodedParams}`;
+
+    const response = await ApiCall(apiUrl);
+    return response.results;
+  };
+  const { data: currentUserData } = useQuery(
+    ['currentUser', refetchUser],
+    fetchCurrentUser
+  );
+
+  useEffect(() => {
+    if (currentUserData) {
+      dispatch(setCurrentUser(currentUserData));
+    }
+  }, [currentUserData]);
+  
   const theme = useTheme();
   const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
   const [Panel, setPanel] = useState(false);
@@ -21,9 +46,7 @@ function Dashboard() {
   const handlePortalChange = (newPortal: any) => {
     setPortal(newPortal);
   };
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, []);
+
   
   const getPortalSizes: any = (portal: any) => {
     if (portal === "general") {
@@ -38,7 +61,7 @@ function Dashboard() {
 
   const portalComponents: any = {
     general: <General />,
-    find: <FindMember />,
+    find: <FindMember setRefetchUser={setRefetchUser} />,
     library: <Library />,
   };
 
@@ -84,16 +107,18 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 channels={channels}
+                setRefetchUser={setRefetchUser}
               />
             </Grid>
           ) : (
-            <SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
+            <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                   channels={channels}
                   setPanel={setPanel}
+                  setRefetchUser={setRefetchUser}
               />
-            </SidePanel>
+            </common.SidePanel>
           )}
           <Grid item xs={12} sm={mainContentSize}>
             {mainContent}

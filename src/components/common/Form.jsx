@@ -3,7 +3,7 @@ import { DialogActions } from "@mui/material";
 import { useForm } from "react-hook-form";
 import common from "components/common";
 
-export default function ReactFormHook({ onSubmit, children,submitLabel }) {
+export default function Form({ onSubmit, children,submitLabel }) {
   const {
     register,
     handleSubmit,

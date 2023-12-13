@@ -18,7 +18,7 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
                 <Box className="col-start gap-025">
                   <Typography sx={{ fontWeight: 600 }} align="left">
                     {library.title}
-                  </Typography>``
+                  </Typography>
                   <Typography
                     variant="lightSubtitle1"
                     align="left"

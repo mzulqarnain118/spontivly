@@ -4,24 +4,20 @@ const dashboardSlice = createSlice({
   name: "dashboard",
   initialState: {
     currentUser: [],
-    loading: false,
-    error: null,
   },
   reducers: {
-    fetchCurrentUser: (state) => {
-      state.loading = true;
-    },
-    fetchDataSuccess: (state, action) => {
+    setCurrentUser: (state, action) => {
+            console.log(
+              "🚀 ~ file: dashboardSlice.js:13 ~  action.payload:",
+              action.payload
+            );
+
       state.currentUser = action.payload;
-      state.loading = false;
-    },
-    fetchDataFailure: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
+
+
     },
   },
 });
 
-export const { fetchCurrentUser, fetchDataSuccess, fetchDataFailure } =
-  dashboardSlice.actions;
+export const { setCurrentUser } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

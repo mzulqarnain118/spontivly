@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
+  Link,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import MuiIcon from "./MuiIcon";
@@ -29,6 +30,7 @@ export default function Popup({
   setPopup,
   submitBtnLabel,
   submitHandler,
+  handleFormClear,
 }) {
   const classes = useStyles();
 
@@ -58,6 +60,7 @@ export default function Popup({
       <DialogContent dividers>{children}</DialogContent>
       {submitBtnLabel && (
         <DialogActions>
+          {handleFormClear && <Link align="left" onClick={handleFormClear}>Clear all</Link>}
           <common.MuiButton
             size={"md"}
             onClick={() => {

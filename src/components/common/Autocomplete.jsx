@@ -1,10 +1,8 @@
-import React, { useState } from "react";
 import {
   Autocomplete as MuiAutocomplete,
   Chip,
   TextField,
 } from "@mui/material";
-import { ApiCall } from "utils";
 
 function Autocomplete({
   options,
@@ -15,10 +13,9 @@ function Autocomplete({
   placeholder,
   label,
   variant,
+  inputValue, setInputValue,
   ...other
 }) {
-  const [inputValue, setInputValue] = useState('');
-  const [newOptions, setNewOptions] = useState(options);
 
   const handleChange = (event, newValue) => {
     const updatedTags = newValue.map((value) => {
@@ -33,17 +30,13 @@ function Autocomplete({
   };
   const handleTextChange = async (event, newInputValue) => {
     setInputValue(newInputValue)
-    const apiUrl = `tags?name=${newInputValue}`;
-    const response = await ApiCall(apiUrl);
-    setNewOptions(response?.results)
-    console.log('response', response?.results)
   };
   return (
     <MuiAutocomplete
       multiple
       id="tags-filled"
-      options={newOptions}
-      getOptionLabel={(option) => option.title}
+      options={options}
+      getOptionLabel={(option) => option?.title}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}

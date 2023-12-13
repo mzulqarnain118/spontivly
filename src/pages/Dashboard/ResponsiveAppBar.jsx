@@ -53,13 +53,13 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
             <Box className={classes.userBox}>
               <Box className={classes.userMenuBox}>
                 <Box className="row gap-025">
-                  <Avatar src={currentUser?.[0].profile_pic} />
+                  <Avatar src={currentUser?.[0]?.profile_pic} />
                   <Box className="col-start">
                     <Typography color="primary.main">
-                      {user.first_name + user.last_name}
+                      {user?.first_name + user?.last_name}
                     </Typography>
                     <Typography variant="lighterSubtitle2">
-                      {user.email}
+                      {user?.email}
                     </Typography>
                   </Box>
                   <common.MenuList

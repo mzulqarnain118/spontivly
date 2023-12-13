@@ -11,7 +11,7 @@ import SearchTags from "./SearchTags";
 
 function Objective() {
   const { selectedChips, searchText, filterChipData } = useSelector(
-    (state: any) => state.interests
+    (state: any) => state.objective
   );
   return (
     <>

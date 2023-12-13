@@ -17,6 +17,8 @@ import pdf from "assets/icons/pdf.png";
 import link from "assets/icons/link.png";
 import { useSelector } from "react-redux";
 import { useInfiniteQuery } from "react-query";
+import qs from "qs";
+
 const contentTypes = [
   {
     id: "youtube",
@@ -44,7 +46,7 @@ function Library() {
   const { currentUser } = useSelector((state) => state.dashboard);
   const [view, setView] = useState("list");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [tags, setTags] = useState();
+    const [applyFilters, setApplyFilters] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [isContentDialogOpen, setContentDialogOpen] = useState(false);
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
@@ -53,26 +55,32 @@ function Library() {
     sortBy: null,
   });
   
-  async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
-    const encodedTypes = encodeParam(types);
-    const encodedTags = encodeParam(tags);
-    const encodedName = encodeParam(name);
-    const encodedSortBy = encodeParam(sortBy);
-    const apiUrl = `libraries?page=${pageParam}&types[]=${encodedTypes}&tags[]=${encodedTags}&name=${encodedName}&sort=${encodedSortBy}`;
-    return await ApiCall(apiUrl);
-  }
+async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
+  const queryParams = {
+    page: pageParam,
+    types,
+    tags,
+    name,
+    sort: sortBy,
+  };
+
+  const encodedParams = qs.stringify(queryParams, { arrayFormat: "brackets" });
+  const apiUrl = `libraries?${encodedParams}`;
+  return await ApiCall(apiUrl);
+}
+
+
 
   const {
     data,
     error,
-    refetch,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery(
-    "libraries",
+    ["libraries", libraryContent.content, libraryContent.sortBy, applyFilters], // Dynamic query key
     ({ pageParam = 1 }) =>
       fetchLibraries(
         { pageParam },
@@ -82,29 +90,9 @@ function Library() {
         libraryContent.sortBy
       ),
     {
-      getNextPageParam: (lastPage) => lastPage.next,
+      getNextPageParam: (lastPage) => lastPage?.next,
     }
   );
-
-  useEffect(() => {
-    const { content, sortBy } = libraryContent;
-    refetch({
-      pageParam: 1,
-      selectedTypes,
-      selectedTags,
-      content,
-      sortBy,
-    });
-  }, [selectedTypes, selectedTags, libraryContent.content, refetch]);
-
-  const fetchTags = async () => {
-    const tags = await ApiCall("tags");
-    tags && setTags(tags?.results);
-  };
-
-  useEffect(() => {
-    fetchTags();
-  }, []);
 
   const classes = dashboardStyles();
 
@@ -116,6 +104,8 @@ function Library() {
   };
   const openFilterModal = () => {
     setFilterDialogOpen(true);
+       setSelectedTags([]);
+    setSelectedTypes([]);
   };
   const closeFilterModal = () => {
     setFilterDialogOpen(false);
@@ -194,8 +184,6 @@ function Library() {
         isOpen={isContentDialogOpen}
         onClose={closeContentModal}
         contentTypes={contentTypes}
-        tags={tags}
-        fetchTags={fetchTags}
       />
       <FilterLibrary
         isOpen={isFilterDialogOpen}
@@ -205,7 +193,7 @@ function Library() {
         setSelectedTags={setSelectedTags}
         selectedTypes={selectedTypes}
         setSelectedTypes={setSelectedTypes}
-        tags={tags}
+        setApplyFilters={setApplyFilters}
       />
     </>
   );

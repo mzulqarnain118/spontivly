@@ -4,7 +4,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import commonStyles from '../../styles/commonStyles';
-import { debounce } from 'utils';
 
 export default function Input(
   {
@@ -42,33 +41,22 @@ export default function Input(
      else if (valueUpdater) {
       valueUpdater("");
     }
-  },[]);
+  }, [listUpdater, valueUpdater]
+);
 
   const handleChange = useCallback(
     (e: any) => {
       const { name, value } = e.target;
-
       if (listUpdater) {
-        const updateFunction = (prevFormData: any) => ({
+        listUpdater((prevFormData: any) => ({
           ...prevFormData,
           [name]: value,
-        });
-
-        if (props.debounce) {
-          const debouncedUpdate = debounce(listUpdater, 500); // Adjust the debounce delay as needed
-          debouncedUpdate(updateFunction);
-        } else {
-          listUpdater(updateFunction);
-        }
+        }));
       } else if (valueUpdater) {
         valueUpdater(value);
       }
     },
-    [
-      listUpdater,
-      valueUpdater,
-      props.debounce,
-    ]
+    [listUpdater, valueUpdater]
   );
 
   return (

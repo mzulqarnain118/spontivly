@@ -1,7 +1,6 @@
-import { Container } from "@mui/material";
 import React, { useCallback, useEffect } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Chip, Box } from "@mui/material";
+import { Chip, Box, Container } from "@mui/material";
 import { useDispatch } from "react-redux";
 import commonStyles from "../../styles/commonStyles";
 import common from "../../components/common";
@@ -29,29 +28,22 @@ function SearchTags({
   const {
     data,
     error,
-    refetch,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery(
-    queryKey,
+    [queryKey, searchText], // Dynamic query key
     ({ pageParam = 1 }) => fetchTags({ pageParam }, searchText),
     {
-      getNextPageParam: (lastPage) => lastPage.next,
+      getNextPageParam: (lastPage) => lastPage?.next,
     }
   );
   useEffect(() => {
     data &&
       dispatch(setChipData(data?.pages?.flatMap((page) => page?.results)));
   }, [data]);
-  useEffect(() => {
-    refetch({
-      pageParam: 1,
-      searchText,
-    });
-  }, [refetch, searchText]);
 
   const handleAddToSelectedChips = useCallback(
     (chipToAdd) => () => {
@@ -77,7 +69,7 @@ function SearchTags({
       isFetching={isFetching}
     >
       {(tags) => (
-        <>
+            <Box className="col-start gap-1">
           <Container maxWidth="sm" className={classes.container}>
             <Box className={classes.mainContainer}>
               <common.Input
@@ -112,7 +104,7 @@ function SearchTags({
                 />
             ))}
           </Container>
-        </>
+        </Box>
       )}
     </common.InfiniteQueryWrapper>
   );

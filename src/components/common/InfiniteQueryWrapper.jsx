@@ -19,22 +19,22 @@ function InfiniteQueryWrapper({
         padding: "16px",
       }}
     >
-      {status === "loading" ? (
-        <common.Spinner />
-      ) : status === "error" ? (
+      {status === "loading" && <common.Spinner />}
+      {status === "error" && (
         <div style={{ textAlign: "center", padding: "20px" }}>
           <Typography variant="subtitle1" color="error">
-            Error: {error.message}
+            Error: {error?.message}
           </Typography>
         </div>
-      ) : (
+      )}
+      {status === "success" && (
         <>
           {children(data?.pages?.flatMap((page) => page?.results))}
           {hasNextPage && (
             <common.MuiButton
               onClick={() => fetchNextPage()}
               label={isFetchingNextPage ? "Loading more..." : "Load More"}
-              size="medium"
+              size="md"
             />
           )}
           {isFetching && !isFetchingNextPage && (

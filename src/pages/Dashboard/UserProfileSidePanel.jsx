@@ -27,7 +27,7 @@ const UserProfileSidePanel = ({ user,openPanel,setPanel }) => {
           }}
         >
           <Avatar
-            src={user.profile_pic}
+            src={user?.profile_pic}
             sx={{ width: "3.33rem", height: "3.33rem" }}
           />
           <Typography>{user.user.first_name + user.user.last_name}</Typography>

@@ -19,7 +19,7 @@ import MenuList from "./MenuList";
 import Popup from "./Popup";
 import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
-import ReactFormHook from "./ReactFormHook";
+import Form from "./Form";
 import ChipContainer from "./ChipContainer";
 import  InfiniteQueryWrapper  from './InfiniteQueryWrapper';
 const Controls = {
@@ -27,7 +27,7 @@ const Controls = {
   RadioGroup,
   Select,
   RichText,
-  ReactFormHook,
+  Form,
   //   DatePicker,
   Checkbox,
   Input,
@@ -52,11 +52,3 @@ const Controls = {
 export default Controls;
 
 
-//   : list.items.map((item) => (
-//       <dd onClick={() => handleClick(item.url)}>
-//         <ListItemButton>
-//           {item.icon && item.icon}
-//           <ListItemText primary={item.label} />
-//         </ListItemButton>
-//       </dd>
-//     ))}

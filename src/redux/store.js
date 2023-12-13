@@ -2,8 +2,6 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import skillsReducer from "./skillsSlice";
-import { all } from "redux-saga/effects";
-import createSagaMiddleware from "redux-saga";
 import interestsReducer from "./interestsSlice";
 import locationReducer from "./locationSlice";
 import companyReduce from "./companySlice";
@@ -11,7 +9,6 @@ import socialReducer from "./socialSlice";
 import objectiveReducer from "./objectiveSlice";
 import onBoardingReducer from "./onBoardingSlice";
 import dashboardReducer from "./dashboardSlice";
-import { watchFetchCurrentUser } from "./saga/dashboardSaga";
 
 // Combine reducers (exclude OtherReduce)
 const rootReducer = combineReducers({
@@ -28,16 +25,8 @@ const rootReducer = combineReducers({
   // Add other reducers as needed
 });
 
-const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [sagaMiddleware],
-});
-
-sagaMiddleware.run(function* rootSaga() {
-  yield all([
-    watchFetchCurrentUser(),
-  ]);
 });
 
 export const persistor = persistStore(store); // Export the persistor

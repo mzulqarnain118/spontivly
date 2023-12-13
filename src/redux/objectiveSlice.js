@@ -7,9 +7,6 @@ export const {
   setSearchText,
   addSelectedChip,
   removeSelectedChip,
-  fetchData,
-  fetchDataSuccess,
-  fetchDataFailure,
   setChipData,
 } = objectiveSlice.actions;
 
