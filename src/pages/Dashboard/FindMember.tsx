@@ -222,6 +222,7 @@ function FindMember({ setRefetchUser }) {
         setPopup={setMemberDialogOpen}
         width={"sm"}
         title={"Manage Members"}
+        submitBtnLabel="Send Invite"
         subTitle={"Invite members to your Directory."}
       >
         <InviteMember />
