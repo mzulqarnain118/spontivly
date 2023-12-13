@@ -1,10 +1,10 @@
 import { Avatar, Box, Card, Grid, Typography } from "@mui/material";
-import{ useState } from "react";
+import { useState } from "react";
 import UserProfileSidePanel from "./UserProfileSidePanel";
 import dashboardStyles from "styles/components/dashboardStyles";
 import common from "components/common";
 import { ApiCall } from "utils";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Send from "assets/icons/send.svg";
 import InviteMember from "./InviteMember";
 import { useInfiniteQuery } from "react-query";
@@ -34,7 +34,7 @@ function FindMember({ setRefetchUser }) {
       favorite: id,
     });
     if (response) {
-      setRefetchUser(old=>!old);
+      setRefetchUser(old => !old);
     }
   };
 
@@ -221,10 +221,11 @@ function FindMember({ setRefetchUser }) {
         openPopup={isMemberDialogOpen}
         setPopup={setMemberDialogOpen}
         width={"sm"}
-        children={<InviteMember />}
         title={"Manage Members"}
         subTitle={"Invite members to your Directory."}
-      />
+      >
+        <InviteMember />
+      </common.Popup>
     </>
   );
 }

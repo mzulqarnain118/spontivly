@@ -7,14 +7,7 @@ const dashboardSlice = createSlice({
   },
   reducers: {
     setCurrentUser: (state, action) => {
-            console.log(
-              "🚀 ~ file: dashboardSlice.js:13 ~  action.payload:",
-              action.payload
-            );
-
       state.currentUser = action.payload;
-
-
     },
   },
 });

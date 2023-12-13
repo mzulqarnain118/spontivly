@@ -10,7 +10,7 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
   return (
     <>
       {libraryData?.map((library) => (
-        <>
+                <a className="cursor" href={library?.url} target="_blank" rel="noopener noreferrer">
           <Box key={library.id} className={classes.mainBox}>
             <common.Img src={defaultThumbnail} className={classes.contentImg} />
             <Grid container>
@@ -56,7 +56,7 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
               </Grid>
             </Grid>
           </Box>
-        </>
+          </a>
       ))}
     </>
   );
