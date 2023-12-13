@@ -49,7 +49,7 @@ const CreateContent = ({ isOpen, onClose, contentTypes }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery(
-    ["libraryTags", searchText], // Dynamic query key
+    ["libraryTags", searchTagText], // Dynamic query key
     ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
     {
       getNextPageParam: (lastPage) => lastPage?.next,

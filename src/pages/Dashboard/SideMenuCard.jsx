@@ -14,7 +14,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
   };
   const handleClick = (url, label) => {
     setChannelLabel(label);
-    url, label != "" && onPortalChange(url, label);
+     url != "" && onPortalChange(url, label);
     setPanel(false);
   };
 
