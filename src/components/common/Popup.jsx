@@ -64,7 +64,7 @@ export default function Popup({
           <common.MuiButton
             size={"md"}
             onClick={() => {
-              submitHandler();
+              submitHandler && submitHandler();
               setPopup(!openPopup);
             }}
             variant="contained"
