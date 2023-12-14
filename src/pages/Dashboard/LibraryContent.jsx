@@ -3,21 +3,46 @@ import { Avatar, Box, Chip, Grid, Typography } from "@mui/material";
 import libraryStyles from "styles/components/libraryStyles";
 import common from "components/common";
 import defaultThumbnail from "assets/images/dummy.png";
+import { useNavigate } from "react-router-dom";
 
-  export const handleLibraryItemClick = (url,type) => {
-      if (type === "pdf") {
-        const newTab = window.open();
-        newTab.document.write(
-          '<iframe src="' +
-            url +
-            '" style="width:100%; height:100vh; border:none;"></iframe>'
-        );
-      } else {
-        window.open(url, "_blank");
+     export const handleLibraryItemClick = (url, type, navigate) => {
+       if (type === "pdf") {
+         navigate(`/pdf-viewer?url=${encodeURIComponent(url)}`);
+       } else {
+         window.open(url, "_blank");
+       }
+     };
+   const getYoutubeThumbnail = (url) => {
+     const videoIdMatch = url.match(
+       /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
+     );
+     const videoId = videoIdMatch ? videoIdMatch[1] : null;
+
+     console.log(
+       "🚀 ~ file: LibraryContent.jsx:25 ~ getYoutubeThumbnail ~ videoId:",
+       videoId,
+       url
+     );
+
+
+     return videoId
+       ? `https://img.youtube.com/vi/${videoId}/default.jpg`
+       : null;
+   };
+    export const handleShowThumbnail = (url, type) => {
+      if (type === "youtube") {
+        const data = getYoutubeThumbnail(url);
+                console.log(data);
+
+        return data;
       }
-  };
+      return null;
+    };
+
 const LibraryContent = ({ libraryData, typeIcons }) => {
   const classes = libraryStyles();
+  const navigate = useNavigate();
+
 
   return (
     <>
@@ -25,7 +50,9 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
         <Box
           key={library.id}
           className={`${classes.mainBox} cursor`}
-          onClick={() => handleLibraryItemClick(library.url, library.type)}
+          onClick={() =>
+            handleLibraryItemClick(library.url, library.type, navigate)
+          }
         >
           <common.Img src={defaultThumbnail} className={classes.contentImg} />
           <Grid container>
@@ -42,7 +69,8 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
                 <Box className="flex">
                   <Avatar
                     src={
-                      library?.created_by?.profile?.profile_pic ??
+                      handleShowThumbnail(library.url, library.type) ||
+                      library?.created_by?.profile?.profile_pic ||
                       defaultThumbnail
                     }
                     alt="Media"
@@ -67,7 +95,7 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
 
             <Grid item xs={2} className="col-between">
               <Typography variant="lightSubtitle2">{library.date}</Typography>
-              <common.Img src={typeIcons[library?.type]} />
+              <common.Img type="icon" src={typeIcons[library?.type]} />
             </Grid>
           </Grid>
         </Box>

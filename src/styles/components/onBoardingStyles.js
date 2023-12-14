@@ -104,7 +104,7 @@ const onBoarding = makeStyles((theme) => ({
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme?.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -161,7 +161,7 @@ const DrawerFooter = styled(MuiAppBar, {
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: theme.spacing(0, 1),
+  padding: theme?.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));

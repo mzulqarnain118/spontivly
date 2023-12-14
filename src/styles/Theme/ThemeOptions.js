@@ -18,7 +18,7 @@ const themeOptions = () => {
       fontFamily: ["Inter", "Public Sans, sans-serif"].join(","),
     },
     shadows: shadows(mode),
-    ...spacing,
+   spacing,
     breakpoints: breakpoints(),
     shape: {
       borderRadius: 6,

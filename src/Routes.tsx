@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "./redux/store";
 import ProtectedRoute from "components/common/ProtectedRoute";
+import {PdfViewer} from "components/common/PdfViewer";
 const Auth = lazy(() => import("pages/Auth"));
 const OnBoarding = ProtectedRoute(lazy(() => import("pages/onboarding")));
 const Dashboard = ProtectedRoute(lazy(() => import("pages/Dashboard")));
@@ -25,6 +26,11 @@ const Routes = createBrowserRouter([
     path: "/settings",
     element: <Setting />,
   },
+  {
+    path: "/pdf-viewer/:url",
+    element: <PdfViewer />,
+  },
+  
 ]);
 
 export default Routes; // Correct the export syntax
