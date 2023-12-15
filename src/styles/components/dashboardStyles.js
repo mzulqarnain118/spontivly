@@ -166,12 +166,12 @@ const dashboardStyles = makeStyles((theme) => ({
   filterDialogContent: {
     display: 'flex',
     flexDirection: 'column',
-    gap: `${theme.spacing(10)}`
+    gap:"2.25rem"
   },
   filterDialogActions: {
     display: "flex !important",
     justifyContent: 'space-between !important',
-    padding: `${theme.spacing(7)} !important `
+    padding: `1.75rem !important `
   },
   filterDialogTypography: {
     flex: 1,
@@ -179,8 +179,8 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   createContentDivider: {
     color: 'customColors.lighterSubtitle2 !important',
-    marginTop: `${theme.spacing(20)} !important`,
-    marginBottom: `${theme.spacing(20)} !important`
+    marginTop: `5rem !important`,
+    marginBottom: `5rem !important`
   },
   createContentItem: {
     display: "flex",

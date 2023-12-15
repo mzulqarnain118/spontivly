@@ -129,7 +129,7 @@ const CreateContent = ({ isOpen, onClose, contentTypes }) => {
                   register={register("title", { required: true })}
                   placeholder="Title"
                 />
-                <Box display="flex" gap={theme.spacing(10)}>
+                <Box display="flex gap-1">
                   <common.Input
                     register={register("author", { required: true })}
                     placeholder="Author"
