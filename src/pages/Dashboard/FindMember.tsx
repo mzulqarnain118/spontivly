@@ -61,7 +61,7 @@ function FindMember({ setRefetchUser }) {
     ({ pageParam = 1 }) =>
       fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
     {
-      getNextPageParam: (lastPage) => lastPage.next,
+      getNextPageParam: (lastPage) => lastPage?.next,
     }
   );
 

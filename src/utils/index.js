@@ -41,6 +41,26 @@ function encodeParam(param) {
   return encodeURIComponent(param);
 }
 
+const handleShowYoutubeThumbnail = (url, type) => {
+  if (type === "youtube") {
+    const videoIdMatch = url.match(
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
+    );
+    const videoId = videoIdMatch ? videoIdMatch[1] : null;
+    return videoId
+      ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      : null;
+  }
+  return null;
+};
+export const handleOpenUrlInNewTab = (url, type, navigate) => {
+  if (type === "pdf") {
+    navigate(`/pdf-viewer?${encodeURIComponent(url)}`);
+  } else {
+    window.open(url, "_blank");
+  }
+};
+
 export {
   ApiCall,
   getLocal,
@@ -53,4 +73,5 @@ export {
   debounce,
   generatePayload,
   reduceArrayByKeys,
+  handleShowYoutubeThumbnail,
 };

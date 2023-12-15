@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import common from "components/common";
 import { ApiCall, reduceArrayByKeys } from "utils";
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import dashboardStyles from "styles/components/dashboardStyles";
 import { useForm } from "react-hook-form";
 import ClearIcon from "@mui/icons-material/Clear";

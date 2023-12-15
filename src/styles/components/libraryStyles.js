@@ -51,11 +51,9 @@ const libraryStyles = makeStyles((theme) => ({
         maxWidth: '20px', maxHeight: '20px' 
     },
     moduleContentChip: {
-        
         borderRadius: '0.3125rem !important', // Corrected the typo
         border: `1px solid ${theme.palette.primary.lightest} !important`,
         padding: '0.1875rem 0.625rem !important',
- 
         gap: '0.625rem'
     },
     contentChip: {

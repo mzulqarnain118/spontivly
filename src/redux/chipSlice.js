@@ -37,8 +37,8 @@ const chipSlice = (name) =>
       },
       setChipData: (state, action) => {
            state.chipData = action.payload;
-           state.filterChipData = state.chipData?.filter((chip) =>
-               chip.name.toLowerCase().includes(state.searchText.toLowerCase())
+           state.filterChipData = state?.chipData?.filter((chip) =>
+               chip?.name.toLowerCase().includes(state.searchText?.toLowerCase())
              )
              .filter((chip) => {
                return state.selectedChips.every(

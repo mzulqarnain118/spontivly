@@ -13,6 +13,33 @@ import { ApiCall } from "utils";
 import qs from 'qs';
 import { useQuery } from 'react-query';
 
+const containerStyles = {
+  maxWidth: "1280px",
+  margin: "80px auto 0",
+  padding: "20px",
+  p: 3,
+};
+const channels = [
+  {
+    header: "CHANNELS",
+    items: [
+      { url: "", label: "General", icon: "Tag" }, //!replace url:"" with url:"general"
+      { url: "", label: "Create Channel", icon: "AddCircle" },
+    ],
+  },
+  {
+    header: "COMMUNITY",
+    items: [{ url: "", label: "Add Member", icon: "AddCircle" }],
+  },
+  {
+    header: "RESOURCES",
+    items: [
+      { url: "find", label: "Find Member", icon: "Search" },
+      { url: "library", label: "Library", icon: "YouTube" },
+    ],
+  },
+];
+
 function Dashboard() {
   const dispatch = useDispatch();
   const [refetchUser, setRefetchUser] = useState(false);
@@ -37,7 +64,7 @@ function Dashboard() {
       dispatch(setCurrentUser(currentUserData));
     }
   }, [currentUserData]);
-  
+
   const theme = useTheme();
   const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
   const [Panel, setPanel] = useState(false);
@@ -47,7 +74,7 @@ function Dashboard() {
     setPortal(newPortal);
   };
 
-  
+
   const getPortalSizes: any = (portal: any) => {
     if (portal === "general") {
       return { sideMenuSize: 3, mainContentSize: 6.5, recommendationSize: 2.5 };
@@ -67,32 +94,7 @@ function Dashboard() {
 
   const mainContent = portalComponents[portal];
 
-  const containerStyles = {
-    maxWidth: "1280px",
-    margin: "80px auto 0",
-    padding: "20px",
-    p: 3,
-  };
-  const channels = [
-    {
-      header: "CHANNELS",
-      items: [
-        { url: "", label: "General", icon: "Tag" }, //!replace url:"" with url:"general"
-        { url: "", label: "Create Channel", icon: "AddCircle" },
-      ],
-    },
-    {
-      header: "COMMUNITY",
-      items: [{ url: "", label: "Add Member", icon: "AddCircle" }],
-    },
-    {
-      header: "RESOURCES",
-      items: [
-        { url: "find", label: "Find Member", icon: "Search" },
-        { url: "library", label: "Library", icon: "YouTube" },
-      ],
-    },
-  ];
+
   return (
     <>
       <ResponsiveAppBar
@@ -114,9 +116,9 @@ function Dashboard() {
             <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
               <SideMenuCard
                 onPortalChange={handlePortalChange}
-                  channels={channels}
-                  setPanel={setPanel}
-                  setRefetchUser={setRefetchUser}
+                channels={channels}
+                setPanel={setPanel}
+                setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
           )}

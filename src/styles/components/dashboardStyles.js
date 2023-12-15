@@ -158,7 +158,6 @@ const dashboardStyles = makeStyles((theme) => ({
   },
   contentCard: {
     boxShadow: 'none !important', // Add box shadow
-    // padding: theme.spacing(6), // Add padding as needed
   },
   filterDialogTitle: {
     display: 'flex',
@@ -186,7 +185,7 @@ const dashboardStyles = makeStyles((theme) => ({
   createContentItem: {
     display: "flex",
     flexDirection: "column !important",
-    gap: theme.spacing(10)
+    gap: theme.spacing(5)
   },
   imgLogo: {
     height: '34px'

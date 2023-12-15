@@ -1,11 +1,11 @@
 // ** MUI Theme Provider
-import { deepmerge } from '@mui/utils'
+import { deepmerge } from "@mui/utils";
 
 // ** Theme Override Imports
-import palette from './Palette'
-import spacing from './spacing'
-import shadows from './shadows'
-import breakpoints from './breakpoints'
+import palette from "./Palette";
+import { spacing } from "./spacing";
+import shadows from "./shadows";
+import breakpoints from "./breakpoints";
 
 const themeOptions = () => {
   // ** Vars
@@ -18,7 +18,7 @@ const themeOptions = () => {
       fontFamily: ["Inter", "Public Sans, sans-serif"].join(","),
     },
     shadows: shadows(mode),
-    ...spacing,
+    spacing:spacing,
     breakpoints: breakpoints(),
     shape: {
       borderRadius: 6,
@@ -37,6 +37,6 @@ const themeOptions = () => {
       },
     },
   });
-}
+};
 
-export default themeOptions
+export default themeOptions;
