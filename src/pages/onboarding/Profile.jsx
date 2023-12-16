@@ -36,7 +36,7 @@ function Profile() {
           src={profilePic ?? defaultProfile}
           className={classes.profileImage}
         />
-        <common.MuiButton
+        <common.FileUploadButton
           handleUploadPhoto={handleUploadPhoto}
           label={"Upload Photo"}
           size="medium"

@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CreateContent from "./CreateContent";
 import FilterLibrary from "./FilterLibrary";
 import LibraryContent from "./LibraryContent";
-import { ApiCall, encodeParam } from "utils";
+import { ApiCall, encodeParams } from "utils";
 import youtube from "assets/icons/youtube.png";
 import youtubeText from "assets/icons/youtubeText.png";
 import doc from "assets/icons/doc.png";
@@ -17,7 +17,6 @@ import pdf from "assets/icons/pdf.png";
 import link from "assets/icons/link.png";
 import { useSelector } from "react-redux";
 import { useInfiniteQuery } from "react-query";
-import qs from "qs";
 
 const contentTypes = [
   {
@@ -41,12 +40,15 @@ const contentTypes = [
     img: pdf,
   },
 ];
+
+const sortByData = [{ id: "Most Recent", title: "Most Recent" }];
+
 const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf };
 function Library() {
   const { currentUser } = useSelector((state) => state.dashboard);
   const [view, setView] = useState("list");
   const [selectedTags, setSelectedTags] = useState([]);
-    const [applyFilters, setApplyFilters] = useState(false);
+  const [applyFilters, setApplyFilters] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [isContentDialogOpen, setContentDialogOpen] = useState(false);
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
@@ -54,22 +56,20 @@ function Library() {
     content: "",
     sortBy: null,
   });
-  
-async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
-  const queryParams = {
-    page: pageParam,
-    types,
-    tags,
-    name,
-    sort: sortBy,
-  };
 
-  const encodedParams = qs.stringify(queryParams, { arrayFormat: "brackets" });
-  const apiUrl = `libraries?${encodedParams}`;
-  return await ApiCall(apiUrl);
-}
+  async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
+    const queryParams = {
+      page: pageParam,
+      types,
+      tags,
+      name,
+      sort: sortBy,
+    };
 
-
+    const encodedLibraryParams = encodeParams(queryParams, "brackets");
+    const apiUrl = `libraries?${encodedLibraryParams}`;
+    return await ApiCall(apiUrl);
+  }
 
   const {
     data,
@@ -104,14 +104,13 @@ async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
   };
   const openFilterModal = () => {
     setFilterDialogOpen(true);
-       setSelectedTags([]);
+    setSelectedTags([]);
     setSelectedTypes([]);
   };
   const closeFilterModal = () => {
     setFilterDialogOpen(false);
   };
 
-  const sortByData = [{ id: "Most Recent", title: "Most Recent" }];
   return (
     <>
       <Grid container alignItems="center">

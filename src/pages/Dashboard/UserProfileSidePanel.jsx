@@ -3,19 +3,14 @@ import twitter from "assets/icons/twitter-square.svg";
 import fb from "assets/icons/facebook.svg";
 import linkedin from "assets/icons/linkedin.svg";
 import dashboardStyles from "styles/components/dashboardStyles";
-import {
-  Box,
-  CardContent,
-  Divider,
-  Typography,
-  Avatar,
-} from "@mui/material";
+import { Box, CardContent, Divider, Typography, Avatar } from "@mui/material";
 import common from "components/common";
 
-const UserProfileSidePanel = ({ user,openPanel,setPanel }) => {
-    const [openPopup, setPopup] = useState(false);
+const data = ["About", "Profession", "Interests tags"];
+
+const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
+  const [openPopup, setPopup] = useState(false);
   const classes = dashboardStyles();
-  const data = ["About", "Profession", "Interests tags"];
 
   return (
     <>
@@ -55,7 +50,9 @@ const UserProfileSidePanel = ({ user,openPanel,setPanel }) => {
           <CardContent className="col-start gap-075">
             <Typography variant="subtitle">{item}</Typography>
             {index == 0 ? (
-              <Typography variant="subtitle1" sx={{textAlign:"start"}}>{user.introduction}</Typography>
+              <Typography variant="subtitle1" sx={{ textAlign: "start" }}>
+                {user.introduction}
+              </Typography>
             ) : index == 2 ? (
               <div className="flex">
                 {user.interests.map((item) => (

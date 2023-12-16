@@ -17,7 +17,7 @@ const InviteMember = () => {
       onBlur={() => setFocused(false)}
       getLabel={(email, index, removeEmail) => {
         return (
-          <div data-tag key={index}>
+          <div data-tag key={email}>
             <div data-tag-item>{email}</div>
             <span data-tag-handle onClick={() => removeEmail(index)}>
               ×

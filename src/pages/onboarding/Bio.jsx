@@ -1,5 +1,5 @@
 import React from 'react';
-import {  useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setBioText } from '../../redux/onBoardingSlice'; // Import the action
 import { Container,Box } from '@mui/material';
 import commonStyles from "../../styles/commonStyles";
@@ -7,6 +7,7 @@ import common from "../../components/common";
 function Bio() {
   const bioText = useSelector((state) => state.onBoarding.bioText);
   const classes = commonStyles();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -21,7 +22,7 @@ function Bio() {
             value={bioText}
             rows={5}
             multiline={true}
-            reduxValueUpdater={setBioText}
+            onChange={(e) => dispatch(setBioText(e.target.value))}
           />
         </Box>
       </Container>

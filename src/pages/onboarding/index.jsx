@@ -8,6 +8,8 @@ import {
   INTERESTS_STEP,
   LOCATION_STEP,
   EMPLOYMENT_STEP,
+  OBJECTIVES_STEP,
+  BIO_STEP,
   DEFAULT_STEP,
 } from "./stepNames";
 import {
@@ -164,11 +166,11 @@ function OnBoarding() {
   const nextButtonText = () => {
     let nextButtonText = "Next";
 
-    if (activeStep === 7) {
+    if (activeStep === DEFAULT_STEP) {
       nextButtonText = "Finish";
     } else if (
-      (activeStep === 4 && objectiveSelectedChips.length <= 0) ||
-      (activeStep === 5 && bioText === "")
+      (activeStep === OBJECTIVES_STEP && objectiveSelectedChips.length <= 0) ||
+      (activeStep === BIO_STEP && bioText === "")
     ) {
       nextButtonText = "Skip";
     }

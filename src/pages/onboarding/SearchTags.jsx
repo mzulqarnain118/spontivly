@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import commonStyles from "../../styles/commonStyles";
 import common from "../../components/common";
 import { useInfiniteQuery } from "react-query";
-import { ApiCall, encodeParam } from "utils";
+import { ApiCall, encodeParams } from "utils";
 
 function SearchTags({
   addSelectedChip,
@@ -21,8 +21,12 @@ function SearchTags({
   const dispatch = useDispatch();
   const classes = commonStyles();
   async function fetchTags({ pageParam = 1 }, searchText) {
-    const encodedSearchKey = encodeParam(searchText);
-    const apiUrl = `${queryKey}?page=${pageParam}&name=${encodedSearchKey}`;
+      const queryParams = {
+        page: pageParam,
+        name: searchText,
+      };
+    const encodedTagParams = encodeParams(queryParams);
+    const apiUrl = `${queryKey}?${encodedTagParams}`;
     return await ApiCall(apiUrl);
   }
   const {

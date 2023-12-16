@@ -3,6 +3,14 @@ import { Container, Grid } from "@mui/material";
 const SideMenuCard = lazy(() => import("../Dashboard/SideMenuCard"));
 const ResponsiveAppBar = lazy(() => import("../Dashboard/ResponsiveAppBar"));
 const Profile = lazy(() => import("./Profile"));
+
+  const channels = [
+    {
+      header: "Settings",
+      items: [{ url: "profile", label: "Profile", icon: "PersonIcon" }],
+    },
+  ];
+  
 const Setting = () => {
   const [portal, setPortal] = React.useState("profile");
 
@@ -21,14 +29,7 @@ const Setting = () => {
     padding: "20px",
     p: 3,
   };
-  const channels = [
-    {
-      header: "Settings",
-      items: [
-        { url: "profile", label: "Profile", icon: "PersonIcon" },
-      ],
-    },
-  ]
+
   return (
     <>
     <ResponsiveAppBar />

@@ -1,34 +1,26 @@
-import React from 'react'
+import React,{Fragment} from 'react'
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import profile from 'assets/images/profile.jpg';
 import star from 'assets/icons/star.svg';
-
+  const data = [
+    {
+      name: "Scott Lang",
+      action: "are both interested in",
+      purposes: ["Climate Change", "Quantum Computing"],
+    },
+    {
+      name: "James Rhodes",
+      action: "share the objective of",
+      purposes: ["Hiring / Recruiting"],
+    },
+    {
+      name: "Natasha Romanoff",
+      action: "are both interested in",
+      purposes: ["Defense Technology"],
+    },
+  ];
 function RecommendationCard() {
-    const data = [
-        {
-            name: "Scott Lang",
-            action: "are both interested in",
-            purposes: [
-                'Climate Change',
-                'Quantum Computing'
-            ],
-        },
-        {
-            name: "James Rhodes",
-            action: "share the objective of",
-            purposes: [
-                'Hiring / Recruiting'
-            ],
-        },
-        {
-            name: "Natasha Romanoff",
-            action: "are both interested in",
-            purposes: [
-                'Defense Technology'
-            ],
-        }
-
-    ];
+  
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -56,12 +48,10 @@ function RecommendationCard() {
                             fontWeight: 600
                         }}>Recommendations</Typography>
                         {data.map((rec, index) => (
-                            <>
+                            <Fragment key={rec?.name}>
                                 <Grid container alignItems="center" sx={{ display: 'flex', marginTop: '12px', padding: ' 8px 0px ' }}>
                                     <Grid item>
-                                        <Avatar src={profile}>
-                                            {/* User Avatar */}
-                                        </Avatar>
+                                        <Avatar src={profile}/>
                                     </Grid>
                                     <Grid item >
                                         <Box sx={{ display: 'flex' }}>
@@ -102,7 +92,7 @@ function RecommendationCard() {
                                     {pur}
                                   </span>
                                 ))}</Typography></Typography>
-                            </>
+                            </Fragment>
                         ))}
 
                     </CardContent>

@@ -185,7 +185,7 @@ const dashboardStyles = makeStyles((theme) => ({
   createContentItem: {
     display: "flex",
     flexDirection: "column !important",
-    gap: theme.spacing(5)
+    gap: "2.25rem"
   },
   imgLogo: {
     height: '34px'

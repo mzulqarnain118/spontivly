@@ -3,12 +3,18 @@ import { useState } from "react";
 import UserProfileSidePanel from "./UserProfileSidePanel";
 import dashboardStyles from "styles/components/dashboardStyles";
 import common from "components/common";
-import { ApiCall } from "utils";
+import { ApiCall, encodeParams } from "utils";
 import { useSelector } from "react-redux";
 import Send from "assets/icons/send.svg";
 import InviteMember from "./InviteMember";
 import { useInfiniteQuery } from "react-query";
-import qs from "qs"
+
+const sortByData = [
+  { id: "Most Recent", title: "Most Recent" },
+  { id: "Recommendation", title: "Recommendations" },
+];
+const moreOptions = ["View Profile", "Email", "Message via Slack"];
+
 function FindMember({ setRefetchUser }) {
   const classes = dashboardStyles();
   const { currentUser } = useSelector((state) => state.dashboard);
@@ -21,20 +27,20 @@ function FindMember({ setRefetchUser }) {
     sortBy: null,
     favorites: [],
   });
-  const sortByData = [
-    { id: "Most Recent", title: "Most Recent" },
-    { id: "Recommendation", title: "Recommendations" },
-  ];
-  const moreOptions = ["View Profile", "Email", "Message via Slack"];
+
   const isFavorite = (id) =>
     currentUser?.[0]?.favorites.some((item) => item.id == id);
 
   const addFavorites = async (id) => {
-    const response = await ApiCall("profile/favorite/", null, "POST", {
-      favorite: id,
-    });
-    if (response) {
-      setRefetchUser(old => !old);
+    try {
+      const response = await ApiCall("profile/favorite/", null, "POST", {
+        favorite: id,
+      });
+      if (response) {
+        setRefetchUser(old => !old);
+      }
+    } catch (error) {
+      console.log("error", error)
     }
   };
 
@@ -44,7 +50,7 @@ function FindMember({ setRefetchUser }) {
       name,
       sort
     };
-    const encodedParams = qs.stringify(queryParams, { arrayFormat: 'comma' });
+    const encodedParams = encodeParams(queryParams);
     const apiUrl = `profile?${encodedParams}`;
     return await ApiCall(apiUrl);
   }
@@ -132,7 +138,7 @@ function FindMember({ setRefetchUser }) {
           isFetching={isFetching}
         >
           {(members) => (
-            members?.map((rec, index) => (
+            members?.map((rec) => (
               <Box padding={"0.75rem 1.25rem"}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xs={8} md={4} lg={4}>

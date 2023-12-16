@@ -1,4 +1,20 @@
 import ApiCall from "./ApiCall";
+import qs from "qs";
+
+const encodeParams = (params, customArrayFormat = "comma") => {
+  let arrayFormat;
+
+  switch (customArrayFormat) {
+    case "brackets":
+      arrayFormat = "brackets";
+      break;
+    case "comma":
+    default:
+      arrayFormat = "comma";
+  }
+
+  return qs.stringify(params, { arrayFormat });
+};
 
 const AL = (data) => alert(JSON.stringify(data));
 const parseJSON = (data) => data !== "undefined" && JSON.parse(data);
@@ -37,10 +53,6 @@ const readFile = (file, callback) => {
   reader.readAsDataURL(file);
 };
 
-function encodeParam(param) {
-  return encodeURIComponent(param);
-}
-
 const handleShowYoutubeThumbnail = (url, type) => {
   if (type === "youtube") {
     const videoIdMatch = url.match(
@@ -69,7 +81,7 @@ export {
   parseJSON,
   AL,
   rmLocal,
-  encodeParam,
+  encodeParams,
   debounce,
   generatePayload,
   reduceArrayByKeys,

@@ -1,10 +1,8 @@
 import RadioGroup from "./RadiaGroup";
 import Select from "./Select";
-// import DatePicker from "./DatePicker";
 import Checkbox from './Checkbox';
 import Input from './Input'
 import RichText from './RichText'
-// import DateTimePicker from "./DateTimePicker";
 import Autocomplete from "./Autocomplete";
 import FormHeading from "./FormHeading";
 import ContainerToast from "./Toast/ContainerToast"
@@ -21,14 +19,13 @@ import SidePanel from "./SidePanel";
 import DragDropFile from "./DragDropFile";
 import Form from "./Form";
 import ChipContainer from "./ChipContainer";
-import  InfiniteQueryWrapper  from './InfiniteQueryWrapper';
+import InfiniteQueryWrapper from './InfiniteQueryWrapper';
+import FileUploadButton from "./FileUploadButton";
 const Controls = {
-  //   DateTimePicker,
   RadioGroup,
   Select,
   RichText,
   Form,
-  //   DatePicker,
   Checkbox,
   Input,
   Popup,
@@ -41,6 +38,7 @@ const Controls = {
   MuiButton,
   CustomSwitch,
   ContainerToast,
+  FileUploadButton,
   Link,
   Spinner,
   Autocomplete,

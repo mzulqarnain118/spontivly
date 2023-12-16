@@ -3,21 +3,18 @@ import { Chip, Container } from "@mui/material";
 import common from "components/common";
 
 const ChipContainer = ({ chips, onDelete, onClick, classes }) => {
-
   return (
-    <Container className={classes.chipContainer}>
-      {chips?.map((data, index) => (
-        <React.Fragment key={data?.id}>
+    <Container className={classes?.chipContainer}>
+      {chips?.map((data) => (
           <Chip
+            key={data?.id}
             label={data?.title}
             size="medium"
-            onDelete={onDelete ? () => onDelete(data) : undefined}
+            onDelete={onDelete?.(data)}
             deleteIcon={<common.MuiIcon name="Clear" />}
-            onClick={onClick ? () => onClick(data) : undefined}
-            className={onDelete ? classes.selectedChip : classes.chip}
+            onClick={onClick?.(data)}
+            className={onDelete ? classes?.selectedChip : classes?.chip}
           />
-          {(index + 1) % 4 === 0 && <div style={{ flexBasis: "100%" }} />}
-        </React.Fragment>
       ))}
     </Container>
   );

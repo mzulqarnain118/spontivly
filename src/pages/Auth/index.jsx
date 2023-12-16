@@ -4,7 +4,7 @@ import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
 import common from "../../components/common";
 import { useNavigate } from "react-router-dom";
-import { ApiCall, encodeParam, getLocal, setLocal } from "../../utils";
+import { ApiCall, encodeParams, setLocal } from "../../utils";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 export default function Auth() {
   const [buttonText, setButtonText] = useState("Continue");
@@ -27,10 +27,8 @@ export default function Auth() {
         if (buttonText === "Create account") {
           navigate("/onboarding");
         } else if (buttonText === "Continue") {
-              const encodedEmail = encodeParam(formData.email);
-          const response = await ApiCall(
-            `auth/is-email-exist?email=${encodedEmail}`
-          );
+          const encodedEmail = encodeParams({ email: formData.email });
+          const response = await ApiCall(`auth/is-email-exist?${encodedEmail}`);
 
           if (response) {
             setButtonText("Login");

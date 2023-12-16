@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ClassNameMap, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from '@mui/material/IconButton';
 import commonStyles from '../../styles/commonStyles';
+import { debounce } from 'utils';
 
 export default function Input(
   {
@@ -20,6 +21,7 @@ export default function Input(
     register,
     valueUpdater,
     listUpdater,
+    onChange: customOnChange, // Rename onChange prop to customOnChange
     customHandleChange,
     multiline,
     rows,
@@ -28,6 +30,8 @@ export default function Input(
   props: any
 ) {
   const classes: ClassNameMap<any> = commonStyles();
+  // Create a separate debounced function using useMemo
+  const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater]);
 
   const handleClearClick = useCallback((e: any) => {
     const { name } = e.target;
@@ -47,16 +51,33 @@ export default function Input(
   const handleChange = useCallback(
     (e: any) => {
       const { name, value } = e.target;
-      if (listUpdater) {
-        listUpdater((prevFormData: any) => ({
+     if (listUpdater) {
+        const updateFunction = (prevFormData:any) => ({
           ...prevFormData,
           [name]: value,
-        }));
-      } else if (valueUpdater) {
-        valueUpdater(value);
+        });
+
+        if (props.debounce) {
+          // Use the memorized debounced callback
+          debouncedUpdate(updateFunction);
+        } else {
+          // Call the updater directly without debounce
+          listUpdater(updateFunction);
+        }
+     } else if (valueUpdater) {
+       if (props.debounce) {
+         // Use the memorized debounced callback
+         debouncedUpdate(value);
+       } else {
+         // Call the updater directly without debounce
+         listUpdater(value);
+       }
+     }
+     else {
+       customOnChange(e);
       }
     },
-    [listUpdater, valueUpdater]
+    [debouncedUpdate, listUpdater, valueUpdater, props.debounce]
   );
 
   return (

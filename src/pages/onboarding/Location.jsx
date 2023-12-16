@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import locationIcon from "assets/icons/location.png";
 import locationStyles from "../../styles/components/locationStyles";
 import { useQuery } from "react-query";
-import { ApiCall, encodeParam } from "utils";
+import { ApiCall, encodeParams } from "utils";
 
 function Location() {
   const classes = commonStyles();
@@ -19,8 +19,8 @@ function Location() {
   const { searchText } = useSelector((state) => state.location);
 
   const fetchLocation = async (name) => {
-    const encodedName = encodeParam(name);
-    const api_url = `locations/?name=${encodedName}`;
+    const encodedName = encodeParams({name});
+    const api_url = `locations/?${encodedName}`;
     const locations = await ApiCall(api_url);
     return locations?.results;
   };
