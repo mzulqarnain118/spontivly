@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Autocomplete as MuiAutocomplete,
   Chip,
@@ -6,31 +7,24 @@ import {
 
 function Autocomplete({
   options,
-  addNewTag,
   value,
   onChange,
-  required,
   placeholder,
   label,
   variant,
-  inputValue, setInputValue,
+  inputValue,
+  setInputValue,
+  renderOption, // Add a renderOption prop for custom rendering
   ...other
 }) {
-
   const handleChange = (event, newValue) => {
-    const updatedTags = newValue.map((value) => {
-      if (typeof value === "string") {
-        addNewTag(value);
-        return { id: null, title: value };
-      } else {
-        return value;
-      }
-    });
-    onChange(updatedTags);
+    onChange(newValue);
   };
-  const handleTextChange = async (event, newInputValue) => {
-    setInputValue(newInputValue)
+
+  const handleTextChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
   };
+
   return (
     <MuiAutocomplete
       multiple
@@ -43,30 +37,20 @@ function Autocomplete({
       onInputChange={handleTextChange}
       freeSolo
       renderTags={(value, getTagProps) =>
-        value.map((option, index) =>
-          typeof option === "string" ? (
-            <Chip
-              key={index}
-              variant={variant}
-              label={option}
-              {...getTagProps({ index })}
-            />
-          ) : (
-            <Chip
-              key={option.id}
-              variant={variant}
-              label={option.title}
-              {...getTagProps({ index })}
-            />
-          )
-        )
+        value.map((option, index) => (
+          <Chip
+            key={typeof option === "string" ? option : option.id}
+            variant={variant}
+            label={typeof option === "string" ? option : option.title}
+            {...getTagProps({ index })}
+          />
+        ))
       }
       renderInput={(params) => (
         <TextField
           {...params}
           variant={variant}
           label={label}
-          required={required && value.length === 0}
           placeholder={placeholder}
         />
       )}

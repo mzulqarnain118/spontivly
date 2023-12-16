@@ -56,7 +56,7 @@ const CreateContent = ({ isOpen, onClose, contentTypes }) => {
     }
   );
 
-  const addTag = async (tag) => {
+  const addNewTag = async (tag) => {
     const addedTag = await ApiCall("tags/", null, "POST", {
       name: tag,
       title: tag,
@@ -85,8 +85,16 @@ const CreateContent = ({ isOpen, onClose, contentTypes }) => {
     onClose();
   };
 
-  const handleTagChange = (value) => {
-    setSelectedTags(value);
+  const handleTagChange = (selectedValues) => {
+    const updatedTags = selectedValues.map((value) => {
+      if (typeof value === 'string') {
+        addNewTag(value); // Handle adding new tags
+        return { id: null, title: value };
+      } else {
+        return value;
+      }
+    });
+    setSelectedTags(updatedTags);
   };
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth maxWidth="xl">
@@ -145,10 +153,9 @@ const CreateContent = ({ isOpen, onClose, contentTypes }) => {
                 <common.Autocomplete
                   placeholder="Tags"
                   variant="outlined"
-                  value={selectedTags} 
-                  onChange={handleTagChange} 
+                  value={selectedTags}
+                  onChange={handleTagChange}
                   options={tags?.pages?.flatMap((page) => page?.results) ?? []}
-                  addNewTag={addTag}
                   inputValue={searchTagText}
                   setInputValue={setSearchTagText}
                   required
