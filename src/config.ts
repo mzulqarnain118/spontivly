@@ -1,0 +1,13 @@
+const config = {
+  VITE_BACKEND_URL:  import.meta.env.VITE_BACKEND_URL,
+  VITE_LINKEDIN_APP_ID: import.meta.env.VITE_LINKEDIN_APP_ID,
+  VITE_LINKEDIN_APP_SECRET: import.meta.env.VITE_LINKEDIN_APP_SECRET,
+  VITE_INSTAGRAM_APP_ID: import.meta.env.VITE_INSTAGRAM_APP_ID,
+  VITE_INSTAGRAM_APP_SECRET:
+    import.meta.env.VITE_INSTAGRAM_APP_SECRET,
+  VITE_FB_APP_ID: import.meta.env.VITE_FB_APP_ID,
+  VITE_TWITTER_V2_APP_KEY: import.meta.env.VITE_TWITTER_V2_APP_KEY,
+  VITE_REDIRECT_URI: import.meta.env.VITE_REDIRECT_URI,
+};
+
+export default config;
