@@ -1,24 +1,15 @@
 import { memo } from 'react'
-import { useSelector } from "react-redux";
-import {
-  addSelectedChip,
-  removeSelectedChip,
-  setSearchText,
-  setChipData,
-} from '../../redux/skillsSlice';
-import common from '../../components/common';
-import SearchTags from './SearchTags';
+import { useSelector } from 'react-redux'
+import common from '../../components/common'
+import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/skillsSlice'
+import SearchTags from './SearchTags'
 
 function Skills() {
-  const { selectedChips, searchText, filterChipData } = useSelector(
-    (state: any) => state.skills
-  );
+  const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.skills)
+
   return (
     <>
-      <common.FormHeading
-        heading="What are your skills?"
-        title="Select all that apply"
-      />
+      <common.FormHeading heading="What are your skills?" title="Select all that apply" />
 
       <SearchTags
         selectedChips={selectedChips}
@@ -32,7 +23,7 @@ function Skills() {
         setChipData={setChipData}
       />
     </>
-  );
+  )
 }
 
-export default memo(Skills);
+export default memo(Skills)

@@ -1,5 +1,5 @@
-import { Button } from '@mui/material';
-import common from 'components/common';
+import { Button } from '@mui/material'
+import common from 'components/common'
 
 export default function MuiButton(
   {
@@ -36,7 +36,7 @@ export default function MuiButton(
         backgroundColor: bgcolor && `${bgcolor}`,
         textTransform: 'none',
         color: color,
-        minWidth: minWidth,
+        minWidth: minWidth
       }}
       {...other}
     >
@@ -44,5 +44,5 @@ export default function MuiButton(
       {img && <common.Img src={img} />}
       {children}
     </Button>
-  );
+  )
 }

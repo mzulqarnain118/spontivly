@@ -1,24 +1,18 @@
-import { useState } from 'react';
-import { Typography, Menu, MenuItem, Tooltip, IconButton } from '@mui/material';
-import MuiIcon from './MuiIcon';
+import { Typography, Menu, MenuItem, Tooltip, IconButton } from '@mui/material'
+import { useState } from 'react'
+import MuiIcon from './MuiIcon'
 
-const MenuList = ({
-  items,
-  onClose,
-  className,
-  icon,
-  tooltip,
-}: any) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleOpen = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = (item: any) => {
-    onClose(item);
-    setAnchorEl(null);
-  };
+    onClose(item)
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -31,18 +25,18 @@ const MenuList = ({
         sx={{
           mt: '45px',
           right: 0,
-          ...className,
+          ...className
         }}
         id="menu-appbar"
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         keepMounted
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         open={Boolean(anchorEl)}
         onClose={() => handleClose(null)} // Pass null as the default value
@@ -54,7 +48,7 @@ const MenuList = ({
         ))}
       </Menu>
     </>
-  );
-};
+  )
+}
 
-export default MenuList;
+export default MenuList

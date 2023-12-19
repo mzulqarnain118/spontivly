@@ -1,10 +1,10 @@
-import { useCallback, useMemo } from 'react';
-import { ClassNameMap, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import ClearIcon from '@mui/icons-material/Clear';
-import IconButton from '@mui/material/IconButton';
-import commonStyles from '../../styles/commonStyles';
-import { debounce } from 'utils';
+import ClearIcon from '@mui/icons-material/Clear'
+import SearchIcon from '@mui/icons-material/Search'
+import { ClassNameMap, TextField } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import { useCallback, useMemo } from 'react'
+import { debounce } from 'utils'
+import commonStyles from '../../styles/commonStyles'
 
 export default function Input(
   {
@@ -29,56 +29,57 @@ export default function Input(
   }: any,
   props: any
 ) {
-  const classes: ClassNameMap<any> = commonStyles();
+  const classes: ClassNameMap<any> = commonStyles()
   // Create a separate debounced function using useMemo
-  const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater]);
+  const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater])
 
-  const handleClearClick = useCallback((e: any) => {
-    const { name } = e.target;
+  const handleClearClick = useCallback(
+    (e: any) => {
+      const { name } = e.target
 
-    if (listUpdater) {
-      listUpdater((prevFormData: any) => ({
-        ...prevFormData,
-        [name]: "",
-      }));
+      if (listUpdater) {
+        listUpdater((prevFormData: any) => ({
+          ...prevFormData,
+          [name]: ''
+        }))
+      } else if (valueUpdater) {
+        valueUpdater('')
       }
-     else if (valueUpdater) {
-      valueUpdater("");
-    }
-  }, [listUpdater, valueUpdater]
-);
+    },
+    [listUpdater, valueUpdater]
+  )
 
   const handleChange = useCallback(
     (e: any) => {
-      const { name, value } = e.target;
-     if (listUpdater) {
-        const updateFunction = (prevFormData:any) => ({
+      const { name, value } = e.target
+
+      if (listUpdater) {
+        const updateFunction = (prevFormData: any) => ({
           ...prevFormData,
-          [name]: value,
-        });
+          [name]: value
+        })
 
         if (props.debounce) {
           // Use the memorized debounced callback
-          debouncedUpdate(updateFunction);
+          debouncedUpdate(updateFunction)
         } else {
           // Call the updater directly without debounce
-          listUpdater(updateFunction);
+          listUpdater(updateFunction)
         }
-     } else if (valueUpdater) {
-       if (props.debounce) {
-         // Use the memorized debounced callback
-         debouncedUpdate(value);
-       } else {
-         // Call the updater directly without debounce
-         listUpdater(value);
-       }
-     }
-     else {
-       customOnChange(e);
+      } else if (valueUpdater) {
+        if (props.debounce) {
+          // Use the memorized debounced callback
+          debouncedUpdate(value)
+        } else {
+          // Call the updater directly without debounce
+          listUpdater(value)
+        }
+      } else {
+        customOnChange(e)
       }
     },
     [debouncedUpdate, listUpdater, valueUpdater, props.debounce]
-  );
+  )
 
   return (
     <TextField
@@ -103,13 +104,13 @@ export default function Input(
           <IconButton onClick={customHandleClearClick ?? handleClearClick}>
             <ClearIcon />
           </IconButton>
-        ),
+        )
       }}
       className={className ?? classes.inputContainer}
       {...other}
       {...(error && { error: true, helperText: error })}
     />
-  );
+  )
 }
 
 //TODO CALLING

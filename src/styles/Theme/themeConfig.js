@@ -1,4 +1,3 @@
-
 const themeConfig = {
   // ** Layout Configs
   templateName: 'Spontively' /* App Name */,

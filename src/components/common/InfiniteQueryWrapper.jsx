@@ -33,7 +33,7 @@ function InfiniteQueryWrapper({
           {hasNextPage && (
             <common.MuiButton
               onClick={() => fetchNextPage()}
-              label={isFetchingNextPage ? "Loading more..." : "Load More"}
+              label={isFetchingNextPage ? "Loading ..." : "Load More"}
               size="md"
             />
           )}

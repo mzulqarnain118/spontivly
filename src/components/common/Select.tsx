@@ -1,13 +1,7 @@
-import { useCallback } from 'react';
-import {
-  FormControl,
-  InputLabel,
-  Select as MuiSelect,
-  MenuItem,
-  FormHelperText,
-  ClassNameMap,
-} from '@mui/material';
-import commonStyles from '../../styles/commonStyles';
+import { FormControl, InputLabel, Select as MuiSelect, MenuItem, FormHelperText, ClassNameMap } from '@mui/material'
+import { useCallback } from 'react'
+import commonStyles from '../../styles/commonStyles'
+
 export default function Select(
   {
     name,
@@ -28,27 +22,26 @@ export default function Select(
   }: any,
   props: any
 ) {
-  const classes: ClassNameMap<any> = commonStyles();
+  const classes: ClassNameMap<any> = commonStyles()
   const handleChange = useCallback(
     (e: any) => {
-      const { name, value } = e.target;
+      const { name, value } = e.target
+
       if (listUpdater) {
         listUpdater((prevFormData: any) => ({
           ...prevFormData,
-          [name]: value,
-        }));
+          [name]: value
+        }))
       } else if (valueUpdater) {
-        valueUpdater(value);
+        valueUpdater(value)
       }
     },
-    [ listUpdater, valueUpdater]
-  );
+    [listUpdater, valueUpdater]
+  )
 
   return (
     <FormControl fullWidth variant="outlined" {...(error && { error: true })}>
-      {label && (
-        <InputLabel>{`${label}${props.required ? ` *` : ``}`}</InputLabel>
-      )}
+      {label && <InputLabel>{`${label}${props.required ? ` *` : ``}`}</InputLabel>}
       <MuiSelect
         value={value ?? ''}
         label={label && `${label}${props.required ? `*` : ``}`}
@@ -78,5 +71,5 @@ export default function Select(
       </MuiSelect>
       {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
-  );
+  )
 }

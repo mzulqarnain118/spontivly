@@ -1,27 +1,26 @@
 // FindMemberStyles.js
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles'
 
 const dashboardStyles = makeStyles((theme) => ({
   card: {
     p: 0,
     marginTop: '0.5rem',
-    border: "1px solid var(--day-5, #D9D9D9) !important ",
-    boxShadow: "none !important ",
-    borderRadius: "8px !important ",
+    border: '1px solid var(--day-5, #D9D9D9) !important ',
+    boxShadow: 'none !important ',
+    borderRadius: '8px !important '
     // padding: "20px !important ",
   },
   filterCard: {
     p: 0,
     marginTop: '0.5rem',
     width: '10.5rem',
-    border: "1px solid var(--day-5, #D9D9D9) !important ",
-    boxShadow: "none !important ",
-    borderRadius: "1rem !important ",
-    padding: "1rem 2rem 1rem 1rem !important ",
-    [theme.breakpoints.down("sm")]: {
-      width: "8rem",
-    },
-
+    border: '1px solid var(--day-5, #D9D9D9) !important ',
+    boxShadow: 'none !important ',
+    borderRadius: '1rem !important ',
+    padding: '1rem 2rem 1rem 1rem !important ',
+    [theme.breakpoints.down('sm')]: {
+      width: '8rem'
+    }
   },
   filterCardContent: {
     display: 'flex',
@@ -29,21 +28,19 @@ const dashboardStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    gap: '1.25rem',
-
+    gap: '1.25rem'
   },
   selectedCard: {
     p: 0,
     marginTop: '0.5rem',
     width: '10.5rem',
-    border: "1px solid !important ",
-    boxShadow: "none !important ",
-    borderRadius: "1rem !important ",
-    padding: "1rem 2rem 1rem 1rem !important ",
-    [theme.breakpoints.down("sm")]: {
-      width: "8rem",
-    },
-
+    border: '1px solid !important ',
+    boxShadow: 'none !important ',
+    borderRadius: '1rem !important ',
+    padding: '1rem 2rem 1rem 1rem !important ',
+    [theme.breakpoints.down('sm')]: {
+      width: '8rem'
+    }
   },
   editor: {
     textAlign: 'left'
@@ -54,110 +51,109 @@ const dashboardStyles = makeStyles((theme) => ({
     padding: '0.5rem',
     display: 'flex',
     alignItems: 'flex-start',
-    gap: '0.625rem',
-
+    gap: '0.625rem'
   },
   content: {
-    margin: "18px 0px !important ",
-    padding: "0px !important ",
+    margin: '18px 0px !important ',
+    padding: '0px !important '
   },
   userCard: {
-    display: "flex !important ",
-    marginTop: "18px !important ",
-    marginBottom: "18px !important ",
-    padding: "0px !important ",
-    cursor: "pointer !important ",
+    display: 'flex !important ',
+    marginTop: '18px !important ',
+    marginBottom: '18px !important ',
+    padding: '0px !important ',
+    cursor: 'pointer !important '
   },
   avatar: {
-    marginTop: "5px !important ",
+    marginTop: '5px !important '
   },
   userDetailsContainer: {
-    display: "flex !important ",
-    flexDirection: "column !important ",
-    marginLeft: "8px !important ",
+    display: 'flex !important ',
+    flexDirection: 'column !important ',
+    marginLeft: '8px !important '
   },
   name: {
-    color: "var(--petroleum-p-75, #4B5D6B) !important ",
+    color: 'var(--petroleum-p-75, #4B5D6B) !important '
   },
   companyName: {
-    color: "var(--petroleum-p-45, #93A5B4) !important ",
+    color: 'var(--petroleum-p-45, #93A5B4) !important ',
 
-    fontSize: "13px !important ",
-    fontStyle: "normal !important ",
-    fontWeight: 400,
+    fontSize: '13px !important ',
+    fontStyle: 'normal !important ',
+    fontWeight: 400
   },
   role: {
-    fontFamily: "Inter",
-    fontSize: "14px !important ",
-    fontStyle: "normal !important ",
-    fontWeight: 400,
+    fontFamily: 'Inter',
+    fontSize: '14px !important ',
+    fontStyle: 'normal !important ',
+    fontWeight: 400
   },
   matches: {
-    fontSize: "14px !important ",
-    fontStyle: "normal !important ",
-    fontWeight: 400,
+    fontSize: '14px !important ',
+    fontStyle: 'normal !important ',
+    fontWeight: 400
   },
   tagsContainer: {
-    display: "flex !important ",
-    marginTop: "12px !important ",
+    display: 'flex !important ',
+    marginTop: '12px !important '
   },
   tag: {
-    fontSize: "15px !important ",
+    fontSize: '15px !important ',
     fontWeight: 400,
-    border: "1px solid var(--day-5, #D9D9D9) !important ",
-    background: "var(--day-1, #FFF) !important ",
-    borderRadius: "8px !important ",
-    padding: "4px 16px !important ",
-    marginRight: "12px !important ",
+    border: '1px solid var(--day-5, #D9D9D9) !important ',
+    background: 'var(--day-1, #FFF) !important ',
+    borderRadius: '8px !important ',
+    padding: '4px 16px !important ',
+    marginRight: '12px !important '
   },
 
   appBar: {
-    backgroundColor: "white !important",
+    backgroundColor: 'white !important',
     top: 0,
     left: 0,
     right: 0,
-    position: "fixed !important",
-    boxShadow: "none !important",
-    borderBottom: "1px solid #e0e0e0 !important",
-    zIndex: 999,
+    position: 'fixed !important',
+    boxShadow: 'none !important',
+    borderBottom: '1px solid #e0e0e0 !important',
+    zIndex: 999
   },
   logo: {
-    display: { xs: "none !important", md: "flex" },
-    marginRight: 1,
+    display: { xs: 'none !important', md: 'flex' },
+    marginRight: 1
   },
   userBox: {
     flexGrow: 1,
-    display: "flex !important",
-    justifyContent: "flex-end !important",
+    display: 'flex !important',
+    justifyContent: 'flex-end !important'
   },
   userMenuBox: {
-    borderLeft: "1px solid #e0e0e0 !important",
-    width: "240px !important",
-    padding: "20px 16px !important",
+    borderLeft: '1px solid #e0e0e0 !important',
+    width: '240px !important',
+    padding: '20px 16px !important'
   },
   avatarBox: {
-    display: "flex !important",
-    alignItems: "center !important",
+    display: 'flex !important',
+    alignItems: 'center !important'
   },
   userText: {
-    display: "flex !important",
-    flexDirection: "column !important",
-    marginLeft: 1,
+    display: 'flex !important',
+    flexDirection: 'column !important',
+    marginLeft: 1
   },
   userName: {
-    color: theme.palette.primary.main,
+    color: theme.palette.primary.main
   },
   dropdownIcon: {
-    color: "black !important",
+    color: 'black !important'
   },
   addContentButton: {
-    padding: ' 0.5rem 1.25rem',
+    padding: ' 0.5rem 1.25rem'
   },
   mainBox: {
     padding: '20px'
   },
   contentCard: {
-    boxShadow: 'none !important', // Add box shadow
+    boxShadow: 'none !important' // Add box shadow
   },
   filterDialogTitle: {
     display: 'flex',
@@ -166,10 +162,10 @@ const dashboardStyles = makeStyles((theme) => ({
   filterDialogContent: {
     display: 'flex',
     flexDirection: 'column',
-    gap:"2.25rem"
+    gap: '2.25rem'
   },
   filterDialogActions: {
-    display: "flex !important",
+    display: 'flex !important',
     justifyContent: 'space-between !important',
     padding: `1.75rem !important `
   },
@@ -183,17 +179,16 @@ const dashboardStyles = makeStyles((theme) => ({
     marginBottom: `5rem !important`
   },
   createContentItem: {
-    display: "flex",
-    flexDirection: "column !important",
-    gap: "2.25rem"
+    display: 'flex',
+    flexDirection: 'column !important',
+    gap: '2.25rem'
   },
   imgLogo: {
     height: '34px'
   },
   addContentDialogAction: {
-    paddingRight:'20px !important'
-  },
+    paddingRight: '20px !important'
+  }
+}))
 
-}));
-
-export default dashboardStyles;
+export default dashboardStyles

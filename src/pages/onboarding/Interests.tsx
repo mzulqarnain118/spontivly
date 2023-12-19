@@ -1,24 +1,15 @@
-import  { memo } from 'react'
-import { useSelector } from "react-redux";
-import {
-  addSelectedChip,
-  removeSelectedChip,
-  setSearchText,
-  setChipData,
-} from "../../redux/interestsSlice";
-import common from "../../components/common";
-import SearchTags from "./SearchTags";
+import { memo } from 'react'
+import { useSelector } from 'react-redux'
+import common from '../../components/common'
+import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/interestsSlice'
+import SearchTags from './SearchTags'
 
 function Interests() {
-  const { selectedChips, searchText, filterChipData } = useSelector(
-    (state: any) => state.interests
-  );
+  const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.interests)
+
   return (
     <>
-      <common.FormHeading
-        heading="What are your interests?"
-        title="Select all that apply"
-      />
+      <common.FormHeading heading="What are your interests?" title="Select all that apply" />
 
       <SearchTags
         selectedChips={selectedChips}
@@ -32,7 +23,7 @@ function Interests() {
         setChipData={setChipData}
       />
     </>
-  );
+  )
 }
 
-export default memo(Interests);
+export default memo(Interests)
