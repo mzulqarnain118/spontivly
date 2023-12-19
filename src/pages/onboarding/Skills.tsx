@@ -4,7 +4,7 @@ import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/skillsSlice'
 import { SearchTags } from './SearchTags'
 
-function Skills() {
+function SkillsComponent() {
   const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.skills)
 
   return (
@@ -26,4 +26,4 @@ function Skills() {
   )
 }
 
-export const Skills = memo(Skills)
+export const Skills = memo(SkillsComponent)

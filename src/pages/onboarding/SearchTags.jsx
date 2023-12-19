@@ -1,13 +1,13 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import { Chip, Box, Container } from '@mui/material'
-import React, { useCallback, useEffect } from 'react'
+import React, { memo, useCallback, useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { commonStyles } from '../../styles/commonStyles'
 import { ApiCall, encodeParams } from '../../utils'
 
-function SearchTags({
+function SearchTagsComponent({
   addSelectedChip,
   removeSelectedChip,
   selectedChips,
@@ -59,18 +59,16 @@ function SearchTags({
   })
 
   return (
-    <Box className="col-start gap-1">
-      <Container maxWidth="sm" className={classes.container}>
-        <Box className={classes.mainContainer}>
-          <common.Input
-            placeholder={placeholder}
-            value={searchText}
-            onChange={(e) => dispatch(setSearchText(e.target.value))}
-            customHandleClearClick={() => dispatch(setSearchText(''))}
-            startIcon={true}
-            endIcon={true}
-          />
-        </Box>
+    <Box className="col-center gap-1">
+      <Container maxWidth="sm" style={{ width: '600px' }}>
+        <common.Input
+          placeholder={placeholder}
+          value={searchText}
+          onChange={(e) => dispatch(setSearchText(e.target.value))}
+          customHandleClearClick={() => dispatch(setSearchText(''))}
+          startIcon={true}
+          endIcon={true}
+        />
       </Container>
       <common.InfiniteQueryWrapper
         status={status}
@@ -107,4 +105,4 @@ function SearchTags({
   )
 }
 
-export const SearchTags = memo(SearchTags)
+export const SearchTags = memo(SearchTagsComponent)

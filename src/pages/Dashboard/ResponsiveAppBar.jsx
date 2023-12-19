@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/Logo.png'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
-import { rmLocal } from '../../utils'
 
 const settings = ['Dashboard', 'Account', 'Settings', 'Logout']
 
@@ -20,8 +19,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   }
   const handleCloseUserMenu = (setting) => {
     if (setting == 'Logout') {
-      rmLocal('token')
-      rmLocal('onboarding')
+      localStorage.clear()
       navigate('/auth')
     } else if (setting == 'Settings') {
       navigate('/settings')

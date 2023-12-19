@@ -1,11 +1,11 @@
 import { Container, Box } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { setBioText } from '../../redux/onBoardingSlice' // Import the action
 import { commonStyles } from '../../styles/commonStyles'
 
-function Bio() {
+function BioComponent() {
   const bioText = useSelector((state) => state.onBoarding.bioText)
   const classes = commonStyles()
   const dispatch = useDispatch()
@@ -28,4 +28,4 @@ function Bio() {
   )
 }
 
-export { Bio }
+export const Bio = memo(BioComponent)

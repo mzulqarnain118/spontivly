@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { Controls as common } from '../../components/common'
+import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
 import { FindMember } from './FindMember'
 import { General } from './General'
@@ -11,7 +12,6 @@ import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
-import { setCurrentUser } from '../../redux/dashboardSlice'
 
 const containerStyles = {
   maxWidth: '1280px',

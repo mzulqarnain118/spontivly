@@ -4,7 +4,7 @@ import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/interestsSlice'
 import { SearchTags } from './SearchTags'
 
-function Interests() {
+function InterestsComponent() {
   const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.interests)
 
   return (
@@ -26,4 +26,4 @@ function Interests() {
   )
 }
 
-export const Interests = memo(Interests)
+export const Interests = memo(InterestsComponent)

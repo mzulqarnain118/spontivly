@@ -2,9 +2,9 @@ import { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/objectiveSlice'
-import SearchTags from './SearchTags'
+import { SearchTags } from './SearchTags'
 
-function Objective() {
+function ObjectiveComponent() {
   const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.objective)
 
   return (
@@ -26,4 +26,4 @@ function Objective() {
   )
 }
 
-export const Objective = memo(Objective)
+export const Objective = memo(ObjectiveComponent)

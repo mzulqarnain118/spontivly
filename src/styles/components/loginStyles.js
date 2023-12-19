@@ -30,4 +30,3 @@ export const loginStyles = makeStyles((theme) => ({
     color: '#8C8C8C'
   }
 }))
-

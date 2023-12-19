@@ -22,7 +22,7 @@ const ModuleView = ({ libraryData, typeIcons }) => {
           lg={4}
           mt={'1.25rem'}
           className="cursor"
-          onClick={() => handleOpenUrlInNewTab(library.url, library.type)}
+          onClick={() => handleOpenUrlInNewTab(library.url)}
         >
           <Box>
             <div className="relative-full-width">

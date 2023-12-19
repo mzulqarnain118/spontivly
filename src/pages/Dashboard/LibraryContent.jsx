@@ -1,7 +1,6 @@
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
 import moment from 'moment'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
@@ -11,14 +10,9 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
   console.log('🚀 ~ file: LibraryContent.jsx:11 ~ LibraryContent ~ libraryData:', libraryData)
 
   const classes = libraryStyles()
-  const navigate = useNavigate()
 
   return libraryData?.map((library) => (
-    <Box
-      key={library.id}
-      className={`${classes.mainBox} cursor`}
-      onClick={() => handleOpenUrlInNewTab(library.url, library.type, navigate)}
-    >
+    <Box key={library.id} className={`${classes.mainBox} cursor`} onClick={() => handleOpenUrlInNewTab(library.url)}>
       <common.Img src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail} className={classes.contentImg} />
       <Grid container>
         <Grid item xs={10} sm={10} md={10}>
