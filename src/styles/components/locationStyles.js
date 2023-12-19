@@ -23,4 +23,4 @@ const locationStyles = makeStyles((theme) => ({
   content: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.125rem', flex: '1 0 0' }
 }))
 
-export default locationStyles
+export { locationStyles }

@@ -67,4 +67,4 @@ const libraryStyles = makeStyles((theme) => ({
   }
 }))
 
-export default libraryStyles
+export { libraryStyles }

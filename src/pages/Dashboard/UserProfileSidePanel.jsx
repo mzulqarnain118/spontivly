@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import twitter from "assets/icons/twitter-square.svg";
-import fb from "assets/icons/facebook.svg";
-import linkedin from "assets/icons/linkedin.svg";
-import dashboardStyles from "styles/components/dashboardStyles";
-import { Box, CardContent, Divider, Typography, Avatar } from "@mui/material";
-import common from "components/common";
+import { Box, CardContent, Divider, Typography, Avatar } from '@mui/material'
+import React, { useState } from 'react'
+import fb from '../../assets/icons/facebook.svg'
+import linkedin from '../../assets/icons/linkedin.svg'
+import twitter from '../../assets/icons/twitter-square.svg'
+import { Controls as common } from '../../components/common'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
 
-const data = ["About", "Profession", "Interests tags"];
+const data = ['About', 'Profession', 'Interests tags']
 
 const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
-  const [openPopup, setPopup] = useState(false);
-  const classes = dashboardStyles();
+  const [openPopup, setPopup] = useState(false)
+  const classes = dashboardStyles()
 
   return (
     <>
@@ -18,13 +18,10 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
         <Box
           className="col-center"
           sx={{
-            marginTop: "48px",
+            marginTop: '48px'
           }}
         >
-          <Avatar
-            src={user?.profile_pic}
-            sx={{ width: "3.33rem", height: "3.33rem" }}
-          />
+          <Avatar src={user?.profile_pic} sx={{ width: '3.33rem', height: '3.33rem' }} />
           <Typography>{user.user.first_name + user.user.last_name}</Typography>
           <Typography variant="lighterSubtitle2">{user.user.email}</Typography>
           <Box className="flex">
@@ -36,8 +33,8 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
             fullWidth
             size="sm"
             sx={{
-              padding: "6px 20px",
-              margin: "16px 0",
+              padding: '6px 20px',
+              margin: '16px 0'
             }}
             onClick={() => setPopup(true)}
           >
@@ -50,7 +47,7 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
           <CardContent className="col-start gap-075">
             <Typography variant="subtitle">{item}</Typography>
             {index == 0 ? (
-              <Typography variant="subtitle1" sx={{ textAlign: "start" }}>
+              <Typography variant="subtitle1" sx={{ textAlign: 'start' }}>
                 {user.introduction}
               </Typography>
             ) : index == 2 ? (
@@ -69,7 +66,7 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
         ))}
       </common.Popup>
     </>
-  );
-};
+  )
+}
 
-export default UserProfileSidePanel;
+export { UserProfileSidePanel }

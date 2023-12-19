@@ -51,4 +51,4 @@ const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
   )
 }
 
-export default MenuList
+export { MenuList }

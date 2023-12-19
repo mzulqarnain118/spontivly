@@ -2,7 +2,7 @@ import { Container, Box } from "@mui/material";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCompanyInfo } from "../../redux/companySlice";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import commonStyles from "../../styles/commonStyles";
 import { ApiCall } from "utils";
 import { useQuery } from "react-query";
@@ -54,4 +54,4 @@ function Company() {
   );
 }
 
-export default React.memo(Company);
+export {React}.memo(Company);

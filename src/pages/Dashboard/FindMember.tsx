@@ -1,13 +1,13 @@
 import { Avatar, Box, Card, Grid, Typography } from '@mui/material'
-import Send from 'assets/icons/send.svg'
-import common from 'components/common'
 import { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import dashboardStyles from 'styles/components/dashboardStyles'
-import { ApiCall, encodeParams } from 'utils'
-import InviteMember from './InviteMember'
-import UserProfileSidePanel from './UserProfileSidePanel'
+import Send from '../../assets/icons/send.svg'
+import { Controls as common } from '../../components/common'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
+import { ApiCall, encodeParams } from '../../utils'
+import { InviteMember } from './InviteMember'
+import { UserProfileSidePanel } from './UserProfileSidePanel'
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
@@ -195,4 +195,4 @@ function FindMember({ setRefetchUser }) {
   )
 }
 
-export default FindMember
+export { FindMember }

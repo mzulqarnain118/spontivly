@@ -26,4 +26,4 @@ const socialSlice = createSlice({
 })
 
 export const { setSoicalData, setLinkedInChecked, setTwitterChecked, setFacebookChecked, setInstaChecked } = socialSlice.actions
-export default socialSlice.reducer
+export const { reducer: SocialSlice } = socialSlice

@@ -9,4 +9,4 @@ const config = {
   VITE_REDIRECT_URI: import.meta.env.VITE_REDIRECT_URI
 }
 
-export default config
+export { config }

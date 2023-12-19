@@ -18,4 +18,4 @@ const ContainerToast = () => {
     />);
 }
 
-export default ContainerToast;
+export {ContainerToast};

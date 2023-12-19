@@ -121,4 +121,4 @@ const commonStyles = makeStyles((theme) => ({
   }
 }))
 
-export default commonStyles
+export { commonStyles }

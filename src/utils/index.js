@@ -1,5 +1,5 @@
 import qs from 'qs'
-import ApiCall from './ApiCall'
+import { ApiCall } from './ApiCall'
 
 const encodeParams = (params, customArrayFormat = 'comma') => {
   let arrayFormat

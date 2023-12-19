@@ -1,5 +1,5 @@
 // ** Overrides Imports
-import MuiButton from './button'
+import { Button as MuiButton } from './button'
 
 const Overrides = (theme) => {
   const button = MuiButton(theme)
@@ -7,4 +7,4 @@ const Overrides = (theme) => {
   return Object.assign(button)
 }
 
-export default Overrides
+export { Overrides }

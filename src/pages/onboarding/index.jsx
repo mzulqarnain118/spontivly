@@ -30,7 +30,7 @@ import lock from "assets/icons/lock.svg";
 import warning from "assets/icons/Warming.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import {
   onBoarding,
   Main,
@@ -295,4 +295,4 @@ function OnBoarding() {
   );
 }
 
-export default OnBoarding;
+export {OnBoarding};

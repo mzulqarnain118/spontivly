@@ -38,4 +38,4 @@ const chipSlice = (name) =>
     }
   })
 
-export default chipSlice
+export { chipSlice }

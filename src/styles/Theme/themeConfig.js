@@ -16,4 +16,4 @@ const themeConfig = {
   disableRipple: false /* true | false */
 }
 
-export default themeConfig
+export { themeConfig }

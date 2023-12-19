@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Typography, Menu, MenuItem, Tooltip, IconButton } from "@mui/material";
-import MuiIcon from "./MuiIcon";
+import { MuiIcon } from "./MuiIcon";
 
 const MenuList = ({ items, iconClick, onClose, className, icon, tooltip }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,4 +51,4 @@ const MenuList = ({ items, iconClick, onClose, className, icon, tooltip }) => {
   );
 };
 
-export default MenuList;
+export {MenuList};

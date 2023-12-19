@@ -1,22 +1,22 @@
 import AddIcon from '@mui/icons-material/Add'
 import { Card, Grid, Typography } from '@mui/material'
-import youtubeText from "assets/icons/youtubeText.png";
-import doc from "assets/icons/doc.png";
-import filter from "assets/icons/filter.svg";
-import pdf from 'assets/icons/pdf.png'
-import link from 'assets/icons/link.png'
-import youtube from "assets/icons/youtube.png";
-import common from 'components/common'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import dashboardStyles from 'styles/components/dashboardStyles'
-import { ApiCall, encodeParams } from 'utils'
-import ToggleButtons from '../../components/common/ToggleButtons'
-import CreateContent from './CreateContent'
-import FilterLibrary from './FilterLibrary'
-import LibraryContent from './LibraryContent'
-import ModuleView from './ModuleView'
+import doc from '../../assets/icons/doc.png'
+import filter from '../../assets/icons/filter.svg'
+import link from '../../assets/icons/link.png'
+import pdf from '../../assets/icons/pdf.png'
+import youtube from '../../assets/icons/youtube.png'
+import youtubeText from '../../assets/icons/youtubeText.png'
+import { Controls as common } from '../../components/common'
+import { ToggleButtons } from '../../components/common/ToggleButtons'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
+import { ApiCall, encodeParams } from '../../utils'
+import { CreateContent } from './CreateContent'
+import { FilterLibrary } from './FilterLibrary'
+import { LibraryContent } from './LibraryContent'
+import { ModuleView } from './ModuleView'
 
 const contentTypes = [
   {
@@ -56,7 +56,7 @@ function Library() {
   const [libraryContent, setLibraryContent] = useState({
     content: '',
     sortBy: null,
-    newLibraryAdded:false
+    newLibraryAdded: false
   })
 
   async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
@@ -187,4 +187,4 @@ function Library() {
   )
 }
 
-export default Library
+export { Library }

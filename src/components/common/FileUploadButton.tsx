@@ -33,4 +33,4 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({ handleUploadPhoto, 
   )
 }
 
-export default FileUploadButton
+export { FileUploadButton }

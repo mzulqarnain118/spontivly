@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { useSelector } from 'react-redux'
-import common from '../../components/common'
+import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/interestsSlice'
-import SearchTags from './SearchTags'
+import { SearchTags } from './SearchTags'
 
 function Interests() {
   const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.interests)
@@ -26,4 +26,4 @@ function Interests() {
   )
 }
 
-export default memo(Interests)
+export const Interests = memo(Interests)

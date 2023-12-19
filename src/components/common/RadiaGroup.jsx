@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormControl, FormLabel, RadioGroup as MuiRadioGroup, FormControlLabel, Radio } from '@mui/material';
 
-export default function RadioGroup(props) {
+export function RadioGroup(props) {
 
     const { name, label, value, onChange, items } = props;
 

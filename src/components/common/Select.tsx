@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, Select as MuiSelect, MenuItem, FormHelperText, ClassNameMap } from '@mui/material'
 import { useCallback } from 'react'
-import commonStyles from '../../styles/commonStyles'
+import { commonStyles } from '../../styles/commonStyles'
 
-export default function Select(
+export function Select(
   {
     name,
     className,

@@ -1,7 +1,6 @@
 // DragDropFile.tsx
 import React from 'react'
 import { FileUploader } from 'react-drag-drop-files'
-import dashboardStyles from 'styles/components/dashboardStyles'
 import '../../styles/components/dragAndDropFileStyles.css'
 
 const fileTypes = {
@@ -22,9 +21,8 @@ const DragDropFile: React.FC<DragDropFileProps> = ({ onChange, type, border, ico
   const handleChange = (file: File) => {
     onChange(file)
   }
-  const classes = dashboardStyles()
 
   return <FileUploader handleChange={handleChange} name="file" types={fileTypes[type]} {...others} />
 }
 
-export default DragDropFile
+export { DragDropFile }

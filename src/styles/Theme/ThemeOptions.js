@@ -2,9 +2,9 @@
 import { deepmerge } from '@mui/utils'
 
 // ** Theme Override Imports
-import breakpoints from './breakpoints'
-import palette from './Palette'
-import shadows from './shadows'
+import { breakpoints } from './breakpoints'
+import { Palette as palette } from './Palette'
+import { Shadows as shadows } from './shadows'
 import { spacing } from './spacing'
 
 const themeOptions = () => {
@@ -39,4 +39,4 @@ const themeOptions = () => {
   })
 }
 
-export default themeOptions
+export { themeOptions }

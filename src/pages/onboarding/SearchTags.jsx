@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect } from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
 import { Chip, Box, Container } from '@mui/material'
-import { useDispatch } from 'react-redux'
-import commonStyles from '../../styles/commonStyles'
-import common from '../../components/common'
+import React, { useCallback, useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
-import { ApiCall, encodeParams } from 'utils'
+import { useDispatch } from 'react-redux'
+import { Controls as common } from '../../components/common'
+import { commonStyles } from '../../styles/commonStyles'
+import { ApiCall, encodeParams } from '../../utils'
 
 function SearchTags({
   addSelectedChip,
@@ -20,6 +20,7 @@ function SearchTags({
 }) {
   const dispatch = useDispatch()
   const classes = commonStyles()
+
   async function fetchTags({ pageParam = 1 }, searchText) {
     const queryParams = {
       page: pageParam,
@@ -27,8 +28,11 @@ function SearchTags({
     }
     const encodedTagParams = encodeParams(queryParams)
     const apiUrl = `${queryKey}?${encodedTagParams}`
-    return await ApiCall(apiUrl)
+    const fetchedTags = await ApiCall(apiUrl)
+
+    return fetchedTags
   }
+
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
     [queryKey, searchText], // Dynamic query key
     ({ pageParam = 1 }) => fetchTags({ pageParam }, searchText),
@@ -36,6 +40,7 @@ function SearchTags({
       getNextPageParam: (lastPage) => lastPage?.next
     }
   )
+
   useEffect(() => {
     data && dispatch(setChipData(data?.pages?.flatMap((page) => page?.results)))
   }, [data])
@@ -102,4 +107,4 @@ function SearchTags({
   )
 }
 
-export default React.memo(SearchTags)
+export const SearchTags = memo(SearchTags)

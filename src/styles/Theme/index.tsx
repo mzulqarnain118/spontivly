@@ -3,12 +3,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeOptions, ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
 
 // ** Theme Config
-import overrides from './overrides'
-import themeConfig from './themeConfig'
+import { Overrides as overrides } from './overrides'
+import { themeConfig } from './themeConfig'
 
 // ** Theme Override Imports
-import themeOptions from './ThemeOptions'
-import typography from './Typography'
+import { themeOptions } from './ThemeOptions'
+import { Typography as typography } from './Typography'
 
 // ** Theme
 
@@ -40,4 +40,4 @@ const Theme = ({ children }: any) => {
   )
 }
 
-export default Theme
+export { Theme }

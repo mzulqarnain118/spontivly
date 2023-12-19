@@ -13,4 +13,4 @@ const dashboardSlice = createSlice({
 })
 
 export const { setCurrentUser } = dashboardSlice.actions
-export default dashboardSlice.reducer
+export const { reducer: DashboardSlice } = dashboardSlice

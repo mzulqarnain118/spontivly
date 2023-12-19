@@ -10,11 +10,11 @@ import {
   MoreHorizRounded,
   Close,
   Menu,
-  FiberManualRecord
+  FiberManualRecord,
+  Person
 } from '@mui/icons-material'
-import PersonIcon from '@mui/icons-material/Person'
 
-const ReusableIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
+export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
   const iconNames: any = {
     StarRateRounded,
     Search,
@@ -28,7 +28,7 @@ const ReusableIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant
     Adb,
     MoreHorizRounded,
     Close,
-    PersonIcon
+    Person
   }
 
   const IconComponent: any = iconNames[name] || StarRateRounded
@@ -49,5 +49,3 @@ const ReusableIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant
     />
   )
 }
-
-export default ReusableIcon

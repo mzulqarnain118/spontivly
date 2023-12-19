@@ -1,8 +1,8 @@
 import { Drawer, Typography, Box, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import MuiIcon from './MuiIcon'
+import { MuiIcon } from './MuiIcon'
 
-export default function SidePanel({ width, title, children, openPanel, anchor, setPanel }: any) {
+export function SidePanel({ width, title, children, openPanel, anchor, setPanel }: any) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 

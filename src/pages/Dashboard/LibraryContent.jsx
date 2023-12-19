@@ -1,14 +1,14 @@
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
-import defaultThumbnail from 'assets/images/dummy.png'
-import common from 'components/common'
+import moment from 'moment'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import libraryStyles from 'styles/components/libraryStyles'
-import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from 'utils'
-import moment from "moment"
-const LibraryContent = ({ libraryData, typeIcons }) => {
+import defaultThumbnail from '../../assets/images/dummy.png'
+import { Controls as common } from '../../components/common'
+import { libraryStyles } from '../../styles/components/libraryStyles'
+import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from '../../utils'
 
-  console.log("🚀 ~ file: LibraryContent.jsx:11 ~ LibraryContent ~ libraryData:", libraryData)
+const LibraryContent = ({ libraryData, typeIcons }) => {
+  console.log('🚀 ~ file: LibraryContent.jsx:11 ~ LibraryContent ~ libraryData:', libraryData)
 
   const classes = libraryStyles()
   const navigate = useNavigate()
@@ -49,4 +49,4 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
   ))
 }
 
-export default LibraryContent
+export { LibraryContent }

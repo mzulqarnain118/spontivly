@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getLocal } from './index'
-import config from '../config'
-import ExceptionHandler from './ExceptionHandler'
+import { config } from '../config'
+import { ExceptionHandler } from './ExceptionHandler'
 
 // Create an Axios instance with default configuration
 
@@ -31,7 +31,7 @@ apiInstance.interceptors.response.use(
 )
 
 // ApiCall function using the Axios instance
-export default function ApiCall(url: string, setLoading: any = null, method: string = 'GET', data: any = null) {
+export function ApiCall(url: string, setLoading: any = null, method = 'GET', data: any = null) {
   const api_url = method === 'GET' ? (url.includes('?') ? url : `${url}/`) : url
 
   return apiInstance({

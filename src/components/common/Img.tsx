@@ -1,7 +1,7 @@
 import { ClassNameMap } from '@mui/material'
-import commonStyles from '../../styles/commonStyles'
+import { commonStyles } from '../../styles/commonStyles'
 
-export default function Img({ src, className, type, onClick, ...others }: any) {
+export function Img({ src, className, type, onClick, ...others }: any) {
   const classes: ClassNameMap<any> = commonStyles()
 
   return (

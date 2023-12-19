@@ -1,34 +1,33 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Spinner from "./Spinner";
-import { getLocal } from "utils";
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getLocal } from '../../utils'
+import { Spinner } from './Spinner'
 
-const ProtectedRoute = (WrappedComponent, redirectPath = "/") => {
+const ProtectedRoute = (WrappedComponent, redirectPath = '/') => {
   const Wrapper = (props) => {
-    const navigate = useNavigate();
-    const isAuthenticated = getLocal("token");
-    const isOnBoarded = getLocal("onboarding");
+    const navigate = useNavigate()
+    const isAuthenticated = getLocal('token')
+    const isOnBoarded = getLocal('onboarding')
 
     useEffect(() => {
       if (!isAuthenticated) {
-        navigate("/auth");
+        navigate('/auth')
       } else if (!isOnBoarded) {
-        navigate("/onboarding");
+        navigate('/onboarding')
+      } else {
+        navigate(redirectPath)
       }
-      else {
-        navigate(redirectPath);
-      }
-    }, [navigate, isAuthenticated, isOnBoarded]);
+    }, [navigate, isAuthenticated, isOnBoarded])
 
     if (isAuthenticated) {
-      return <WrappedComponent {...props} />;
+      return <WrappedComponent {...props} />
     }
 
     // Render loading state or error message if needed
-    return <Spinner isOverlay={true} />;
-  };
+    return <Spinner isOverlay={true} />
+  }
 
-  return Wrapper;
-};
+  return Wrapper
+}
 
-export default ProtectedRoute;
+export { ProtectedRoute }

@@ -1,6 +1,6 @@
 import { Avatar, Typography } from "@mui/material";
 import { useState } from "react";
-import common from "components/common";
+import { Controls as common } from "components/common";
 import { useSelector } from "react-redux";
 import { ApiCall } from "utils";
 function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
@@ -58,4 +58,4 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
   );
 }
 
-export default SideMenuCard;
+export {SideMenuCard};

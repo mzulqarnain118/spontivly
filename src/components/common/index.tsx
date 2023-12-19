@@ -1,26 +1,26 @@
-import Autocomplete from './Autocomplete'
-import Checkbox from './Checkbox'
-import ChipContainer from './ChipContainer'
-import CustomSwitch from './CustomSwitch'
-import DragDropFile from './DragDropFile'
-import FileUploadButton from './FileUploadButton'
-import FilterContentTypeCard from './FilterContentTypeCard'
-import FormHeading from './FormHeading'
-import Input from './Input'
-import RadioGroup from './RadiaGroup'
-import RichText from './RichText'
-import Select from "./Select";
-import SidePanel from './SidePanel'
-import Spinner from './Spinner'
-import ContainerToast from './Toast/ContainerToast'
-import MuiButton from './MuiButton'
-import Img from './Img'
-import Link from './Link'
-import MuiIcon from './MuiIcon'
-import MenuList from './MenuList'
-import Popup from './Popup'
-import Form from './Form'
-import InfiniteQueryWrapper from './InfiniteQueryWrapper'
+import { Autocomplete } from './Autocomplete'
+import { Checkbox } from './Checkbox'
+import { ChipContainer } from './ChipContainer'
+import { CustomSwitch } from './CustomSwitch'
+import { DragDropFile } from './DragDropFile'
+import { FileUploadButton } from './FileUploadButton'
+import { FilterContentTypeCard } from './FilterContentTypeCard'
+import { Form } from './Form'
+import { FormHeading } from './FormHeading'
+import { Img } from './Img'
+import { InfiniteQueryWrapper } from './InfiniteQueryWrapper'
+import { Input } from './Input'
+import { Link } from './Link'
+import { MenuList } from './MenuList'
+import { MuiButton } from './MuiButton'
+import { MuiIcon } from './MuiIcon'
+import { Popup } from './Popup'
+import { RadioGroup } from './RadiaGroup'
+import { RichText } from './RichText'
+import { Select } from './Select'
+import { SidePanel } from './SidePanel'
+import { Spinner } from './Spinner'
+import { ContainerToast } from './Toast/ContainerToast'
 const Controls = {
   RadioGroup,
   Select,
@@ -47,4 +47,4 @@ const Controls = {
   DragDropFile
 }
 
-export default Controls
+export { Controls }

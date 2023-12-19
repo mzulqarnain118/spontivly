@@ -191,4 +191,4 @@ const dashboardStyles = makeStyles((theme) => ({
   }
 }))
 
-export default dashboardStyles
+export { dashboardStyles }

@@ -41,4 +41,4 @@ const onBoardingSlice = createSlice({
 
 export const { setBioText, activeStep, fetchDataFailure, fetchDataSuccess, handleNext, handleBack, setPhotoURL, saveProfile } =
   onBoardingSlice.actions
-export default onBoardingSlice.reducer
+export const { reducer: OnBoardingSlice } = onBoardingSlice

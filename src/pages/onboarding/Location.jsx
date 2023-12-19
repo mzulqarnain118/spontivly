@@ -5,7 +5,7 @@ import {
   setSelectedLocation,
 } from "../../redux/locationSlice";
 import commonStyles from "../../styles/commonStyles";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
 import locationIcon from "assets/icons/location.png";
 import locationStyles from "../../styles/components/locationStyles";
@@ -78,4 +78,4 @@ const {
   );
 }
 
-export default React.memo(Location);
+export {React}.memo(Location);

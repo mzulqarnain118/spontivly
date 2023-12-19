@@ -17,4 +17,4 @@ const locationSlice = createSlice({
 })
 
 export const { setLocationText, setSelectedLocation } = locationSlice.actions
-export default locationSlice.reducer
+export const { reducer: LocationSlice } = locationSlice

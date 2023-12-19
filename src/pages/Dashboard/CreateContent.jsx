@@ -1,15 +1,13 @@
-import { Box, Card,  Divider, Grid, Typography } from '@mui/material'
-import { useTheme } from '@mui/material/styles'
-import common from 'components/common'
+import { Box, Card, Divider, Grid, Typography } from '@mui/material'
 import qs from 'qs'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useInfiniteQuery } from 'react-query'
-import dashboardStyles from 'styles/components/dashboardStyles'
-import { ApiCall, reduceArrayByKeys } from 'utils'
+import { Controls as common } from '../../components/common'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
+import { ApiCall, reduceArrayByKeys } from '../../utils'
 
 const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => {
-  const theme = useTheme()
   const classes = dashboardStyles()
   const { register, handleSubmit } = useForm()
   const [type, setType] = useState('')
@@ -29,7 +27,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
     return ApiCall(apiUrl)
   }
 
-  const { data: tags, refetch } = useInfiniteQuery(
+  const { data: tags } = useInfiniteQuery(
     ['libraryTags', searchTagText], // Dynamic query key
     ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
     {
@@ -146,4 +144,4 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
   )
 }
 
-export default CreateContent
+export { CreateContent }

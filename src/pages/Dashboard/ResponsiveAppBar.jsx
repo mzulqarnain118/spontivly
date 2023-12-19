@@ -1,53 +1,43 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Container,
-  Avatar,
-} from "@mui/material";
-import logo from "assets/images/Logo.png";
-import dashboardStyles from "styles/components/dashboardStyles";
-import common from "components/common";
-import { rmLocal } from "utils";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/material'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import logo from '../../assets/images/Logo.png'
+import { Controls as common } from '../../components/common'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
+import { rmLocal } from '../../utils'
 
-const settings = ["Dashboard", "Account", "Settings", "Logout"];
+const settings = ['Dashboard', 'Account', 'Settings', 'Logout']
 
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
-  const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.dashboard);
-  const user = currentUser?.[0]?.user;
-  const classes = dashboardStyles();
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const navigate = useNavigate()
+  const { currentUser } = useSelector((state) => state.dashboard)
+  const user = currentUser?.[0]?.user
+  const classes = dashboardStyles()
+  const [anchorElUser, setAnchorElUser] = useState(null)
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
   const handleCloseUserMenu = (setting) => {
-    if (setting == "Logout") {
-      rmLocal("token");
-      rmLocal("onboarding");
-      navigate("/auth");
-    } else if (setting == "Settings") {
-      navigate("/settings");
-    } else if (setting == "Dashboard") {
-      navigate("/");
+    if (setting == 'Logout') {
+      rmLocal('token')
+      rmLocal('onboarding')
+      navigate('/auth')
+    } else if (setting == 'Settings') {
+      navigate('/settings')
+    } else if (setting == 'Dashboard') {
+      navigate('/')
     }
-    setAnchorElUser(null);
-  };
+
+    setAnchorElUser(null)
+  }
 
   return (
     currentUser.length !== 0 && (
       <AppBar position="static" className={classes.appBar}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
-            {isBelowLG && <common.MuiIcon
-            name="Menu"
-            color="primary.main"
-            onClick={() => setPanel(!Panel)}
-          />}
+            {isBelowLG && <common.MuiIcon name="Menu" color="primary.main" onClick={() => setPanel(!Panel)} />}
             <common.MuiIcon name="Adb" className={classes.logo} />
             <common.Img src={logo} />
             <Box className={classes.userBox}>
@@ -55,12 +45,8 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
                 <Box className="row gap-025">
                   <Avatar src={currentUser?.[0]?.profile_pic} />
                   <Box className="col-start">
-                    <Typography color="primary.main">
-                      {user?.first_name + user?.last_name}
-                    </Typography>
-                    <Typography variant="lighterSubtitle2">
-                      {user?.email}
-                    </Typography>
+                    <Typography color="primary.main">{user?.first_name + user?.last_name}</Typography>
+                    <Typography variant="lighterSubtitle2">{user?.email}</Typography>
                   </Box>
                   <common.MenuList
                     items={settings}
@@ -78,7 +64,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
         </Container>
       </AppBar>
     )
-  );
+  )
 }
 
-export default ResponsiveAppBar;
+export { ResponsiveAppBar }

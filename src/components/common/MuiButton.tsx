@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
-import common from 'components/common'
+import { Controls as common } from 'components/common'
 
-export default function MuiButton(
+export function MuiButton(
   {
     className,
     label,

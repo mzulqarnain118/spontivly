@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { useSelector } from 'react-redux'
-import common from '../../components/common'
+import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/objectiveSlice'
 import SearchTags from './SearchTags'
 
@@ -26,4 +26,4 @@ function Objective() {
   )
 }
 
-export default memo(Objective)
+export const Objective = memo(Objective)

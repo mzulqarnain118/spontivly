@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPhotoURL } from "../../redux/onBoardingSlice";
 import commonStyles from "../../styles/commonStyles";
 import { Container } from "@mui/material";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import defaultProfile from "assets/images/defaultProfile.png";
 import { readFile } from "utils";
 import uploadIcon from "assets/icons/upload.png";
@@ -47,4 +47,4 @@ function Profile() {
   );
 }
 
-export default React.memo(Profile);
+export {React}.memo(Profile);

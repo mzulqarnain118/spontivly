@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
 import { commonStyles } from "styles";
 import { readFile } from "utils";
@@ -136,4 +136,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export {Profile};

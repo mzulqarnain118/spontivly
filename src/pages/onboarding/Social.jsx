@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import socialStyles from "../../styles/components/socialStyles";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import config from "../../config";
 import { setSoicalData } from "../../redux/socialSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -145,4 +145,4 @@ function Social() {
   );
 }
 
-export default React.memo(Social);
+export {React}.memo(Social);

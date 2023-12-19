@@ -1,4 +1,4 @@
-import commonStyles from './commonStyles'
-import loginStyles from './components/loginStyles'
+import { commonStyles } from './commonStyles'
+import { loginStyles } from './components/loginStyles'
 
 export { commonStyles, loginStyles }

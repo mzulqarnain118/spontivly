@@ -48,4 +48,4 @@ const socialStyles = makeStyles((theme) => ({
   }
 }))
 
-export default socialStyles
+export { socialStyles }

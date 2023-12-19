@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip, Container } from "@mui/material";
-import common from "components/common";
+import { Controls as common } from "components/common";
 
 const ChipContainer = ({ chips, onDelete, onClick, classes }) => {
   return (
@@ -20,4 +20,4 @@ const ChipContainer = ({ chips, onDelete, onClick, classes }) => {
   );
 };
 
-export default ChipContainer;
+export {ChipContainer};

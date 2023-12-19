@@ -1,8 +1,8 @@
 import { DialogTitle, Typography, Dialog, DialogContent, DialogActions, Link } from '@mui/material'
 import { makeStyles } from '@mui/styles'
-import common from 'components/common'
 import React from 'react'
-import MuiIcon from './MuiIcon'
+import { Controls as common } from '../common'
+import { MuiIcon } from './MuiIcon'
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function Popup({ width, title, subTitle, children, openPopup, setPopup, submitBtnLabel, submitHandler, handleFormClear }) {
+export function Popup({ width, title, subTitle, children, openPopup, setPopup, submitBtnLabel, submitHandler, handleFormClear }) {
   const classes = useStyles()
 
   return (

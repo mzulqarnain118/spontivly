@@ -110,4 +110,4 @@ const Palette = (mode, themeColor) => {
   }
 }
 
-export default Palette
+export { Palette }

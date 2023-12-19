@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles'
 
-const useStyles = makeStyles((theme) => ({
+export const loginStyles = makeStyles((theme) => ({
   container: {
     display: 'flex !important',
     flexDirection: 'column',
@@ -31,4 +31,3 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default useStyles

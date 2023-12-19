@@ -1,6 +1,6 @@
-import Toast from '../components/common/Toast/Toast'
+import { Toast } from '../components/common/Toast/Toast'
 
-export default function ExceptionHandler(error) {
+export function ExceptionHandler(error) {
   const handleAuthError = () => {
     Toast('Your session has expired', 'success')
     localStorage.removeItem('token')

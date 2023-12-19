@@ -1,10 +1,10 @@
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
-import youtube from 'assets/icons/youtube.png'
-import defaultThumbnail from 'assets/images/dummy.png'
-import common from 'components/common'
 import React from 'react'
-import libraryStyles from 'styles/components/libraryStyles'
-import { handleShowYoutubeThumbnail, handleOpenUrlInNewTab } from 'utils'
+import youtube from '../../assets/icons/youtube.png'
+import defaultThumbnail from '../../assets/images/dummy.png'
+import { Controls as common } from '../../components/common'
+import { libraryStyles } from '../../styles/components/libraryStyles'
+import { handleShowYoutubeThumbnail, handleOpenUrlInNewTab } from '../../utils'
 
 const ModuleView = ({ libraryData, typeIcons }) => {
   const classes = libraryStyles()
@@ -67,4 +67,4 @@ const ModuleView = ({ libraryData, typeIcons }) => {
   )
 }
 
-export default ModuleView
+export { ModuleView }

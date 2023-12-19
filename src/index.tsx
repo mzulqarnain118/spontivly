@@ -4,8 +4,8 @@ import * as ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
 import { App } from './App'
-import common from './components/common'
-import store from './redux/store'
+import { Controls as common } from './components/common'
+import { store } from './redux/store'
 import { reportWebVitals } from './reportWebVitals'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

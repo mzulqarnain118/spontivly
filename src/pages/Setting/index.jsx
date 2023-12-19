@@ -11,7 +11,7 @@ const Profile = lazy(() => import("./Profile"));
     },
   ];
   
-const Setting = () => {
+export const Setting = () => {
   const [portal, setPortal] = React.useState("profile");
 
   const handlePortalChange = (newPortal) => {
@@ -47,5 +47,3 @@ const Setting = () => {
   </>
   )
 }
-
-export default Setting

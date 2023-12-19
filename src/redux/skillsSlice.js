@@ -1,5 +1,5 @@
 // skillsSlice.js
-import chipSlice from './chipSlice'
+import { chipSlice } from './chipSlice'
 
 const skillsSlice = chipSlice('skills')
 
@@ -14,4 +14,4 @@ export const {
   setChipData
 } = skillsSlice.actions
 
-export default skillsSlice.reducer
+export const { reducer: SkillsSlice } = skillsSlice

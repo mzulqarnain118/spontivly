@@ -89,4 +89,4 @@ const Typography = (theme) => {
   }
 }
 
-export default Typography
+export { Typography }
