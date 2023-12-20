@@ -1,6 +1,6 @@
-import { Typography, Menu, MenuItem, Tooltip, IconButton } from '@mui/material'
+import { Typography, Menu, MenuItem, Tooltip } from '@mui/material'
 import { useState } from 'react'
-import MuiIcon from './MuiIcon'
+import { MuiIcon } from './MuiIcon'
 
 const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
   const [anchorEl, setAnchorEl] = useState(null)
