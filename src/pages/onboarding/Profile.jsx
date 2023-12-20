@@ -13,7 +13,7 @@ function ProfileComponent() {
   const profilePic = useSelector((state) => state.onBoarding.profilePic)
   const classes = commonStyles()
   const handleUploadPhoto = (event) => {
-    const file = event.target.files[0]
+    const file = event.target.files?.[0]
 
     // Check if a file is selected
     if (!file) {

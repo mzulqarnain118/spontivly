@@ -94,7 +94,7 @@ function FindMember({ setRefetchUser }) {
             {members?.pages?.[0]?.count} Members
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user.groups[0].name == 'Moderator' && (
+        {currentUser?.[0]?.user?.groups?.[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
@@ -142,19 +142,19 @@ function FindMember({ setRefetchUser }) {
                       <Avatar src={rec?.profile_pic} />
                       <Box className="col-start gap-05">
                         <Box className="row-start gap-05">
-                          <Typography variant="subtitle1">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
+                          <Typography variant="author">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
                           {isFavorite(rec.id) ? (
                             <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(rec.id)} />
                           ) : (
                             <common.MuiIcon name="StarBorderRounded" color="primary.lighter" onClick={() => addFavorites(rec.id)} />
                           )}
                         </Box>
-                        <Typography variant="subtitle1">{rec.user.email}</Typography>
+                        <Typography variant="lighterSubtitle2">{rec.user.email}</Typography>
                       </Box>
                     </Box>
                   </Grid>
                   <Grid item xs={4} md={2} lg={2}>
-                    <Typography className={classes.role}>{rec.user.groups[0].name == 'Moderator' ? 'Moderator' : 'Member'}</Typography>
+                    <Typography className={classes.role}>{rec.user.groups?.[0].name == 'Moderator' ? 'Moderator' : 'Member'}</Typography>
                   </Grid>
                   <Grid item xs={3} md={3} lg={3}>
                     <Typography className={classes.role}>{rec.position}</Typography>

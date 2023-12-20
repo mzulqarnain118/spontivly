@@ -107,7 +107,7 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user.groups[0].name == 'Moderator' && (
+        {currentUser?.[0]?.user?.groups?.[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
