@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles'
 import { makeStyles } from '@mui/styles'
 
 const drawerWidth = 313
-const onBoarding = makeStyles((theme) => ({
+const onBoarding = makeStyles((theme: any) => ({
   toolbar: {
     color: 'black',
     display: 'flex',
@@ -80,8 +80,8 @@ const onBoarding = makeStyles((theme) => ({
     marginBottom: '80px'
   },
   drawerFooter: {
-    display: 'flex !important',
-    flexDirection: 'column !important'
+    display: 'flex !important'
+    // flexDirection: 'column !important'
   },
   mobileStepper: {
     padding: '0px !important',
@@ -101,7 +101,7 @@ const onBoarding = makeStyles((theme) => ({
     padding: '20px !important'
   }
 }))
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+const Main = styled<any>('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }: any) => ({
   flexGrow: 1,
   padding: theme?.spacing(3),
   transition: theme.transitions.create('margin', {
@@ -117,9 +117,9 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
   })
 }))
 
-const AppBar = styled(MuiAppBar, {
+const AppBar = styled<any>(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme, open }) => ({
+})(({ theme, open }: any) => ({
   boxShadow: 'none',
   backgroundColor: 'white',
   transition: theme.transitions.create(['margin', 'width'], {
@@ -135,9 +135,9 @@ const AppBar = styled(MuiAppBar, {
     })
   })
 }))
-const DrawerFooter = styled(MuiAppBar, {
+const DrawerFooter = styled<any>(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open'
-})(({ theme, open }) => ({
+})(({ theme, open }: any) => ({
   top: 'auto',
   bottom: 0,
   boxShadow: 'none',
@@ -164,7 +164,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end'
 }))
 
-const StyledChip = styled(Chip)(({ theme }) => ({
+const StyledChip = styled(Chip)(({}) => ({
   position: 'relative',
   '& .MuiChip-deleteIcon': {
     position: 'absolute',

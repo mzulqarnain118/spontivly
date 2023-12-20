@@ -46,7 +46,7 @@ export function ApiCall(url: string, setLoading: any = null, method = 'GET', dat
 
       return response.data
     })
-    .catch((error) => {
+    .catch(() => {
       if (setLoading) {
         setLoading(false)
       }

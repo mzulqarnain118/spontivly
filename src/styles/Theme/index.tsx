@@ -1,6 +1,6 @@
 // ** MUI Imports
 import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeOptions, ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
+import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
 
 // ** Theme Config
 import { Overrides as overrides } from './overrides'

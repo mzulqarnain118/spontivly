@@ -1,27 +1,22 @@
 import { Button } from '@mui/material'
-import { Controls as common } from 'components/common'
+import { Controls as common } from '../../components/common'
 
-export function MuiButton(
-  {
-    className,
-    label,
-    endIcon,
-    button,
-    startIcon,
-    disabled,
-    children,
-    variant,
-    size,
-    bgcolor,
-    color,
-    onClick,
-    img,
-    minWidth,
-    handleUploadPhoto,
-    ...other
-  }: any,
-  props: any
-) {
+export function MuiButton({
+  className,
+  label,
+  endIcon,
+  startIcon,
+  disabled,
+  children,
+  variant,
+  size,
+  bgcolor,
+  color,
+  onClick,
+  img,
+  minWidth,
+  ...other
+}: any) {
   return (
     <Button
       variant={variant ?? 'outlined'}

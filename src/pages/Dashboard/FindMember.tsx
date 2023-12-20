@@ -16,10 +16,10 @@ const sortByData = [
 const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 
 function FindMember({ setRefetchUser }) {
-  const classes = dashboardStyles()
-  const { currentUser } = useSelector((state) => state.dashboard)
+  const classes: any = dashboardStyles()
+  const { currentUser } = useSelector((state: any) => state.dashboard)
   const [viewProfile, setViewProfile] = useState(false)
-  const [handleMore, setHandleMore] = useState(null)
+  const [handleMore, setHandleMore] = useState<any>(null)
   const [isMemberDialogOpen, setMemberDialogOpen] = useState(false)
 
   const [findMember, setFindMember] = useState({
@@ -134,22 +134,22 @@ function FindMember({ setRefetchUser }) {
         >
           {(members) =>
             members.length != 0 &&
-            members?.map((rec) => (
-              <Box padding={'0.75rem 1.25rem'}>
+            members?.map((rec, index) => (
+              <Box key={index} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xs={8} md={4} lg={4}>
                     <Box className="row gap-1">
                       <Avatar src={rec?.profile_pic} />
                       <Box className="col-start gap-05">
                         <Box className="row-start gap-05">
-                          <Typography variant="author">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
+                          <Typography variant="subtitle1">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
                           {isFavorite(rec.id) ? (
                             <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(rec.id)} />
                           ) : (
                             <common.MuiIcon name="StarBorderRounded" color="primary.lighter" onClick={() => addFavorites(rec.id)} />
                           )}
                         </Box>
-                        <Typography variant="lighterSubtitle2">{rec.user.email}</Typography>
+                        <Typography variant="subtitle1">{rec.user.email}</Typography>
                       </Box>
                     </Box>
                   </Grid>

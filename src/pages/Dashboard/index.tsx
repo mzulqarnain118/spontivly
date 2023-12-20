@@ -97,7 +97,7 @@ function Dashboard() {
         <Grid container spacing={2}>
           {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>
-              <SideMenuCard onPortalChange={handlePortalChange} channels={channels} setRefetchUser={setRefetchUser} />
+              <SideMenuCard onPortalChange={handlePortalChange} channels={channels} setRefetchUser={setRefetchUser} setPanel={undefined} />
             </Grid>
           ) : (
             <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">

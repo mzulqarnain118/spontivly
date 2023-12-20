@@ -17,7 +17,7 @@ interface DragDropFileProps {
   iconColor?: string
 }
 
-const DragDropFile: React.FC<DragDropFileProps> = ({ onChange, type, border, iconColor, ...others }) => {
+const DragDropFile: React.FC<DragDropFileProps> = ({ onChange, type, ...others }) => {
   const handleChange = (file: File) => {
     onChange(file)
   }

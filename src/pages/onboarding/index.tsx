@@ -38,17 +38,17 @@ function OnBoarding() {
   const [open, setOpen] = React.useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { selectedChips: skillsSelectedChips } = useSelector((state) => state.skills)
-  const { activeStep } = useSelector((state) => state.onBoarding)
-  const { linkedin, twitter, facebook, instagram } = useSelector((state) => state.social)
-  const { selectedChips: interestsSelectedChips } = useSelector((state) => state.interests)
-  const setSelectedLocation = useSelector((state) => state.location.selectedLocation)
-  const { companyName, position, stage } = useSelector((state) => state.company.companyInfo)
-  const { selectedChips: objectiveSelectedChips } = useSelector((state) => state.objective)
-  const bioText = useSelector((state) => state.onBoarding.bioText)
-  const { photoFlag, profilePicPayload } = useSelector((state) => state.onBoarding)
+  const { selectedChips: skillsSelectedChips } = useSelector((state: any) => state.skills)
+  const { activeStep } = useSelector((state: any) => state.onBoarding)
+  const { linkedin, twitter, facebook, instagram } = useSelector((state: any) => state.social)
+  const { selectedChips: interestsSelectedChips } = useSelector((state: any) => state.interests)
+  const setSelectedLocation = useSelector((state: any) => state.location.selectedLocation)
+  const { companyName, position, stage } = useSelector((state: any) => state.company.companyInfo)
+  const { selectedChips: objectiveSelectedChips } = useSelector((state: any) => state.objective)
+  const bioText = useSelector((state: any) => state.onBoarding.bioText)
+  const { photoFlag, profilePicPayload } = useSelector((state: any) => state.onBoarding)
   const isSmallScreen = useMediaQuery('(max-width:414px)')
-  const classes = onBoarding()
+  const classes: any = onBoarding()
   const steps = [
     {
       label: 'Skills',
@@ -196,7 +196,15 @@ function OnBoarding() {
           <>
             <Container className={classes.mainContainer}>{steps[activeStep].component}</Container>
             <DrawerFooter position="fixed" open={open} className={classes.drawerFooter}>
-              <MobileStepper variant="progress" steps={8} position="static" activeStep={activeStep} className={classes.mobileStepper} />
+              <MobileStepper
+                variant="progress"
+                steps={8}
+                position="static"
+                activeStep={activeStep}
+                className={classes.mobileStepper}
+                backButton={undefined}
+                nextButton={undefined}
+              />
               <div className={classes.footerButtonDiv}>
                 <common.MuiButton
                   onClick={() => {
