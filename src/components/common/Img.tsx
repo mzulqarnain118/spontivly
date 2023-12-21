@@ -1,16 +1,17 @@
-import { ClassNameMap } from "@mui/material";
-import commonStyles from "../../styles/commonStyles";
-export default function Img({ src, className, type, onClick, ...others }: any) {
-  const classes: ClassNameMap<any> = commonStyles();
+import { ClassNameMap } from '@mui/material'
+import { commonStyles } from '../../styles/commonStyles'
+
+export function Img({ src, className, alt, type, ...others }: any) {
+  const classes: ClassNameMap<any> = commonStyles()
+
   return (
     <img
-      alt="Image"
-      style={{ width: type=="icon" && "48px" }}
+      alt={alt}
+      style={{ width: type == 'icon' ? '48px' : type == 'smallIcon' ? '12px' : null }}
       src={src}
-      onClick={onClick}
-      className={className ? className : type === "logo" && classes.logo}
-      loading="lazy"
+      className={type === 'logo' ? classes.logo : className}
+      loading={'lazy'}
       {...others}
     />
-  );
+  )
 }

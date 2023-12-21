@@ -9,7 +9,7 @@
 build.zip
 # testing
 /coverage
-dist
+dist*
 # production
 /build
 .vscode

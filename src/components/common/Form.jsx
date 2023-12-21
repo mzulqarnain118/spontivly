@@ -1,9 +1,9 @@
 import React from "react";
 import { DialogActions } from "@mui/material";
 import { useForm } from "react-hook-form";
-import common from "components/common";
+import { Controls as common } from "components/common";
 
-export default function Form({ onSubmit, children,submitLabel }) {
+export function Form({ onSubmit, children,submitLabel }) {
   const {
     register,
     handleSubmit,

@@ -1,77 +1,80 @@
-import ApiCall from "./ApiCall";
-import qs from "qs";
+import qs from 'qs'
+import { ApiCall } from './ApiCall'
 
-const encodeParams = (params, customArrayFormat = "comma") => {
-  let arrayFormat;
+const encodeParams = (params, customArrayFormat = 'comma') => {
+  let arrayFormat
 
   switch (customArrayFormat) {
-    case "brackets":
-      arrayFormat = "brackets";
-      break;
-    case "comma":
+    case 'brackets':
+      arrayFormat = 'brackets'
+      break
+    case 'comma':
     default:
-      arrayFormat = "comma";
+      arrayFormat = 'comma'
   }
 
-  return qs.stringify(params, { arrayFormat });
-};
+  return qs.stringify(params, { arrayFormat })
+}
 
-const AL = (data) => alert(JSON.stringify(data));
-const parseJSON = (data) => data !== "undefined" && JSON.parse(data);
-const getLocal = (key) => parseJSON(window.localStorage.getItem(key));
-const setLocal = (key, value) =>
-  localStorage.setItem(key, JSON.stringify(value));
-const rmLocal = (key) => localStorage.removeItem(key);
+const AL = (data) => alert(JSON.stringify(data))
+const parseJSON = (data) => data !== 'undefined' && JSON.parse(data)
+const getLocal = (key) => parseJSON(window.localStorage.getItem(key))
+const setLocal = (key, value) => localStorage.setItem(key, JSON.stringify(value))
+const rmLocal = (key) => localStorage.removeItem(key)
 const generatePayload = (selectedChips) => {
   return selectedChips.reduce((acc, cur) => {
-    acc.push(cur.id);
-    return acc;
-  }, []);
-};
+    acc.push(cur.id)
+
+    return acc
+  }, [])
+}
 
 const debounce = (func, delay) => {
-  let timeoutId;
+  let timeoutId
+
   return function (...args) {
     if (timeoutId) {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
     }
-    timeoutId = setTimeout(() => {
-      func.apply(this, args);
-    }, delay);
-  };
-};
 
-const reduceArrayByKeys = (array, keys) =>
-  array.flatMap((item) => keys.map((key) => item[key]));
+    timeoutId = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}
+
+const reduceArrayByKeys = (array, keys) => array.flatMap((item) => keys.map((key) => item[key]))
 
 const readFile = (file, callback) => {
-  const reader = new FileReader();
+  const reader = new FileReader()
+
   reader.onload = (e) => {
-    const result = e.target.result;
-    callback(result);
-  };
-  reader.readAsDataURL(file);
-};
+    const result = e.target.result
+
+    callback(result)
+  }
+
+  reader.readAsDataURL(file)
+}
 
 const handleShowYoutubeThumbnail = (url, type) => {
-  if (type === "youtube") {
-    const videoIdMatch = url.match(
-      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/
-    );
-    const videoId = videoIdMatch ? videoIdMatch[1] : null;
-    return videoId
-      ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-      : null;
+  if (type === 'youtube') {
+    const videoIdMatch = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/)
+    const videoId = videoIdMatch ? videoIdMatch[1] : null
+
+    return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
   }
-  return null;
-};
+
+  return null
+}
+
 export const handleOpenUrlInNewTab = (url, type, navigate) => {
-  if (type === "pdf") {
-    navigate(`/pdf-viewer?${encodeURIComponent(url)}`);
+  if (type === 'pdf') {
+    navigate(`/pdf-viewer?${encodeURIComponent(url)}`)
   } else {
-    window.open(url, "_blank");
+    window.open(url, '_blank')
   }
-};
+}
 
 export {
   ApiCall,
@@ -85,5 +88,5 @@ export {
   debounce,
   generatePayload,
   reduceArrayByKeys,
-  handleShowYoutubeThumbnail,
-};
+  handleShowYoutubeThumbnail
+}

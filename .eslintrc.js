@@ -75,13 +75,14 @@ module.exports = {
       version: '18.2.0'
     }
   },
-  "ignorePatterns": [
-    "dist",
-    ".eslintrc.js",
-    "postcss.config.js",
-    "src/**/*.test.js",
-    "src/**/*.test.ts",
-    "vite-env.d.ts",
-    "vite-config.ts"
-],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.js',
+    'postcss.config.js',
+    'src/**/*.test.js',
+    'src/**/*.test.ts',
+    'vite-env.d.ts',
+    'vite-config.ts',
+    'vite.config.ts'
+  ]
 }

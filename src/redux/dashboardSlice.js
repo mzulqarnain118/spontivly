@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const dashboardSlice = createSlice({
-  name: "dashboard",
+  name: 'dashboard',
   initialState: {
-    currentUser: [],
+    currentUser: []
   },
   reducers: {
     setCurrentUser: (state, action) => {
-      state.currentUser = action.payload;
-    },
-  },
-});
+      state.currentUser = action.payload
+    }
+  }
+})
 
-export const { setCurrentUser } = dashboardSlice.actions;
-export default dashboardSlice.reducer;
+export const { setCurrentUser } = dashboardSlice.actions
+export const { reducer: DashboardSlice } = dashboardSlice

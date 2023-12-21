@@ -1,48 +1,34 @@
-import { memo } from "react";
-import common from "components/common";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box } from '@mui/material'
+import { memo } from 'react'
+import { Controls as common } from '../common'
 
-function InfiniteQueryWrapper({
-  status,
-  error,
-  data,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isFetching,
-  children,
-}) {
+function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, children }) {
   return (
     <Box
       sx={{
-        overflowY: "auto",
-        padding: "16px",
+        overflowY: 'auto',
+        padding: '16px'
       }}
     >
-      {status === "loading" && <common.Spinner />}
-      {status === "error" && (
-        <div style={{ textAlign: "center", padding: "20px" }}>
+      {status === 'loading' && <common.Spinner />}
+      {status === 'error' && (
+        <div style={{ textAlign: 'center', padding: '20px' }}>
           <Typography variant="subtitle1" color="error">
             Error: {error?.message}
           </Typography>
         </div>
       )}
-      {status === "success" && (
+      {status === 'success' && (
         <>
           {children(data?.pages?.flatMap((page) => page?.results))}
           {hasNextPage && (
-            <common.MuiButton
-              onClick={() => fetchNextPage()}
-              label={isFetchingNextPage ? "Loading more..." : "Load More"}
-              size="md"
-            />
+            <common.MuiButton onClick={() => fetchNextPage()} label={isFetchingNextPage ? 'Loading ...' : 'Load More'} size="md" />
           )}
-          {isFetching && !isFetchingNextPage && (
-            <common.Spinner text="Fetching..." />
-          )}
+          {isFetching && !isFetchingNextPage && <common.Spinner text="Fetching..." />}
         </>
       )}
     </Box>
-  );
+  )
 }
-export default memo(InfiniteQueryWrapper);
+
+export const InfiniteQueryWrapper = memo(InfiniteQuery)

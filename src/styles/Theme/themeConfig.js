@@ -1,4 +1,3 @@
-
 const themeConfig = {
   // ** Layout Configs
   templateName: 'Spontively' /* App Name */,
@@ -17,4 +16,4 @@ const themeConfig = {
   disableRipple: false /* true | false */
 }
 
-export default themeConfig
+export { themeConfig }

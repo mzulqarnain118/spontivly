@@ -1,20 +1,18 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setBioText } from '../../redux/onBoardingSlice'; // Import the action
-import { Container,Box } from '@mui/material';
-import commonStyles from "../../styles/commonStyles";
-import common from "../../components/common";
-function Bio() {
-  const bioText = useSelector((state) => state.onBoarding.bioText);
-  const classes = commonStyles();
-  const dispatch = useDispatch();
+import { Container, Box } from '@mui/material'
+import React, { memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Controls as common } from '../../components/common'
+import { setBioText } from '../../redux/onBoardingSlice' // Import the action
+import { commonStyles } from '../../styles/commonStyles'
+
+function BioComponent() {
+  const bioText = useSelector((state) => state.onBoarding.bioText)
+  const classes = commonStyles()
+  const dispatch = useDispatch()
 
   return (
     <>
-      <common.FormHeading
-        heading="Tell us about yourself"
-        title="This helps people in the community get to know you"
-      />
+      <common.FormHeading heading="Tell us about yourself" title="This helps people in the community get to know you" />
       <Container maxWidth="sm">
         <Box className={classes.mainContainer}>
           <common.Input
@@ -27,7 +25,7 @@ function Bio() {
         </Box>
       </Container>
     </>
-  );
+  )
 }
 
-export default Bio;
+export const Bio = memo(BioComponent)

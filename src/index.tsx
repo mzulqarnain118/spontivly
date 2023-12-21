@@ -1,15 +1,16 @@
-import React from "react";
-import "./index.css";
+import React from 'react'
+import './index.css'
+import * as ReactDOM from 'react-dom/client'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { Provider } from 'react-redux'
 import { App } from './App'
+import { Controls as common } from './components/common'
+import { store } from './redux/store'
 import { reportWebVitals } from './reportWebVitals'
-import * as ReactDOM from "react-dom/client";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Provider } from "react-redux";
-import store from "./redux/store";
-import common from "./components/common";
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

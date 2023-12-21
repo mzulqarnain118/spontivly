@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from "react";
 import JoditEditor from "jodit-react";
 
-export default function RichText({ value, onBlur, cssClass , placeholder, ...others }) {
+export function RichText({ value, onBlur, cssClass , placeholder, ...others }) {
   const editor = useRef(null);
   const config = {
     readonly: false,

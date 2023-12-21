@@ -68,4 +68,4 @@ const Toast = async (text, type) => {
 
 }
 
-export default Toast;
+export {Toast};

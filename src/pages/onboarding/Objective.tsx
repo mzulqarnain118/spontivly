@@ -1,24 +1,15 @@
-import { memo } from "react";
-import { useSelector } from "react-redux";
-import {
-  addSelectedChip,
-  removeSelectedChip,
-  setSearchText,
-  setChipData,
-} from "../../redux/objectiveSlice";
-import common from "../../components/common";
-import SearchTags from "./SearchTags";
+import { memo } from 'react'
+import { useSelector } from 'react-redux'
+import { Controls as common } from '../../components/common'
+import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/objectiveSlice'
+import { SearchTags } from './SearchTags'
 
-function Objective() {
-  const { selectedChips, searchText, filterChipData } = useSelector(
-    (state: any) => state.objective
-  );
+function ObjectiveComponent() {
+  const { selectedChips, searchText, filterChipData } = useSelector((state: any) => state.objective)
+
   return (
     <>
-      <common.FormHeading
-        heading="What’s your objective?"
-        title="Select all that apply"
-      />
+      <common.FormHeading heading="What’s your objective?" title="Select all that apply" />
 
       <SearchTags
         selectedChips={selectedChips}
@@ -32,7 +23,7 @@ function Objective() {
         setChipData={setChipData}
       />
     </>
-  );
+  )
 }
 
-export default memo(Objective);
+export const Objective = memo(ObjectiveComponent)

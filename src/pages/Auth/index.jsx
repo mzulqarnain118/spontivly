@@ -2,11 +2,11 @@ import React, { useState, useCallback } from "react";
 import { Stack, Divider, Container, Typography } from "@mui/material";
 import { loginStyles } from "../../styles";
 import logo from "assets/images/logo-1.png";
-import common from "../../components/common";
+import { Controls as common } from "../../components/common";
 import { useNavigate } from "react-router-dom";
 import { ApiCall, encodeParams, setLocal } from "../../utils";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-export default function Auth() {
+export function Auth() {
   const [buttonText, setButtonText] = useState("Continue");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

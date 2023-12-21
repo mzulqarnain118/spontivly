@@ -90,4 +90,4 @@ function PostsCard({post}) {
     );
 }
 
-export default PostsCard;
+export {PostsCard};

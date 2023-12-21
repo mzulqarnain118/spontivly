@@ -1,27 +1,22 @@
-import { Button } from '@mui/material';
-import common from 'components/common';
+import { Button } from '@mui/material'
+import { Controls as common } from '../../components/common'
 
-export default function MuiButton(
-  {
-    className,
-    label,
-    endIcon,
-    button,
-    startIcon,
-    disabled,
-    children,
-    variant,
-    size,
-    bgcolor,
-    color,
-    onClick,
-    img,
-    minWidth,
-    handleUploadPhoto,
-    ...other
-  }: any,
-  props: any
-) {
+export function MuiButton({
+  className,
+  label,
+  endIcon,
+  startIcon,
+  disabled,
+  children,
+  variant,
+  size,
+  bgcolor,
+  color,
+  onClick,
+  img,
+  minWidth,
+  ...other
+}: any) {
   return (
     <Button
       variant={variant ?? 'outlined'}
@@ -36,7 +31,7 @@ export default function MuiButton(
         backgroundColor: bgcolor && `${bgcolor}`,
         textTransform: 'none',
         color: color,
-        minWidth: minWidth,
+        minWidth: minWidth
       }}
       {...other}
     >
@@ -44,5 +39,5 @@ export default function MuiButton(
       {img && <common.Img src={img} />}
       {children}
     </Button>
-  );
+  )
 }

@@ -1,4 +1,3 @@
-
 const Shadows = (mode) => {
   if (mode === 'light') {
     return [
@@ -58,4 +57,5 @@ const Shadows = (mode) => {
     ]
   }
 }
-export default Shadows
+
+export { Shadows }

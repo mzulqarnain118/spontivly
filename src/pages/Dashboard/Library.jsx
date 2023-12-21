@@ -1,61 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { Card, Grid, Typography } from "@mui/material";
-import ToggleButtons from "../../components/common/ToggleButtons";
-import filter from "assets/icons/filter.svg";
-import ModuleView from "./ModuleView";
-import dashboardStyles from "styles/components/dashboardStyles";
-import common from "components/common";
-import AddIcon from "@mui/icons-material/Add";
-import CreateContent from "./CreateContent";
-import FilterLibrary from "./FilterLibrary";
-import LibraryContent from "./LibraryContent";
-import { ApiCall, encodeParams } from "utils";
-import youtube from "assets/icons/youtube.png";
-import youtubeText from "assets/icons/youtubeText.png";
-import doc from "assets/icons/doc.png";
-import pdf from "assets/icons/pdf.png";
-import link from "assets/icons/link.png";
-import { useSelector } from "react-redux";
-import { useInfiniteQuery } from "react-query";
+import AddIcon from '@mui/icons-material/Add'
+import { Card, Grid, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { useInfiniteQuery } from 'react-query'
+import { useSelector } from 'react-redux'
+import doc from '../../assets/icons/doc.png'
+import filter from '../../assets/icons/filter.svg'
+import link from '../../assets/icons/link.png'
+import pdf from '../../assets/icons/pdf.png'
+import youtube from '../../assets/icons/youtube.png'
+import youtubeText from '../../assets/icons/youtubeText.png'
+import { Controls as common } from '../../components/common'
+import { ToggleButtons } from '../../components/common/ToggleButtons'
+import { dashboardStyles } from '../../styles/components/dashboardStyles'
+import { ApiCall, encodeParams } from '../../utils'
+import { CreateContent } from './CreateContent'
+import { FilterLibrary } from './FilterLibrary'
+import { LibraryContent } from './LibraryContent'
+import { ModuleView } from './ModuleView'
 
 const contentTypes = [
   {
-    id: "youtube",
-    title: "Youtube",
-    img: youtube,
+    id: 'youtube',
+    title: 'Youtube',
+    img: youtube
   },
   {
-    id: "doc",
-    title: "Document",
-    img: doc,
+    id: 'doc',
+    title: 'Document',
+    img: doc
   },
   {
-    id: "link",
-    title: "Link",
-    img: link,
+    id: 'link',
+    title: 'Link',
+    img: link
   },
   {
-    id: "pdf",
-    title: "PDF",
-    img: pdf,
-  },
-];
+    id: 'pdf',
+    title: 'PDF',
+    img: pdf
+  }
+]
 
-const sortByData = [{ id: "Most Recent", title: "Most Recent" }];
+const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
 
-const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf };
+const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+
 function Library() {
-  const { currentUser } = useSelector((state) => state.dashboard);
-  const [view, setView] = useState("list");
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [applyFilters, setApplyFilters] = useState(false);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [isContentDialogOpen, setContentDialogOpen] = useState(false);
-  const [isFilterDialogOpen, setFilterDialogOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.dashboard)
+  const [view, setView] = useState('list')
+  const [selectedTags, setSelectedTags] = useState([])
+  const [applyFilters, setApplyFilters] = useState(false)
+  const [selectedTypes, setSelectedTypes] = useState([])
+  const [isContentDialogOpen, setContentDialogOpen] = useState(false)
+  const [isFilterDialogOpen, setFilterDialogOpen] = useState(false)
   const [libraryContent, setLibraryContent] = useState({
-    content: "",
+    content: '',
     sortBy: null,
-  });
+    newLibraryAdded: false
+  })
 
   async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
     const queryParams = {
@@ -63,53 +65,39 @@ function Library() {
       types,
       tags,
       name,
-      sort: sortBy,
-    };
+      sort: sortBy
+    }
 
-    const encodedLibraryParams = encodeParams(queryParams, "brackets");
-    const apiUrl = `libraries?${encodedLibraryParams}`;
-    return await ApiCall(apiUrl);
+    const encodedLibraryParams = encodeParams(queryParams, 'brackets')
+    const apiUrl = `libraries?${encodedLibraryParams}`
+
+    return ApiCall(apiUrl)
   }
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery(
-    ["libraries", libraryContent.content, libraryContent.sortBy, applyFilters], // Dynamic query key
-    ({ pageParam = 1 }) =>
-      fetchLibraries(
-        { pageParam },
-        selectedTypes,
-        selectedTags,
-        libraryContent.content,
-        libraryContent.sortBy
-      ),
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+    ['libraries', libraryContent, applyFilters], // Dynamic query key
+    ({ pageParam = 1 }) => fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
     {
-      getNextPageParam: (lastPage) => lastPage?.next,
+      getNextPageParam: (lastPage) => lastPage?.next
     }
-  );
+  )
 
-  const classes = dashboardStyles();
+  const classes = dashboardStyles()
 
   const openContentModal = () => {
-    setContentDialogOpen(true);
-  };
+    setContentDialogOpen(true)
+  }
   const closeContentModal = () => {
-    setContentDialogOpen(false);
-  };
+    setContentDialogOpen(false)
+  }
   const openFilterModal = () => {
-    setFilterDialogOpen(true);
-    setSelectedTags([]);
-    setSelectedTypes([]);
-  };
+    setFilterDialogOpen(true)
+    setSelectedTags([])
+    setSelectedTypes([])
+  }
   const closeFilterModal = () => {
-    setFilterDialogOpen(false);
-  };
+    setFilterDialogOpen(false)
+  }
 
   return (
     <>
@@ -119,7 +107,7 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user.groups[0].name == "Moderator" && (
+        {currentUser?.[0]?.user?.groups?.[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
@@ -134,7 +122,7 @@ function Library() {
       </Grid>
 
       <Card className={classes.card}>
-        <Grid container spacing={3} padding={"20px"}>
+        <Grid container spacing={3} padding={'20px'}>
           <Grid item xs={12} sm={4.5} md={6} lg={6}>
             <common.Input
               name="content"
@@ -171,7 +159,7 @@ function Library() {
           isFetching={isFetching}
         >
           {(libraries) =>
-            view === "list" ? (
+            view === 'list' ? (
               <LibraryContent libraryData={libraries} typeIcons={typeIcons} />
             ) : (
               <ModuleView libraryData={libraries} typeIcons={typeIcons} />
@@ -183,6 +171,7 @@ function Library() {
         isOpen={isContentDialogOpen}
         onClose={closeContentModal}
         contentTypes={contentTypes}
+        setLibraryContent={setLibraryContent}
       />
       <FilterLibrary
         isOpen={isFilterDialogOpen}
@@ -195,7 +184,7 @@ function Library() {
         setApplyFilters={setApplyFilters}
       />
     </>
-  );
+  )
 }
 
-export default Library;
+export { Library }

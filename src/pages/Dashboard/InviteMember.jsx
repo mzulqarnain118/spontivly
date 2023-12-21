@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { ReactMultiEmail, isEmail } from 'react-multi-email';
-import 'react-multi-email/dist/style.css';
+import { ReactMultiEmail } from 'react-multi-email'
+import 'react-multi-email/dist/style.css'
 
 const InviteMember = () => {
-    const [emails, setEmails] = useState([]);
-    const [focused, setFocused] = useState(false);
+  const [emails, setEmails] = useState([])
+  const [focused, setFocused] = useState(false)
+
   return (
     <ReactMultiEmail
-      placeholder='Input your email'
+      placeholder="Input your email"
       emails={emails}
       onChange={(_emails) => {
-        setEmails(_emails);
+        setEmails(_emails)
       }}
       autoFocus={true}
       onFocus={() => setFocused(true)}
@@ -23,10 +24,10 @@ const InviteMember = () => {
               ×
             </span>
           </div>
-        );
+        )
       }}
     />
   )
 }
 
-export default InviteMember
+export { InviteMember }

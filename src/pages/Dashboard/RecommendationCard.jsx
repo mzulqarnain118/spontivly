@@ -102,4 +102,4 @@ function RecommendationCard() {
     )
 }
 
-export default RecommendationCard
+export {RecommendationCard}

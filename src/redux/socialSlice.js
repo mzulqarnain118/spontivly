@@ -1,28 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const socialSlice = createSlice({
-  name: "social",
+  name: 'social',
   initialState: {
     linkedin: {
-      id: null,
+      id: null
     },
     twitter: {
-      id: null,
+      id: null
     },
     facebook: {
-      id: null,
+      id: null
     },
     instagram: {
-      id: null,
-    },
+      id: null
+    }
   },
   reducers: {
     setSoicalData: (state, action) => {
-      const { provider, id } = action.payload;
-      state[provider].id = id;
-    },
-  },
-});
+      const { provider, id } = action.payload
 
-export const {setSoicalData, setLinkedInChecked,setTwitterChecked,setFacebookChecked,setInstaChecked } = socialSlice.actions;
-export default socialSlice.reducer;
+      state[provider].id = id
+    }
+  }
+})
+
+export const { setSoicalData, setLinkedInChecked, setTwitterChecked, setFacebookChecked, setInstaChecked } = socialSlice.actions
+export const { reducer: SocialSlice } = socialSlice
