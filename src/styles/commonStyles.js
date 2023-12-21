@@ -27,6 +27,9 @@ const commonStyles = makeStyles((theme) => ({
     background: theme.palette.secondary.lightest,
     textAlign: 'start'
   },
+  editor: {
+    textAlign: 'left'
+  },
   logo: {
     width: '15.75194rem',
     height: '5rem',

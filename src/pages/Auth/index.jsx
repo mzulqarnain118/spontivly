@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Stack, Divider, Container, Typography } from "@mui/material";
 import { loginStyles } from "../../styles";
-import logo from "assets/images/logo-1.png";
+import logo from "../../assets/images/logo-1.png";
 import { Controls as common } from "../../components/common";
 import { useNavigate } from "react-router-dom";
 import { ApiCall, encodeParams, setLocal } from "../../utils";
@@ -11,7 +11,7 @@ export function Auth() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
-    password: "",
+  password: "",
     email: "",
   });
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { CreatePostCard } from '../../components/common/CreatePostCard'
-import { PostsCard } from '../../components/common/PostsCard'
+import { useSelector } from 'react-redux'
+import { CreatePostCard } from '../Channels/CreatePostCard'
+import { PostsCard } from '../Channels/PostsCard'
 
 const data = [
   {
@@ -18,9 +19,12 @@ const data = [
 ]
 
 function General() {
+  const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
+
   return (
     <>
-      <CreatePostCard />
+      {currentUser?.user?.groups?.[0]?.name == 'Moderator' && (
+        <CreatePostCard />)}
       {data.map((post, index) => (
         <PostsCard key={index} post={post} />
       ))}

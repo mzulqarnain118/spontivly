@@ -10,8 +10,8 @@ const settings = ['Dashboard', 'Account', 'Settings', 'Logout']
 
 function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate()
-  const { currentUser } = useSelector((state) => state.dashboard)
-  const user = currentUser?.[0]?.user
+  const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
+  const user = currentUser?.user
   const classes = dashboardStyles()
   const [anchorElUser, setAnchorElUser] = useState(null)
   const handleOpenUserMenu = (event) => {
@@ -31,7 +31,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   }
 
   return (
-    currentUser.length !== 0 && (
+    currentUser && (
       <AppBar position="static" className={classes.appBar}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
@@ -41,10 +41,10 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
             <Box className={classes.userBox}>
               <Box className={classes.userMenuBox}>
                 <Box className="row gap-025">
-                  <Avatar src={currentUser?.[0]?.profile_pic} />
+                  <Avatar src={currentUser?.profile_pic} />
                   <Box className="col-start">
-                    <Typography color="primary.main">{user?.first_name + user?.last_name}</Typography>
-                    <Typography variant="lighterSubtitle2">{user?.email}</Typography>
+                    <Typography color="primary.main">{user?.first_name  + user?.last_name }</Typography>
+                    <Typography variant="lighterSubtitle2">{user?.email ?? " "}</Typography>
                   </Box>
                   <common.MenuList
                     items={settings}

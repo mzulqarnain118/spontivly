@@ -23,7 +23,7 @@ const channels = [
   {
     header: 'CHANNELS',
     items: [
-      { url: '', label: 'General', icon: 'Tag' }, //!replace url:"" with url:"general"
+      { url: 'general', label: 'General', icon: 'Tag' }, 
       { url: '', label: 'Create Channel', icon: 'AddCircle' }
     ]
   },
@@ -49,7 +49,7 @@ function Dashboard() {
     }
 
     const encodedParams = qs.stringify(queryParams)
-    const apiUrl = `profile/?${encodedParams}`
+    const apiUrl = `profile?${encodedParams}`
 
     const response = await ApiCall(apiUrl)
 
@@ -63,10 +63,10 @@ function Dashboard() {
     }
   }, [currentUserData])
 
-  const theme = useTheme()
-  const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
-  const [Panel, setPanel] = useState(false)
-  const [portal, setPortal] = React.useState('find')
+  const theme = useTheme();
+  const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
+  const [Panel, setPanel] = useState(false);
+  const [portal, setPortal] = React.useState("general");
 
   const handlePortalChange = (newPortal: any) => {
     setPortal(newPortal)

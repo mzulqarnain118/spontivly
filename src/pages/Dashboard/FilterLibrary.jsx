@@ -1,7 +1,7 @@
 import {  FormControl, FormGroup, Grid, Link, Typography } from '@mui/material'
-import { Controls as common } from "components/common";
+import { Controls as common } from "../../components/common";
 import { useInfiniteQuery } from "react-query";
-import { ApiCall } from 'utils';
+import { ApiCall } from '../../utils';
 
 const FilterLibrary = ({
   isOpen,
