@@ -1,5 +1,5 @@
 import { Chip, Container } from '@mui/material'
-import { Controls as common } from 'components/common'
+import { Controls as common } from '../../components/common'
 import React from 'react'
 
 const ChipContainer = ({ chips, onDelete, onClick, classes }) => {

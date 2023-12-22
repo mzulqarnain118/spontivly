@@ -5,7 +5,7 @@ import { Controls as common } from '../../components/common'
 import { ApiCall } from '../../utils'
 
 function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
-  const { currentUser } = useSelector((state) => state.dashboard)
+  const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const [channelLabel, setChannelLabel] = useState('')
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
@@ -31,7 +31,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
         <div key={list.header} className="col-start gap-2">
           <dt>{list.header}</dt>
           {index == 1 &&
-            currentUser?.[0]?.favorites?.map((user) => (
+            currentUser?.favorites?.map((user) => (
               <dd className="row-between gap-05" key={user.id}>
                 <Avatar src={user?.profile_pic} />
                 <Typography color="primary.main">{user.user.first_name}</Typography>

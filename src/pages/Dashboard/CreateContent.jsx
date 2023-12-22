@@ -134,7 +134,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
                 />
               )}
               <common.Input register={register('summary', { required: true })} placeholder="Summary" />
-              <common.RichText value={description} onBlur={setDescription} cssClass={classes.editor} required />
+              <common.RichText value={description} onBlur={setDescription}  required />
               {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
             </Grid>
           </Grid>

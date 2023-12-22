@@ -17,7 +17,7 @@ const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 
 function FindMember({ setRefetchUser }) {
   const classes: any = dashboardStyles()
-  const { currentUser } = useSelector((state: any) => state.dashboard)
+  const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const [viewProfile, setViewProfile] = useState(false)
   const [handleMore, setHandleMore] = useState<any>(null)
   const [isMemberDialogOpen, setMemberDialogOpen] = useState(false)
@@ -28,7 +28,7 @@ function FindMember({ setRefetchUser }) {
     favorites: []
   })
 
-  const isFavorite = (id) => currentUser?.[0]?.favorites.some((item) => item.id == id)
+  const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
 
   const addFavorites = async (id) => {
     try {
@@ -94,7 +94,7 @@ function FindMember({ setRefetchUser }) {
             {members?.pages?.[0]?.count} Members
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user?.groups?.[0]?.name == 'Moderator' && (
+        {currentUser?.user?.groups?.[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"

@@ -7,7 +7,7 @@ const dashboardSlice = createSlice({
   },
   reducers: {
     setCurrentUser: (state, action) => {
-      state.currentUser = action.payload
+      state.currentUser = action.payload?.[0]
     }
   }
 })

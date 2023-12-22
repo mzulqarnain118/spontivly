@@ -46,7 +46,7 @@ const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
 const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
 
 function Library() {
-  const { currentUser } = useSelector((state) => state.dashboard)
+  const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const [view, setView] = useState('list')
   const [selectedTags, setSelectedTags] = useState([])
   const [applyFilters, setApplyFilters] = useState(false)
@@ -107,7 +107,7 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        {currentUser?.[0]?.user?.groups?.[0]?.name == 'Moderator' && (
+        {currentUser?.user?.groups?.[0]?.name == 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
@@ -146,7 +146,7 @@ function Library() {
             <ToggleButtons setView={setView} view={view} />
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1}>
-            <common.MuiButton img={filter} onClick={openFilterModal} />
+            <common.MuiButton startCustomIcon={filter} onClick={openFilterModal} />
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper

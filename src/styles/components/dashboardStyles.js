@@ -42,9 +42,6 @@ const dashboardStyles = makeStyles((theme) => ({
       width: '8rem'
     }
   },
-  editor: {
-    textAlign: 'left'
-  },
   filterCardIcon: {
     width: '3rem',
     height: '3rem',

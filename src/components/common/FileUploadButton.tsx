@@ -17,7 +17,7 @@ const VisuallyHiddenInput = styled('input')`
   cursor: pointer;
 `
 
-const FileUploadButton: React.FC<FileUploadButtonProps> = ({ handleUploadPhoto, label, size, startIcon, ...other }) => {
+const FileUploadButton: React.FC<FileUploadButtonProps> = ({ handleUploadPhoto, accept, label, size, startIcon, ...other }) => {
   return (
     <Button
       size={size ?? 'small'}
@@ -28,7 +28,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({ handleUploadPhoto, 
       {...other}
     >
       {label}
-      <VisuallyHiddenInput id="fileInput" type="file" onChange={handleUploadPhoto} accept="image/*" />
+      <VisuallyHiddenInput id="fileInput" type="file" onChange={handleUploadPhoto} accept={accept ?? "image/*"} />
     </Button>
   )
 }
