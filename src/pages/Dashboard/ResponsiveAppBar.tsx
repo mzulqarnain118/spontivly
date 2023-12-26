@@ -20,7 +20,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const handleCloseUserMenu = (setting) => {
     if (setting == 'Logout') {
       localStorage.clear()
-      navigate('/auth')
+      window.location.href = '/auth';
     } else if (setting == 'Settings') {
       navigate('/settings')
     } else if (setting == 'Dashboard') {

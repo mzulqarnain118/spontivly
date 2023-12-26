@@ -35,13 +35,10 @@ const onBoardingSlice = createSlice({
     },
     handleBack: (state) => {
       state.activeStep -= 1
-    },
-    resetStepper: (state) => {
-      state.activeStep = 0
     }
   }
 })
 
-export const { setBioText, activeStep, fetchDataFailure, fetchDataSuccess, handleNext, resetStepper, handleBack, setPhotoURL, saveProfile } =
+export const { setBioText, activeStep, fetchDataFailure, fetchDataSuccess, handleNext, handleBack, setPhotoURL, saveProfile } =
   onBoardingSlice.actions
 export const { reducer: OnBoardingSlice } = onBoardingSlice

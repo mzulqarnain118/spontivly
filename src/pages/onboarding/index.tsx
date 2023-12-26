@@ -21,7 +21,7 @@ import success from '../../assets/icons/success.svg'
 import warning from '../../assets/icons/Warming.svg'
 import companyLogo from '../../assets/images/CompanyLogo.png'
 import { Controls as common } from '../../components/common'
-import { handleNext, handleBack, resetStepper } from '../../redux/onBoardingSlice'
+import { handleNext, handleBack } from '../../redux/onBoardingSlice'
 import { onBoarding, Main, AppBar, DrawerFooter, DrawerHeader } from '../../styles/components/onBoardingStyles'
 import { ApiCall, generatePayload, setLocal } from '../../utils'
 import { SKILLS_STEP, INTERESTS_STEP, LOCATION_STEP, EMPLOYMENT_STEP, OBJECTIVES_STEP, BIO_STEP, DEFAULT_STEP } from './stepNames'
@@ -117,7 +117,6 @@ function OnBoarding() {
 
     if (response) {
       setLocal('onboarding', true)
-      dispatch(resetStepper())
       navigate('/')
     }
   }
