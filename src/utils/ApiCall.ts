@@ -32,7 +32,6 @@ apiInstance.interceptors.response.use(
 
 // ApiCall function using the Axios instance
 export function ApiCall(url: string, setLoading: any = null, method = 'GET', data: any = null) {
-
   return apiInstance({
     url,
     method,

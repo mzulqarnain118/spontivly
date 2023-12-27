@@ -1,8 +1,9 @@
 import { Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { CreateChannel } from 'pages/Channels/CreateChannel'
 import qs from 'qs'
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
@@ -12,8 +13,6 @@ import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
-import { useSelector } from 'react-redux'
-import { CreateChannel } from 'pages/Channels/CreateChannel'
 
 const containerStyles = {
   maxWidth: '1280px',
@@ -21,7 +20,6 @@ const containerStyles = {
   padding: '20px',
   p: 3
 }
-
 
 function Dashboard() {
   const dispatch = useDispatch()
@@ -69,18 +67,17 @@ function Dashboard() {
     }
   }, [currentUserData])
 
-  const theme = useTheme();
-  const isBelowLG = useMediaQuery(theme.breakpoints.down("lg"));
-  const [Panel, setPanel] = useState(false);
-  const [popup, setPopup] = useState(false);
-  const [portal, setPortal] = React.useState("general");
+  const theme = useTheme()
+  const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
+  const [Panel, setPanel] = useState(false)
+  const [popup, setPopup] = useState(false)
+  const [portal, setPortal] = React.useState('general')
 
   const handlePortalChange = (newPortal: any) => {
-    if (newPortal === "createChannel") {
+    if (newPortal === 'createChannel') {
       setPopup(true)
-      setPortal(old=>old)
-    }
-    else {
+      setPortal((old) => old)
+    } else {
       setPortal(newPortal)
     }
   }

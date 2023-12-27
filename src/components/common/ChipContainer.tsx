@@ -1,16 +1,16 @@
-import React from 'react';
-import { Chip, Container, Avatar } from '@mui/material';
-import { Controls as common } from '.';
-import { commonStyles } from '../../styles/commonStyles';
+import { Chip, Container, Avatar } from '@mui/material'
+import React from 'react'
+import { Controls as common } from '.'
+import { commonStyles } from '../../styles/commonStyles'
 
 interface ChipContainerProps {
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void; 
-  onDelete?: () => void;
-  chips?: any[];
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
+  onDelete?: () => void
+  chips?: any[]
 }
 
 const ChipContainer: React.FC<ChipContainerProps> = ({ chips, onDelete, onClick }) => {
-  const classes: any = commonStyles();
+  const classes: any = commonStyles()
 
   return (
     <Container className={classes.chipContainer}>
@@ -27,7 +27,7 @@ const ChipContainer: React.FC<ChipContainerProps> = ({ chips, onDelete, onClick 
         />
       ))}
     </Container>
-  );
-};
+  )
+}
 
-export { ChipContainer };
+export { ChipContainer }

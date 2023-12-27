@@ -13,7 +13,6 @@ export function MuiButton({
   bgcolor,
   color,
   onClick,
-  style,
   startCustomIcon,
   endCustomIcon,
   minWidth,
@@ -27,8 +26,8 @@ export function MuiButton({
       disabled={disabled}
       className={className}
       onClick={onClick}
-      startIcon={startCustomIcon ? <common.Img src={startCustomIcon} /> :startIcon}
-      endIcon={endCustomIcon ? <common.Img src={endCustomIcon} /> :endIcon}
+      startIcon={startCustomIcon ? <common.Img src={startCustomIcon} /> : startIcon}
+      endIcon={endCustomIcon ? <common.Img src={endCustomIcon} /> : endIcon}
       sx={{
         backgroundColor: bgcolor && `${bgcolor}`,
         textTransform: 'none',

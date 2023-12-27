@@ -74,7 +74,7 @@ export function Input(
           // Call the updater directly without debounce
           listUpdater(value)
         }
-      } else if (customOnChange){
+      } else if (customOnChange) {
         customOnChange(e)
       }
     },
@@ -94,7 +94,7 @@ export function Input(
       onChange={customHandleChange ?? handleChange}
       defaultValue={defaultValue}
       InputProps={{
-        readOnly: readOnly, 
+        readOnly: readOnly,
         startAdornment: startIcon && (
           <IconButton disabled>
             <SearchIcon />
