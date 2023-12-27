@@ -39,7 +39,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
               </dd>
             ))}
           {list.items.map((item) => (
-            <dd
+           !item?.show && <dd
               key={item.label}
               className="row-between gap-06 cursor"
               style={{ color: channelLabel === item.label && 'black' }}

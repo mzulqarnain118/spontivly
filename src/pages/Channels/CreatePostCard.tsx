@@ -1,55 +1,86 @@
-import { Card, CardContent, Grid, Avatar } from '@mui/material'
+import { Card, CardContent } from '@mui/material'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
-import defaultProfile from '../../assets/images/defaultProfile.png'
 import { Controls as common } from '../../components/common'
 import { channelStyles } from './channelStyles'
+import { ApiCall, readFile } from 'utils'
+import { Toast } from 'components/common/Toast/Toast'
+
+
+interface UploadFile {
+  file?: string
+  filePayload?: any
+}
 
 const CreatePostCard = () => {
   const classes = channelStyles()
-  const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const [selectedButton, setSelectedButton] = useState(null)
-  const [description, setDescription] = useState('')
-  const [createPostContent, setCreatePostContent] = useState({
-    title: ''
-  })
+  const [uploadFile, setUploadFile] = useState<UploadFile>({})
+
   const buttons = [
     { label: 'Upload Image', icon: uploadImgIcon, slug: 'upload-image' },
     { label: 'Upload File', icon: fileIcon, slug: 'upload-file' },
     { label: 'Poll', icon: pollIcon, slug: 'poll' }
   ]
 
-  const handleClick = (slug) => {
+  const handleClick = (slug, event) => {
     setSelectedButton(slug)
-    console.log(`Clicked button with slug: ${slug}`)
+    if (slug === "poll") {
+      console.log("slog")
+    }
+    else {
+      const file = event.target.files?.[0]
+      if (!file) return
+      readFile(file, (uploadedImage) => {
+        setUploadFile({ file: uploadedImage, filePayload: file })
+      })
+    }
   }
-
+  const createPostSubmit = async (values) => {
+    try {
+      const combinedFormData = new FormData()
+      combinedFormData.append('file', uploadFile.filePayload)
+      combinedFormData.append('data', JSON.stringify(values))
+      const createdChannel = await ApiCall('posts/', null, 'POST', combinedFormData)
+      if (createdChannel) {
+        Toast('Channel Created Successfully')
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
   return (
     <Card className={classes.container}>
-      <CardContent className="col gap-1">
-        <Grid item xs={12} sm={12}>
-          <common.Input name="title" placeholder="Title" value={createPostContent.title} listUpdater={setCreatePostContent} />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <common.RichText value={description} placeholder="Write here..." onBlur={setDescription} />
-        </Grid>
-        <div className="row-center">
-          {buttons.map(({ label, icon, slug }) => (
-            <common.MuiButton
-              key={slug}
-              variant="plain"
-              size="large"
-              label={label}
-              bgcolor={selectedButton === slug ? '#E9EDF0' : ''}
-              startCustomIcon={icon}
-              onClick={() => handleClick(slug)}
-            />
-          ))}
-        </div>
-        <common.MuiButton variant="contained" size="large" label="Create Post" onClick={() => alert(1)} />
+      <CardContent>
+        <common.Form onSubmit={createPostSubmit} submitLabel="Create Post">
+          {({ register }) => (
+            <>
+              <common.Input register={register("title", { required: true })} placeholder="Title" />
+              <common.Input register={register("description")} placeholder="Write here..." multiline />
+              {/* File Preview Section */}
+              {uploadFile?.file && (
+                <common.ChipContainer chips={[{ file: selectedButton === "upload-image" ? uploadFile?.file : fileIcon }]} onDelete={() => setUploadFile({})}/>
+              )}
+              <div className="row-center">
+                {buttons.map(({ label, icon, slug }) => (
+                  <common.FileUploadButton
+                    key={slug}
+                    variant="plain"
+                    size="large"
+                    label={label}
+                    accept={slug === "upload-file" ? "application/*" : "image/*"}
+                    bgcolor={selectedButton === slug ? '#E9EDF0' : ''}
+                    startCustomIcon={icon}
+                    handleUploadPhoto={(event) => handleClick(slug, event)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </common.Form>
+
       </CardContent>
     </Card>
   )

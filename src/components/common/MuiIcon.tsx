@@ -10,6 +10,7 @@ import {
   MoreHorizRounded,
   Close,
   Menu,
+  Clear,
   FiberManualRecord,
   Person
 } from '@mui/icons-material'
@@ -22,6 +23,7 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     Menu,
     AddCircle,
     Tag,
+    Clear,
     StarBorderRounded,
     FiberManualRecord,
     ArrowDropDown,
