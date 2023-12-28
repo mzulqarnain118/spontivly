@@ -1,33 +1,48 @@
 import React from 'react'
+import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { ApiCall, encodeParams } from 'utils'
+import { Controls as common } from '../../components/common'
 import { CreatePostCard } from '../Channels/CreatePostCard'
 import { PostsCard } from '../Channels/PostsCard'
-
-const data = [
-  {
-    name: 'Tony Stark',
-    companyName: 'Stark Industries',
-    title: 'Business & Entrepreneurship',
-    description: 'We are going to teach you how to build a React app that uses the Stark reactor to power the backend. It will be cool.'
-  },
-  {
-    name: 'John Doe',
-    companyName: 'Acme Inc.',
-    title: 'Software Engineer',
-    description: 'Experienced software engineer with a passion for coding.'
-  }
-]
 
 function General() {
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
 
+  async function fetchPosts({ pageParam = 1 }) {
+    const queryParams = {
+      page: pageParam,
+      channel:2
+    }
+    const encodedPostsParams = encodeParams(queryParams)
+    const apiUrl = `posts/?${encodedPostsParams}`
+
+    return ApiCall(apiUrl)
+  }
+
+  const { data,refetch, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+    ['posts'], // Dynamic query key
+    ({ pageParam = 1 }) => fetchPosts({ pageParam }),
+    {
+      getNextPageParam: (lastPage) => lastPage?.next
+    }
+  )
+
   return (
     <>
-      {role === 'Moderator' && <CreatePostCard />}
-      {data.map((post, index) => (
-        <PostsCard key={index} post={post} />
-      ))}
+      {role === 'Moderator' && <CreatePostCard refetch={refetch} />}
+      <common.InfiniteQueryWrapper
+        status={status}
+        data={data}
+        error={error}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        isFetching={isFetching}
+      >
+        {(posts) => posts.map((post) => <PostsCard key={post?.id} post={post}  />)}
+      </common.InfiniteQueryWrapper>
     </>
   )
 }

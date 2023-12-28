@@ -12,7 +12,9 @@ import {
   Menu,
   Clear,
   FiberManualRecord,
-  Person
+  Person,
+  Delete,
+  Add
 } from '@mui/icons-material'
 
 export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
@@ -24,6 +26,8 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     AddCircle,
     Tag,
     Clear,
+    Add,
+    Delete,
     StarBorderRounded,
     FiberManualRecord,
     ArrowDropDown,

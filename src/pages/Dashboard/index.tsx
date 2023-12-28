@@ -1,4 +1,4 @@
-import { Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Container, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import qs from 'qs'
 import React, { useState, useEffect } from 'react'
@@ -15,7 +15,7 @@ import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
 
 const containerStyles = {
-  maxWidth: '1280px',
+  width: '80vw',
   margin: '80px auto 0',
   padding: '20px',
   p: 3
@@ -84,7 +84,7 @@ function Dashboard() {
 
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'general') {
-      return { sideMenuSize: 3, mainContentSize: 6.5, recommendationSize: 2.5 }
+      return { sideMenuSize: 2.5, mainContentSize: 6.5, recommendationSize: 3 }
     } else if (['find', 'library'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
     }
@@ -103,7 +103,7 @@ function Dashboard() {
   return (
     <>
       <ResponsiveAppBar setPanel={setPanel} Panel={Panel} isBelowLG={isBelowLG} />
-      <Container component="main" sx={containerStyles}>
+      <Box component="main" sx={containerStyles}>
         <Grid container spacing={2}>
           {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>
@@ -123,7 +123,7 @@ function Dashboard() {
             </Grid>
           )}
         </Grid>
-      </Container>
+      </Box>
       <common.Popup
         openPopup={popup}
         setPopup={setPopup}

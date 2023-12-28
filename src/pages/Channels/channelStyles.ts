@@ -7,6 +7,20 @@ const channelStyles = makeStyles((theme: any) => ({
     border: `1px solid ${theme.palette.primary.lightest}`,
     boxShadow: 'none',
     borderRadius: '8px'
+  },
+  postThumbnail: { width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px' },
+  eventMonthName: {
+    padding: '0px 8px',
+    alignSelf: 'stretch',
+    backgroundColor: '#D82C0D',
+    borderTopLeftRadius: '8px',
+    borderTopRightRadius: '8px'
+  },
+  eventCalender: {
+    border: '1px solid #E4E4E4',
+    borderRadius: '8px',
+    fontWeight: 700,
+    textTransform: 'uppercase'
   }
 }))
 

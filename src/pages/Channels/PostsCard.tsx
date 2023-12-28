@@ -2,7 +2,7 @@ import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/
 import React, { useState } from 'react'
 import comment from '../../assets/icons/comment.svg'
 import like from '../../assets/icons/like.svg'
-import atom from '../../assets/images/atom.png'
+import defaultPostThumbnail from '../../assets/images/atom.png'
 import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
@@ -21,17 +21,17 @@ function PostsCard({ post }) {
   }
 
   return (
-    <Card className={`${channelClasses.container} mt-1`}>
+    <Card className={channelClasses.container}>
       <CardContent className="col-start gap-05">
         <Grid container className={`row-between ${classes.content}`}>
           <Grid item xs={8} md={4} lg={4}>
             <Box className="row gap-1">
-              <Avatar src={post?.profile_pic ?? profile} />
+              <Avatar src={post?.created_by?.profile?.profile_pic ?? profile} />
               <Box className="col-start gap-05">
-                <Box className="row-start gap-05">
-                  <Typography variant="author">{post.name}</Typography>
-                </Box>
-                <Typography variant="lighterSubtitle2">{post.companyName}</Typography>
+                <Typography variant="author">{post?.created_by?.first_name + post?.created_by?.last_name}</Typography>
+                <Typography variant="lighterSubtitle2">
+                  {post?.created_by?.profile?.company_name}
+                </Typography>
               </Box>
             </Box>
           </Grid>
@@ -39,11 +39,11 @@ function PostsCard({ post }) {
             <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreHorizRounded" tooltip="Open settings" />
           </Grid>
         </Grid>
-        <Typography variant="h5">{post.title}</Typography>
+        <Typography variant="h5">{post?.title}</Typography>
         <Typography textAlign="start" sx={{ color: 'text.secondary' }}>
-          {post.description}
+          {post?.description}
         </Typography>
-        <common.Img src={atom} />
+        {post?.attachment && <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />}
         <Divider />
         <Grid container justifyContent="space-between">
           <Grid item>
