@@ -1,132 +1,84 @@
-import React,{Fragment} from 'react'
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
-import profile from '../../assets/images/profile.jpg';
-import star from '../../assets/icons/star.svg';
-import { channelStyles } from '../Channels/channelStyles';
-  const data = [
-    {
-      name: "Scott Lang",
-      action: "are both interested in",
-      purposes: ["Climate Change", "Quantum Computing"],
-    },
-    {
-      name: "James Rhodes",
-      action: "share the objective of",
-      purposes: ["Hiring / Recruiting"],
-    },
-    {
-      name: "Natasha Romanoff",
-      action: "are both interested in",
-      purposes: ["Defense Technology"],
-    },
-  ];
+import React, { Fragment } from 'react'
+import { useSelector } from 'react-redux'
+
+import star from '../../assets/icons/star.svg'
+import profile from '../../assets/images/profile.jpg'
+import { Controls as common } from '../../components/common'
+import { channelStyles } from '../Channels/channelStyles'
+const data = [
+  {
+    name: 'Scott Lang',
+    action: 'are both interested in',
+    purposes: ['Climate Change', 'Quantum Computing', 'Quantum Computing']
+  },
+  {
+    name: 'James Rhodes',
+    action: 'share the objective of',
+    purposes: ['Hiring / Recruiting']
+  },
+  {
+    name: 'Natasha Romanoff',
+    action: 'are both interested in',
+    purposes: ['Defense Technology']
+  }
+]
+
 function RecommendationCard() {
-    const classes = channelStyles()
+  const currentUser = useSelector((state) => state?.dashboard?.currentUser)
+  const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
+  const classes = channelStyles()
 
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Card className={classes.container}>
-            <CardContent>
-              <Typography
-                sx={{
-                  color: 'var(--brand-complimentary, #323E48)',
-
-                  fontSize: '18px',
-                  fontStyle: 'normal',
-                  fontWeight: 600
-                }}
-              >
-                Events
-              </Typography>
-              <Typography variant="body2">This is the content of Card 1.</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12}>
-          <Card
-            sx={{
-              border: '1px solid var(--petroleum-p-15, #E9EDF0)',
-              boxShadow: 'none',
-              borderRadius: '8px',
-              padding: '20px 20px 32px 20px'
-            }}
-          >
-            <CardContent sx={{ padding: '0px', pb: 0 }}>
-              <Typography
-                sx={{
-                  color: 'var(--brand-complimentary, #323E48)',
-
-                  fontSize: '18px',
-                  fontStyle: 'normal',
-                  fontWeight: 600
-                }}
-              >
-                Recommendations
-              </Typography>
-              {data.map((rec, index) => (
-                <Fragment key={rec?.name}>
-                  <Grid container alignItems="center" sx={{ display: 'flex', marginTop: '12px', padding: ' 8px 0px ' }}>
-                    <Grid item>
-                      <Avatar src={profile} />
-                    </Grid>
-                    <Grid item>
-                      <Box sx={{ display: 'flex' }}>
-                        <Typography
-                          sx={{
-                            color: 'black',
-                            marginLeft: '8px',
-
-                            fontSize: '14px',
-                            fontStyle: 'normal',
-                            fontWeight: 600,
-                            marginRight: '4px'
-                          }}
-                        >
-                          {rec.name}
-                        </Typography>
-                        <img src={star} />
-                      </Box>
-                    </Grid>
-                  </Grid>
-                  <Typography
-                    sx={{
-                      color: 'var(--petroleum-p-60, #698296)',
-
-                      fontSize: '12px',
-                      fontStyle: 'normal',
-                      fontWeight: 400,
-                      display: 'inline'
-                    }}
-                  >
-                    You and {rec.name} {rec.action}{' '}
-                    <Typography
-                      sx={{
-                        fontSize: '12px',
-                        fontStyle: 'normal',
-                        fontWeight: 600,
-                        display: 'inline'
-                      }}
-                    >
-                      {' '}
-                      {rec.purposes.map((pur, index) => (
-                        <span key={index}>
-                          {index > 0 && index === rec.purposes.length - 1 ? (
-                            <span style={{ color: 'var(--petroleum-p-60, #698296)', fontWeight: 400 }}> and </span>
-                          ) : null}
-                          {index > 0 && index < rec.purposes.length - 1 ? ', ' : ''}
-                          {pur}
-                        </span>
-                      ))}
-                    </Typography>
-                  </Typography>
-                </Fragment>
-              ))}
-            </CardContent>
-          </Card>
-        </Grid>
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Card className={classes.container}>
+          <CardContent className="col-start">
+            <Typography variant="h6">Events</Typography>
+            <Typography variant="body2">This is the content of Card 1.</Typography>
+          </CardContent>
+        </Card>
       </Grid>
-    )
+      <Grid item xs={12}>
+        <Card className={classes.container}>
+          <CardContent className="col-start gap-1">
+            <Typography variant="h6">Recommendations</Typography>
+            {data.map((recommendation) => (
+              <Fragment key={recommendation?.name}>
+                <Box className="row gap-1">
+                  <Avatar src={recommendation?.profile_pic} />
+                  <Box className="recommendation-details col-start gap-05">
+                    <Box className="row-start gap-05">
+                      <Typography variant="author">{recommendation?.user?.first_name + recommendation?.user?.last_name}</Typography>
+                      {isFavorite(recommendation?.id) ? (
+                        <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(recommendation?.id)} />
+                      ) : (
+                        <common.MuiIcon name="StarBorderRounded" color="primary.lighter" onClick={() => addFavorites(recommendation?.id)} />
+                      )}
+                    </Box>
+                  </Box>
+                </Box>
+                <Typography align="start" variant="lightSubtitle2">
+                  You and {recommendation?.name ?? ''} {recommendation?.action ?? ''}{' '}
+                  <Typography sx={{ color: 'primary.main', fontSize: '12px', fontWeight: '600' }} component="span">
+                    {recommendation?.purposes.map((purpose, index) => (
+                      <span key={index}>
+                        {index > 0 && index === recommendation?.purposes?.length - 1 ? (
+                          <span style={{ color: 'primary.light' }}> and </span>
+                        ) : null}
+                        {index > 0 && index < recommendation?.purposes.length - 1 ? ', ' : ''}
+                        {purpose ?? ''}
+                      </span>
+                    ))}
+                  </Typography>
+                </Typography>
+              </Fragment>
+            ))}
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+  )
 }
 
-export {RecommendationCard}
+export { RecommendationCard }

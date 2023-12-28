@@ -20,7 +20,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const handleCloseUserMenu = (setting) => {
     if (setting == 'Logout') {
       localStorage.clear()
-      navigate('/auth')
+      window.location.href = '/auth'
     } else if (setting == 'Settings') {
       navigate('/settings')
     } else if (setting == 'Dashboard') {
@@ -43,8 +43,8 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
                 <Box className="row gap-025">
                   <Avatar src={currentUser?.profile_pic} />
                   <Box className="col-start">
-                    <Typography color="primary.main">{user?.first_name  + user?.last_name }</Typography>
-                    <Typography variant="lighterSubtitle2">{user?.email ?? " "}</Typography>
+                    <Typography color="primary.main">{user?.first_name + user?.last_name}</Typography>
+                    <Typography variant="lighterSubtitle2">{user?.email ?? ' '}</Typography>
                   </Box>
                   <common.MenuList
                     items={settings}

@@ -74,7 +74,7 @@ export function Input(
           // Call the updater directly without debounce
           listUpdater(value)
         }
-      } else {
+      } else if (customOnChange) {
         customOnChange(e)
       }
     },
@@ -86,7 +86,7 @@ export function Input(
       fullWidth
       variant="outlined"
       multiline={multiline}
-      rows={rows}
+      rows={rows ?? 5}
       label={label}
       name={name}
       value={value}

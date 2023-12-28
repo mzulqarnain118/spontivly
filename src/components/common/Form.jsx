@@ -21,24 +21,16 @@ export function Form({ onSubmit, children,submitLabel }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className="col gap-1" onSubmit={handleSubmit(onSubmit)}>
       {children({ ...formProps })}
-      {submitLabel === "Save" ? (
+      {submitLabel === 'Save' ? (
         <DialogActions>
-          <common.MuiButton label={"Cancel"} />
-          <common.MuiButton
-            variant="contained"
-            type="submit"
-            label={submitLabel}
-          />
+          <common.MuiButton label={'Cancel'} />
+          <common.MuiButton variant="contained" type="submit" label={submitLabel} />
         </DialogActions>
       ) : (
-        <common.MuiButton
-          variant="contained"
-          type="submit"
-          label={submitLabel}
-        />
+        <common.MuiButton size='md' variant="contained" type="submit" label={submitLabel} />
       )}
     </form>
-  );
+  )
 }

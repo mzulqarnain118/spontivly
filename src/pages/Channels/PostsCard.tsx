@@ -15,7 +15,6 @@ function PostsCard({ post }) {
   const [handleMore, setHandleMore] = useState<any>(null)
   const handleCloseUserMenu = (item) => {
     if (item) {
-
     } else {
       console.log(item)
     }
@@ -23,7 +22,7 @@ function PostsCard({ post }) {
 
   return (
     <Card className={`${channelClasses.container} mt-1`}>
-      <CardContent className='col-start gap-05'>
+      <CardContent className="col-start gap-05">
         <Grid container className={`row-between ${classes.content}`}>
           <Grid item xs={8} md={4} lg={4}>
             <Box className="row gap-1">
@@ -41,7 +40,9 @@ function PostsCard({ post }) {
           </Grid>
         </Grid>
         <Typography variant="h5">{post.title}</Typography>
-        <Typography textAlign="start" sx={{ color: 'text.secondary' }}>{post.description}</Typography>
+        <Typography textAlign="start" sx={{ color: 'text.secondary' }}>
+          {post.description}
+        </Typography>
         <common.Img src={atom} />
         <Divider />
         <Grid container justifyContent="space-between">

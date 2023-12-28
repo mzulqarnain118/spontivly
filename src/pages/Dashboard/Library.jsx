@@ -47,6 +47,7 @@ const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
 
 function Library() {
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
+  const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const [view, setView] = useState('list')
   const [selectedTags, setSelectedTags] = useState([])
   const [applyFilters, setApplyFilters] = useState(false)
@@ -107,7 +108,7 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        {currentUser?.user?.groups?.[0]?.name == 'Moderator' && (
+        {role === 'Moderator' && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"

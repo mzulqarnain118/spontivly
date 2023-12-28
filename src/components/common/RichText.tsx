@@ -1,10 +1,10 @@
-import React, {  useRef } from "react";
-import JoditEditor from "jodit-react";
+import JoditEditor from 'jodit-react'
+import React, { useRef } from 'react'
 import { commonStyles } from '../../styles/commonStyles'
 
-export function RichText({ value, onBlur ,className, placeholder, ...others }:any) {
-  const editor = useRef(null);
-const classes = commonStyles()
+export function RichText({ value, onBlur, className, placeholder, ...others }: any) {
+  const editor = useRef(null)
+  const classes = commonStyles()
   const config = {
     readonly: false,
     height: 400,
@@ -49,15 +49,9 @@ const classes = commonStyles()
 
   return (
     <>
-      <JoditEditor
-        ref={editor}
-        value={value}
-        config={config}
-        onBlur={(newContent) => onBlur && onBlur(newContent)}
-
-      />
+      <JoditEditor ref={editor} value={value} config={config} onBlur={(newContent) => onBlur && onBlur(newContent)} />
     </>
-  );
+  )
 }
 //!  FOR MORE INFO ABOUT THIS COMPONENT VISIT THIS LINK https://www.npmjs.com/package/jodit-react or
 //! use CSK - EDITOR https://ckeditor.com/docs/ckeditor5/latest/installation/integrations/react.html

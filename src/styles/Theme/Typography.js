@@ -55,6 +55,11 @@ const Typography = (theme) => {
       fontSize: '12px',
       fontWeight: 400
     },
+    mainSubtitle2: {
+      color: theme.palette.primary.main,
+      fontSize: '12px',
+      fontWeight: 600
+    },
     subtitle2: {
       color: theme.palette.primary.main,
       fontSize: '12px',

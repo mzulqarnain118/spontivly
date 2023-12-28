@@ -20,11 +20,11 @@ const data = [
 
 function General() {
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
+  const role = currentUser?.user?.groups?.[0]?.name ?? ''
 
   return (
     <>
-      {currentUser?.user?.groups?.[0]?.name == 'Moderator' && (
-        <CreatePostCard />)}
+      {role === 'Moderator' && <CreatePostCard />}
       {data.map((post, index) => (
         <PostsCard key={index} post={post} />
       ))}
