@@ -22,7 +22,7 @@ function General() {
     return ApiCall(apiUrl)
   }
 
-  const { data, refetch, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+  const { data, refetch, error, fetchNextPage, hasNextPage, isSuccess, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
     ['posts'], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
     {
@@ -37,7 +37,7 @@ function General() {
           <CreatePostCard refetch={refetch} />
         </Grid>
       )}
-      {status === 'success' && (
+      {isSuccess && (
         <Grid>
           <common.InfiniteQueryWrapper
             status={status}
