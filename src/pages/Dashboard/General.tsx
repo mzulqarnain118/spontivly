@@ -37,19 +37,21 @@ function General() {
           <CreatePostCard refetch={refetch} />
         </Grid>
       )}
-      <Grid>
-        <common.InfiniteQueryWrapper
-          status={status}
-          data={data}
-          error={error}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
-        >
-          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
-        </common.InfiniteQueryWrapper>
-      </Grid>
+      {status === 'success' && (
+        <Grid>
+          <common.InfiniteQueryWrapper
+            status={status}
+            data={data}
+            error={error}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isFetching={isFetching}
+          >
+            {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
+          </common.InfiniteQueryWrapper>
+        </Grid>
+      )}
     </Grid>
   )
 }
