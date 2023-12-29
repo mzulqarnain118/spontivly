@@ -1,3 +1,4 @@
+import { Grid } from '@mui/material'
 import React from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
@@ -13,7 +14,7 @@ function General() {
   async function fetchPosts({ pageParam = 1 }) {
     const queryParams = {
       page: pageParam,
-      channel:2
+      channel: 2
     }
     const encodedPostsParams = encodeParams(queryParams)
     const apiUrl = `posts/?${encodedPostsParams}`
@@ -21,7 +22,7 @@ function General() {
     return ApiCall(apiUrl)
   }
 
-  const { data,refetch, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+  const { data, refetch, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
     ['posts'], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
     {
@@ -30,20 +31,26 @@ function General() {
   )
 
   return (
-    <>
-      {role === 'Moderator' && <CreatePostCard refetch={refetch} />}
-      <common.InfiniteQueryWrapper
-        status={status}
-        data={data}
-        error={error}
-        fetchNextPage={fetchNextPage}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
-        isFetching={isFetching}
-      >
-        {(posts) => posts.map((post) => <PostsCard key={post?.id} post={post}  />)}
-      </common.InfiniteQueryWrapper>
-    </>
+    <Grid>
+      {role === 'Moderator' && (
+        <Grid className="mb-1">
+          <CreatePostCard refetch={refetch} />
+        </Grid>
+      )}
+      <Grid>
+        <common.InfiniteQueryWrapper
+          status={status}
+          data={data}
+          error={error}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isFetching={isFetching}
+        >
+          {(posts) => posts.map((post) => <PostsCard key={post?.id} post={post} />)}
+        </common.InfiniteQueryWrapper>
+      </Grid>
+    </Grid>
   )
 }
 

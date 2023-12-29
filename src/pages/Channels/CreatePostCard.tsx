@@ -25,12 +25,14 @@ const CreatePostCard = ({ refetch }) => {
     { label: 'Poll', icon: pollIcon, slug: 'poll' }
   ]
 
-  const handleClick = (slug, event) => {
+  const handleClick = (slug, event, unregister) => {
     setSelectedButton(slug)
 
     if (slug === 'poll') {
-      setPollOptions([''])
+      setUploadFile({})
     } else {
+      setPollOptions(() => [''])
+      unregister("pollOptions")
       const file = event.target.files?.[0]
 
       if (!file) return
@@ -48,15 +50,12 @@ const CreatePostCard = ({ refetch }) => {
         combinedFormData.append('file', uploadFile.filePayload)
       }
 
-      if (selectedButton === 'poll') {
-        combinedFormData.append('pollOptions', JSON.stringify(pollOptions))
-      }
-
       combinedFormData.append('data', JSON.stringify({ ...values, channel: 2 }))
-
       const createdChannel = await ApiCall('posts/', null, 'POST', combinedFormData)
 
       if (createdChannel) {
+        setSelectedButton(null)
+        setUploadFile({})
         Toast('Channel Created Successfully')
         refetch()
       }
@@ -79,11 +78,15 @@ const CreatePostCard = ({ refetch }) => {
   return (
     <Card className={classes.container}>
       <CardContent>
-        <common.Form onSubmit={createPostSubmit} submitLabel="Create Post">
-          {({ register }) => (
+        <common.Form onSubmit={createPostSubmit} submitLabel={`Create ${selectedButton === 'poll' ? 'Poll' : 'Post'}`}>
+          {({ register, errors, unregister }) => (
             <>
-              <common.Input register={register('title', { required: true })} placeholder="Title" />
-              <common.Input register={register('description')} placeholder="Write here..." multiline />
+              <common.Input register={register('title', { required: true })} error={errors.title}  placeholder="Title" />
+              <common.Input
+                register={register('description')}
+                placeholder={selectedButton === 'poll' ? 'Question' : 'Description'}
+                multiline
+              />
               {/* File Preview Section */}
               {uploadFile?.file && (
                 <common.ChipContainer
@@ -100,11 +103,11 @@ const CreatePostCard = ({ refetch }) => {
                     variant="plain"
                     size="large"
                     label={label}
-                    accept={slug === 'upload-file' ? 'application/*' : 'image/*'}
+                    accept={slug === 'upload-file' ? 'application/pdf,video/*' : 'image/*'}
                     bgcolor={selectedButton === slug ? '#E9EDF0' : ''}
                     startCustomIcon={icon}
                     type={slug === 'poll' ? 'button' : 'file'}
-                    handleUploadPhoto={(event) => handleClick(slug, event)}
+                    handleUploadPhoto={(event) => handleClick(slug, event, unregister)}
                   />
                 ))}
               </div>

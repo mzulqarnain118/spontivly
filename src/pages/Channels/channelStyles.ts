@@ -6,7 +6,8 @@ const channelStyles = makeStyles((theme: any) => ({
     p: 0,
     border: `1px solid ${theme.palette.primary.lightest}`,
     boxShadow: 'none',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    width:"100%"
   },
   postThumbnail: { width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px' },
   eventMonthName: {
@@ -21,6 +22,11 @@ const channelStyles = makeStyles((theme: any) => ({
     borderRadius: '8px',
     fontWeight: 700,
     textTransform: 'uppercase'
+  },
+  card: {
+    borderColor: theme.palette.primary.main,
+    borderWidth: 2,
+    borderStyle: 'solid',
   }
 }))
 

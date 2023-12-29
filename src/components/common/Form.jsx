@@ -1,24 +1,35 @@
-import React from "react";
-import { DialogActions } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { Controls as common } from "../../components/common";
+import { DialogActions } from '@mui/material'
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { Controls as common } from '../../components/common'
 
-export function Form({ onSubmit, children,submitLabel }) {
+export function Form({ onSubmit, children, submitLabel }) {
   const {
     register,
+    unregister,
     handleSubmit,
     setValue,
     control,
-    formState: { errors },
-  } = useForm();
+    reset,
+    formState: { errors, isSubmitSuccessful }
+  } = useForm()
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      // Reset the form with the defaultValues
+      reset()
+    }
+  }, [isSubmitSuccessful, reset])
 
   const formProps = {
     register,
+    unregister,
     handleSubmit,
     control,
     setValue,
     errors,
-  };
+    reset
+  }
 
   return (
     <form className="col gap-1" onSubmit={handleSubmit(onSubmit)}>
@@ -29,8 +40,15 @@ export function Form({ onSubmit, children,submitLabel }) {
           <common.MuiButton variant="contained" type="submit" label={submitLabel} />
         </DialogActions>
       ) : (
-        <common.MuiButton size='md' variant="contained" type="submit" label={submitLabel} />
+        <common.MuiButton size="md" variant="contained" type="submit" label={submitLabel} />
       )}
     </form>
   )
+}
+
+// Exporting all the props from useForm
+export const useCustomForm = () => {
+  const formProps = useForm()
+
+  return { ...formProps }
 }
