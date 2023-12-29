@@ -52,7 +52,7 @@ function PostsCard({ post }) {
               {isPDF || isVideo ? (
                 <div className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
                   <common.Img src={fileIcon} />
-                  {post?.attachment.split('post/')[1]}
+                  {post?.attachment?.split('post/')[1]}
                 </div>
               ) : (
                 <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
@@ -61,7 +61,7 @@ function PostsCard({ post }) {
           )}{' '}
           {post?.choices?.length !== 0 && (
             <Grid item xs={12} md={12} lg={12}>
-              <DisplayPoll choices={post?.choices} />{' '}
+              <DisplayPoll choices={post?.choices} />
             </Grid>
           )}
           <Divider />

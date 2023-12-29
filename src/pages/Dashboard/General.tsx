@@ -47,7 +47,7 @@ function General() {
           isFetchingNextPage={isFetchingNextPage}
           isFetching={isFetching}
         >
-          {(posts) => posts.map((post) => <PostsCard key={post?.id} post={post} />)}
+          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
         </common.InfiniteQueryWrapper>
       </Grid>
     </Grid>
