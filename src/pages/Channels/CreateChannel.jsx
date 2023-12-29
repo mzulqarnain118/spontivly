@@ -2,13 +2,14 @@ import { Toast } from 'components/common/Toast/Toast'
 import { ApiCall } from 'utils'
 import { Controls as common } from '../../components/common'
 
-const CreateChannel = ({ setPopup }) => {
+const CreateChannel = ({ setPopup, setRefetchUser }) => {
   const addChannel = async (values) => {
     try {
       const createdChannel = await ApiCall('channels/', null, 'POST', { ...values })
 
       if (createdChannel) {
         Toast('Channel Created Successfully')
+        setRefetchUser((old) => !old)
       }
     } catch (error) {
       console.log('error', error)

@@ -22,7 +22,17 @@ function General() {
     return ApiCall(apiUrl)
   }
 
-  const { data, refetch, error, fetchNextPage, hasNextPage, isSuccess, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+  const {
+    data: fetchedPosts,
+    refetch,
+    error,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status
+  } = useInfiniteQuery(
     ['posts'], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
     {
@@ -37,21 +47,19 @@ function General() {
           <CreatePostCard refetch={refetch} />
         </Grid>
       )}
-      {isSuccess && (
-        <Grid>
-          <common.InfiniteQueryWrapper
-            status={status}
-            data={data}
-            error={error}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            isFetching={isFetching}
-          >
-            {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
-          </common.InfiniteQueryWrapper>
-        </Grid>
-      )}
+      <Grid>
+        <common.InfiniteQueryWrapper
+          status={status}
+          data={fetchedPosts}
+          error={error}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isFetching={isFetching}
+        >
+          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
+        </common.InfiniteQueryWrapper>
+      </Grid>
     </Grid>
   )
 }

@@ -1,6 +1,8 @@
 import { Toast } from '../components/common/Toast/Toast'
 
 export function ExceptionHandler(error) {
+  console.log('🚀 ~ file: ExceptionHandler.js:5 ~ ExceptionHandler ~ error:', error)
+
   const handleAuthError = () => {
     Toast('Your session has expired', 'success')
     localStorage.removeItem('token')
@@ -33,6 +35,9 @@ export function ExceptionHandler(error) {
       case 444:
         Toast(msg ?? 'Invalid Data', 'error')
         break
+      case 400:
+        Toast(msg ?? 'Bad Request', 'error')
+        break
       case 430:
         Toast(msg ?? error.response.data, 'error')
         break
@@ -46,13 +51,16 @@ export function ExceptionHandler(error) {
   }
 
   if (error.response) {
-    const { msg } = error.response.data || {}
+    const {
+      msg,
+      name: [name]
+    } = error.response.data || {}
     const status = error.response.status
 
     if (status === 401) {
       handleAuthError()
     } else {
-      handleStatusCodeError(status, msg)
+      handleStatusCodeError(status, msg ?? name)
     }
   } else {
     Toast('No Internet Connection', 'error')

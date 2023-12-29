@@ -93,7 +93,7 @@ const FilterLibrary = ({
                   <Grid key={tag.id} item xs={6} sm={6} md={6} lg={3}>
                     <FormControl component="fieldset" variant="standard">
                       <FormGroup>
-                        <common.Checkbox
+                        <common.CheckboxGroup
                           label={tag.title}
                           key={tag.id}
                           name={tag.name}

@@ -30,6 +30,13 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
       {channels.map((list, index) => (
         <div key={list.header} className="col-start gap-2">
           <dt>{list.header}</dt>
+          {index == 0 &&
+            currentUser?.channels?.map((channal) => (
+              <dd className="row-between gap-05" key={channal?.id}>
+                <common.MuiIcon name={channal?.is_private?"Lock":"Tag"} />
+                <Typography color="primary.main">{channal?.name}</Typography>
+              </dd>
+            ))}
           {index == 1 &&
             currentUser?.favorites?.map((user) => (
               <dd className="row-between gap-05" key={user.id}>
@@ -38,17 +45,20 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
                 <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user.id)} />
               </dd>
             ))}
-          {list.items.map((item) => (
-           !item?.show && <dd
-              key={item.label}
-              className="row-between gap-06 cursor"
-              style={{ color: channelLabel === item.label && 'black' }}
-              onClick={() => handleClick(item.url, item.label)}
-            >
-              <common.MuiIcon name={item.icon} />
-              <Typography>{item.label}</Typography>
-            </dd>
-          ))}
+          {list.items.map(
+            (item) =>
+              !item?.show && (
+                <dd
+                  key={item.label}
+                  className="row-between gap-06 cursor"
+                  style={{ color: channelLabel === item.label && 'black' }}
+                  onClick={() => handleClick(item.url, item.label)}
+                >
+                  <common.MuiIcon name={item.icon} />
+                  <Typography>{item.label}</Typography>
+                </dd>
+              )
+          )}
         </div>
       ))}
     </dl>

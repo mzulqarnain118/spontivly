@@ -50,7 +50,7 @@ const CreatePostCard = ({ refetch }) => {
         combinedFormData.append('file', uploadFile.filePayload)
       }
 
-      combinedFormData.append('data', JSON.stringify({ ...values, channel: 2 }))
+      combinedFormData.append('data', JSON.stringify({ ...values }))
       const createdChannel = await ApiCall('posts/', null, 'POST', combinedFormData)
 
       if (createdChannel) {

@@ -14,7 +14,8 @@ import {
   FiberManualRecord,
   Person,
   Delete,
-  Add
+  Add,
+  Lock
 } from '@mui/icons-material'
 
 export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
@@ -23,6 +24,7 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     Search,
     YouTube,
     Menu,
+    Lock,
     AddCircle,
     Tag,
     Clear,

@@ -131,7 +131,7 @@ function Dashboard() {
         title={'Create Channel'}
         subTitle={'Please add the name to channel and create to continue. Once added you can invite members to your channel'}
       >
-        <CreateChannel setPopup={setPopup} />
+        <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
     </>
   )
