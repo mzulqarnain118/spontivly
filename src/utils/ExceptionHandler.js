@@ -1,8 +1,6 @@
 import { Toast } from '../components/common/Toast/Toast'
 
 export function ExceptionHandler(error) {
-  console.log('🚀 ~ file: ExceptionHandler.js:5 ~ ExceptionHandler ~ error:', error)
-
   const handleAuthError = () => {
     Toast('Your session has expired', 'success')
     localStorage.removeItem('token')
