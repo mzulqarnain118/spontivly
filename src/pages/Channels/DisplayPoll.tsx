@@ -1,23 +1,33 @@
 import { Card, CardContent, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
+import { ApiCall } from 'utils'
 import { channelStyles } from './channelStyles'
 
 interface Choice {
   id: number
   name: string
   chosen_by: number[] // Assuming chosen_by contains user IDs
+  count: number
 }
 
 interface DisplayPollProps {
   choices: Choice[]
-  description: string
+  postId: number
 }
 
-const DisplayPoll: React.FC<DisplayPollProps> = ({ choices }) => {
+const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) => {
   const classes = channelStyles()
 
-  const handleCheckboxChange = (choiceId: number) => {
-    console.log('🚀 ~ file: DisplayPoll.tsx:20 ~ handleCheckboxChange ~ choiceId:', choiceId)
+  const handleCheckboxChange = async (choice: number) => {
+    const payload = {
+      post: postId,
+      choice
+    }
+    const addedVote = await ApiCall('posts/vote/', null, 'POST', payload)
+
+    if (addedVote) {
+      refetch()
+    }
   }
 
   return (
@@ -31,7 +41,7 @@ const DisplayPoll: React.FC<DisplayPollProps> = ({ choices }) => {
               label={choice?.name}
               onChange={() => handleCheckboxChange(choice?.id)}
             />
-            <Typography variant="body2">Votes: {choice?.chosen_by?.length}</Typography>
+            <Typography variant="body2">Votes: {choice?.count ?? 0}</Typography>
           </CardContent>
         </Card>
       ))}

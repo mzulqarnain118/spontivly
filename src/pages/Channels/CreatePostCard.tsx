@@ -13,7 +13,7 @@ interface UploadFile {
   filePayload?: any
 }
 
-const CreatePostCard = ({ refetch }) => {
+const CreatePostCard = ({ refetch, channelId }) => {
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState(null)
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
@@ -50,13 +50,13 @@ const CreatePostCard = ({ refetch }) => {
         combinedFormData.append('file', uploadFile.filePayload)
       }
 
-      combinedFormData.append('data', JSON.stringify({ ...values }))
-      const createdChannel = await ApiCall('posts/', null, 'POST', combinedFormData)
+      combinedFormData.append('data', JSON.stringify({ ...values, channel: channelId }))
+      const createdPost = await ApiCall('posts/', null, 'POST', combinedFormData)
 
-      if (createdChannel) {
+      if (createdPost) {
         setSelectedButton(null)
         setUploadFile({})
-        Toast('Channel Created Successfully')
+        Toast('Post Created Successfully')
         refetch()
       }
     } catch (error) {

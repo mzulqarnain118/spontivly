@@ -7,14 +7,14 @@ import { Controls as common } from '../../components/common'
 import { CreatePostCard } from '../Channels/CreatePostCard'
 import { PostsCard } from '../Channels/PostsCard'
 
-function General() {
+function General({ channelId }) {
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
 
   async function fetchPosts({ pageParam = 1 }) {
     const queryParams = {
       page: pageParam,
-      channel: 2
+      channel: channelId
     }
     const encodedPostsParams = encodeParams(queryParams)
     const apiUrl = `posts/?${encodedPostsParams}`
@@ -26,14 +26,13 @@ function General() {
     data: fetchedPosts,
     refetch,
     error,
-    isError,
     fetchNextPage,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
     status
   } = useInfiniteQuery(
-    ['posts'], // Dynamic query key
+    ['posts', channelId], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
     {
       getNextPageParam: (lastPage) => lastPage?.next
@@ -44,7 +43,7 @@ function General() {
     <Grid>
       {role === 'Moderator' && (
         <Grid className="mb-1">
-          <CreatePostCard refetch={refetch} />
+          <CreatePostCard channelId={channelId} refetch={refetch} />
         </Grid>
       )}
       <Grid>
@@ -57,7 +56,7 @@ function General() {
           isFetchingNextPage={isFetchingNextPage}
           isFetching={isFetching}
         >
-          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} />)}
+          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} refetch={refetch} />)}
         </common.InfiniteQueryWrapper>
       </Grid>
     </Grid>

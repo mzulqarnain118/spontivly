@@ -18,7 +18,7 @@ const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
     <>
       {tooltip && (
         <Tooltip title={tooltip}>
-          <MuiIcon name={icon} onClick={handleOpen} color="common.black" />
+          <MuiIcon name={icon} onClick={handleOpen}  />
         </Tooltip>
       )}
       <Menu

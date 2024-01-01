@@ -15,7 +15,10 @@ import {
   Person,
   Delete,
   Add,
-  Lock
+  Lock,
+  ThumbUpAlt,
+  ThumbUpOffAlt,
+  MoreVert
 } from '@mui/icons-material'
 
 export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
@@ -36,15 +39,18 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     Adb,
     MoreHorizRounded,
     Close,
-    Person
+    Person,
+    ThumbUpAlt,
+    ThumbUpOffAlt,
+    MoreVert
   }
-
   const IconComponent: any = iconNames[name] || StarRateRounded
 
   return (
     <IconComponent
       onClick={onClick}
       color={IconColor}
+      className="cursor"
       fontSize={size}
       variant={variant}
       sx={{

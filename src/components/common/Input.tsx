@@ -73,7 +73,7 @@ export function Input(
           debouncedUpdate(value)
         } else {
           // Call the updater directly without debounce
-          listUpdater(value)
+          valueUpdater(value)
         }
       } else if (customOnChange) {
         customOnChange(e)
