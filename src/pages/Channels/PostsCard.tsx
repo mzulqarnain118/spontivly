@@ -130,7 +130,7 @@ function PostsCard({ post, refetch }) {
           </CardContent>
         </Grid>
       </Card>
-      {/* {addComment && (
+      {addComment && (
         <Grid container className={`row`}>
           <Grid item xs={10} md={10} lg={10}>
             <common.Input valueUpdater={setComment} value={comment} placeholder="Comment" />
@@ -146,7 +146,7 @@ function PostsCard({ post, refetch }) {
             />
           </Grid>
         </Grid>
-      )} */}
+      )}
     </>
   )
 }
