@@ -137,7 +137,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} />
+      <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} channelId={channelId} />
     </>
   )
 }

@@ -15,7 +15,7 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
       multiple
       id="tags-filled"
       options={options}
-      getOptionLabel={(option) => option?.title}
+      getOptionLabel={(option) => option?.title ?? option?.user?.email}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}
@@ -26,7 +26,7 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
           <Chip
             key={typeof option === 'string' ? option : option.id}
             variant={variant}
-            label={typeof option === 'string' ? option : option.title}
+            label={typeof option === 'string' ? option : option.title ?? option?.user?.email}
             {...getTagProps({ index })}
           />
         ))

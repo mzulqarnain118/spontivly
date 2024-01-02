@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, RadioGroup, FormControlLabel, Radio } from '@mui/material'
+import { Card, CardContent, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
 import { ApiCall } from 'utils'
 import { channelStyles } from './channelStyles'
@@ -31,21 +31,24 @@ const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) =
   }
 
   return (
-    <RadioGroup className="col-start gap-1">
-      {choices?.map((choice) => (
-        <Card key={choice?.id} className={classes.card}>
-          <CardContent className="row-between">
-            <FormControlLabel
-              value={choice?.id}
-              control={<Radio />}
-              label={choice?.name}
-              onChange={() => handleCheckboxChange(choice?.id)}
-            />
-            <Typography variant="body2">Votes: {choice?.count ?? 0}</Typography>
-          </CardContent>
-        </Card>
-      ))}
-    </RadioGroup>
+    <Grid item xs={12}>
+      <RadioGroup>
+        {choices?.map((choice) => (
+          <Card key={choice?.id} className={classes.card}>
+            <CardContent className="row-between">
+              <FormControlLabel
+                value={choice?.id}
+                control={<Radio />}
+                checked={choice?.count > 0 ? true : false}
+                label={choice?.name}
+                onChange={() => handleCheckboxChange(choice?.id)}
+              />
+              <Typography variant="body2">Votes: {choice?.count ?? 0}</Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </RadioGroup>
+    </Grid>
   )
 }
 

@@ -6,7 +6,8 @@ function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetc
   return (
     <Box
       sx={{
-        overflowY: 'auto'
+        overflowY: 'auto',
+        textAlign:"center"
       }}
     >
       {status === 'loading' && <common.Spinner />}

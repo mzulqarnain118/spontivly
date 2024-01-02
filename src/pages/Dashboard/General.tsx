@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Grid,Box } from '@mui/material'
 import React from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
@@ -40,26 +40,28 @@ function General({ channelId }) {
   )
 
   return (
-    <Grid>
-      {role === 'Moderator' && (
-        <Grid className="mb-1">
-          <CreatePostCard channelId={channelId} refetch={refetch} />
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={1}>
+        {role === 'Moderator' && (
+          <Grid container item>
+            <CreatePostCard channelId={channelId} refetch={refetch} />
+          </Grid>
+        )}
+        <Grid container item>
+          <common.InfiniteQueryWrapper
+            status={status}
+            data={fetchedPosts}
+            error={error}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isFetching={isFetching}
+          >
+            {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} refetch={refetch} />)}
+          </common.InfiniteQueryWrapper>
         </Grid>
-      )}
-      <Grid>
-        <common.InfiniteQueryWrapper
-          status={status}
-          data={fetchedPosts}
-          error={error}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
-        >
-          {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} refetch={refetch} />)}
-        </common.InfiniteQueryWrapper>
       </Grid>
-    </Grid>
+    </Box>
   )
 }
 

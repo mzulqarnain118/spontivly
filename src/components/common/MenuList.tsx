@@ -2,7 +2,7 @@ import { Typography, Menu, MenuItem, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { MuiIcon } from './MuiIcon'
 
-const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
+const MenuList = ({ items, onClose, className,color, icon, tooltip }: any) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleOpen = (event: any) => {
@@ -18,7 +18,7 @@ const MenuList = ({ items, onClose, className, icon, tooltip }: any) => {
     <>
       {tooltip && (
         <Tooltip title={tooltip}>
-          <MuiIcon name={icon} onClick={handleOpen}  />
+          <MuiIcon name={icon} onClick={handleOpen} color={color} />
         </Tooltip>
       )}
       <Menu
