@@ -1,26 +1,26 @@
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { ApiCall, handleOpenUrlInNewTab } from 'utils'
 import commentIcon from '../../assets/icons/comment.svg'
 import like from '../../assets/icons/like.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
 import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
-import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { channelStyles } from './channelStyles'
 import { Comments } from './Comments'
 import { DisplayPoll } from './DisplayPoll'
-const moreOptions = ['', '', '']
+const moreOptions = ['Edit Post', 'Delete Post', 'Pin Post','Add To Favorites']
 
 function PostsCard({ post, refetch }) {
+  const { isModerator } = useSelector((state) => state?.dashboard)
   const channelClasses: any = channelStyles()
-  const classes: any = dashboardStyles()
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
   const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const [addComment, setAddComment] = useState<any>(null)
-  const [handleMore, setHandleMore] = useState<any>(null)
-  const handleCloseUserMenu = (item) => {
-    if (item) {
+  const handleCloseUserMenu = (item, postId) => {
+    if (item === 'Pin Post') {
+      pinPost(postId)
     } else {
       console.log(item)
     }
@@ -32,6 +32,16 @@ function PostsCard({ post, refetch }) {
     const likedPost = await ApiCall('posts/like/', null, 'POST', payload)
 
     if (likedPost) {
+      refetch()
+    }
+  }
+  const pinPost = async (postId) => {
+    const payload = {
+      is_pin: true
+    }
+    const pinedPost = await ApiCall(`posts/${postId}/`, null, 'PATCH', payload)
+
+    if (pinedPost) {
       refetch()
     }
   }
@@ -48,7 +58,7 @@ function PostsCard({ post, refetch }) {
     <Card className={`${channelClasses.container} mb-1`}>
       <CardContent className="col-start gap-05">
         <Grid container item justifyContent="space-between">
-          <Grid item xs={11}>
+          <Grid item xs={10}>
             <Box className="row gap-1">
               <Avatar src={post?.created_by?.profile?.profile_pic ?? profile} />
               <Box className="col-start gap-05">
@@ -57,8 +67,16 @@ function PostsCard({ post, refetch }) {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={1} onClick={() => setHandleMore(post)}>
-            <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreHorizRounded" tooltip="Open settings" />
+          <Grid item xs={1}>
+            {post?.is_pin && <common.MuiIcon name="PushPin" />}
+          </Grid>
+          <Grid item xs={1}>
+            <common.MenuList
+              items={isModerator ? moreOptions : moreOptions.slice(3)}
+              onClose={(e) => handleCloseUserMenu(e, post?.id)}
+              icon="MoreHorizRounded"
+              tooltip="Open settings"
+            />
           </Grid>
         </Grid>
         <Typography variant="h5">{post?.title}</Typography>
@@ -78,7 +96,7 @@ function PostsCard({ post, refetch }) {
           </>
         )}
         {post?.choices?.length !== 0 && (
-          <Grid container item spacing={3}>
+          <Grid container item rowSpacing={1}>
             <DisplayPoll choices={post?.choices} postId={post?.id} refetch={refetch} />
           </Grid>
         )}
@@ -112,9 +130,11 @@ function PostsCard({ post, refetch }) {
             </Typography>
           </Grid>
         </Grid>
-        {addComment === post?.id && <Grid container item spacing={1}>
-          <Comments refetchProfile={refetch} setAddComment={setAddComment} post_id={addComment} />      </Grid>
-}
+        {addComment === post?.id && (
+          <Grid container item spacing={1}>
+            <Comments refetchProfile={refetch} setAddComment={setAddComment} post_id={addComment} />{' '}
+          </Grid>
+        )}
       </CardContent>
     </Card>
   )
