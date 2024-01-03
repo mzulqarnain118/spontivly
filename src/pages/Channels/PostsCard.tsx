@@ -18,9 +18,9 @@ function PostsCard({ post, refetch }) {
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
   const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const [addComment, setAddComment] = useState<any>(null)
-  const handleCloseUserMenu = (item, postId) => {
+  const handleCloseUserMenu = (item, post) => {
     if (item === 'Pin Post') {
-      pinPost(postId)
+      pinPost(post)
     } else {
       console.log(item)
     }
@@ -35,11 +35,12 @@ function PostsCard({ post, refetch }) {
       refetch()
     }
   }
-  const pinPost = async (postId) => {
+  const pinPost = async (post) => {
     const payload = {
-      is_pin: true
+      is_pin: !post?.is_pin
     }
-    const pinedPost = await ApiCall(`posts/${postId}/`, null, 'PATCH', payload)
+
+    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', payload)
 
     if (pinedPost) {
       refetch()
@@ -68,12 +69,12 @@ function PostsCard({ post, refetch }) {
             </Box>
           </Grid>
           <Grid item xs={1}>
-            {post?.is_pin && <common.MuiIcon name="PushPin" />}
+            {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => handleCloseUserMenu("Pin Post", post)} />}
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
               items={isModerator ? moreOptions : moreOptions.slice(3)}
-              onClose={(e) => handleCloseUserMenu(e, post?.id)}
+              onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
             />
