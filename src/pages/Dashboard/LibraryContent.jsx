@@ -7,8 +7,6 @@ import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from '../../utils'
 
 const LibraryContent = ({ libraryData, typeIcons }) => {
-  console.log('🚀 ~ file: LibraryContent.jsx:11 ~ LibraryContent ~ libraryData:', libraryData)
-
   const classes = libraryStyles()
 
   return libraryData?.map((library) => (

@@ -24,6 +24,7 @@ export function Input(
     onChange: customOnChange, // Rename onChange prop to customOnChange
     customHandleChange,
     multiline,
+    placeholder,
     rows,
     ...other
   }: any,
@@ -72,7 +73,7 @@ export function Input(
           debouncedUpdate(value)
         } else {
           // Call the updater directly without debounce
-          listUpdater(value)
+          valueUpdater(value)
         }
       } else if (customOnChange) {
         customOnChange(e)
@@ -88,6 +89,7 @@ export function Input(
       multiline={multiline}
       rows={rows ?? 5}
       label={label}
+      placeholder={placeholder}
       name={name}
       value={value}
       {...register}
@@ -108,7 +110,8 @@ export function Input(
       }}
       className={className ?? classes.inputContainer}
       {...other}
-      {...(error && { error: true, helperText: error })}
+      error={Boolean(error)} // Use Boolean() to convert the error prop to a boolean
+      helperText={Boolean(error) && (error?.message || `${placeholder} is required`)} 
     />
   )
 }

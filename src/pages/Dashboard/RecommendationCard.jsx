@@ -1,11 +1,9 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
-
-import star from '../../assets/icons/star.svg'
-import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
 import { channelStyles } from '../Channels/channelStyles'
+import { Events } from './Events'
 const data = [
   {
     name: 'Scott Lang',
@@ -31,14 +29,7 @@ function RecommendationCard() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Card className={classes.container}>
-          <CardContent className="col-start">
-            <Typography variant="h6">Events</Typography>
-            <Typography variant="body2">This is the content of Card 1.</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+      <Events />
       <Grid item xs={12}>
         <Card className={classes.container}>
           <CardContent className="col-start gap-1">

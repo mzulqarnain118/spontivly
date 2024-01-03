@@ -1,11 +1,14 @@
 import { Avatar, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { ApiCall } from '../../utils'
+const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
+function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup }) {
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
+    const role = currentUser?.user?.groups?.[0]?.name ?? ''
+    const isModerator = role === 'Moderator'
   const [channelLabel, setChannelLabel] = useState('')
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
@@ -14,10 +17,23 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
       setRefetchUser((old) => !old)
     }
   }
-  const handleClick = (url, label) => {
+
+  useEffect(() => {
+    if (currentUser) {
+      setChannelLabel(currentUser?.channels?.[0]?.name)
+    }
+  }, [currentUser])
+
+  const handleClick = (url, label, channelId) => {
     setChannelLabel(label)
-    url != '' && onPortalChange(url, label)
+    url != '' && onPortalChange(url, channelId)
     setPanel(false)
+  }
+
+  const handleCloseUserMenu = (item) => {
+    if (item === 'Manage Members') {
+      setMemberPopup((old) => !old)
+    }
   }
 
   return (
@@ -30,25 +46,43 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels }) {
       {channels.map((list, index) => (
         <div key={list.header} className="col-start gap-2">
           <dt>{list.header}</dt>
+          {index == 0 &&
+            currentUser?.channels?.map((channal) => (
+              <dd
+                className="row-between gap-05 cursor"
+                key={channal?.id}
+                style={{ color: channelLabel === channal?.name && 'black' }}
+                onClick={() => handleClick('channels', channal?.name, channal?.id)}
+              >
+                <common.MuiIcon name={channal?.is_private ? 'Lock' : 'Tag'} />
+                <Typography>{channal?.name}</Typography>
+                {/* {isModerator && (
+                  <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreVert" tooltip="Manage Channels" />
+                )} */}
+              </dd>
+            ))}
           {index == 1 &&
             currentUser?.favorites?.map((user) => (
-              <dd className="row-between gap-05" key={user.id}>
+              <dd className="row-between gap-05 cursor" key={user.id}>
                 <Avatar src={user?.profile_pic} />
                 <Typography color="primary.main">{user.user.first_name}</Typography>
                 <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user.id)} />
               </dd>
             ))}
-          {list.items.map((item) => (
-           !item?.show && <dd
-              key={item.label}
-              className="row-between gap-06 cursor"
-              style={{ color: channelLabel === item.label && 'black' }}
-              onClick={() => handleClick(item.url, item.label)}
-            >
-              <common.MuiIcon name={item.icon} />
-              <Typography>{item.label}</Typography>
-            </dd>
-          ))}
+          {list.items.map(
+            (item) =>
+              !item?.show && (
+                <dd
+                  key={item.label}
+                  className="row-between gap-06 cursor"
+                  style={{ color: channelLabel === item.label && 'black' }}
+                  onClick={() => handleClick(item.url, item.label)}
+                >
+                  <common.MuiIcon name={item.icon} />
+                  <Typography>{item.label}</Typography>
+                </dd>
+              )
+          )}
         </div>
       ))}
     </dl>

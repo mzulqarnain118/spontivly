@@ -43,7 +43,7 @@ const debounce = (func, delay) => {
   }
 }
 
-const reduceArrayByKeys = (array, keys) => array.flatMap((item) => keys.map((key) => item[key]))
+const reduceArrayByKeys = (array, keys, obj) => array.flatMap((item) => keys.map((key) => (obj ? item[obj][key] : item[key])))
 
 const readFile = (file, callback) => {
   const reader = new FileReader()

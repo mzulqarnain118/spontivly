@@ -1,34 +1,67 @@
+import { Grid,Box } from '@mui/material'
 import React from 'react'
+import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { ApiCall, encodeParams } from 'utils'
+import { Controls as common } from '../../components/common'
 import { CreatePostCard } from '../Channels/CreatePostCard'
 import { PostsCard } from '../Channels/PostsCard'
 
-const data = [
-  {
-    name: 'Tony Stark',
-    companyName: 'Stark Industries',
-    title: 'Business & Entrepreneurship',
-    description: 'We are going to teach you how to build a React app that uses the Stark reactor to power the backend. It will be cool.'
-  },
-  {
-    name: 'John Doe',
-    companyName: 'Acme Inc.',
-    title: 'Software Engineer',
-    description: 'Experienced software engineer with a passion for coding.'
-  }
-]
-
-function General() {
+function General({ channelId }) {
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
 
+  async function fetchPosts({ pageParam = 1 }) {
+    const queryParams = {
+      page: pageParam,
+      channel: channelId
+    }
+    const encodedPostsParams = encodeParams(queryParams)
+    const apiUrl = `posts/?${encodedPostsParams}`
+
+    return ApiCall(apiUrl)
+  }
+
+  const {
+    data: fetchedPosts,
+    refetch,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status
+  } = useInfiniteQuery(
+    ['posts', channelId], // Dynamic query key
+    ({ pageParam = 1 }) => fetchPosts({ pageParam }),
+    {
+      getNextPageParam: (lastPage) => lastPage?.next
+    }
+  )
+
   return (
-    <>
-      {role === 'Moderator' && <CreatePostCard />}
-      {data.map((post, index) => (
-        <PostsCard key={index} post={post} />
-      ))}
-    </>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={1}>
+        {role === 'Moderator' && (
+          <Grid container item>
+            <CreatePostCard channelId={channelId} refetch={refetch} />
+          </Grid>
+        )}
+        <Grid container item>
+          <common.InfiniteQueryWrapper
+            status={status}
+            data={fetchedPosts}
+            error={error}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isFetching={isFetching}
+          >
+            {(posts) => posts?.map((post) => <PostsCard key={post?.id} post={post} refetch={refetch} />)}
+          </common.InfiniteQueryWrapper>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 

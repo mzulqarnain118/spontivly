@@ -15,6 +15,7 @@ interface FileUploadButtonProps {
   accept?: string
   endIcon?: React.ReactNode
   variant?: string
+  type?: string
 }
 
 const VisuallyHiddenInput = styled('input')`
@@ -36,14 +37,17 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   endIcon,
   label,
   size,
+  type,
   startIcon,
   ...other
 }) => {
+  const handleClick = type === 'button' ? handleUploadPhoto : onClick
+
   return (
     <Button
       variant={variant}
       size={size ?? 'small'}
-      onClick={onClick}
+      onClick={handleClick}
       startIcon={startCustomIcon ? <common.Img src={startCustomIcon} /> : startIcon}
       endIcon={endCustomIcon ? <common.Img src={endCustomIcon} /> : endIcon}
       sx={{
@@ -53,7 +57,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       {...other}
     >
       {label}
-      {!onClick && <VisuallyHiddenInput id="fileInput" type={'file'} onChange={handleUploadPhoto} accept={accept ?? 'image/*'} />}
+      {!onClick && <VisuallyHiddenInput id="fileInput" type={type ?? 'file'} onChange={handleUploadPhoto} accept={accept ?? 'image/*'} />}
     </Button>
   )
 }

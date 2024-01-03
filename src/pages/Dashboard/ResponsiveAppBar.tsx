@@ -53,6 +53,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
                     icon="ArrowDropDown"
                     iconClick={handleOpenUserMenu}
                     tooltip="Open settings"
+                    color="primary.main"
                     className={classes.dropdownIcon}
                   />
                 </Box>

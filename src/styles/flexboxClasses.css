@@ -1,4 +1,7 @@
 /*! Override the gap size for a specific element */
+.gap-0 {
+  --flex-gap: 0rem;
+}
 .gap-025 {
   --flex-gap: 0.25rem;
 }
@@ -18,7 +21,9 @@
 .gap-075 {
   --flex-gap: 0.75rem;
 }
-
+.gap-08 {
+  --flex-gap: 0.8rem;
+}
 .gap-1 {
   --flex-gap: 1rem;
 }
@@ -74,7 +79,7 @@
 .row-end {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
   gap: var(--flex-gap, 0);
   /* Default to 0 if not provided */
@@ -209,6 +214,9 @@
 .mb-025 {
   margin-bottom: 0.25rem;
 }
+.mb-1 {
+  margin-bottom: 1rem;
+}
 
 .m-tb-025 {
   margin-top: 0.25rem;
@@ -226,7 +234,7 @@
 
 /*! Padding Classes */
 .pad-0 {
-  padding: 0px 0px;
+  padding: 0rem;
 }
 
 .p-025 {

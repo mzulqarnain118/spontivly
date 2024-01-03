@@ -1,4 +1,5 @@
 import { Autocomplete } from './Autocomplete'
+import { CheckboxGroup } from './CheckboxGroup'
 import { Checkbox } from './Checkbox'
 import { ChipContainer } from './ChipContainer'
 import { CustomSwitch } from './CustomSwitch'
@@ -26,6 +27,7 @@ const Controls = {
   Select,
   RichText,
   Form,
+  CheckboxGroup,
   Checkbox,
   Input,
   Popup,

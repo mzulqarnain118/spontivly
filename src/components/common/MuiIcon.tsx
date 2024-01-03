@@ -12,7 +12,14 @@ import {
   Menu,
   Clear,
   FiberManualRecord,
-  Person
+  Person,
+  Delete,
+  Add,
+  Lock,
+  ThumbUpAlt,
+  ThumbUpOffAlt,
+  MoreVert,
+  Edit
 } from '@mui/icons-material'
 
 export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
@@ -21,24 +28,31 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     Search,
     YouTube,
     Menu,
+    Lock,
     AddCircle,
     Tag,
     Clear,
+    Add,
+    Delete,
     StarBorderRounded,
     FiberManualRecord,
     ArrowDropDown,
     Adb,
     MoreHorizRounded,
     Close,
-    Person
+    Person,
+    ThumbUpAlt,
+    ThumbUpOffAlt,
+    MoreVert,
+    Edit
   }
-
   const IconComponent: any = iconNames[name] || StarRateRounded
 
   return (
     <IconComponent
       onClick={onClick}
       color={IconColor}
+      className="cursor"
       fontSize={size}
       variant={variant}
       sx={{
