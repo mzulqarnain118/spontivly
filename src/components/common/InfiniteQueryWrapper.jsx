@@ -1,13 +1,15 @@
-import { Typography, Box } from '@mui/material'
+import { Typography, Box, Grid } from '@mui/material'
 import { memo } from 'react'
 import { Controls as common } from '../common'
 
 function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, children }) {
   return (
-    <Box
+    <Grid
+      item
+      xs={12}
       sx={{
         overflowY: 'auto',
-        textAlign:"center"
+        textAlign: 'center'
       }}
     >
       {status === 'loading' && <common.Spinner />}
@@ -27,7 +29,7 @@ function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetc
           {isFetching && !isFetchingNextPage && <common.Spinner text="Fetching..." />}
         </>
       )}
-    </Box>
+    </Grid>
   )
 }
 
