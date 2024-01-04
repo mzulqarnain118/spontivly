@@ -2,6 +2,7 @@ import { Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import React, { ChangeEvent } from 'react'
 import { Controls as common } from '../../components/common'
+import { Toast } from './Toast/Toast'
 
 interface FileUploadButtonProps {
   handleUploadPhoto?: (event: ChangeEvent<HTMLInputElement>) => void
@@ -42,6 +43,34 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   ...other
 }) => {
   const handleClick = type === 'button' ? handleUploadPhoto : onClick
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0]
+
+    if (file) {
+      const maxSize = getMaxSize(accept)
+
+      if (file.size > maxSize) {
+        Toast(`File size exceeds the maximum allowed size. Maximum allowed size is ${maxSize / 1024 / 1024}MB.`, 'error')
+        
+        return
+      }
+    }
+
+    handleUploadPhoto?.(event)
+  }
+
+  const getMaxSize = (fileType?: string) => {
+    switch (fileType) {
+      case 'image/*':
+        return 5 * 1024 * 1024 // 5MB for images
+      case 'application/pdf':
+        return 20 * 1024 * 1024 // 20MB for PDFs
+      case 'video/*':
+        return 20 * 1024 * 1024 // 20MB for videos
+      default:
+        return 0 // Default to no size limit if fileType is not specified
+    }
+  }
 
   return (
     <Button
@@ -57,7 +86,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       {...other}
     >
       {label}
-      {!onClick && <VisuallyHiddenInput id="fileInput" type={type ?? 'file'} onChange={handleUploadPhoto} accept={accept ?? 'image/*'} />}
+      {!onClick && <VisuallyHiddenInput id="fileInput" type={type ?? 'file'} onChange={handleFileChange} accept={accept ?? 'image/*'} />}
     </Button>
   )
 }

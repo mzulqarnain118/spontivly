@@ -4,11 +4,9 @@ import { useInfiniteQuery } from 'react-query'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
-import { dashboardStyles } from '../../styles/components/dashboardStyles'
 
 export function Comments({ refetchProfile, post_id }) {
   const [comment, setComment] = useState('')
-  const classes = dashboardStyles()
 
   async function fetchPosts({ pageParam = 1 }) {
     const queryParams = {
@@ -47,6 +45,7 @@ export function Comments({ refetchProfile, post_id }) {
     if (addedComment) {
       refetchProfile()
       refetch()
+      setComment('')
     }
   }
 

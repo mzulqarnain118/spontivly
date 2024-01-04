@@ -13,7 +13,8 @@ const libraryStyles = makeStyles((theme) => ({
   contentImg: {
     marginRight: '24px',
     maxWidth: '98px',
-    maxHeight: '98px'
+    maxHeight: '98px',
+    borderRadius: '0.4rem'
   },
   contentAvatar: {
     marginRight: '4px',
