@@ -8,6 +8,7 @@ interface Choice {
   name: string
   chosen_by: number[] // Assuming chosen_by contains user IDs
   count: number
+  i_voted: number
 }
 
 interface DisplayPollProps {
@@ -34,12 +35,12 @@ const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) =
     <Grid item xs={12}>
       <RadioGroup>
         {choices?.map((choice) => (
-          <Card key={choice?.id} className={classes.card}>
+          <Card key={choice?.id} className={classes.card} sx={{mt:3}}>
             <CardContent className="row-between">
               <FormControlLabel
                 value={choice?.id}
                 control={<Radio />}
-                checked={choice?.count > 0 ? true : false}
+                checked={choice?.i_voted > 0 ? true : false}
                 label={choice?.name}
                 onChange={() => handleCheckboxChange(choice?.id)}
               />
