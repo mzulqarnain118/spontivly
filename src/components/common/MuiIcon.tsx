@@ -19,7 +19,8 @@ import {
   ThumbUpAlt,
   ThumbUpOffAlt,
   MoreVert,
-  Edit
+  Edit,
+  PushPin
 } from '@mui/icons-material'
 
 export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
@@ -44,7 +45,8 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     ThumbUpAlt,
     ThumbUpOffAlt,
     MoreVert,
-    Edit
+    Edit,
+    PushPin
   }
   const IconComponent: any = iconNames[name] || StarRateRounded
 
