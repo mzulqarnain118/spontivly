@@ -93,7 +93,7 @@ function RecommendationCard() {
                         </Box>
                       </Box>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} textAlign="left">
                       {recommendation?.objectives?.length !== 0 && (
                         <Typography variant="lightSubtitle2">
                           You and {recommendation?.user?.first_name ?? ''} share the objective of{' '}
@@ -111,7 +111,7 @@ function RecommendationCard() {
                         </Typography>
                       )}
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} textAlign="left">
                       {recommendation?.interests?.length !== 0 && (
                         <Typography variant="lightSubtitle2">
                           You and {recommendation?.user?.first_name ?? ''} are both interested in{' '}
