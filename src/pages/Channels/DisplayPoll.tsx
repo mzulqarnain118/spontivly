@@ -14,6 +14,7 @@ interface Choice {
 interface DisplayPollProps {
   choices: Choice[]
   postId: number
+  refetch: any
 }
 
 const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) => {

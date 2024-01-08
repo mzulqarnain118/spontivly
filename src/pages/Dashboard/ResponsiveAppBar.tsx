@@ -12,7 +12,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
   const navigate = useNavigate()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const user = currentUser?.user
-  const classes = dashboardStyles()
+  const classes: any = dashboardStyles()
   const [anchorElUser, setAnchorElUser] = useState(null)
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
