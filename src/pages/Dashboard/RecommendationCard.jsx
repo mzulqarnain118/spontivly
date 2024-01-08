@@ -23,6 +23,19 @@ function RecommendationCard() {
     return ApiCall(apiUrl)
   }
 
+  const addFavorites = async (id) => {
+    try {
+      const response = await ApiCall('profile/favorite/', null, 'POST', {
+        favorite: id
+      })
+
+      if (response) {
+        setRefetchUser((old) => !old)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
   const {
     data: recommendations,
     error,
@@ -60,12 +73,14 @@ function RecommendationCard() {
             >
               {(recommendations) =>
                 recommendations.map((recommendation, index) => (
-                  <Grid container item direction="column" key={recommendation?.id} wrap="nowrap">
+                  <Grid container item direction="column" alignItems="flex-start" key={recommendation?.id} wrap="nowrap">
                     <Grid item xs={12} className="row gap-1">
                       <Avatar src={recommendation?.profile_pic} />
                       <Box className="recommendation-details col-start gap-05">
                         <Box className="row-start gap-05">
-                          <Typography variant="author">{recommendation?.user?.first_name + recommendation?.user?.last_name}</Typography>
+                          <Typography variant="author">
+                            {recommendation?.user?.first_name + ' ' + recommendation?.user?.last_name}
+                          </Typography>
                           {isFavorite(recommendation?.id) ? (
                             <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(recommendation?.id)} />
                           ) : (
@@ -81,7 +96,7 @@ function RecommendationCard() {
                     <Grid item xs={12}>
                       {recommendation?.objectives?.length !== 0 && (
                         <Typography variant="lightSubtitle2">
-                          You and {recommendation?.user?.first_name ?? ''} share the objective of {' '}
+                          You and {recommendation?.user?.first_name ?? ''} share the objective of{' '}
                           <Typography sx={{ color: 'primary.main', fontSize: '12px', fontWeight: '600' }} component="span">
                             {recommendation?.objectives?.map((purpose, index) => (
                               <span key={purpose?.id}>

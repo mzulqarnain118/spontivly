@@ -27,12 +27,12 @@ export const Events: React.FC = () => {
       <Card className={classes.container}>
         <CardContent className="col-start gap-1">
           <Typography variant="h6">Events</Typography>
-          {/* {events?.map((event: Event) => (
+          {events?.map((event: Event) => (
             <div key={event.id} className="col-start">
               <div className="row-end gap-075">
                 <div className={`col-center gap-0 ${classes.eventCalender}`}>
                   <Typography variant="h8" color="common.white" className={classes.eventMonthName}>
-                    {event.monthName.slice(0, 3)} 
+                    {event.monthName.slice(0, 3)}
                   </Typography>
                   <Typography variant="h6">{event.day}</Typography>
                 </div>
@@ -52,7 +52,7 @@ export const Events: React.FC = () => {
                 </Grid>
               </Grid>
             </div>
-          ))} */}
+          ))}
         </CardContent>
       </Card>
     </Grid>

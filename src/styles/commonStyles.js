@@ -65,7 +65,17 @@ const commonStyles = makeStyles((theme) => ({
     borderRadius: '60px !important',
     border: '1px solid var(--petroleum-p-30, #BFC9D2) !important'
   },
-
+  base: {
+    color: 'white ',
+    borderRadius: '60px ',
+    border: '1px solid var(--petroleum-p-30, #BFC9D2) ',
+    background: theme.palette.primary.main,
+    position: 'absolute ',
+    right: 208,
+    top: 176,
+    width: '24px ',
+    height: '24px '
+  },
   selectedChip: {
     color: 'white !important',
     height: '52px !important',

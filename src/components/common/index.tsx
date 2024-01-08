@@ -1,6 +1,7 @@
 import { Autocomplete } from './Autocomplete'
-import { CheckboxGroup } from './CheckboxGroup'
+import { BaseButton } from './BaseButton'
 import { Checkbox } from './Checkbox'
+import { CheckboxGroup } from './CheckboxGroup'
 import { ChipContainer } from './ChipContainer'
 import { CustomSwitch } from './CustomSwitch'
 import { DragDropFile } from './DragDropFile'
@@ -35,6 +36,7 @@ const Controls = {
   SidePanel,
   MenuList,
   MuiIcon,
+  BaseButton,
   Img,
   InfiniteQueryWrapper,
   MuiButton,

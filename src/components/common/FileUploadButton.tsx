@@ -51,7 +51,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
 
       if (file.size > maxSize) {
         Toast(`File size exceeds the maximum allowed size. Maximum allowed size is ${maxSize / 1024 / 1024}MB.`, 'error')
-        
+
         return
       }
     }
@@ -63,7 +63,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
     switch (fileType) {
       case 'image/*':
         return 5 * 1024 * 1024 // 5MB for images
-      case 'application/pdf':
+      case 'application/pdf,video/*':
         return 20 * 1024 * 1024 // 20MB for PDFs
       case 'video/*':
         return 20 * 1024 * 1024 // 20MB for videos

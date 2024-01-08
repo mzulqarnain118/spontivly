@@ -56,9 +56,9 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
               >
                 <common.MuiIcon name={channal?.is_private ? 'Lock' : 'Tag'} />
                 <Typography>{channal?.name}</Typography>
-                {/* {isModerator && (
+                {isModerator && (
                   <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreVert" tooltip="Manage Channels" />
-                )} */}
+                )}
               </dd>
             ))}
           {index == 1 &&
