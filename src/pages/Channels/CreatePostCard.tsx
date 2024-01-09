@@ -32,7 +32,7 @@ const CreatePostCard = ({ refetch, channelId }) => {
       setUploadFile({})
     } else {
       setPollOptions(() => [''])
-      unregister("pollOptions")
+      unregister('pollOptions')
       const file = event.target.files?.[0]
 
       if (!file) return
@@ -56,6 +56,7 @@ const CreatePostCard = ({ refetch, channelId }) => {
       if (createdPost) {
         setSelectedButton(null)
         setUploadFile({})
+        setPollOptions(() => [''])
         Toast('Post Created Successfully')
         refetch()
       }
@@ -68,9 +69,10 @@ const CreatePostCard = ({ refetch, channelId }) => {
     setPollOptions([...pollOptions, ''])
   }
 
-  const handleDeleteOption = (index) => {
+  const handleDeleteOption = (index, unregister) => {
     const updatedOptions = [...pollOptions]
 
+    unregister(`pollOptions[${index}]`)
     updatedOptions.splice(index, 1)
     setPollOptions(updatedOptions)
   }
@@ -81,7 +83,7 @@ const CreatePostCard = ({ refetch, channelId }) => {
         <common.Form onSubmit={createPostSubmit} submitLabel={`Create ${selectedButton === 'poll' ? 'Poll' : 'Post'}`}>
           {({ register, errors, unregister }) => (
             <>
-              <common.Input register={register('title', { required: true })} error={errors.title}  placeholder="Title" />
+              <common.Input register={register('title', { required: true })} error={errors.title} placeholder="Title" />
               <common.Input
                 register={register('description')}
                 placeholder={selectedButton === 'poll' ? 'Question' : 'Description'}
@@ -95,7 +97,7 @@ const CreatePostCard = ({ refetch, channelId }) => {
                 />
               )}
 
-              {selectedButton === 'poll' && CreatePoll(pollOptions, register, handleAddOption, handleDeleteOption)}
+              {selectedButton === 'poll' && CreatePoll(pollOptions, register, unregister, handleAddOption, handleDeleteOption)}
               <div className="row-center">
                 {buttons.map(({ label, icon, slug }) => (
                   <common.FileUploadButton
@@ -121,7 +123,13 @@ const CreatePostCard = ({ refetch, channelId }) => {
 
 export { CreatePostCard }
 
-function CreatePoll(pollOptions: string[], register: any, handleAddOption: () => void, handleDeleteOption: (index: any) => void) {
+function CreatePoll(
+  pollOptions: string[],
+  register: any,
+  unregister: any,
+  handleAddOption: () => void,
+  handleDeleteOption: (index: any, unregister: any) => void
+) {
   return (
     <div className="col-start gap-1">
       <Typography variant="h6">Poll Options:</Typography>
@@ -129,7 +137,7 @@ function CreatePoll(pollOptions: string[], register: any, handleAddOption: () =>
         <div key={index} className="row-evenly">
           <common.Input placeholder={`Option ${index + 1}`} register={register(`pollOptions[${index}]`)} />
           <common.MuiIcon name="Add" color="primary" onClick={handleAddOption} />
-          {index > 1 && <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteOption(index)} />}
+          {index > 1 && <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteOption(index, unregister)} />}
         </div>
       ))}
     </div>

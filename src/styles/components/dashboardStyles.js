@@ -22,6 +22,7 @@ const dashboardStyles = makeStyles((theme) => ({
       width: '8rem'
     }
   },
+
   filterCardContent: {
     display: 'flex',
     padding: '0px !important',

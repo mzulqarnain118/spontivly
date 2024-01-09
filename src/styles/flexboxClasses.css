@@ -175,10 +175,7 @@
   gap: var(--flex-gap, 0);
   /* Default to 0 if not provided */
 }
-.relative-full-width {
-  position: relative;
-  width: 100%;
-}
+
 /*! Margin Classes */
 .m-0 {
   margin: 0rem;
@@ -280,10 +277,25 @@
   padding-bottom: 0.25rem;
 }
 
+/*! COMMON Classes */
+
 .cursor {
   cursor: pointer;
 }
 
+.relative-full-width {
+  position: relative;
+  width: 100%;
+}
+.roundCorners {
+  border-radius: 0.4rem;
+}
+/* Custom divider style with dynamic color */
+.divider {
+  border-bottom: 1px solid var(--divider-color, #E9EDF0); /* Default color with dynamic value */
+  margin-bottom: 1rem; /* Adjust as needed to control the space between recommendations */
+  margin-top: 1rem; /* Adjust as needed to control the space between recommendations */
+}
 
 .grid-container {
   display: grid;

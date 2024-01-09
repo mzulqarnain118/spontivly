@@ -10,10 +10,16 @@ import { Controls as common } from '../../components/common'
 import { channelStyles } from './channelStyles'
 import { Comments } from './Comments'
 import { DisplayPoll } from './DisplayPoll'
-const moreOptions = ['Edit Post', 'Delete Post', 'Pin Post','Add To Favorites']
+const moreOptions = ['Edit Post', 'Delete Post', 'Pin Post', 'Add To Favorites']
+
+interface RootState {
+  dashboard: {
+    isModerator: boolean
+  }
+}
 
 function PostsCard({ post, refetch }) {
-  const { isModerator } = useSelector((state) => state?.dashboard)
+  const { isModerator } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
   const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
@@ -69,7 +75,7 @@ function PostsCard({ post, refetch }) {
             </Box>
           </Grid>
           <Grid item xs={1}>
-            {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => handleCloseUserMenu("Pin Post", post)} />}
+            {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => handleCloseUserMenu('Pin Post', post)} />}
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
@@ -126,14 +132,19 @@ function PostsCard({ post, refetch }) {
             </Box>
           </Grid>
           <Grid item>
-            <Typography variant="body1" sx={{ color: 'primary.main' }}>
+            <Typography
+              className="cursor"
+              variant="body1"
+              sx={{ color: 'primary.main' }}
+              onClick={() => setAddComment(addComment ? null : post?.id)}
+            >
               {post?.comments} Comment
             </Typography>
           </Grid>
         </Grid>
         {addComment === post?.id && (
           <Grid container item spacing={1}>
-            <Comments refetchProfile={refetch} setAddComment={setAddComment} post_id={addComment} />{' '}
+            <Comments refetchProfile={refetch} post_id={addComment} />
           </Grid>
         )}
       </CardContent>

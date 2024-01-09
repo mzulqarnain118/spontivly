@@ -14,6 +14,7 @@ interface Choice {
 interface DisplayPollProps {
   choices: Choice[]
   postId: number
+  refetch: any
 }
 
 const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) => {
@@ -35,7 +36,7 @@ const DisplayPoll: React.FC<DisplayPollProps> = ({ choices, postId, refetch }) =
     <Grid item xs={12}>
       <RadioGroup>
         {choices?.map((choice) => (
-          <Card key={choice?.id} className={classes.card} sx={{mt:3}}>
+          <Card key={choice?.id} className={classes.card} sx={{ mt: 3 }}>
             <CardContent className="row-between">
               <FormControlLabel
                 value={choice?.id}

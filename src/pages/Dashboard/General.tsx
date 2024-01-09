@@ -1,4 +1,4 @@
-import { Grid,Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import React from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'

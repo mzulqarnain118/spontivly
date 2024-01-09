@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "PORT=3082 env-cmd -f .env react-scripts start",
-    "start:vite": "vite",
+    "start:vite": "vite --port 3001",
     "dev": "vite --port 3011",
     "stg": "PORT=3082 env-cmd -f .env.staging react-scripts start",
     "build": "env-cmd -f .env tsc && vite build",

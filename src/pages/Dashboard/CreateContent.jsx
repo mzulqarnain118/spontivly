@@ -9,7 +9,7 @@ import { ApiCall, reduceArrayByKeys } from '../../utils'
 
 const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => {
   const classes = dashboardStyles()
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, reset } = useForm()
   const [type, setType] = useState('')
   const [description, setDescription] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
@@ -79,7 +79,11 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
   return (
     <common.Popup
       openPopup={isOpen}
-      setPopup={onClose}
+      setPopup={() => {
+        onClose()
+        reset()
+        setType('')
+      }}
       width={'lg'}
       title="Create Content"
       subTitle="Fill out a few details to get started!"
@@ -134,7 +138,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
                 />
               )}
               <common.Input register={register('summary', { required: true })} placeholder="Summary" />
-              <common.RichText value={description} onBlur={setDescription}  required />
+              <common.RichText value={description} onBlur={setDescription} required />
               {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
             </Grid>
           </Grid>

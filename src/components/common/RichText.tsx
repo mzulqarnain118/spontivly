@@ -4,7 +4,7 @@ import { commonStyles } from '../../styles/commonStyles'
 
 export function RichText({ value, onBlur, className, placeholder, ...others }: any) {
   const editor = useRef(null)
-  const classes = commonStyles()
+  const classes: any = commonStyles()
   const config = {
     readonly: false,
     height: 400,

@@ -18,6 +18,7 @@ import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
 import { ModuleView } from './ModuleView'
 
+
 const contentTypes = [
   {
     id: 'youtube',

@@ -151,7 +151,7 @@ function OnBoarding() {
   return (
     <Container>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>
         <Toolbar className={classes.toolbar}>
           <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
             <MenuIcon />
