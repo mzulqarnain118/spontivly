@@ -1,4 +1,5 @@
 import { Container, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
+import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import qs from 'qs'
 import React, { useState, useEffect } from 'react'
@@ -13,7 +14,6 @@ import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
-import { AddMember } from 'pages/Channels/AddMember'
 
 const containerStyles = {
   width: '80vw',
@@ -111,11 +111,23 @@ function Dashboard() {
         <Grid container spacing={2}>
           {!isBelowLG ? (
             <Grid item xs={12} sm={sideMenuSize}>
-              <SideMenuCard onPortalChange={handlePortalChange} setMemberPopup={setMemberPopup}  channels={channels} setRefetchUser={setRefetchUser} setPanel={undefined} />
+              <SideMenuCard
+                onPortalChange={handlePortalChange}
+                setMemberPopup={setMemberPopup}
+                channels={channels}
+                setRefetchUser={setRefetchUser}
+                setPanel={undefined}
+              />
             </Grid>
           ) : (
             <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
-                <SideMenuCard onPortalChange={handlePortalChange} setMemberPopup={setMemberPopup} channels={channels} setPanel={setPanel} setRefetchUser={setRefetchUser} />
+              <SideMenuCard
+                onPortalChange={handlePortalChange}
+                setMemberPopup={setMemberPopup}
+                channels={channels}
+                setPanel={setPanel}
+                setRefetchUser={setRefetchUser}
+              />
             </common.SidePanel>
           )}
           <Grid item xs={12} sm={mainContentSize}>

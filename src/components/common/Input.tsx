@@ -109,9 +109,9 @@ export function Input(
         )
       }}
       className={className ?? classes.inputContainer}
-      {...other}
       error={Boolean(error)} // Use Boolean() to convert the error prop to a boolean
       helperText={Boolean(error) && (error?.message || `${placeholder} is required`)}
+      {...other}
     />
   )
 }

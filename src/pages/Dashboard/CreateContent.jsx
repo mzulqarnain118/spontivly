@@ -55,6 +55,9 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
       ...prevState,
       newLibraryAdded: true
     }))
+    setType('')
+    setSelectedTags([])
+    setDescription('')
   }
 
   const handleTagChange = async (selectedValues) => {
@@ -79,10 +82,12 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
   return (
     <common.Popup
       openPopup={isOpen}
-      setPopup={() => {
-        onClose()
+      setPopup={onClose}
+      onClose={() => {
         reset()
         setType('')
+        setSelectedTags([])
+        setDescription('')
       }}
       width={'lg'}
       title="Create Content"

@@ -11,6 +11,7 @@ export function Form({ onSubmit, children, submitLabel }) {
     setValue,
     control,
     reset,
+    getValues,
     formState: { errors, isSubmitSuccessful }
   } = useForm()
 
@@ -28,6 +29,7 @@ export function Form({ onSubmit, children, submitLabel }) {
     control,
     setValue,
     errors,
+    getValues, 
     reset
   }
 

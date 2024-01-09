@@ -1,3 +1,4 @@
+import { BaseButton } from './../../components/common/BaseButton'
 import AddIcon from '@mui/icons-material/Add'
 import { Card, Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
@@ -17,7 +18,6 @@ import { CreateContent } from './CreateContent'
 import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
 import { ModuleView } from './ModuleView'
-
 
 const contentTypes = [
   {
@@ -85,7 +85,6 @@ function Library() {
   )
 
   const classes = dashboardStyles()
-
   const openContentModal = () => {
     setContentDialogOpen(true)
   }
@@ -149,6 +148,9 @@ function Library() {
           </Grid>
           <Grid item xs={1} sm={1} md={1} lg={1}>
             <common.MuiButton startCustomIcon={filter} onClick={openFilterModal} />
+            {(selectedTags?.length !== 0 || selectedTypes?.length !== 0) && (
+              <common.BaseButton label={selectedTags?.length + selectedTypes?.length} />
+            )}
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper

@@ -51,15 +51,15 @@ export function Comments({ refetchProfile, post_id }) {
 
   return (
     <Grid item xs={12}>
-      <Grid container item>
-        <Grid item xs={10}>
+      <Grid container item justifyContent="space-between" alignItems="center">
+        <Grid item xs={10.8}>
           <common.Input valueUpdater={setComment} value={comment} placeholder="Comment" />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <common.MuiButton
             variant="contained"
-            size="md"
-            label=""
+            size="large"
+            label=" "
             disabled={comment === ''}
             startIcon={<common.Img src={Send} />}
             onClick={postComment}
@@ -78,7 +78,7 @@ export function Comments({ refetchProfile, post_id }) {
       >
         {(comments) =>
           comments?.map((comment) => (
-            <Grid key={comment?.id} container item>
+            <Grid key={comment?.id} container item justifyContent="space-between" alignItems="center">
               <Grid item xs={11}>
                 <Box className="row gap-1">
                   <Avatar src={comment?.commented_by?.profile?.profile_pic} />
