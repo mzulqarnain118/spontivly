@@ -1,4 +1,4 @@
-import { Avatar, Typography } from '@mui/material'
+import { Avatar, Typography, Grid } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
@@ -27,7 +27,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
   const handleClick = (url, label, channelId) => {
     setChannelLabel(label)
     url != '' && onPortalChange(url, channelId)
-    setPanel(false)
+    setPanel && setPanel(false)
   }
 
   const handleCloseUserMenu = (item) => {
@@ -49,15 +49,19 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
           {index == 0 &&
             currentUser?.channels?.map((channal) => (
               <dd
-                className="row-between gap-05 cursor"
+                className="row-between cursor"
                 key={channal?.id}
                 style={{ color: channelLabel === channal?.name && 'black' }}
                 onClick={() => handleClick('channels', channal?.name, channal?.id)}
               >
-                <common.MuiIcon name={channal?.is_private ? 'Lock' : 'Tag'} />
-                <Typography>{channal?.name}</Typography>
+                <Grid item sx={11} className="row gap-05">
+                  <common.MuiIcon name={channal?.is_private ? 'Lock' : 'Tag'} />
+                  <Typography>{channal?.name}</Typography>
+                </Grid>
                 {isModerator && (
-                  <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreVert" tooltip="Manage Channels" />
+                  <Grid item sx={1}>
+                    <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreVert" tooltip="Manage Channels" />
+                  </Grid>
                 )}
               </dd>
             ))}

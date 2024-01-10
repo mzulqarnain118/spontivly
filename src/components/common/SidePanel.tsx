@@ -31,7 +31,7 @@ export function SidePanel({ width, title, children, openPanel, anchor, setPanel 
         </Typography>
         <MuiIcon
           onClick={() => {
-            setPanel(!openPanel)
+            setPanel && setPanel(!openPanel)
           }}
           name="Close"
         />

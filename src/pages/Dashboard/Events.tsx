@@ -36,9 +36,12 @@ export const Events: React.FC = () => {
                   </Typography>
                   <Typography variant="h6">{event.day}</Typography>
                 </div>
-                <Typography color="primary.light" variant="h6">
-                  {`${event.monthName} ${event.day}`}
-                </Typography>
+                <div className={`col-start gap-0`}>
+                  <Typography variant="h6">{event.eventName}</Typography>
+                  <Typography color="primary.light" variant="h6">
+                    {`${event.monthName} ${event.day}`}
+                  </Typography>
+                </div>
               </div>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
