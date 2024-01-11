@@ -116,7 +116,6 @@ function Dashboard() {
                 setMemberPopup={setMemberPopup}
                 channels={channels}
                 setRefetchUser={setRefetchUser}
-                setPanel={undefined}
               />
             </Grid>
           ) : (
@@ -133,11 +132,19 @@ function Dashboard() {
           <Grid item xs={12} sm={mainContentSize}>
             {mainContent}
           </Grid>
-          {portal === 'channels' && recommendationSize > 0 && (
-            <Grid item xs={12} sm={recommendationSize}>
-              <RecommendationCard />
-            </Grid>
-          )}
+          {
+            portal === 'channels' && recommendationSize > 0 && (
+              // (!isBelowLG ? (
+              <Grid item xs={12} sm={recommendationSize}>
+                <RecommendationCard />
+              </Grid>
+            )
+            // ) : (
+            //   <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="right">
+            //     <RecommendationCard />
+            //   </common.SidePanel>
+            // ))
+          }
         </Grid>
       </Box>
       <common.Popup
@@ -149,7 +156,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} channelId={channelId} />
+      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} channelId={channelId} />}{' '}
     </>
   )
 }

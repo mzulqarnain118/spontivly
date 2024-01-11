@@ -20,7 +20,7 @@ function AddMember({ memberPopup, setMemberPopup, channelId }) {
     isFetchingNextPage,
     status
   } = useInfiniteQuery(
-    ['channels'], // Dynamic query key
+    ['channels', channelId], // Dynamic query key
     ({ pageParam = 1 }) => membersListFunc({ pageParam }),
     {
       getNextPageParam: (lastPage) => lastPage?.next
@@ -106,7 +106,7 @@ function AddMember({ memberPopup, setMemberPopup, channelId }) {
             membersList?.[0]?.members?.map((member) => (
               <Grid container key={member?.id} item justifyContent="space-between" alignItems="center">
                 <Grid item xs={10.8}>
-                  <common.Input disabled value={member?.email} />
+                  <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
                 </Grid>
                 <Grid item xs={1}>
                   <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
