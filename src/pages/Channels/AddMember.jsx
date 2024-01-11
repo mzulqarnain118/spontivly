@@ -82,16 +82,6 @@ function AddMember({ memberPopup, setMemberPopup, channelId }) {
       subTitle={'Invite members to your Directory.'}
       submitHandler={postMember}
     >
-      <common.Autocomplete
-        placeholder="Members"
-        variant="outlined"
-        value={selectedMembers}
-        onChange={handleMemberChange}
-        options={members ?? []}
-        inputValue={searchMemberText}
-        setInputValue={setSearchMemberText}
-        required
-      />
       <Grid item xs={12} sx={{ mt: 5 }}>
         <common.InfiniteQueryWrapper
           status={status}
@@ -116,6 +106,16 @@ function AddMember({ memberPopup, setMemberPopup, channelId }) {
           }
         </common.InfiniteQueryWrapper>
       </Grid>
+      <common.Autocomplete
+        placeholder="Members"
+        variant="outlined"
+        value={selectedMembers}
+        onChange={handleMemberChange}
+        options={members ?? []}
+        inputValue={searchMemberText}
+        setInputValue={setSearchMemberText}
+        required
+      />
     </common.Popup>
   )
 }
