@@ -1,14 +1,16 @@
-import { Typography, Box, Grid } from '@mui/material'
-import { memo } from 'react'
+import { Typography, Grid } from '@mui/material'
+import { memo, useMemo } from 'react'
 import { Controls as common } from '../common'
 
-function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, children }) {
+function InfiniteQuery({ status, error, data, noDataText, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, children }) {
+  const flattenedResults = useMemo(() => data?.pages?.flatMap((page) => page?.results) || [], [data])
+
   return (
     <Grid
       item
       xs={12}
       sx={{
-        overflowY: 'auto',
+        // overflowY: 'auto',
         textAlign: 'center'
       }}
     >
@@ -22,7 +24,7 @@ function InfiniteQuery({ status, error, data, fetchNextPage, hasNextPage, isFetc
       )}
       {status === 'success' && (
         <>
-          {children(data?.pages?.flatMap((page) => page?.results))}
+          {flattenedResults.length === 0 ? <Typography>{noDataText ?? 'Records not found.'}</Typography> : children(flattenedResults)}
           {hasNextPage && (
             <common.MuiButton onClick={() => fetchNextPage()} label={isFetchingNextPage ? 'Loading ...' : 'Load More'} size="md" />
           )}

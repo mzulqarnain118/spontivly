@@ -1,12 +1,14 @@
 import { Avatar, Grid, Box, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
+import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
 
 export function Comments({ refetchProfile, post_id }) {
   const [comment, setComment] = useState('')
+  const { isModerator, userId } = useSelector((state) => state?.dashboard)
 
   async function fetchPosts({ pageParam = 1 }) {
     const queryParams = {
@@ -51,19 +53,14 @@ export function Comments({ refetchProfile, post_id }) {
 
   return (
     <Grid item xs={12}>
-      <Grid container item justifyContent="space-between" alignItems="center">
-        <Grid item xs={10.8}>
+      <Grid container item alignItems="center">
+        <Grid item xs={9.8} sm={9.8} md={9.8} lg={10.8}>
           <common.Input valueUpdater={setComment} value={comment} placeholder="Comment" />
         </Grid>
-        <Grid item xs={1}>
-          <common.MuiButton
-            variant="contained"
-            size="large"
-            label=" "
-            disabled={comment === ''}
-            startIcon={<common.Img src={Send} />}
-            onClick={postComment}
-          />
+        <Grid item xs={2} sm={2} md={2} lg={1} sx={{ ml: 1 }}>
+          <common.MuiButton variant="contained" size="large" label=" " disabled={comment === ''} onClick={postComment}>
+            <common.Img src={Send} />
+          </common.MuiButton>
         </Grid>
       </Grid>
 
@@ -88,12 +85,14 @@ export function Comments({ refetchProfile, post_id }) {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={1}>
-                <Box className="row">
-                  <common.MuiIcon name="Edit" />
-                  <common.MuiIcon name="Delete" />
-                </Box>
-              </Grid>
+              {(comment?.commented_by?.id === userId || isModerator) && (
+                <Grid item xs={1}>
+                  <Box className="row">
+                    {comment?.commented_by?.id === userId && <common.MuiIcon name="Edit" />}
+                    <common.MuiIcon name="Delete" />
+                  </Box>
+                </Grid>
+              )}
             </Grid>
           ))
         }
