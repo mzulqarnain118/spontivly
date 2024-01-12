@@ -1,4 +1,3 @@
-import { BaseButton } from './../../components/common/BaseButton'
 import AddIcon from '@mui/icons-material/Add'
 import { Card, Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
@@ -14,6 +13,7 @@ import { Controls as common } from '../../components/common'
 import { ToggleButtons } from '../../components/common/ToggleButtons'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, encodeParams } from '../../utils'
+import { BaseButton } from './../../components/common/BaseButton'
 import { CreateContent } from './CreateContent'
 import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
@@ -45,10 +45,11 @@ const contentTypes = [
 const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
 
 const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content', 'Save For Later']
 
 function Library() {
-  const currentUser = useSelector((state) => state?.dashboard?.currentUser)
-  const role = currentUser?.user?.groups?.[0]?.name ?? ''
+  const { isModerator } = useSelector((state) => state?.dashboard)
+  const filteredMoreOptions = isModerator ? moreOptions : moreOptions.slice(4)
   const [view, setView] = useState('list')
   const [selectedTags, setSelectedTags] = useState([])
   const [applyFilters, setApplyFilters] = useState(false)
@@ -100,6 +101,17 @@ function Library() {
     setFilterDialogOpen(false)
   }
 
+  const handleMoreClick = (item, content) => {
+    if (item === 'Delete Content') {
+      pinPost(post)
+    } else if (item === 'Publish Content') {
+      setEditPost((old) => !old)
+      setEditPostData(post)
+    } else {
+      console.log(item)
+    }
+  }
+
   return (
     <>
       <Grid container alignItems="center">
@@ -108,7 +120,7 @@ function Library() {
             Library
           </Typography>
         </Grid>
-        {role === 'Moderator' && (
+        {isModerator && (
           <Grid item xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
@@ -164,9 +176,19 @@ function Library() {
         >
           {(libraries) =>
             view === 'list' ? (
-              <LibraryContent libraryData={libraries} typeIcons={typeIcons} />
+              <LibraryContent
+                libraryData={libraries}
+                typeIcons={typeIcons}
+                moreOptions={filteredMoreOptions}
+                handleMoreClick={handleMoreClick}
+              />
             ) : (
-              <ModuleView libraryData={libraries} typeIcons={typeIcons} />
+              <ModuleView
+                libraryData={libraries}
+                typeIcons={typeIcons}
+                moreOptions={filteredMoreOptions}
+                handleMoreClick={handleMoreClick}
+              />
             )
           }
         </common.InfiniteQueryWrapper>

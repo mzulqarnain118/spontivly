@@ -6,7 +6,7 @@ import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleShowYoutubeThumbnail, handleOpenUrlInNewTab } from '../../utils'
 
-const ModuleView = ({ libraryData, typeIcons }) => {
+const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) => {
   const classes = libraryStyles()
   const moduleTypesIcons = { ...typeIcons, youtube }
 
