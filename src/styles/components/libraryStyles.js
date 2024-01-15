@@ -8,7 +8,19 @@ const libraryStyles = makeStyles((theme) => ({
     borderTop: `1px solid ${theme.palette.primary.lightest}`,
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column'
+    },
+    '&:hover': {
+      // Styles to apply on hover
+      '& $hoverIcon': {
+        opacity: 1
+      }
     }
+  },
+  hoverIcon: {
+    opacity: 0, // Initially hidden
+    cursor: 'pointer',
+    backgroundColor: theme.palette.primary.main
+    // Add other styles for the icon
   },
   contentImg: {
     marginRight: '24px',
@@ -61,6 +73,11 @@ const libraryStyles = makeStyles((theme) => ({
   contentChip: {
     border: `1px solid ${theme.palette.primary.lightest} !important`,
     padding: '3px 10px !important',
+    borderRadius: '0.3125rem !important'
+  },
+  libraryStatus: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
     borderRadius: '0.3125rem !important'
   },
   libraryIcon: {

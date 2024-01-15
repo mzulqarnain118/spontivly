@@ -8,6 +8,7 @@ export function Select(
     className,
     label,
     disabled,
+    placeholder,
     required,
     value,
     error = null,
@@ -22,6 +23,7 @@ export function Select(
   }: any,
   props: any
 ) {
+  console.log(error)
   const classes: ClassNameMap<any> = commonStyles()
   const handleChange = useCallback(
     (e: any) => {
@@ -53,7 +55,7 @@ export function Select(
         disabled={disabled}
         multiple={multiple}
         required={required}
-        {...(error && { error: true, helperText: error })}
+        error={required && !value}
         displayEmpty
         {...other}
       >
@@ -69,7 +71,7 @@ export function Select(
           </MenuItem>
         ))}
       </MuiSelect>
-      {error && <FormHelperText>{error}</FormHelperText>}
+      {required && !value && <FormHelperText sx={{ color:"error.main" }}>{`${defaultValue} is required`}</FormHelperText>}
     </FormControl>
   )
 }

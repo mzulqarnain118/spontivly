@@ -49,11 +49,8 @@ export function ExceptionHandler(error) {
   }
 
   if (error.response) {
-    const {
-      msg,
-      name: [name]
-    } = error.response.data || {}
-    const status = error.response.status
+    const { msg, name: [name] = [] } = error?.response?.data || {}
+    const { status } = error?.response
 
     if (status === 401) {
       handleAuthError()

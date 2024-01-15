@@ -33,7 +33,7 @@ export function Input(
   const classes: ClassNameMap<any> = commonStyles()
   // Create a separate debounced function using useMemo
   const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater])
-
+  
   const handleClearClick = useCallback(
     (e: any) => {
       const { name } = e.target
@@ -109,9 +109,9 @@ export function Input(
         )
       }}
       className={className ?? classes.inputContainer}
-      {...other}
       error={Boolean(error)} // Use Boolean() to convert the error prop to a boolean
       helperText={Boolean(error) && (error?.message || `${placeholder} is required`)}
+      {...other}
     />
   )
 }

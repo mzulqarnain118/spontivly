@@ -3,6 +3,7 @@ import { BaseButton } from './BaseButton'
 import { Checkbox } from './Checkbox'
 import { CheckboxGroup } from './CheckboxGroup'
 import { ChipContainer } from './ChipContainer'
+import { ControlledInput } from './ControlledInput'
 import { CustomSwitch } from './CustomSwitch'
 import { DragDropFile } from './DragDropFile'
 import { FileUploadButton } from './FileUploadButton'
@@ -40,6 +41,7 @@ const Controls = {
   Img,
   InfiniteQueryWrapper,
   MuiButton,
+  ControlledInput,
   CustomSwitch,
   ContainerToast,
   FileUploadButton,

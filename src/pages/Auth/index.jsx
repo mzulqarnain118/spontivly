@@ -1,66 +1,70 @@
-import React, { useState, useCallback } from "react";
-import { Stack, Divider, Container, Typography } from "@mui/material";
-import { loginStyles } from "../../styles";
-import logo from "../../assets/images/logo-1.png";
-import { Controls as common } from "../../components/common";
-import { useNavigate } from "react-router-dom";
-import { ApiCall, encodeParams, setLocal } from "../../utils";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-export function Auth() {
-  const [buttonText, setButtonText] = useState("Continue");
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-  password: "",
-    email: "",
-  });
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import { Stack, Divider, Container, Typography } from '@mui/material'
+import React, { useState, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import logo from '../../assets/images/logo-1.png'
+import { Controls as common } from '../../components/common'
+import { loginStyles } from '../../styles'
+import { ApiCall, encodeParams, setLocal } from '../../utils'
 
-  const navigate = useNavigate();
-  const classes = loginStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
+export function Auth() {
+  const [buttonText, setButtonText] = useState('Continue')
+  const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState({
+    fullName: '',
+    password: '',
+    email: ''
+  })
+
+  const navigate = useNavigate()
+  const classes = loginStyles()
+  const [anchorEl, setAnchorEl] = useState(null)
   const onSubmit = useCallback(
     async (e) => {
-      e.preventDefault();
-      try {
-        setLoading(true);
+      e.preventDefault()
 
-        if (buttonText === "Create account") {
-          navigate("/onboarding");
-        } else if (buttonText === "Continue") {
-          const encodedEmail = encodeParams({ email: formData.email });
-          const response = await ApiCall(`auth/is-email-exist?${encodedEmail}`);
+      try {
+        setLoading(true)
+
+        if (buttonText === 'Create account') {
+          navigate('/onboarding')
+        } else if (buttonText === 'Continue') {
+          const encodedEmail = encodeParams({ email: formData.email })
+          const response = await ApiCall(`auth/is-email-exist?${encodedEmail}`)
 
           if (response) {
-            setButtonText("Login");
+            setButtonText('Login')
           } else {
-            setButtonText("Create account");
+            setButtonText('Create account')
           }
-        } else if (buttonText === "Login") {
+        } else if (buttonText === 'Login') {
           const payload = {
             email: formData.email,
-            password: formData?.password,
-          };
-          const response = await ApiCall("auth/login", null, "POST", payload);
+            password: formData?.password
+          }
+          const response = await ApiCall('auth/login', null, 'POST', payload)
+
           if (response) {
-            const { token, onboarding } = response;
-            !onboarding && localStorage.clear();
-            setLocal("token", token);
-            setLocal("onboarding", onboarding);
-            navigate(onboarding ? "/" : "/onboarding");
+            const { token, onboarding } = response
+
+            !onboarding && localStorage.clear()
+            setLocal('token', token)
+            setLocal('onboarding', onboarding)
+            navigate(onboarding ? '/' : '/onboarding')
           }
         }
       } catch (error) {
-        console.error("Error in onSubmit:", error);
+        console.error('Error in onSubmit:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     },
     [buttonText, formData, navigate, setButtonText, setLocal]
-  );
+  )
 
   const handleLinkedInButtonClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   return (
     <Container maxWidth="sm" className={classes.container}>
@@ -81,7 +85,7 @@ export function Auth() {
         <Divider className={classes.divider} />
       </Stack>
       <form onSubmit={onSubmit} className={classes.subContainer}>
-        {buttonText === "Create account" && (
+        {buttonText === 'Create account' && (
           <common.Input
             name="fullName"
             value={formData.fullName}
@@ -101,7 +105,7 @@ export function Auth() {
           required
         />
 
-        {["Create account", "Login"].includes(buttonText) && (
+        {['Create account', 'Login'].includes(buttonText) && (
           <common.Input
             name="password"
             placeholder="Password"
@@ -118,19 +122,19 @@ export function Auth() {
           color="white"
           size="large"
           variant="contained"
-          disabled={formData?.email === ""}
+          disabled={formData?.email === ''}
         />
       </form>
 
       <Typography variant="body2" className={classes.bodyText}>
-        {buttonText === "Create account" && (
+        {buttonText === 'Create account' && (
           <>
             By clicking <common.Link to="#" label="Create account" />
           </>
         )}
-        I agree to Tampa Bay Wave’s <common.Link to="#" label="TOS" />
-        and <common.Link to="#" label="Privacy Policy" />
+        I agree to Tampa Bay Wave’s <common.Link to="https://spontivly.com/terms-of-service" label="TOS" />
+        and <common.Link to="https://spontivly.com/privacy-policy" label="Privacy Policy" />
       </Typography>
     </Container>
-  );
+  )
 }

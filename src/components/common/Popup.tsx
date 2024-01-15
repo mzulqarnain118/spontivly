@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }))
 
-export function Popup({ width, title, subTitle, children, openPopup, setPopup, submitBtnLabel, submitHandler, handleFormClear }: any) {
+export function Popup({ width, title, subTitle, children, openPopup, setPopup, submitBtnLabel, submitHandler, handleFormClear, onClose }: any) {
   const classes = useStyles()
 
   return (
@@ -28,6 +28,7 @@ export function Popup({ width, title, subTitle, children, openPopup, setPopup, s
           <MuiIcon
             onClick={() => {
               setPopup(!openPopup)
+              onClose && onClose()
             }}
             name="Close"
           />

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Controls as common } from '../../components/common'
 
-export function Form({ onSubmit, children, submitLabel }) {
+export function Form({ onSubmit, children, submitLabel, defaultValues }) {
   const {
     register,
     unregister,
@@ -11,8 +11,9 @@ export function Form({ onSubmit, children, submitLabel }) {
     setValue,
     control,
     reset,
+    getValues,
     formState: { errors, isSubmitSuccessful }
-  } = useForm()
+  } = useForm({ defaultValues })
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -28,6 +29,7 @@ export function Form({ onSubmit, children, submitLabel }) {
     control,
     setValue,
     errors,
+    getValues,
     reset
   }
 

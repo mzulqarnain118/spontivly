@@ -67,8 +67,6 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
         return 20 * 1024 * 1024 // 20MB for PDFs
       case 'video/*':
         return 20 * 1024 * 1024 // 20MB for videos
-      default:
-        return 0 // Default to no size limit if fileType is not specified
     }
   }
 

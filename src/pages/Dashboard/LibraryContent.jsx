@@ -6,7 +6,7 @@ import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from '../../utils'
 
-const LibraryContent = ({ libraryData, typeIcons }) => {
+const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) => {
   const classes = libraryStyles()
 
   return libraryData?.map((library) => (
@@ -33,8 +33,15 @@ const LibraryContent = ({ libraryData, typeIcons }) => {
         </Grid>
 
         <Grid item xs={2} className="col-between">
+          <common.MenuList
+            items={moreOptions}
+            onClose={(e) => handleMoreClick(e, library)}
+            icon="MoreHorizRounded"
+            tooltip="Open settings"
+          />
           <Typography variant="lightSubtitle2">{moment(library.created_at).format('MMM DD, YYYY')}</Typography>
           <common.Img type="icon" src={typeIcons[library?.type]} />
+          <Chip label={library?.libraryStatus ?? 'DRAFT'} className={classes.libraryStatus} />
         </Grid>
       </Grid>
     </Box>
