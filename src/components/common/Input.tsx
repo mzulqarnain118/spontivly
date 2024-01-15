@@ -33,7 +33,7 @@ export function Input(
   const classes: ClassNameMap<any> = commonStyles()
   // Create a separate debounced function using useMemo
   const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater])
-
+  
   const handleClearClick = useCallback(
     (e: any) => {
       const { name } = e.target

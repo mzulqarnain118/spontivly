@@ -20,10 +20,10 @@ const CreateChannel = ({ setPopup, setRefetchUser }) => {
 
   return (
     <common.Form onSubmit={addChannel} submitLabel="Create Channel">
-      {({ register }) => (
+      {({ register, errors, control }) => (
         <>
-          <common.Input register={register('name', { required: true })} placeholder="Channel Name" />
-          <common.Input register={register('description', { required: true })} multiline placeholder="Channel Description" />
+          <common.ControlledInput name="name" control={control} errors={errors} placeholder="Channel Name" />
+          <common.Input register={register('description', { required: true })} multiline placeholder="Channel Description (Optional)" />
           <common.Checkbox label="Private Channel" register={register('is_private')} />
         </>
       )}

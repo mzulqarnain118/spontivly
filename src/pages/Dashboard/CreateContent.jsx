@@ -92,63 +92,73 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
       width={'lg'}
       title="Create Content"
       subTitle="Fill out a few details to get started!"
-      submitBtnLabel="Save"
-      submitHandler={handleSubmit(onSubmit)}
     >
-      <form key="2000" onSubmit={handleSubmit(onSubmit)}>
-        <Card className={classes.contentCard}>
-          <Grid container spacing={8}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h5" align="left">
-                Heading
-              </Typography>
-              <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
-                What's your post all about?
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8} className={classes.createContentItem}>
-              <common.Input register={register('title', { required: true })} placeholder="Title" />
-              <Box className="row-between gap-1">
-                <common.Input register={register('author', { required: true })} placeholder="Author" />
-                <common.Select defaultValue="Select content type" options={contentTypes} valueUpdater={setType} value={type} required />
-              </Box>
-              <common.Autocomplete
-                placeholder="Tags"
-                variant="outlined"
-                value={selectedTags}
-                onChange={handleTagChange}
-                options={tags?.pages?.flatMap((page) => page?.results) ?? []}
-                inputValue={searchTagText}
-                setInputValue={setSearchTagText}
-                required
-              />
-            </Grid>
-          </Grid>
-          <Divider className={classes.createContentDivider} />
-          <Grid container spacing={8}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h5" align="left">
-                Content
-              </Typography>
-              <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
-                Provide some more details about your post
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={8} className={classes.createContentItem}>
-              {type != 'pdf' && (
-                <common.Input
-                  register={register('url', { required: type !== 'pdf' })}
-                  placeholder="Content URL"
-                  disabled={type === 'pdf'}
+      <common.Form submitLabel="Save" onSubmit={onSubmit}>
+        {({ register, errors, control, getValues }) => (
+          <Card className={classes.contentCard}>
+            {console.log(getValues(), errors)}
+            <Grid container spacing={8}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h5" align="left">
+                  Heading
+                </Typography>
+                <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
+                  What's your post all about?
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8} className={classes.createContentItem}>
+                <common.ControlledInput name="title" control={control} errors={errors} placeholder="Title" />
+                <Box className="row-between gap-1">
+                  <common.ControlledInput name="author" control={control} errors={errors} placeholder="Author" />
+                  {/* <common.ControlledInput
+                    name="type"
+                    control={control}
+                    errors={errors}
+                    component={ */}
+                  <common.Select defaultValue="Select content type" options={contentTypes} valueUpdater={setType} value={type} required />
+                  {/* }
+                  /> */}
+                </Box>
+                <common.Autocomplete
+                  placeholder="Tags"
+                  variant="outlined"
+                  value={selectedTags}
+                  onChange={handleTagChange}
+                  options={tags?.pages?.flatMap((page) => page?.results) ?? []}
+                  inputValue={searchTagText}
+                  setInputValue={setSearchTagText}
+                  required
                 />
-              )}
-              <common.Input register={register('summary', { required: true })} placeholder="Summary" />
-              <common.RichText value={description} onBlur={setDescription} required />
-              {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
+              </Grid>
             </Grid>
-          </Grid>
-        </Card>
-      </form>
+            <Divider className={classes.createContentDivider} />
+            <Grid container spacing={8}>
+              <Grid item xs={12} md={4}>
+                <Typography variant="h5" align="left">
+                  Content
+                </Typography>
+                <Typography variant="h6" align="left" sx={{ color: 'customColors.subtitle1' }}>
+                  Provide some more details about your post
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8} className={classes.createContentItem}>
+                {type != 'pdf' && (
+                  <common.ControlledInput
+                    name="url"
+                    control={control}
+                    errors={errors}
+                    placeholder="Content URL"
+                    disabled={type === 'pdf'}
+                  />
+                )}
+                <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
+                <common.RichText value={description} onBlur={setDescription} required />
+                {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
+              </Grid>
+            </Grid>
+          </Card>
+        )}
+      </common.Form>
     </common.Popup>
   )
 }
