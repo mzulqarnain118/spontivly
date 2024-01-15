@@ -110,14 +110,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
                 <common.ControlledInput name="title" control={control} errors={errors} placeholder="Title" />
                 <Box className="row-between gap-1">
                   <common.ControlledInput name="author" control={control} errors={errors} placeholder="Author" />
-                  {/* <common.ControlledInput
-                    name="type"
-                    control={control}
-                    errors={errors}
-                    component={ */}
                   <common.Select defaultValue="Select content type" options={contentTypes} valueUpdater={setType} value={type} required />
-                  {/* }
-                  /> */}
                 </Box>
                 <common.Autocomplete
                   placeholder="Tags"
