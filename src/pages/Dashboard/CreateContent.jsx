@@ -1,7 +1,7 @@
 import { Box, Card, Divider, Grid, Typography } from '@mui/material'
+import { useCustomForm } from 'components/common/Form'
 import qs from 'qs'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useInfiniteQuery } from 'react-query'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
@@ -9,7 +9,7 @@ import { ApiCall, reduceArrayByKeys } from '../../utils'
 
 const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => {
   const classes = dashboardStyles()
-  const { register, handleSubmit, reset } = useForm()
+  const { reset } = useCustomForm()
   const [type, setType] = useState('')
   const [description, setDescription] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
@@ -58,6 +58,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
     setType('')
     setSelectedTags([])
     setDescription('')
+    onClose()
   }
 
   const handleTagChange = async (selectedValues) => {
@@ -94,9 +95,8 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
       subTitle="Fill out a few details to get started!"
     >
       <common.Form submitLabel="Save" onSubmit={onSubmit}>
-        {({ register, errors, control, getValues }) => (
+        {({ errors, control }) => (
           <Card className={classes.contentCard}>
-            {console.log(getValues(), errors)}
             <Grid container spacing={8}>
               <Grid item xs={12} md={4}>
                 <Typography variant="h5" align="left">

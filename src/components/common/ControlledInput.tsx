@@ -2,13 +2,35 @@ import React from 'react'
 import { Controller } from 'react-hook-form'
 import { Controls as common } from '../../components/common'
 
-const ControlledInput = ({ name, control, errors, ...inputProps }) => (
-  <Controller
-    name={name}
-    rules={{ required: true }}
-    control={control}
-    render={({ field }) => <common.Input {...field} error={errors?.[name]} {...inputProps} />}
-  />
-)
+const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }) => {
+  const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules } = validation
+
+  const rules = {
+    required: required || true,
+    ...(minLength && { minLength: { value: minLength || 2, message: customRules.maxLength || 'Too short.' } }),
+    ...(maxLength && { maxLength: { value: maxLength || 20, message: customRules.maxLength || 'Cannot exceed 20 characters.' } }),
+    ...(pattern && { pattern: { value: pattern, message: customRules.pattern || 'Invalid pattern' } }),
+    ...(validate && { validate: { value: validate, message: customRules.validate || 'Custom validation failed' } }),
+    ...(customRule && { custom: { value: customRule, message: customRuleMessage || 'Custom rule failed' } }),
+    ...customRules
+  }
+
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      control={control}
+      render={({ field }) => {
+        if (component) {
+          // If a custom component is provided
+          return React.cloneElement(component, { ...field, error: errors?.[name], ...inputProps })
+        }
+
+        // Default to common.Input if no custom component is provided
+        return <common.Input {...field} error={errors?.[name]} {...inputProps} />
+      }}
+    />
+  )
+}
 
 export { ControlledInput }

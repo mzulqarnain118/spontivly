@@ -88,7 +88,7 @@ function Dashboard() {
 
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
-      return { sideMenuSize: 2.5, mainContentSize: 6.5, recommendationSize: 3 }
+      return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG?3:0 }
     } else if (['find', 'library'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
     }
@@ -134,16 +134,16 @@ function Dashboard() {
           </Grid>
           {
             portal === 'channels' && recommendationSize > 0 && (
-              // (!isBelowLG ? (
+              !isBelowLG ? (
               <Grid item xs={12} sm={recommendationSize}>
                 <RecommendationCard />
               </Grid>
             )
-            // ) : (
-            //   <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="right">
-            //     <RecommendationCard />
-            //   </common.SidePanel>
-            // ))
+             : (
+              <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="right">
+                <RecommendationCard />
+              </common.SidePanel>
+            ))
           }
         </Grid>
       </Box>

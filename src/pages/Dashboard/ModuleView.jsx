@@ -11,7 +11,7 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) =>
   const moduleTypesIcons = { ...typeIcons, youtube }
 
   return (
-    <Grid container spacing={2} padding={'0.75rem 1.5rem'}>
+    <Grid container spacing={5} padding={'0.75rem 1.5rem'}>
       {libraryData?.map((library) => (
         <Grid
           key={library.id}

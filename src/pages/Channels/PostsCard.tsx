@@ -10,6 +10,7 @@ import { Controls as common } from '../../components/common'
 import { channelStyles } from './channelStyles'
 import { Comments } from './Comments'
 import { DisplayPoll } from './DisplayPoll'
+
 const moreOptions = ['Edit Post', 'Delete Post', 'Pin Post', 'Add To Favorites']
 
 interface RootState {
@@ -18,7 +19,7 @@ interface RootState {
   }
 }
 
-function PostsCard({ post, refetch }) {
+function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   const { isModerator } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
@@ -27,6 +28,10 @@ function PostsCard({ post, refetch }) {
   const handleCloseUserMenu = (item, post) => {
     if (item === 'Pin Post') {
       pinPost(post)
+    }
+    else if (item === 'Edit Post') {
+      setEditPost(old=>!old)
+      setEditPostData(post)
     } else {
       console.log(item)
     }
@@ -75,11 +80,11 @@ function PostsCard({ post, refetch }) {
             </Box>
           </Grid>
           <Grid item xs={1}>
-            {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => handleCloseUserMenu('Pin Post', post)} />}
+            {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => isModerator && handleCloseUserMenu('Pin Post', post)} />}
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? moreOptions : moreOptions.slice(3)}
+              items={isModerator ? post?.is_pin ? moreOptions :moreOptions : moreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
@@ -116,7 +121,6 @@ function PostsCard({ post, refetch }) {
               ) : (
                 <common.MuiIcon name="ThumbUpOffAlt" color="primary.lighter" onClick={() => likePost()} />
               )}
-              {/* <common.Img src={like} sx={{ marginRight: '11px' }} /> */}
               <Typography variant="body1" sx={{ color: 'primary.main', marginRight: '20px' }}>
                 {post?.likes} Likes
               </Typography>
@@ -148,6 +152,8 @@ function PostsCard({ post, refetch }) {
           </Grid>
         )}
       </CardContent>
+
+
     </Card>
   )
 }
