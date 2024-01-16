@@ -49,7 +49,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
           {index == 0 &&
             currentUser?.channels?.map((channal) => (
               <dd
-                className="row-between cursor"
+                className="align-between cursor"
                 key={channal?.id}
                 style={{ color: channelLabel === channal?.name && 'black' }}
                 onClick={() => handleClick('channels', channal?.name, channal?.id)}

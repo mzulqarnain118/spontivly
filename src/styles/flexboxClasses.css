@@ -94,6 +94,13 @@
   /* Default to 0 if not provided */
 }
 
+.align-between {
+    text-align: left;
+    align-self: normal;
+    display: flex;
+    justify-content: space-between;
+}
+
 .row-around {
   display: flex;
   flex-direction: row;

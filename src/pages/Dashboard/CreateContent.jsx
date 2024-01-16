@@ -1,5 +1,6 @@
 import { Box, Card, Divider, Grid, Typography } from '@mui/material'
 import { useCustomForm } from 'components/common/Form'
+import { Toast } from 'components/common/Toast/Toast'
 import qs from 'qs'
 import { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
@@ -7,7 +8,7 @@ import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
 
-const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => {
+const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditPost, isEditing = false, postDataToEdit }) => {
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
@@ -39,16 +40,35 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
     const tags = reduceArrayByKeys(selectedTags, ['id'])
     let payload = { ...formData, type, description, tags }
 
-    if (pdfFile) {
-      const combinedFormData = new FormData()
-
-      combinedFormData.append('file', pdfFile)
-      combinedFormData.append('data', JSON.stringify(payload))
-      await ApiCall('libraries/', null, 'POST', combinedFormData)
-    } else {
-      await ApiCall('libraries/', null, 'POST', {
+    if (isEditing) {
+      const editedPost = await ApiCall(`libraries/${postDataToEdit.id}/`, null, 'PATCH', {
         data: JSON.stringify(payload)
       })
+
+      if (editedPost) {
+        Toast('Library Content Edited Successfully')
+        setEditPost((old) => !old)
+      }
+    } else {
+      if (pdfFile) {
+        const combinedFormData = new FormData()
+
+        combinedFormData.append('file', pdfFile)
+        combinedFormData.append('data', JSON.stringify(payload))
+        const addedContent = await ApiCall('libraries/', null, 'POST', combinedFormData)
+
+        if (addedContent) {
+          Toast('Library Content Added Successfully')
+        }
+      } else {
+        const addedContent = await ApiCall('libraries/', null, 'POST', {
+          data: JSON.stringify(payload)
+        })
+
+        if (addedContent) {
+          Toast('Library Content Added Successfully')
+        }
+      }
     }
 
     setLibraryContent((prevState) => ({
@@ -94,7 +114,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
       title="Create Content"
       subTitle="Fill out a few details to get started!"
     >
-      <common.Form submitLabel="Save" onSubmit={onSubmit}>
+      <common.Form submitLabel={`${isEditing ? 'Edit' : 'Save'}`} onSubmit={onSubmit} defaultValues={isEditing && { ...postDataToEdit }}>
         {({ errors, control }) => (
           <Card className={classes.contentCard}>
             <Grid container spacing={8}>

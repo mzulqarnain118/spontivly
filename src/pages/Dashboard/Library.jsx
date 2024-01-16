@@ -44,7 +44,7 @@ const contentTypes = [
 
 const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
 
-const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
 const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content', 'Save For Later']
 
 function Library() {

@@ -47,7 +47,7 @@ function General({ channelId }) {
       <Grid container spacing={1}>
         {role === 'Moderator' && (
           <Grid container item>
-            {/* <common.Popup openPopup={editPost} setPopup={setEditPost} title={'Edit Post'}>
+            <common.Popup openPopup={editPost} setPopup={setEditPost} title={'Edit Post'}>
               <CreatePostCard
                 channelId={channelId}
                 refetch={refetch}
@@ -55,7 +55,7 @@ function General({ channelId }) {
                 setEditPost={setEditPost}
                 postDataToEdit={editPostData}
               />
-            </common.Popup> */}
+            </common.Popup>
             {!editPost && <CreatePostCard channelId={channelId} refetch={refetch} />}
           </Grid>
         )}

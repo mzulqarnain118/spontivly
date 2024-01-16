@@ -6,9 +6,9 @@ import logo from '../../assets/images/Logo.png'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 
-const settings = ['Dashboard', 'Account', 'Settings', 'Logout']
+const settings = ['Dashboard', 'Account', 'Settings',"Events & Recommendations", 'Logout']
 
-function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
+function ResponsiveAppBar({ setPanel, Panel,setEventsPanel, isBelowLG }) {
   const navigate = useNavigate()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const user = currentUser?.user
@@ -23,6 +23,9 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
       window.location.href = '/auth'
     } else if (setting == 'Settings') {
       navigate('/settings')
+    } else if (setting == 'Dashboard') {
+    } else if (setting == 'Events & Recommendations') {
+      setEventsPanel(old=>!old)
     } else if (setting == 'Dashboard') {
       navigate('/')
     }

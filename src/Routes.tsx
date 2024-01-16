@@ -1,10 +1,10 @@
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import { PdfViewer } from './components/common/PdfViewer'
 import { ProtectedRoute } from './components/common/ProtectedRoute'
 const Auth = lazy(() => import('./pages/Auth').then((module) => ({ default: module.Auth })))
 const OnBoarding = ProtectedRoute(lazy(() => import('./pages/onboarding').then((module) => ({ default: module.OnBoarding }))))
 const Dashboard = ProtectedRoute(lazy(() => import('./pages/Dashboard').then((module) => ({ default: module.Dashboard }))))
+const IndividualLibrary = ProtectedRoute(lazy(() => import('./pages/Dashboard/IndividualLibrary').then((module) => ({ default: module.IndividualLibrary }))),"/library/:id")
 const Setting = ProtectedRoute(
   lazy(() => import('./pages/Setting').then((module) => ({ default: module.Setting }))),
   '/settings'
@@ -24,12 +24,12 @@ const Routes = createBrowserRouter([
     element: <Dashboard />
   },
   {
-    path: '/settings',
-    element: <Setting />
+    path: '/library/:id',
+    element: <IndividualLibrary />
   },
   {
-    path: '/pdf-viewer/:url',
-    element: <PdfViewer />
+    path: '/settings',
+    element: <Setting />
   }
 ])
 

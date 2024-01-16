@@ -69,6 +69,7 @@ function Dashboard() {
   const theme = useTheme()
   const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
   const [Panel, setPanel] = useState(false)
+  const [EventsPanel, setEventsPanel] = useState(false)
   const [popup, setPopup] = useState(false)
   const [memberPopup, setMemberPopup] = useState(false)
   const [channelId, setChannelId] = useState<number>()
@@ -88,7 +89,7 @@ function Dashboard() {
 
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
-      return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG?3:0 }
+      return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
     } else if (['find', 'library'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
     }
@@ -106,7 +107,7 @@ function Dashboard() {
 
   return (
     <>
-      <ResponsiveAppBar setPanel={setPanel} Panel={Panel} isBelowLG={isBelowLG} />
+      <ResponsiveAppBar setPanel={setPanel} setEventsPanel={setEventsPanel} Panel={Panel} isBelowLG={isBelowLG} />
       <Box component="main" sx={containerStyles}>
         <Grid container spacing={2}>
           {!isBelowLG ? (
@@ -132,19 +133,16 @@ function Dashboard() {
           <Grid item xs={12} sm={mainContentSize}>
             {mainContent}
           </Grid>
-          {
-            portal === 'channels' && recommendationSize > 0 && (
-              !isBelowLG ? (
+          {portal === 'channels' &&
+            recommendationSize > 0 &&
+            (!isBelowLG && (
               <Grid item xs={12} sm={recommendationSize}>
                 <RecommendationCard />
               </Grid>
-            )
-             : (
-              <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="right">
-                <RecommendationCard />
-              </common.SidePanel>
-            ))
-          }
+            ))}
+          <common.SidePanel openPanel={EventsPanel} setPanel={setEventsPanel} anchor="right" width="50vw">
+            <RecommendationCard />
+          </common.SidePanel>
         </Grid>
       </Box>
       <common.Popup

@@ -17,9 +17,15 @@ const libraryStyles = makeStyles((theme) => ({
     }
   },
   hoverIcon: {
-    opacity: 0, // Initially hidden
+    opacity: 1, // Initially hidden
     cursor: 'pointer',
-    backgroundColor: theme.palette.primary.main
+    display:"flex",
+    justifyContent: "flex-end",
+    alignItems:"center",
+    color:theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
+    borderTopLeftRadius:"1rem",
+    borderTopRightRadius:"1rem",
     // Add other styles for the icon
   },
   contentImg: {

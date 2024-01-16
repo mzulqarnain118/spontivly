@@ -13,6 +13,10 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) =>
   return (
     <Grid container spacing={5} padding={'0.75rem 1.5rem'}>
       {libraryData?.map((library) => (
+           <div key={library?.id}>
+      <Grid item xs={12} className={classes.hoverIcon}>
+        <common.MenuList items={moreOptions} onClose={(e) => handleMoreClick(e, library)} icon="MoreVert" tooltip="Open settings" />
+      </Grid>
         <Grid
           key={library.id}
           item
@@ -61,7 +65,8 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) =>
               </Grid>
             </Box>
           </Box>
-        </Grid>
+          </Grid>
+          </div>
       ))}
     </Grid>
   )
