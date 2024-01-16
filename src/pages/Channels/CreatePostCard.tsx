@@ -79,8 +79,7 @@ const CreatePostCard = ({
       const requestData = {
         ...values,
         pollOptions,
-        channel: channelId,
-        is_closed: 1
+        channel: channelId
       }
 
       if (isEditing) {
@@ -206,7 +205,7 @@ function CreatePoll({
           <common.Input
             placeholder={`Option ${index + 1}`}
             value={option}
-            onChange={(e) => {
+            customHandleChange={(e) => {
               const updatedOptions = [...pollOptions]
 
               updatedOptions[index] = e.target.value

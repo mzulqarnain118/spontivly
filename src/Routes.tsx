@@ -37,10 +37,10 @@ const Routes = createBrowserRouter([
     path: 'auth',
     element: <Auth />
   },
-  {
+  { 
     // Wildcard route for 404
-    // path: '*',
-    // element: <Error errorCode="404" />
+    path: '*',
+    element: <Error errorCode="404" />
   }
 ])
 

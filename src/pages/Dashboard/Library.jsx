@@ -13,7 +13,6 @@ import { Controls as common } from '../../components/common'
 import { ToggleButtons } from '../../components/common/ToggleButtons'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, encodeParams } from '../../utils'
-import { BaseButton } from './../../components/common/BaseButton'
 import { CreateContent } from './CreateContent'
 import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
@@ -110,20 +109,20 @@ function Library() {
     } else {
       console.log(item)
     }
-    
+
     item.stopPropagation()
   }
 
   return (
     <>
       <Grid container alignItems="center">
-        <Grid item xs={6} sm={8} md={9}>
+        <Grid item xs={6} sm={8} md={9} lg={9}>
           <Typography variant="h5" align="left">
             Library
           </Typography>
         </Grid>
         {isModerator && (
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4} md={3} lg={3}>
             <common.MuiButton
               variant="contained"
               size="large"
