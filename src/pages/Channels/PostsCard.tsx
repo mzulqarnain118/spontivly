@@ -1,4 +1,5 @@
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
+import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ApiCall, handleOpenUrlInNewTab } from 'utils'
@@ -28,10 +29,11 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   const handleCloseUserMenu = (item, post) => {
     if (item === 'Pin Post') {
       pinPost(post)
-    }
-    else if (item === 'Edit Post') {
-      setEditPost(old=>!old)
+    } else if (item === 'Edit Post') {
+      setEditPost((old) => !old)
       setEditPostData(post)
+    } else if (item === 'Delete Post') {
+      // deletePost(post?.id)
     } else {
       console.log(item)
     }
@@ -43,6 +45,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     const likedPost = await ApiCall('posts/like/', null, 'POST', payload)
 
     if (likedPost) {
+      Toast('Post Liked Successfully')
       refetch()
     }
   }
@@ -54,6 +57,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', payload)
 
     if (pinedPost) {
+      Toast('Post Pinned Successfully')
       refetch()
     }
   }
@@ -62,6 +66,14 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     const unLikedPost = await ApiCall(`posts/like/${post?.id}`, null, 'DELETE')
 
     if (unLikedPost) {
+      refetch()
+    }
+  }
+  const deletePost = async (postId) => {
+    const deletedPost = await ApiCall(`posts/${postId}`, null, 'DELETE')
+
+    if (deletedPost) {
+      Toast('Post Deleted Successfully')
       refetch()
     }
   }
@@ -84,7 +96,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? post?.is_pin ? moreOptions :moreOptions : moreOptions.slice(3)}
+              items={isModerator ? (post?.is_pin ? moreOptions : moreOptions) : moreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
@@ -152,8 +164,6 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
           </Grid>
         )}
       </CardContent>
-
-
     </Card>
   )
 }
