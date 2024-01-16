@@ -7,6 +7,7 @@ import './App.css'
 import './styles/flexboxClasses.css'
 
 const App = () => {
+  
   return (
     <>
       <Suspense fallback={<common.Spinner isOverlay={true} />}>

@@ -20,7 +20,7 @@ const CreatePostCard = ({
   isEditing = false, // new prop to indicate whether it's for editing or adding
   postDataToEdit // new prop to provide data for editing
 }) => {
-  const isFile = ['mp4', 'mov', 'avi', '.pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
+  const isFile = ['mp4', 'mov', 'avi', 'pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState<string>('')
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
@@ -36,7 +36,7 @@ const CreatePostCard = ({
         }
 
         setUploadFile({ file: postDataToEdit?.attachment })
-      } else {
+      } else if (postDataToEdit?.choices?.length !== 0) {
         setSelectedButton('poll')
         const existingPollOptions = postDataToEdit?.choices?.map((item) => item?.name)
 
@@ -56,7 +56,7 @@ const CreatePostCard = ({
 
     if (slug === 'poll') {
       setUploadFile({})
-      setPollOptions(() => [''])
+      setPollOptions(() => ['', ''])
     } else {
       setPollOptions(() => [])
       const file = event.target.files?.[0]
@@ -79,7 +79,8 @@ const CreatePostCard = ({
       const requestData = {
         ...values,
         pollOptions,
-        channel: channelId
+        channel: channelId,
+        is_closed: 1
       }
 
       if (isEditing) {

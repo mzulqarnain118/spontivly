@@ -1,13 +1,16 @@
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { Stack, Divider, Container, Typography } from '@mui/material'
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/logo-1.png'
 import { Controls as common } from '../../components/common'
 import { loginStyles } from '../../styles'
-import { ApiCall, encodeParams, setLocal } from '../../utils'
+import { ApiCall, encodeParams, setLocal, getLocal } from '../../utils'
 
 export function Auth() {
+  const navigate = useNavigate()
+  const isAuthenticated = getLocal('token')
+
   const [buttonText, setButtonText] = useState('Continue')
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -16,7 +19,11 @@ export function Auth() {
     email: ''
   })
 
-  const navigate = useNavigate()
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(-1)
+    }
+  }, [isAuthenticated])
   const classes = loginStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const onSubmit = useCallback(
@@ -66,7 +73,7 @@ export function Auth() {
     setAnchorEl(event.currentTarget)
   }
 
-  return (
+  return isAuthenticated ? null : (
     <Container maxWidth="sm" className={classes.container}>
       <common.Img src={logo} type="logo" />
       <common.FormHeading heading=" Welcome to The Avengers" />

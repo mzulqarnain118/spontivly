@@ -137,11 +137,11 @@ function Dashboard() {
             recommendationSize > 0 &&
             (!isBelowLG && (
               <Grid item xs={12} sm={recommendationSize}>
-                <RecommendationCard />
+              <RecommendationCard setRefetchUser={setRefetchUser} />
               </Grid>
             ))}
           <common.SidePanel openPanel={EventsPanel} setPanel={setEventsPanel} anchor="right" width="50vw">
-            <RecommendationCard />
+            <RecommendationCard setRefetchUser={setRefetchUser} />
           </common.SidePanel>
         </Grid>
       </Box>
@@ -154,7 +154,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} channelId={channelId} />}{' '}
+      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} channelId={channelId} />}{' '}
     </>
   )
 }

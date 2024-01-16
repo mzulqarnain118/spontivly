@@ -110,6 +110,8 @@ function Library() {
     } else {
       console.log(item)
     }
+    
+    item.stopPropagation()
   }
 
   return (

@@ -8,25 +8,7 @@ const libraryStyles = makeStyles((theme) => ({
     borderTop: `1px solid ${theme.palette.primary.lightest}`,
     [theme.breakpoints.down('md')]: {
       flexDirection: 'column'
-    },
-    '&:hover': {
-      // Styles to apply on hover
-      '& $hoverIcon': {
-        opacity: 1
-      }
     }
-  },
-  hoverIcon: {
-    opacity: 1, // Initially hidden
-    cursor: 'pointer',
-    display:"flex",
-    justifyContent: "flex-end",
-    alignItems:"center",
-    color:theme.palette.common.white,
-    backgroundColor: theme.palette.primary.main,
-    borderTopLeftRadius:"1rem",
-    borderTopRightRadius:"1rem",
-    // Add other styles for the icon
   },
   contentImg: {
     marginRight: '24px',
