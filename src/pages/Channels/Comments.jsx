@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
+import moment from 'moment'
 
 export function Comments({ refetchProfile, post_id }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
@@ -48,7 +49,6 @@ export function Comments({ refetchProfile, post_id }) {
     const addedComment = await ApiCall('posts/comment/', null, 'POST', payload)
 
     if (addedComment) {
-      Toast(`Comment Added Successfully`)
       refetchProfile()
       refetch()
       setComment('')
@@ -97,7 +97,10 @@ export function Comments({ refetchProfile, post_id }) {
                     <AddComment setComment={setEditComment} comment={editComment} postComment={patchComment} Send={Send} />
                   ) : (
                     <Box className="col-start gap-05">
-                      <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
+                      <Box className="row-start gap-05">
+                        <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
+                        <span>about {moment(comment?.created_at).format('DD')} hours ago</span>
+                      </Box>
                       <Typography>{comment?.comment}</Typography>
                     </Box>
                   )}

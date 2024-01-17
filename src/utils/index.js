@@ -76,6 +76,10 @@ export const handleOpenUrlInNewTab = (url, type, navigate) => {
   }
 }
 
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 export {
   ApiCall,
   getLocal,
@@ -88,5 +92,6 @@ export {
   debounce,
   generatePayload,
   reduceArrayByKeys,
-  handleShowYoutubeThumbnail
+  handleShowYoutubeThumbnail,
+  capitalizeFirstLetter
 }

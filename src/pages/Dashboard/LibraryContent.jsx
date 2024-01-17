@@ -41,7 +41,7 @@ const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick }
           <common.MenuList items={moreOptions} onClose={(item) => handleMoreClick(item, library)} color="primary" icon="MoreHorizRounded" />
           <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
           <common.Img type="icon" src={typeIcons[library?.type]} />
-          <Chip label={library?.libraryStatus ?? 'DRAFT'} className={classes.libraryStatus} />
+          <Chip label={library?.status.toUpperCase() ?? 'DRAFT'} className={classes.libraryStatus} />
         </Grid>
       </Grid>
     </Box>
