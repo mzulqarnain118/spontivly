@@ -211,6 +211,7 @@ function CreatePoll({
               updatedOptions[index] = e.target.value
               setPollOptions(updatedOptions)
             }}
+            required
           />
           <common.MuiIcon name="Add" color="primary" onClick={handleAddOption} />
           {index > 1 && <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteOption(index)} />}

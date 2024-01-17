@@ -60,7 +60,8 @@ function Library() {
     sortBy: null,
     newLibraryAdded: false
   })
-
+  const [editContent, setEditContent] = useState(false)
+  const [editContentData, setEditContentData] = useState(null)
   async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
     const queryParams = {
       page: pageParam,
@@ -104,13 +105,16 @@ function Library() {
     if (item === 'Delete Content') {
       pinPost(post)
     } else if (item === 'Publish Content') {
-      setEditPost((old) => !old)
-      setEditPostData(post)
+      setEditContent((old) => !old)
+      setEditContentData(post)
+    } else if (item === 'Edit Content') {
+      openContentModal()
+      // setEditContent(true)
+      setEditContentData(post)
     } else {
       console.log(item)
     }
 
-    item.stopPropagation()
   }
 
   return (
@@ -194,12 +198,15 @@ function Library() {
           }
         </common.InfiniteQueryWrapper>
       </Card>
-      <CreateContent
+     {isContentDialogOpen && <CreateContent
         isOpen={isContentDialogOpen}
         onClose={closeContentModal}
         contentTypes={contentTypes}
         setLibraryContent={setLibraryContent}
-      />
+        isEditing={editContent}
+        setEditContent={setEditContent}
+        editContentData={editContentData}
+      />}
       <FilterLibrary
         isOpen={isFilterDialogOpen}
         onClose={closeFilterModal}

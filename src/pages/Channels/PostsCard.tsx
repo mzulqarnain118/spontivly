@@ -33,7 +33,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       setEditPost((old) => !old)
       setEditPostData(post)
     } else if (item === 'Delete Post') {
-      // deletePost(post?.id)
+      deletePost(post?.id)
     } else {
       console.log(item)
     }

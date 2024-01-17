@@ -8,7 +8,7 @@ import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
 
-const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditPost, isEditing = false, postDataToEdit }) => {
+const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditContent, isEditing = false, editContentData }) => {
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
@@ -16,7 +16,6 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
-
   async function fetchTags({ pageParam = 1 }, name) {
     const queryParams = {
       page: pageParam,
@@ -41,13 +40,13 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
     let payload = { ...formData, type, description, tags }
 
     if (isEditing) {
-      const editedPost = await ApiCall(`libraries/${postDataToEdit.id}/`, null, 'PATCH', {
+      const editedPost = await ApiCall(`libraries/${editContentData.id}/`, null, 'PATCH', {
         data: JSON.stringify(payload)
       })
 
       if (editedPost) {
         Toast('Library Content Edited Successfully')
-        setEditPost((old) => !old)
+        setEditContent((old) => !old)
       }
     } else {
       if (pdfFile) {
@@ -114,7 +113,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
       title="Create Content"
       subTitle="Fill out a few details to get started!"
     >
-      <common.Form submitLabel={`${isEditing ? 'Edit' : 'Save'}`} onSubmit={onSubmit} defaultValues={isEditing && { ...postDataToEdit }}>
+      <common.Form submitLabel={`${isEditing ? 'Edit' : 'Save'}`} onSubmit={onSubmit} defaultValues={isEditing && { ...editContentData }}>
         {({ errors, control }) => (
           <Card className={classes.contentCard}>
             <Grid container spacing={8}>
