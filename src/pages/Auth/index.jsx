@@ -57,7 +57,7 @@ export function Auth() {
             !onboarding && localStorage.clear()
             setLocal('token', token)
             setLocal('onboarding', onboarding)
-            navigate(onboarding ? '/' : '/onboarding')
+            navigate(onboarding ? '/channels' : '/onboarding')
           }
         }
       } catch (error) {

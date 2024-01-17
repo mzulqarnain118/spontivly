@@ -2,13 +2,14 @@ import { Box, Card, Divider, Grid, Typography } from '@mui/material'
 import { useCustomForm } from 'components/common/Form'
 import { Toast } from 'components/common/Toast/Toast'
 import qs from 'qs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
 
-const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditContent, isEditing = false, editContentData }) => {
+const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditContent, isEditing = false, editContentData = null }) => {
+  console.log(editContentData)
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
@@ -16,6 +17,15 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
+
+  useEffect(() => {
+    if (isEditing) {
+      setDescription(editContentData?.description ?? '')
+      setType(editContentData?.type ?? '')
+      setSelectedTags(editContentData?.tags ?? [])
+    }
+  }, [])
+
   async function fetchTags({ pageParam = 1 }, name) {
     const queryParams = {
       page: pageParam,
@@ -40,7 +50,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
     let payload = { ...formData, type, description, tags }
 
     if (isEditing) {
-      const editedPost = await ApiCall(`libraries/${editContentData.id}/`, null, 'PATCH', {
+      const editedPost = await ApiCall(`libraries/${editContentData?.id}/`, null, 'PATCH', {
         data: JSON.stringify(payload)
       })
 
@@ -129,7 +139,14 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
                 <common.ControlledInput name="title" control={control} errors={errors} placeholder="Title" />
                 <Box className="row-between gap-1">
                   <common.ControlledInput name="author" control={control} errors={errors} placeholder="Author" />
-                  <common.Select defaultValue="Select content type" options={contentTypes} valueUpdater={setType} value={type} required />
+                  <common.Select
+                    defaultValue="Select content type"
+                    options={contentTypes}
+                    valueUpdater={setType}
+                    value={type}
+                    required
+                    disabled={isEditing}
+                  />
                 </Box>
                 <common.Autocomplete
                   placeholder="Tags"

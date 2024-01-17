@@ -17,11 +17,16 @@ const Routes = createBrowserRouter([
     children: [
       {
         index: true,
+        path: '/:portal',
         element: <Dashboard />
       },
       {
         path: 'onboarding',
         element: <OnBoarding />
+      },
+      {
+        path: 'channels/:channelId',
+        element: <Dashboard />
       },
       {
         path: 'library/:id',

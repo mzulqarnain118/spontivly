@@ -124,7 +124,7 @@ function OnBoarding() {
 
     if (response) {
       setLocal('onboarding', true)
-      navigate('/')
+      navigate('/channels')
     }
   }
 

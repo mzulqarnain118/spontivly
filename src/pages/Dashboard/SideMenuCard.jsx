@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { ApiCall } from '../../utils'
+import { useParams } from 'react-router-dom'
+
 const moreOptions = ['Manage Members']
 
 function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup }) {
+    const { portal } = useParams()
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
     const role = currentUser?.user?.groups?.[0]?.name ?? ''
     const isModerator = role === 'Moderator'
-  const [channelLabel, setChannelLabel] = useState('')
+  const [channelLabel, setChannelLabel] = useState(portal)
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
 

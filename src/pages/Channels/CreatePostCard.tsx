@@ -1,6 +1,7 @@
 import { Card, CardContent, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { ApiCall, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
@@ -15,11 +16,11 @@ interface UploadFile {
 
 const CreatePostCard = ({
   refetch,
-  channelId,
   setEditPost,
   isEditing = false, // new prop to indicate whether it's for editing or adding
   postDataToEdit // new prop to provide data for editing
 }) => {
+  const { channelId } = useParams()
   const isFile = ['mp4', 'mov', 'avi', 'pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState<string>('')

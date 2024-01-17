@@ -2,12 +2,14 @@ import { Grid, Box } from '@mui/material'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams } from 'utils'
 import { Controls as common } from '../../components/common'
 import { CreatePostCard } from '../Channels/CreatePostCard'
 import { PostsCard } from '../Channels/PostsCard'
 
-function General({ channelId }) {
+function General() {
+  const { channelId } = useParams()
   const [editPost, setEditPost] = useState<boolean>(false)
   const [editPostData, setEditPostData] = useState<any>(null)
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
@@ -48,15 +50,9 @@ function General({ channelId }) {
         {role === 'Moderator' && (
           <Grid container item>
             <common.Popup openPopup={editPost} setPopup={setEditPost} title={'Edit Post'}>
-              <CreatePostCard
-                channelId={channelId}
-                refetch={refetch}
-                isEditing={true}
-                setEditPost={setEditPost}
-                postDataToEdit={editPostData}
-              />
+              <CreatePostCard refetch={refetch} isEditing={true} setEditPost={setEditPost} postDataToEdit={editPostData} />
             </common.Popup>
-            {!editPost && <CreatePostCard channelId={channelId} refetch={refetch} />}
+            {!editPost && <CreatePostCard refetch={refetch} />}
           </Grid>
         )}
         <Grid container item>
