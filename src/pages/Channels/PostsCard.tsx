@@ -45,7 +45,6 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     const likedPost = await ApiCall('posts/like/', null, 'POST', payload)
 
     if (likedPost) {
-      Toast('Post Liked Successfully')
       refetch()
     }
   }
@@ -57,7 +56,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', payload)
 
     if (pinedPost) {
-      Toast('Post Pinned Successfully')
+      Toast(`Post ${post?.is_pin ? 'Un-Pinned' : 'Pinned'} Successfully`)
       refetch()
     }
   }
