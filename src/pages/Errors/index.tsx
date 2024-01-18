@@ -51,7 +51,7 @@ const Error = ({ errorCode }) => {
           <Typography variant="body2">{errorDesc[errorCode]}</Typography>
         </BoxWrapper>
         <Img height="487" alt="error-illustration" src={errorImages[errorCode]} />
-        <Link to="/">
+        <Link to="/channels">
           <common.MuiButton variant="contained" label="Back to Home" size="large" startIcon={<ArrowBackIosNew />} />
         </Link>
       </Box>

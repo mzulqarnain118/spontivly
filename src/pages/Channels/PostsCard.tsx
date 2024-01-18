@@ -12,7 +12,7 @@ import { channelStyles } from './channelStyles'
 import { Comments } from './Comments'
 import { DisplayPoll } from './DisplayPoll'
 
-const moreOptions = ['Edit Post', 'Delete Post', 'Pin Post', 'Add To Favorites']
+const moreOptions = ['Edit Post', 'Delete Post']
 
 interface RootState {
   dashboard: {
@@ -21,21 +21,29 @@ interface RootState {
 }
 
 function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
+  const filteredMoreOptions = [
+    post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
+    ...moreOptions,
+    post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
+  ]
   const { isModerator } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
   const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const [addComment, setAddComment] = useState<any>(null)
+
   const handleCloseUserMenu = (item, post) => {
-    if (item === 'Pin Post') {
+    if (['Pin Post', 'Un-Pin Post'].includes(item)) {
       pinPost(post)
     } else if (item === 'Edit Post') {
       setEditPost((old) => !old)
       setEditPostData(post)
     } else if (item === 'Delete Post') {
       deletePost(post?.id)
-    } else {
-      console.log(item)
+    } else if (item === 'Add To Favorites') {
+      favPost(post?.id)
+    } else if (item === 'Remove from Favorites') {
+      UnFavPost(post?.id)
     }
   }
   const likePost = async () => {
@@ -60,6 +68,26 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       refetch()
     }
   }
+  const favPost = async (post_id) => {
+    const payload = {
+      post_id
+    }
+
+    const favoritePost = await ApiCall(`posts/favorite/`, null, 'POST', payload)
+
+    if (favoritePost) {
+      Toast(`Post Added to Favorites Successfully`)
+      refetch()
+    }
+  }
+  const UnFavPost = async (post_id) => {
+    const unFavoritePost = await ApiCall(`posts/favorite/${post_id}`, null, 'DELETE')
+
+    if (unFavoritePost) {
+      Toast(`Post Rmoved from Favorites Successfully`)
+      refetch()
+    }
+  }
 
   const unLikePost = async () => {
     const unLikedPost = await ApiCall(`posts/like/${post?.id}`, null, 'DELETE')
@@ -81,7 +109,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     <Card className={`${channelClasses.container} mb-1`}>
       <CardContent className="col-start gap-05">
         <Grid container item justifyContent="space-between">
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <Box className="row gap-1">
               <Avatar src={post?.created_by?.profile?.profile_pic ?? profile} />
               <Box className="col-start gap-05">
@@ -91,11 +119,14 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
             </Box>
           </Grid>
           <Grid item xs={1}>
+            {post?.my_favorite && <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => UnFavPost(post?.id)} />}
+          </Grid>
+          <Grid item xs={1}>
             {post?.is_pin && <common.MuiIcon name="PushPin" onClick={() => isModerator && handleCloseUserMenu('Pin Post', post)} />}
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? (post?.is_pin ? moreOptions : moreOptions) : moreOptions.slice(3)}
+              items={isModerator ? filteredMoreOptions : moreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
@@ -153,13 +184,13 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
               sx={{ color: 'primary.main' }}
               onClick={() => setAddComment(addComment ? null : post?.id)}
             >
-              {post?.comments} Comment
+              {post?.comments ?? 0} Comment
             </Typography>
           </Grid>
         </Grid>
         {addComment === post?.id && (
           <Grid container item spacing={1}>
-            <Comments refetchProfile={refetch} post_id={addComment} />
+            <Comments refetchPosts={refetch} post_id={addComment} />
           </Grid>
         )}
       </CardContent>

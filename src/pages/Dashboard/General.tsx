@@ -68,7 +68,7 @@ function General() {
           >
             {(posts) =>
               posts?.map((post) => (
-                <PostsCard key={post?.id} setEditPost={setEditPost} setEditPostData={setEditPostData} post={post} refetch={refetch} />
+                <PostsCard key={post?.title} setEditPost={setEditPost} setEditPostData={setEditPostData} post={post} refetch={refetch} />
               ))
             }
           </common.InfiniteQueryWrapper>

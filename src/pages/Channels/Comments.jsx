@@ -1,14 +1,14 @@
 import { Avatar, Grid, Box, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
+import moment from 'moment'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
-import moment from 'moment'
 
-export function Comments({ refetchProfile, post_id }) {
+export function Comments({ refetchPosts, post_id }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const [editCommentData, setEditCommentData] = useState(null)
   const [editComment, setEditComment] = useState('')
@@ -49,7 +49,7 @@ export function Comments({ refetchProfile, post_id }) {
     const addedComment = await ApiCall('posts/comment/', null, 'POST', payload)
 
     if (addedComment) {
-      refetchProfile()
+      refetchPosts()
       refetch()
       setComment('')
     }
@@ -61,7 +61,7 @@ export function Comments({ refetchProfile, post_id }) {
       Toast(`Comment Edited Successfully`)
       setEditComment('')
       setEditCommentData(null)
-      refetchProfile()
+      refetchPosts()
       refetch()
     }
   }
@@ -71,6 +71,7 @@ export function Comments({ refetchProfile, post_id }) {
     if (deletedComment) {
       Toast('Comment Deleted Successfully')
       refetch()
+      refetchPosts()
     }
   }
 
@@ -86,10 +87,11 @@ export function Comments({ refetchProfile, post_id }) {
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
         isFetching={isFetching}
+        noDataText="No Comments Available"
       >
         {(comments) =>
           comments?.map((comment) => (
-            <Grid key={comment?.id} container item justifyContent="space-between" alignItems="center">
+            <Grid key={comment?.comment} container item justifyContent="space-between" alignItems="center">
               <Grid item xs={11}>
                 <Box className="row gap-1">
                   <Avatar src={comment?.commented_by?.profile?.profile_pic} />
@@ -99,7 +101,7 @@ export function Comments({ refetchProfile, post_id }) {
                     <Box className="col-start gap-05">
                       <Box className="row-start gap-05">
                         <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
-                        <span>about {moment(comment?.created_at).format('DD')} hours ago</span>
+                        <span>about {moment(comment?.created_at).format('HH')} hours ago</span>
                       </Box>
                       <Typography>{comment?.comment}</Typography>
                     </Box>

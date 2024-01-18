@@ -6,8 +6,10 @@ import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ memberPopup, setMemberPopup }) {
-  const { channelId } = useParams()
+function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
+  const params = useParams()
+  const channelId = params?.channelId ?? selectedChannelId
+
   const [selectedMembers, setSelectedMembers] = useState([])
   const [searchMemberText, setSearchMemberText] = useState('')
 

@@ -4,6 +4,7 @@ import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import doc from '../../assets/icons/doc.png'
 import filter from '../../assets/icons/filter.svg'
 import link from '../../assets/icons/link.png'
@@ -42,7 +43,10 @@ const contentTypes = [
   }
 ]
 
-const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
+const sortByData = [
+  { id: 'Most Recent', title: 'Most Recent' },
+  { id: 'Save For Later', title: 'Save For Later' }
+]
 
 export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
 const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content', 'Save For Later']
@@ -54,6 +58,7 @@ const updateLibraryContent = {
 }
 
 function Library() {
+  const navigate = useNavigate()
   const { isModerator } = useSelector((state) => state?.dashboard)
   const filteredMoreOptions = isModerator ? moreOptions : moreOptions.slice(4)
   const [view, setView] = useState('list')
@@ -96,6 +101,11 @@ function Library() {
   const classes = dashboardStyles()
   const openContentModal = () => {
     setContentDialogOpen(true)
+
+    if (editContent) {
+      setEditContent(false)
+      setEditContentData(null)
+    }
   }
   const closeContentModal = () => {
     setContentDialogOpen(false)
@@ -123,8 +133,11 @@ function Library() {
     } else if (item == 'Edit Content') {
       setEditContent(true)
       setEditContentData(content)
-      openContentModal()
-    } 
+     setContentDialogOpen(true)
+    }
+  }
+  const openLibraryInfo = (library) => {
+    navigate(`/library/${library.id}`, { state: { library } })
   }
 
   return (
@@ -196,6 +209,7 @@ function Library() {
                 typeIcons={typeIcons}
                 moreOptions={filteredMoreOptions}
                 handleMoreClick={handleMoreClick}
+                openLibraryInfo={openLibraryInfo}
               />
             ) : (
               <ModuleView
@@ -203,6 +217,7 @@ function Library() {
                 typeIcons={typeIcons}
                 moreOptions={filteredMoreOptions}
                 handleMoreClick={handleMoreClick}
+                openLibraryInfo={openLibraryInfo}
               />
             )
           }
@@ -217,6 +232,7 @@ function Library() {
           isEditing={editContent}
           setEditContent={setEditContent}
           editContentData={editContentData}
+          refetchLibraries={refetch}
         />
       )}
       {isFilterDialogOpen && (

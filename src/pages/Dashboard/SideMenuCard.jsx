@@ -7,11 +7,11 @@ import { useParams } from 'react-router-dom'
 
 const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup }) {
-    const { portal } = useParams()
+function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup, setSelectedChannelId }) {
+  const { portal } = useParams()
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
-    const role = currentUser?.user?.groups?.[0]?.name ?? ''
-    const isModerator = role === 'Moderator'
+  const role = currentUser?.user?.groups?.[0]?.name ?? ''
+  const isModerator = role === 'Moderator'
   const [channelLabel, setChannelLabel] = useState(portal)
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
@@ -33,9 +33,10 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
     setPanel && setPanel(false)
   }
 
-  const handleCloseUserMenu = (item) => {
+  const handleCloseUserMenu = (item, channelId) => {
     if (item === 'Manage Members') {
       setMemberPopup((old) => !old)
+      setSelectedChannelId(channelId)
     }
   }
 
@@ -63,7 +64,12 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
                 </Grid>
                 {isModerator && (
                   <Grid item sx={1}>
-                    <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreVert" tooltip="Manage Channels" />
+                    <common.MenuList
+                      items={moreOptions}
+                      onClose={(item) => handleCloseUserMenu(item, channal?.id)}
+                      icon="MoreVert"
+                      tooltip="Manage Channels"
+                    />
                   </Grid>
                 )}
               </dd>

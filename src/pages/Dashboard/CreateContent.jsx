@@ -8,8 +8,16 @@ import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
 
-const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEditContent, isEditing = false, editContentData = null }) => {
-  console.log(editContentData)
+const CreateContent = ({
+  isOpen,
+  onClose,
+  setLibraryContent,
+  contentTypes,
+  setEditContent,
+  isEditing = false,
+  editContentData = null,
+  refetchLibraries
+}) => {
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
@@ -45,7 +53,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
     }
   )
 
-  const onSubmit = async (formData) => {
+  const handleContentSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ['id'])
     let payload = { ...formData, type, description, tags }
 
@@ -55,7 +63,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
       })
 
       if (editedPost) {
-        Toast('Library Content Edited Successfully')
+        Toast('Library Content Updated Successfully')
         setEditContent((old) => !old)
       }
     } else {
@@ -87,6 +95,7 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
     setType('')
     setSelectedTags([])
     setDescription('')
+    refetchLibraries()
     onClose()
   }
 
@@ -120,10 +129,21 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes, setEd
         setDescription('')
       }}
       width={'lg'}
-      title="Create Content"
+      title={`${isEditing ? 'Update' : 'Create'} Content`}
       subTitle="Fill out a few details to get started!"
     >
-      <common.Form submitLabel={`${isEditing ? 'Edit' : 'Save'}`} onSubmit={onSubmit} defaultValues={isEditing && { ...editContentData }}>
+      <common.Form
+        submitLabel={`${isEditing ? 'Update' : 'Add'}`}
+        onSubmit={handleContentSubmit}
+        defaultValues={
+          isEditing && {
+            author: editContentData?.author,
+            title: editContentData?.title,
+            url: editContentData?.url,
+            summary: editContentData?.summary
+          }
+        }
+      >
         {({ errors, control }) => (
           <Card className={classes.contentCard}>
             <Grid container spacing={8}>

@@ -73,10 +73,6 @@ function Dashboard() {
       if (isChannelsRoute) {
         navigate(`/${portal}/${currentUserData?.[0]?.channels?.[0]?.id}`)
       }
-      // else {
-      //   navigate(`/${portal}`)
-
-      // }
 
       dispatch(setCurrentUser(currentUserData))
     }
@@ -88,10 +84,13 @@ function Dashboard() {
   const [EventsPanel, setEventsPanel] = useState(false)
   const [popup, setPopup] = useState(false)
   const [memberPopup, setMemberPopup] = useState(false)
+  const [selectedChannelId, setSelectedChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
     if (newPortal === 'createChannel') {
       setPopup(true)
+
+      return
     } else if (newPortal === 'channels') {
       navigate(`/${newPortal}/${channelId}`)
 
@@ -131,6 +130,7 @@ function Dashboard() {
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
                 channels={channels}
+                setSelectedChannelId={setSelectedChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </Grid>
@@ -141,6 +141,7 @@ function Dashboard() {
                 setMemberPopup={setMemberPopup}
                 channels={channels}
                 setPanel={setPanel}
+                setSelectedChannelId={setSelectedChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
@@ -167,7 +168,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} />}{' '}
+      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} selectedChannelId={selectedChannelId} />}{' '}
     </>
   )
 }
