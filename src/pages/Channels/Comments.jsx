@@ -33,7 +33,9 @@ export function Comments({ refetchPosts, post_id }) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
+    isLoading,
+    isSuccess,
+    isError
   } = useInfiniteQuery(
     ['posts/comment', post_id], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
@@ -80,7 +82,9 @@ export function Comments({ refetchPosts, post_id }) {
       <AddComment setComment={setComment} comment={comment} postComment={postComment} Send={Send} />
 
       <common.InfiniteQueryWrapper
-        status={status}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
         data={fetchedComments}
         error={error}
         fetchNextPage={fetchNextPage}

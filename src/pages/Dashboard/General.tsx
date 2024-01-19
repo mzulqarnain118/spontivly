@@ -10,6 +10,7 @@ import { PostsCard } from '../Channels/PostsCard'
 
 function General() {
   const { channelId } = useParams()
+
   const [editPost, setEditPost] = useState<boolean>(false)
   const [editPostData, setEditPostData] = useState<any>(null)
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
@@ -34,13 +35,15 @@ function General() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
+    isLoading,
+    isSuccess,
+    isError
   } = useInfiniteQuery(
     ['posts', channelId], // Dynamic query key
     ({ pageParam = 1 }) => fetchPosts({ pageParam }),
     {
       getNextPageParam: (lastPage) => lastPage?.next,
-      enabled: !!channelId // Enable the query only when channelId is truthy
+      enabled: !!channelId && channelId !== 'undefined' // Enable the query only when channelId is truthy
     }
   )
 
@@ -55,24 +58,28 @@ function General() {
             {!editPost && <CreatePostCard refetch={refetch} />}
           </Grid>
         )}
-        <Grid container item>
-          <common.InfiniteQueryWrapper
-            status={status}
-            data={fetchedPosts}
-            error={error}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            isFetching={isFetching}
-            noDataText="No Posts Available"
-          >
-            {(posts) =>
-              posts?.map((post) => (
-                <PostsCard key={post?.title} setEditPost={setEditPost} setEditPostData={setEditPostData} post={post} refetch={refetch} />
-              ))
-            }
-          </common.InfiniteQueryWrapper>
-        </Grid>
+        {fetchedPosts !== 'undefined' && (
+          <Grid container item>
+            <common.InfiniteQueryWrapper
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+              isError={isError}
+              data={fetchedPosts}
+              error={error}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              isFetching={isFetching}
+              noDataText="No Posts Available"
+            >
+              {(posts) =>
+                posts?.map((post) => (
+                  <PostsCard key={post?.title} setEditPost={setEditPost} setEditPostData={setEditPostData} post={post} refetch={refetch} />
+                ))
+              }
+            </common.InfiniteQueryWrapper>
+          </Grid>
+        )}
       </Grid>
     </Box>
   )

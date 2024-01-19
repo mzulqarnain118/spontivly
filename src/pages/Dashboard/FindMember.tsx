@@ -64,7 +64,9 @@ function FindMember({ setRefetchUser }) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
+    isLoading,
+    isSuccess,
+    isError
   } = useInfiniteQuery(
     ['profile', findMember.member, findMember.sortBy], // Dynamic query key
     ({ pageParam = 1 }) => fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
@@ -125,7 +127,9 @@ function FindMember({ setRefetchUser }) {
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper
-          status={status}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
           data={members}
           error={error}
           fetchNextPage={fetchNextPage}

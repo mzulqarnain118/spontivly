@@ -3,7 +3,9 @@ import { memo, useMemo, useEffect } from 'react'
 import { Controls as common } from '../common'
 
 function InfiniteQuery({
-  status,
+  isLoading,
+  isSuccess,
+  isError,
   error,
   data,
   noDataText,
@@ -30,15 +32,15 @@ function InfiniteQuery({
         textAlign: 'center'
       }}
     >
-      {status === 'loading' && <common.Spinner />}
-      {status === 'error' && (
+      {isLoading && <common.Spinner />}
+      {isError && (
         <div style={{ textAlign: 'center', padding: '20px' }}>
           <Typography variant="subtitle1" color="error">
             Error: {error?.message}
           </Typography>
         </div>
       )}
-      {status === 'success' && (
+      {isSuccess && (
         <>
           {flattenedResults.length === 0 ? <Typography>{noDataText ?? 'Records not found.'}</Typography> : children(flattenedResults)}
           {hasNextPage && (

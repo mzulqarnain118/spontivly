@@ -57,35 +57,27 @@ const CreateContent = ({
     const tags = reduceArrayByKeys(selectedTags, ['id'])
     let payload = { ...formData, type, description, tags }
 
-    if (isEditing) {
-      const editedPost = await ApiCall(`libraries/${editContentData?.id}/`, null, 'PATCH', {
-        data: JSON.stringify(payload)
-      })
+    const combinedFormData = new FormData()
 
-      if (editedPost) {
-        Toast('Library Content Updated Successfully')
-        setEditContent((old) => !old)
-      }
-    } else {
-      if (pdfFile) {
-        const combinedFormData = new FormData()
+    if (pdfFile) {
+      combinedFormData.append('file', pdfFile)
+      combinedFormData.append('data', JSON.stringify(payload))
+    }
 
-        combinedFormData.append('file', pdfFile)
-        combinedFormData.append('data', JSON.stringify(payload))
-        const addedContent = await ApiCall('libraries/', null, 'POST', combinedFormData)
+    const addedContent = await ApiCall(
+      isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
+      null,
+      isEditing ? 'PATCH' : 'POST',
+      pdfFile
+        ? combinedFormData
+        : {
+            data: JSON.stringify(payload)
+          }
+    )
 
-        if (addedContent) {
-          Toast('Library Content Added Successfully')
-        }
-      } else {
-        const addedContent = await ApiCall('libraries/', null, 'POST', {
-          data: JSON.stringify(payload)
-        })
-
-        if (addedContent) {
-          Toast('Library Content Added Successfully')
-        }
-      }
+    if (addedContent) {
+      setEditContent && setEditContent((old) => !old)
+      Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
     }
 
     setLibraryContent((prevState) => ({

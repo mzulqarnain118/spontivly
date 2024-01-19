@@ -1,7 +1,7 @@
-import {  FormControl, FormGroup, Grid, Link, Typography } from '@mui/material'
-import { Controls as common } from "../../components/common";
-import { useInfiniteQuery } from "react-query";
-import { ApiCall } from '../../utils';
+import { FormControl, FormGroup, Grid, Link, Typography } from '@mui/material'
+import { useInfiniteQuery } from 'react-query'
+import { Controls as common } from '../../components/common'
+import { ApiCall } from '../../utils'
 
 const FilterLibrary = ({
   isOpen,
@@ -14,47 +14,51 @@ const FilterLibrary = ({
   setApplyFilters
 }) => {
   const handleTagClick = (tagId) => {
-     if (selectedTags.includes(tagId)) {
-       setSelectedTags(selectedTags.filter((tag) => tag !== tagId));
-     } else {
-       setSelectedTags([...selectedTags, tagId]);
-     }
-  };
- const fetchTags = async ({ pageParam = 1 }) => {
-   return await ApiCall(`tags?page=${pageParam}`);
- };
- const {
-   data: libraryTags,
-   error,
-   fetchNextPage,
-   hasNextPage,
-   isFetching,
-   isFetchingNextPage,
-   status,
- } = useInfiniteQuery("tags", ({ pageParam = 1 }) => fetchTags({ pageParam }), {
-   getNextPageParam: (lastPage) => lastPage?.next,
- });
-  
+    if (selectedTags.includes(tagId)) {
+      setSelectedTags(selectedTags.filter((tag) => tag !== tagId))
+    } else {
+      setSelectedTags([...selectedTags, tagId])
+    }
+  }
+  const fetchTags = async ({ pageParam = 1 }) => {
+    return ApiCall(`tags?page=${pageParam}`)
+  }
+  const {
+    data: libraryTags,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isLoading,
+    isSuccess,
+    isError
+  } = useInfiniteQuery('tags', ({ pageParam = 1 }) => fetchTags({ pageParam }), {
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
+
   const handleClear = () => {
-    setSelectedTags([]);
-    setSelectedTypes([]);
-  };
+    setSelectedTags([])
+    setSelectedTypes([])
+  }
   const handleTypeSelection = (typeId) => {
     if (selectedTypes.includes(typeId)) {
-      setSelectedTypes(selectedTypes.filter((type) => type !== typeId));
+      setSelectedTypes(selectedTypes.filter((type) => type !== typeId))
     } else {
-      setSelectedTypes([...selectedTypes, typeId]);
+      setSelectedTypes([...selectedTypes, typeId])
     }
-  };
+  }
+
   return (
     <common.Popup
       openPopup={isOpen}
       setPopup={onClose}
-      width={"md"}
+      width={'md'}
       title="Filters"
       submitBtnLabel="Apply"
-      submitHandler={() => setApplyFilters(old=>!old)}
-      handleFormClear={handleClear}
+      submitHandler={() => setApplyFilters((old) => !old)}
+      handlePopupCancel={handleClear}
+      cancelBtnLabel="Clear all"
     >
       <div className="col-start gap-05">
         <Typography variant="h5" align="left">
@@ -78,7 +82,9 @@ const FilterLibrary = ({
         </Typography>
 
         <common.InfiniteQueryWrapper
-          status={status}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
           data={libraryTags}
           error={error}
           fetchNextPage={fetchNextPage}
@@ -111,7 +117,7 @@ const FilterLibrary = ({
         </common.InfiniteQueryWrapper>
       </div>
     </common.Popup>
-  );
-};
+  )
+}
 
-export {FilterLibrary}
+export { FilterLibrary }

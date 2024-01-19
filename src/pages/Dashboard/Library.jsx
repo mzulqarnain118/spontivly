@@ -53,7 +53,6 @@ const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPub
 const updateLibraryContent = {
   'Publish Content': 'published',
   'UnPublish Content': 'un-published',
-  'Save For Later': 'draft',
   'Delete Content': 'archived'
 }
 
@@ -90,13 +89,14 @@ function Library() {
     return ApiCall(apiUrl)
   }
 
-  const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
-    ['libraries', libraryContent, applyFilters], // Dynamic query key
-    ({ pageParam = 1 }) => fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+  const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } =
+    useInfiniteQuery(
+      ['libraries', libraryContent, applyFilters], // Dynamic query key
+      ({ pageParam = 1 }) => fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
+      {
+        getNextPageParam: (lastPage) => lastPage?.next
+      }
+    )
 
   const classes = dashboardStyles()
   const openContentModal = () => {
@@ -119,6 +119,15 @@ function Library() {
     setFilterDialogOpen(false)
   }
 
+  const contentSaveForLater = async (library_id) => {
+    const contentSaved = await ApiCall(`libraries/save/`, null, 'POST', { library_id })
+
+    if (contentSaved) {
+      Toast(`Content Saved for Later Successfully`)
+      refetch()
+    }
+  }
+
   const patchLibraryContent = async (contentId, status) => {
     const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { status })
 
@@ -130,10 +139,12 @@ function Library() {
   const handleMoreClick = (item, content) => {
     if (updateLibraryContent.hasOwnProperty(item)) {
       patchLibraryContent(content?.id, updateLibraryContent[item])
+    } else if (item === 'Save For Later') {
+      contentSaveForLater(content?.id)
     } else if (item == 'Edit Content') {
       setEditContent(true)
       setEditContentData(content)
-     setContentDialogOpen(true)
+      setContentDialogOpen(true)
     }
   }
   const openLibraryInfo = (library) => {
@@ -194,7 +205,9 @@ function Library() {
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper
-          status={status}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
           data={data}
           error={error}
           fetchNextPage={fetchNextPage}
