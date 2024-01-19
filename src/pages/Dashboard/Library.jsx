@@ -1,8 +1,10 @@
 import AddIcon from '@mui/icons-material/Add'
 import { Card, Grid, Typography } from '@mui/material'
+import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import doc from '../../assets/icons/doc.png'
 import filter from '../../assets/icons/filter.svg'
 import link from '../../assets/icons/link.png'
@@ -12,8 +14,7 @@ import youtubeText from '../../assets/icons/youtubeText.png'
 import { Controls as common } from '../../components/common'
 import { ToggleButtons } from '../../components/common/ToggleButtons'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
-import { ApiCall, encodeParams } from '../../utils'
-import { BaseButton } from './../../components/common/BaseButton'
+import { ApiCall, capitalizeFirstLetter, encodeParams } from '../../utils'
 import { CreateContent } from './CreateContent'
 import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
@@ -42,12 +43,22 @@ const contentTypes = [
   }
 ]
 
-const sortByData = [{ id: 'Most Recent', title: 'Most Recent' }]
+const sortByData = [
+  { id: 'Most Recent', title: 'Most Recent' },
+  { id: 'Save For Later', title: 'Save For Later' }
+]
 
-const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
 const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content', 'Save For Later']
+const updateLibraryContent = {
+  'Publish Content': 'published',
+  'UnPublish Content': 'un-published',
+  'Save For Later': 'draft',
+  'Delete Content': 'archived'
+}
 
 function Library() {
+  const navigate = useNavigate()
   const { isModerator } = useSelector((state) => state?.dashboard)
   const filteredMoreOptions = isModerator ? moreOptions : moreOptions.slice(4)
   const [view, setView] = useState('list')
@@ -61,6 +72,8 @@ function Library() {
     sortBy: null,
     newLibraryAdded: false
   })
+  const [editContent, setEditContent] = useState(false)
+  const [editContentData, setEditContentData] = useState(null)
 
   async function fetchLibraries({ pageParam = 1 }, types, tags, name, sortBy) {
     const queryParams = {
@@ -77,7 +90,7 @@ function Library() {
     return ApiCall(apiUrl)
   }
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
+  const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
     ['libraries', libraryContent, applyFilters], // Dynamic query key
     ({ pageParam = 1 }) => fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
     {
@@ -88,6 +101,11 @@ function Library() {
   const classes = dashboardStyles()
   const openContentModal = () => {
     setContentDialogOpen(true)
+
+    if (editContent) {
+      setEditContent(false)
+      setEditContentData(null)
+    }
   }
   const closeContentModal = () => {
     setContentDialogOpen(false)
@@ -101,27 +119,37 @@ function Library() {
     setFilterDialogOpen(false)
   }
 
-  const handleMoreClick = (item, content) => {
-    if (item === 'Delete Content') {
-      pinPost(post)
-    } else if (item === 'Publish Content') {
-      setEditPost((old) => !old)
-      setEditPostData(post)
-    } else {
-      console.log(item)
+  const patchLibraryContent = async (contentId, status) => {
+    const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { status })
+
+    if (editedContent) {
+      Toast(`Content ${capitalizeFirstLetter(status)} Successfully`)
+      refetch()
     }
+  }
+  const handleMoreClick = (item, content) => {
+    if (updateLibraryContent.hasOwnProperty(item)) {
+      patchLibraryContent(content?.id, updateLibraryContent[item])
+    } else if (item == 'Edit Content') {
+      setEditContent(true)
+      setEditContentData(content)
+     setContentDialogOpen(true)
+    }
+  }
+  const openLibraryInfo = (library) => {
+    navigate(`/library/${library.id}`, { state: { library } })
   }
 
   return (
     <>
       <Grid container alignItems="center">
-        <Grid item xs={6} sm={8} md={9}>
+        <Grid item xs={6} sm={8} md={9} lg={9}>
           <Typography variant="h5" align="left">
             Library
           </Typography>
         </Grid>
         {isModerator && (
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xs={6} sm={4} md={3} lg={3}>
             <common.MuiButton
               variant="contained"
               size="large"
@@ -181,6 +209,7 @@ function Library() {
                 typeIcons={typeIcons}
                 moreOptions={filteredMoreOptions}
                 handleMoreClick={handleMoreClick}
+                openLibraryInfo={openLibraryInfo}
               />
             ) : (
               <ModuleView
@@ -188,27 +217,36 @@ function Library() {
                 typeIcons={typeIcons}
                 moreOptions={filteredMoreOptions}
                 handleMoreClick={handleMoreClick}
+                openLibraryInfo={openLibraryInfo}
               />
             )
           }
         </common.InfiniteQueryWrapper>
       </Card>
-      <CreateContent
-        isOpen={isContentDialogOpen}
-        onClose={closeContentModal}
-        contentTypes={contentTypes}
-        setLibraryContent={setLibraryContent}
-      />
-      <FilterLibrary
-        isOpen={isFilterDialogOpen}
-        onClose={closeFilterModal}
-        contentTypes={contentTypes}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        selectedTypes={selectedTypes}
-        setSelectedTypes={setSelectedTypes}
-        setApplyFilters={setApplyFilters}
-      />
+      {isContentDialogOpen && (
+        <CreateContent
+          isOpen={isContentDialogOpen}
+          onClose={closeContentModal}
+          contentTypes={contentTypes}
+          setLibraryContent={setLibraryContent}
+          isEditing={editContent}
+          setEditContent={setEditContent}
+          editContentData={editContentData}
+          refetchLibraries={refetch}
+        />
+      )}
+      {isFilterDialogOpen && (
+        <FilterLibrary
+          isOpen={isFilterDialogOpen}
+          onClose={closeFilterModal}
+          contentTypes={contentTypes}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          selectedTypes={selectedTypes}
+          setSelectedTypes={setSelectedTypes}
+          setApplyFilters={setApplyFilters}
+        />
+      )}
     </>
   )
 }

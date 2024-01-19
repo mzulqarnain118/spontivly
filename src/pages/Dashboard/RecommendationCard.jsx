@@ -7,7 +7,7 @@ import { Controls as common } from '../../components/common'
 import { channelStyles } from '../Channels/channelStyles'
 import { Events } from './Events'
 
-function RecommendationCard() {
+function RecommendationCard({ setRefetchUser }) {
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
   const classes = channelStyles()

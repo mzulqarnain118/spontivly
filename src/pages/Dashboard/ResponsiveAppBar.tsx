@@ -6,9 +6,10 @@ import logo from '../../assets/images/Logo.png'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 
-const settings = ['Dashboard', 'Account', 'Settings', 'Logout']
+const settings = ["Events & Recommendations", 'Dashboard', 'Account', 'Settings', 'Logout']
 
-function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
+function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
+  const filteredSettings = isBelowLG ? settings : settings.slice(1);
   const navigate = useNavigate()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const user = currentUser?.user
@@ -23,6 +24,9 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
       window.location.href = '/auth'
     } else if (setting == 'Settings') {
       navigate('/settings')
+    } else if (setting == 'Dashboard') {
+    } else if (setting == 'Events & Recommendations') {
+      setEventsPanel(old=>!old)
     } else if (setting == 'Dashboard') {
       navigate('/')
     }
@@ -47,7 +51,7 @@ function ResponsiveAppBar({ setPanel, Panel, isBelowLG }) {
                     <Typography variant="lighterSubtitle2">{user?.email ?? ' '}</Typography>
                   </Box>
                   <common.MenuList
-                    items={settings}
+                    items={filteredSettings}
                     anchorEl={anchorElUser}
                     onClose={handleCloseUserMenu}
                     icon="ArrowDropDown"

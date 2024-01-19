@@ -55,7 +55,7 @@ export function Select(
         disabled={disabled}
         multiple={multiple}
         required={required}
-        error={required && !value}
+        error={Boolean(error)} // Use Boolean() to convert the error prop to a boolean
         displayEmpty
         {...other}
       >
@@ -71,7 +71,7 @@ export function Select(
           </MenuItem>
         ))}
       </MuiSelect>
-      {required && !value && <FormHelperText sx={{ color:"error.main" }}>{`${defaultValue} is required`}</FormHelperText>}
+      {Boolean(error) && <FormHelperText sx={{ color:"error.main" }}>{`${defaultValue} is required`}</FormHelperText>}
     </FormControl>
   )
 }

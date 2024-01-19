@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
-import React, { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { ApiCall, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
@@ -14,11 +14,37 @@ interface UploadFile {
   filePayload?: any
 }
 
-const CreatePostCard = ({ refetch, channelId }) => {
+const CreatePostCard = ({
+  refetch,
+  setEditPost,
+  isEditing = false, // new prop to indicate whether it's for editing or adding
+  postDataToEdit // new prop to provide data for editing
+}) => {
+  const { channelId } = useParams()
+  const isFile = ['mp4', 'mov', 'avi', 'pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
-  const [selectedButton, setSelectedButton] = useState(null)
+  const [selectedButton, setSelectedButton] = useState<string>('')
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
   const [pollOptions, setPollOptions] = useState<string[]>([])
+
+  useEffect(() => {
+    if (isEditing) {
+      if (postDataToEdit?.attachment) {
+        if (isFile) {
+          setSelectedButton('upload-file')
+        } else {
+          setSelectedButton('upload-image')
+        }
+
+        setUploadFile({ file: postDataToEdit?.attachment })
+      } else if (postDataToEdit?.choices?.length !== 0) {
+        setSelectedButton('poll')
+        const existingPollOptions = postDataToEdit?.choices?.map((item) => item?.name)
+
+        setPollOptions(existingPollOptions)
+      }
+    }
+  }, [])
 
   const buttons = [
     { label: 'Upload Image', icon: uploadImgIcon, slug: 'upload-image' },
@@ -31,8 +57,7 @@ const CreatePostCard = ({ refetch, channelId }) => {
 
     if (slug === 'poll') {
       setUploadFile({})
-      setPollOptions(() => [''])
-
+      setPollOptions(() => ['', ''])
     } else {
       setPollOptions(() => [])
       const file = event.target.files?.[0]
@@ -52,23 +77,45 @@ const CreatePostCard = ({ refetch, channelId }) => {
         combinedFormData.append('file', uploadFile.filePayload)
       }
 
-      combinedFormData.append('data', JSON.stringify({ ...values, pollOptions, channel: channelId }))
-      const createdPost = await ApiCall('posts/', null, 'POST', combinedFormData)
+      const requestData = {
+        ...values,
+        pollOptions,
+        channel: channelId
+      }
 
-      if (createdPost) {
-        setSelectedButton(null)
-        setUploadFile({})
-        setPollOptions(() => [''])
-        Toast('Post Created Successfully')
-        refetch()
+      if (isEditing) {
+        // If editing, append postId to data and use PATCH method
+        combinedFormData.append('data', JSON.stringify(requestData))
+        const editedPost = await ApiCall(`posts/${postDataToEdit.id}/`, null, 'PATCH', requestData)
+
+        if (editedPost) {
+          setSelectedButton(null)
+          setUploadFile({})
+          setPollOptions(() => [''])
+          Toast('Post Edited Successfully')
+          refetch()
+          setEditPost((old) => !old)
+        }
+      } else {
+        // If adding, use POST method
+        combinedFormData.append('data', JSON.stringify(requestData))
+        const createdPost = await ApiCall('posts/', null, 'POST', combinedFormData)
+
+        if (createdPost) {
+          setSelectedButton(null)
+          setUploadFile({})
+          setPollOptions(() => [''])
+          Toast('Post Created Successfully')
+          refetch()
+        }
       }
     } catch (error) {
       console.log('error', error)
     }
   }
 
-  const handleAddOption = () => {
-    setPollOptions([...pollOptions, ''])
+  const handleAddOption = (index) => {
+    setPollOptions((old) => [...old, ''])
   }
 
   const handleDeleteOption = (index) => {
@@ -81,7 +128,16 @@ const CreatePostCard = ({ refetch, channelId }) => {
   return (
     <Card className={classes.container}>
       <CardContent>
-        <common.Form onSubmit={createPostSubmit} submitLabel={`Create ${selectedButton === 'poll' ? 'Poll' : 'Post'}`}>
+        <common.Form
+          onSubmit={createPostSubmit}
+          submitLabel={`${isEditing ? 'Edit' : 'Create'} ${selectedButton === 'poll' ? 'Poll' : 'Post'}`}
+          defaultValues={
+            isEditing && {
+              title: postDataToEdit?.title,
+              description: postDataToEdit?.description
+            }
+          }
+        >
           {({ register, errors, control }) => (
             <>
               <common.ControlledInput name="title" control={control} errors={errors} placeholder="Title" />
@@ -150,12 +206,13 @@ function CreatePoll({
           <common.Input
             placeholder={`Option ${index + 1}`}
             value={option}
-            onChange={(e) => {
+            customHandleChange={(e) => {
               const updatedOptions = [...pollOptions]
 
               updatedOptions[index] = e.target.value
               setPollOptions(updatedOptions)
             }}
+            required
           />
           <common.MuiIcon name="Add" color="primary" onClick={handleAddOption} />
           {index > 1 && <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteOption(index)} />}

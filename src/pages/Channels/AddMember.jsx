@@ -2,10 +2,14 @@ import { Grid } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useQuery, useInfiniteQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ memberPopup, setMemberPopup, channelId }) {
+function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
+  const params = useParams()
+  const channelId = params?.channelId ?? selectedChannelId
+
   const [selectedMembers, setSelectedMembers] = useState([])
   const [searchMemberText, setSearchMemberText] = useState('')
 

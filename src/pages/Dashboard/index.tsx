@@ -5,6 +5,7 @@ import qs from 'qs'
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
 import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
@@ -23,7 +24,11 @@ const containerStyles = {
 }
 
 function Dashboard() {
+  let { portal } = useParams()
+
+  portal = portal ?? 'channels'
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
@@ -59,36 +64,46 @@ function Dashboard() {
   }
   const { data: currentUserData } = useQuery(['currentUser', refetchUser], fetchCurrentUser)
 
+  const location = useLocation()
+
   useEffect(() => {
     if (currentUserData) {
-      setChannelId(currentUserData?.[0]?.channels?.[0]?.id)
+      const isChannelsRoute = location.pathname.endsWith('/channels')
+
+      if (isChannelsRoute) {
+        navigate(`/${portal}/${currentUserData?.[0]?.channels?.[0]?.id}`)
+      }
+
       dispatch(setCurrentUser(currentUserData))
     }
-  }, [currentUserData])
+  }, [currentUserData, location])
 
   const theme = useTheme()
   const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
   const [Panel, setPanel] = useState(false)
+  const [EventsPanel, setEventsPanel] = useState(false)
   const [popup, setPopup] = useState(false)
   const [memberPopup, setMemberPopup] = useState(false)
-  const [channelId, setChannelId] = useState<number>()
-  const [portal, setPortal] = React.useState('channels')
+  const [selectedChannelId, setSelectedChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
     if (newPortal === 'createChannel') {
       setPopup(true)
-      setPortal((old) => old)
+
+      return
     } else if (newPortal === 'channels') {
-      setPortal(newPortal)
-      setChannelId(channelId)
-    } else {
-      setPortal(newPortal)
+      navigate(`/${newPortal}/${channelId}`)
+
+      return
     }
+
+    // Update the URL
+    navigate(`/${newPortal}`)
   }
 
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
-      return { sideMenuSize: 2.5, mainContentSize: 6.5, recommendationSize: 3 }
+      return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
     } else if (['find', 'library'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
     }
@@ -97,7 +112,7 @@ function Dashboard() {
   const { sideMenuSize, mainContentSize, recommendationSize }: any = getPortalSizes(portal)
 
   const portalComponents: any = {
-    channels: <General channelId={channelId} />,
+    channels: <General />,
     find: <FindMember setRefetchUser={setRefetchUser} />,
     library: <Library />
   }
@@ -106,7 +121,7 @@ function Dashboard() {
 
   return (
     <>
-      <ResponsiveAppBar setPanel={setPanel} Panel={Panel} isBelowLG={isBelowLG} />
+      <ResponsiveAppBar setPanel={setPanel} setEventsPanel={setEventsPanel} Panel={Panel} isBelowLG={isBelowLG} />
       <Box component="main" sx={containerStyles}>
         <Grid container spacing={2}>
           {!isBelowLG ? (
@@ -115,6 +130,7 @@ function Dashboard() {
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
                 channels={channels}
+                setSelectedChannelId={setSelectedChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </Grid>
@@ -125,6 +141,7 @@ function Dashboard() {
                 setMemberPopup={setMemberPopup}
                 channels={channels}
                 setPanel={setPanel}
+                setSelectedChannelId={setSelectedChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
@@ -132,19 +149,14 @@ function Dashboard() {
           <Grid item xs={12} sm={mainContentSize}>
             {mainContent}
           </Grid>
-          {
-            portal === 'channels' && recommendationSize > 0 && (
-              // (!isBelowLG ? (
-              <Grid item xs={12} sm={recommendationSize}>
-                <RecommendationCard />
-              </Grid>
-            )
-            // ) : (
-            //   <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="right">
-            //     <RecommendationCard />
-            //   </common.SidePanel>
-            // ))
-          }
+          {portal === 'channels' && recommendationSize > 0 && !isBelowLG && (
+            <Grid item xs={12} sm={recommendationSize}>
+              <RecommendationCard setRefetchUser={setRefetchUser} />
+            </Grid>
+          )}
+          <common.SidePanel openPanel={EventsPanel} setPanel={setEventsPanel} anchor="right" width="50vw">
+            <RecommendationCard setRefetchUser={setRefetchUser} />
+          </common.SidePanel>
         </Grid>
       </Box>
       <common.Popup
@@ -156,7 +168,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} channelId={channelId} />}{' '}
+      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} selectedChannelId={selectedChannelId} />}{' '}
     </>
   )
 }

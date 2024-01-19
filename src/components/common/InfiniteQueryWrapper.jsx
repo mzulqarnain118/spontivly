@@ -1,9 +1,25 @@
 import { Typography, Grid } from '@mui/material'
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useEffect } from 'react'
 import { Controls as common } from '../common'
 
-function InfiniteQuery({ status, error, data, noDataText, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching, children }) {
+function InfiniteQuery({
+  status,
+  error,
+  data,
+  noDataText,
+  fetchNextPage,
+  setCount,
+  hasNextPage,
+  isFetchingNextPage,
+  isFetching,
+  children
+}) {
   const flattenedResults = useMemo(() => data?.pages?.flatMap((page) => page?.results) || [], [data])
+  const totalCount = useMemo(() => data?.pages?.[0]?.count || 0, [data])
+
+  useEffect(() => {
+    setCount && setCount(totalCount)
+  }, [totalCount])
 
   return (
     <Grid

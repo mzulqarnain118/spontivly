@@ -4,26 +4,16 @@ import youtube from '../../assets/icons/youtube.png'
 import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
-import { handleShowYoutubeThumbnail, handleOpenUrlInNewTab } from '../../utils'
+import { handleShowYoutubeThumbnail } from '../../utils'
 
-const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) => {
+const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, openLibraryInfo }) => {
   const classes = libraryStyles()
   const moduleTypesIcons = { ...typeIcons, youtube }
 
   return (
-    <Grid container spacing={2} padding={'0.75rem 1.5rem'}>
+    <Grid container spacing={5} padding={'0.75rem 1.5rem'}>
       {libraryData?.map((library) => (
-        <Grid
-          key={library.id}
-          item
-          xs={12}
-          sm={6}
-          md={4}
-          lg={4}
-          mt={'1.25rem'}
-          className="cursor"
-          onClick={() => handleOpenUrlInNewTab(library.url)}
-        >
+        <Grid key={library.id} item xs={12} sm={6} md={4} lg={4} mt={'1.25rem'} className="cursor" onClick={() => openLibraryInfo(library)}>
           <Box>
             <div className="relative-full-width">
               <common.Img
@@ -57,6 +47,12 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick }) =>
                 </Grid>
                 <Grid item xs={1}>
                   <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
+                  <common.MenuList
+                    items={moreOptions}
+                    onClose={(e) => handleMoreClick(e, library)}
+                    icon="MoreVert"
+                    tooltip="Open settings"
+                  />
                 </Grid>
               </Grid>
             </Box>

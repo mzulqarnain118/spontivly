@@ -1,20 +1,38 @@
 import { Box, Card, Divider, Grid, Typography } from '@mui/material'
+import { useCustomForm } from 'components/common/Form'
+import { Toast } from 'components/common/Toast/Toast'
 import qs from 'qs'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useState, useEffect } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
 
-const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => {
+const CreateContent = ({
+  isOpen,
+  onClose,
+  setLibraryContent,
+  contentTypes,
+  setEditContent,
+  isEditing = false,
+  editContentData = null,
+  refetchLibraries
+}) => {
   const classes = dashboardStyles()
-  const { register, handleSubmit, reset } = useForm()
+  const { reset } = useCustomForm()
   const [type, setType] = useState('')
   const [description, setDescription] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
+
+  useEffect(() => {
+    if (isEditing) {
+      setDescription(editContentData?.description ?? '')
+      setType(editContentData?.type ?? '')
+      setSelectedTags(editContentData?.tags ?? [])
+    }
+  }, [])
 
   async function fetchTags({ pageParam = 1 }, name) {
     const queryParams = {
@@ -35,20 +53,39 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
     }
   )
 
-  const onSubmit = async (formData) => {
+  const handleContentSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ['id'])
     let payload = { ...formData, type, description, tags }
 
-    if (pdfFile) {
-      const combinedFormData = new FormData()
-
-      combinedFormData.append('file', pdfFile)
-      combinedFormData.append('data', JSON.stringify(payload))
-      await ApiCall('libraries/', null, 'POST', combinedFormData)
-    } else {
-      await ApiCall('libraries/', null, 'POST', {
+    if (isEditing) {
+      const editedPost = await ApiCall(`libraries/${editContentData?.id}/`, null, 'PATCH', {
         data: JSON.stringify(payload)
       })
+
+      if (editedPost) {
+        Toast('Library Content Updated Successfully')
+        setEditContent((old) => !old)
+      }
+    } else {
+      if (pdfFile) {
+        const combinedFormData = new FormData()
+
+        combinedFormData.append('file', pdfFile)
+        combinedFormData.append('data', JSON.stringify(payload))
+        const addedContent = await ApiCall('libraries/', null, 'POST', combinedFormData)
+
+        if (addedContent) {
+          Toast('Library Content Added Successfully')
+        }
+      } else {
+        const addedContent = await ApiCall('libraries/', null, 'POST', {
+          data: JSON.stringify(payload)
+        })
+
+        if (addedContent) {
+          Toast('Library Content Added Successfully')
+        }
+      }
     }
 
     setLibraryContent((prevState) => ({
@@ -58,6 +95,8 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
     setType('')
     setSelectedTags([])
     setDescription('')
+    refetchLibraries()
+    onClose()
   }
 
   const handleTagChange = async (selectedValues) => {
@@ -90,13 +129,23 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
         setDescription('')
       }}
       width={'lg'}
-      title="Create Content"
+      title={`${isEditing ? 'Update' : 'Create'} Content`}
       subTitle="Fill out a few details to get started!"
     >
-      <common.Form submitLabel="Save" onSubmit={onSubmit}>
-        {({ register, errors, control, getValues }) => (
+      <common.Form
+        submitLabel={`${isEditing ? 'Update' : 'Add'}`}
+        onSubmit={handleContentSubmit}
+        defaultValues={
+          isEditing && {
+            author: editContentData?.author,
+            title: editContentData?.title,
+            url: editContentData?.url,
+            summary: editContentData?.summary
+          }
+        }
+      >
+        {({ errors, control }) => (
           <Card className={classes.contentCard}>
-            {console.log(getValues(), errors)}
             <Grid container spacing={8}>
               <Grid item xs={12} md={4}>
                 <Typography variant="h5" align="left">
@@ -110,14 +159,14 @@ const CreateContent = ({ isOpen, onClose, setLibraryContent, contentTypes }) => 
                 <common.ControlledInput name="title" control={control} errors={errors} placeholder="Title" />
                 <Box className="row-between gap-1">
                   <common.ControlledInput name="author" control={control} errors={errors} placeholder="Author" />
-                  {/* <common.ControlledInput
-                    name="type"
-                    control={control}
-                    errors={errors}
-                    component={ */}
-                  <common.Select defaultValue="Select content type" options={contentTypes} valueUpdater={setType} value={type} required />
-                  {/* }
-                  /> */}
+                  <common.Select
+                    defaultValue="Select content type"
+                    options={contentTypes}
+                    valueUpdater={setType}
+                    value={type}
+                    required
+                    disabled={isEditing}
+                  />
                 </Box>
                 <common.Autocomplete
                   placeholder="Tags"

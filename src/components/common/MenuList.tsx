@@ -7,20 +7,21 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
 
   const handleOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
+    event.stopPropagation()
   }
 
-  const handleClose = (item: any) => {
+  const handleClose = (item: any, event: any) => {
     onClose(item)
     setAnchorEl(null)
+    event.stopPropagation()
   }
 
   return (
     <>
-      {tooltip && (
         <Tooltip title={tooltip}>
           <MuiIcon name={icon} onClick={handleOpen} color={color} />
         </Tooltip>
-      )}
+      
       <Menu
         sx={{
           mt: '45px',
@@ -43,11 +44,11 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
       >
         {items.map((item: any) =>
           typeof item === 'string' ? (
-            <MenuItem key={item} onClick={() => handleClose(item)}>
+            <MenuItem key={item} onClick={(event) => handleClose(item,event)}>
               <Typography textAlign="center">{item}</Typography>
             </MenuItem>
           ) : (
-            <MenuItem key={item?.label} onClick={() => handleClose(item?.label)}>
+              <MenuItem key={item?.label} onClick={(event) => handleClose(item?.label, event)}>
               <MuiIcon name={item?.icon} />
               <Typography textAlign="center">{item?.label}</Typography>
             </MenuItem>
