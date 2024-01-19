@@ -139,7 +139,7 @@ export function Auth() {
             By clicking <common.Link to="#" label="Create account" />
           </>
         )}
-        I agree to Tampa Bay Wave’s <common.Link to="https://spontivly.com/terms-of-service" label="TOS" />
+        I agree to Spontively's <common.Link to="https://spontivly.com/terms-of-service" label="TOS" />
         and <common.Link to="https://spontivly.com/privacy-policy" label="Privacy Policy" />
       </Typography>
     </Container>

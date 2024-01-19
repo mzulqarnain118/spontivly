@@ -129,13 +129,14 @@ function Library() {
   }
 
   const patchLibraryContent = async (contentId, status) => {
-    const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { status })
+    const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { data: JSON.stringify({status}) })
 
     if (editedContent) {
       Toast(`Content ${capitalizeFirstLetter(status)} Successfully`)
       refetch()
     }
   }
+
   const handleMoreClick = (item, content) => {
     if (updateLibraryContent.hasOwnProperty(item)) {
       patchLibraryContent(content?.id, updateLibraryContent[item])
