@@ -126,7 +126,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? filteredMoreOptions : moreOptions.slice(3)}
+              items={isModerator ? filteredMoreOptions : filteredMoreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
