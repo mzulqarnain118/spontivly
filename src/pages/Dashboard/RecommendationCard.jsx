@@ -1,6 +1,6 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography, Divider } from '@mui/material'
-import React, { Fragment } from 'react'
+import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import { Controls as common } from '../../components/common'
@@ -31,12 +31,13 @@ function RecommendationCard({ setRefetchUser }) {
 
       if (response) {
         setRefetchUser((old) => !old)
+        refetch()
       }
     } catch (error) {
       console.log('error', error)
     }
   }
-  const { data: recommendations, isLoading } = useQuery({ queryKey: 'profile/', queryFn: () => fetchRecommendations() })
+  const { data: recommendations, refetch, isLoading } = useQuery({ queryKey: 'profile/', queryFn: () => fetchRecommendations() })
 
   return (
     <Grid container spacing={2}>

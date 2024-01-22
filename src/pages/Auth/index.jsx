@@ -92,7 +92,7 @@ export function Auth() {
             required
           />
         )}
-        <common.Link to="/forgot-password" label="Forgot Password?" style={{textAlign:"end"}} />
+        <common.Link to="#" label="Forgot Password?" style={{textAlign:"end"}} />
         <common.MuiButton
           type="submit"
           label={buttonText}

@@ -23,7 +23,7 @@ function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
       localStorage.clear()
       window.location.href = '/auth'
     } else if (setting == 'Settings') {
-      navigate('/settings')
+      // navigate('/settings')
     } else if (setting == 'Dashboard') {
     } else if (setting == 'Events & Recommendations') {
       setEventsPanel((old) => !old)
