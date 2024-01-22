@@ -36,7 +36,7 @@ const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick, 
 
         <Grid item xs={2} className="col-between">
           <common.MenuList
-            items={isModerator && library?.created_by?.id === userId ? moreOptions : moreOptions?.slice(4)}
+            items={moreOptions(library?.created_by?.id, library?.i_saved)}
             onClose={(item) => handleMoreClick(item, library)}
             icon="MoreHorizRounded"
           />

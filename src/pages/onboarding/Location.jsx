@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from '@mui/material'
 import React, { memo } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import locationIcon from '../../assets/icons/location.png'
 import { Controls as common } from '../../components/common'
@@ -23,7 +23,7 @@ function LocationComponent() {
     return locations?.results
   }
 
-  const { data: locations, isLoading } = useQuery(['locations', searchText], () => fetchLocation(searchText))
+  const { data: locations, isLoading } = useQuery({ queryKey: ['locations', searchText], queryFn: () => fetchLocation(searchText) })
 
   const handleSelect = (name, state, id) => {
     dispatch(setLocationText(`${name},${state}`))
@@ -45,7 +45,7 @@ function LocationComponent() {
             value={searchText}
             onChange={(e) => dispatch(setLocationText(e.target.value))}
             customHandleClearClick={customHandleClearClick}
-            startIcon={true}
+            startIcon="Search"
             endIcon={true}
           />
         </Box>

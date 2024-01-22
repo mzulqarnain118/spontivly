@@ -1,9 +1,9 @@
 import { Box, Card, Divider, Grid, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useCustomForm } from 'components/common/Form'
 import { Toast } from 'components/common/Toast/Toast'
 import qs from 'qs'
 import { useState, useEffect } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
@@ -45,13 +45,11 @@ const CreateContent = ({
     return ApiCall(apiUrl)
   }
 
-  const { data: tags } = useInfiniteQuery(
-    ['libraryTags', searchTagText], // Dynamic query key
-    ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+  const { data: tags } = useInfiniteQuery({
+    queryKey: ['libraryTags', searchTagText], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const handleContentSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ['id'])

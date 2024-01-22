@@ -29,8 +29,8 @@ const Routes = createBrowserRouter([
         element: <Dashboard />
       },
       {
-        path: 'library/:id',
-        element: <IndividualLibrary />
+        path: '/:portal/:libraryId',
+        element: <Dashboard />
       },
       {
         path: 'settings',

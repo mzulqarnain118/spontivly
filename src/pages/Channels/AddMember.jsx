@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
-import { useQuery, useInfiniteQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
@@ -11,9 +11,10 @@ function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
   const channelId = params?.channelId ?? selectedChannelId
 
   const [selectedMembers, setSelectedMembers] = useState([])
+  const [confirmModal, setConfirmModal] = useState(false)
   const [searchMemberText, setSearchMemberText] = useState('')
 
-  const { data: members } = useQuery(['isMemberExist'], () => isMemberExist())
+  const { data: members } = useQuery({ queryKey: ['isMemberExist'], queryFn: () => isMemberExist() })
   const {
     data: membersList,
     error,
@@ -22,14 +23,14 @@ function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
-  } = useInfiniteQuery(
-    ['channels', channelId], // Dynamic query key
-    ({ pageParam = 1 }) => membersListFunc({ pageParam }),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+    isLoading,
+    isSuccess,
+    isError
+  } = useInfiniteQuery({
+    queryKey: ['channels', channelId], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => membersListFunc({ pageParam }),
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const postMember = async () => {
     const memberIds = reduceArrayByKeys(selectedMembers, ['id'], 'user')
@@ -77,50 +78,62 @@ function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
   }
 
   return (
-    <common.Popup
-      openPopup={memberPopup}
-      setPopup={setMemberPopup}
-      width={'sm'}
-      title={'Manage Members'}
-      submitBtnLabel="Send Invite"
-      subTitle={'Invite members to your Directory.'}
-      submitHandler={postMember}
-    >
-      <Grid item xs={12} sx={{ mt: 5 }}>
-        <common.InfiniteQueryWrapper
-          status={status}
-          data={membersList}
-          error={error}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
-        >
-          {(membersList) =>
-            membersList?.[0]?.members?.map((member) => (
-              <Grid container key={member?.id} item justifyContent="space-between" alignItems="center">
-                <Grid item xs={10.8}>
-                  <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
+    <>
+      <common.Popup
+        openPopup={memberPopup}
+        setPopup={setMemberPopup}
+        width={'sm'}
+        title={'Manage Members'}
+        submitBtnLabel="Send Invite"
+        subTitle={'Invite members to your Directory.'}
+        submitHandler={postMember}
+      >
+        <Grid item xs={12} sx={{ mt: 5 }}>
+          <common.InfiniteQueryWrapper
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isError={isError}
+            data={membersList}
+            error={error}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isFetching={isFetching}
+          >
+            {(membersList) =>
+              membersList?.[0]?.members?.map((member) => (
+                <Grid container key={member?.id} item justifyContent="space-between" alignItems="center">
+                  <Grid item xs={10.8}>
+                    <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
+                  </Grid>
+                  <Grid item xs={1}>
+                    <common.MuiIcon name="Delete" color="secondary" onClick={() => setConfirmModal(true)} />
+                    <common.Popup
+                      openPopup={confirmModal}
+                      setPopup={setConfirmModal}
+                      width={'sm'}
+                      submitBtnLabel="Confirm"
+                      handlePopupCancel={() => setConfirmModal(false)}
+                      // submitHandler={handleDeleteMember(member?.id)}
+                    ></common.Popup>
+                  </Grid>
                 </Grid>
-                <Grid item xs={1}>
-                  <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
-                </Grid>
-              </Grid>
-            ))
-          }
-        </common.InfiniteQueryWrapper>
-      </Grid>
-      <common.Autocomplete
-        placeholder="Members"
-        variant="outlined"
-        value={selectedMembers}
-        onChange={handleMemberChange}
-        options={members ?? []}
-        inputValue={searchMemberText}
-        setInputValue={setSearchMemberText}
-        required
-      />
-    </common.Popup>
+              ))
+            }
+          </common.InfiniteQueryWrapper>
+        </Grid>
+        <common.Autocomplete
+          placeholder="Members"
+          variant="outlined"
+          value={selectedMembers}
+          onChange={handleMemberChange}
+          options={members ?? []}
+          inputValue={searchMemberText}
+          setInputValue={setSearchMemberText}
+          required
+        />
+      </common.Popup>
+    </>
   )
 }
 

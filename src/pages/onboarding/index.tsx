@@ -38,7 +38,6 @@ function OnBoarding() {
   const [open, setOpen] = React.useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const isOnboarded = getLocal('onboarding')
   const { selectedChips: skillsSelectedChips } = useSelector((state: any) => state.skills)
   const { activeStep } = useSelector((state: any) => state.onBoarding)
   const { linkedin, twitter, facebook, instagram } = useSelector((state: any) => state.social)
@@ -84,12 +83,6 @@ function OnBoarding() {
       component: <Profile />
     }
   ]
-
-  useEffect(() => {
-    if (isOnboarded) {
-      navigate(-1)
-    }
-  }, [isOnboarded])
 
   const handleDrawerOpen = () => {
     setOpen(!open)
@@ -138,8 +131,6 @@ function OnBoarding() {
         return setSelectedLocation === null
       case EMPLOYMENT_STEP:
         return companyName === '' || position === '' || stage === null
-      default:
-        return activeStep === DEFAULT_STEP && photoFlag === false
     }
   }
 
@@ -155,7 +146,7 @@ function OnBoarding() {
     return nextButtonText
   }
 
-  return isOnboarded ? null : (
+  return  (
     <Container>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>

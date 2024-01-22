@@ -1,9 +1,9 @@
 import { Container, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import qs from 'qs'
 import React, { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
@@ -11,6 +11,7 @@ import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
 import { FindMember } from './FindMember'
 import { General } from './General'
+import { IndividualLibrary } from './IndividualLibrary'
 import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
@@ -24,7 +25,7 @@ const containerStyles = {
 }
 
 function Dashboard() {
-  let { portal } = useParams()
+  let { portal, libraryId } = useParams()
 
   portal = portal ?? 'channels'
   const dispatch = useDispatch()
@@ -62,7 +63,7 @@ function Dashboard() {
 
     return response?.results
   }
-  const { data: currentUserData } = useQuery(['currentUser', refetchUser], fetchCurrentUser)
+  const { data: currentUserData } = useQuery({ queryKey: ['currentUser', refetchUser], queryFn: fetchCurrentUser })
 
   const location = useLocation()
 
@@ -114,7 +115,7 @@ function Dashboard() {
   const portalComponents: any = {
     channels: <General />,
     find: <FindMember setRefetchUser={setRefetchUser} />,
-    library: <Library />
+    library: libraryId ? <IndividualLibrary /> : <Library />
   }
 
   const mainContent = portalComponents[portal]
@@ -168,7 +169,14 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} selectedChannelId={selectedChannelId} />}{' '}
+      {memberPopup && (
+        <AddMember
+          memberPopup={memberPopup}
+          setRefetchUser={setRefetchUser}
+          setMemberPopup={setMemberPopup}
+          selectedChannelId={selectedChannelId}
+        />
+      )}{' '}
     </>
   )
 }

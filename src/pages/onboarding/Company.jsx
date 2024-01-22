@@ -1,6 +1,6 @@
 import { Container, Box } from '@mui/material'
 import React, { memo, useCallback } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { setCompanyInfo } from '../../redux/companySlice'
@@ -15,7 +15,7 @@ function CompanyComponent() {
     return ApiCall('company-stages')
   }
 
-  const { data: companyStages } = useQuery(['company-stages'], () => fetchCompanyStages())
+  const { data: companyStages } = useQuery({ queryKey: ['company-stages'], queryFn: () => fetchCompanyStages() })
   const onChangeHandler = useCallback(
     (e) => {
       const { name, value } = e.target

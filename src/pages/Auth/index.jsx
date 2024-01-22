@@ -2,16 +2,15 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import { Stack, Divider, Container, Typography } from '@mui/material'
 import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/images/logo-1.png'
+import logo from '../../assets/images/Org-placeholder.png'
 import { Controls as common } from '../../components/common'
 import { loginStyles } from '../../styles'
-import { ApiCall, encodeParams, setLocal, getLocal } from '../../utils'
+import { ApiCall, setLocal, getLocal } from '../../utils'
 
 export function Auth() {
   const navigate = useNavigate()
-  const isAuthenticated = getLocal('token')
 
-  const [buttonText, setButtonText] = useState('Continue')
+  const [buttonText, setButtonText] = useState('Login')
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     fullName: '',
@@ -19,11 +18,6 @@ export function Auth() {
     email: ''
   })
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(-1)
-    }
-  }, [isAuthenticated])
   const classes = loginStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const onSubmit = useCallback(
@@ -35,16 +29,9 @@ export function Auth() {
 
         if (buttonText === 'Create account') {
           navigate('/onboarding')
-        } else if (buttonText === 'Continue') {
-          const encodedEmail = encodeParams({ email: formData.email })
-          const response = await ApiCall(`auth/is-email-exist?${encodedEmail}`)
+        }
 
-          if (response) {
-            setButtonText('Login')
-          } else {
-            setButtonText('Create account')
-          }
-        } else if (buttonText === 'Login') {
+        if (buttonText === 'Login') {
           const payload = {
             email: formData.email,
             password: formData?.password
@@ -69,28 +56,10 @@ export function Auth() {
     [buttonText, formData, navigate, setButtonText, setLocal]
   )
 
-  const handleLinkedInButtonClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  return isAuthenticated ? null : (
+  return (
     <Container maxWidth="sm" className={classes.container}>
       <common.Img src={logo} type="logo" />
-      <common.FormHeading heading=" Welcome to The Avengers" />
-      <common.MuiButton
-        onClick={handleLinkedInButtonClick}
-        bgcolor="steelblue"
-        color="white"
-        size="large"
-        variant="contained"
-        label="Continue with LinkedIn"
-        startIcon={<LinkedInIcon fontSize="large" />}
-      />
-      <Stack direction="row" spacing="1rem" className={classes.dividerText}>
-        <Divider className={classes.divider} />
-        <Typography>or</Typography>
-        <Divider className={classes.divider} />
-      </Stack>
+      <common.FormHeading heading=" Welcome to Spontivly Portal" />
       <form onSubmit={onSubmit} className={classes.subContainer}>
         {buttonText === 'Create account' && (
           <common.Input
@@ -104,11 +73,11 @@ export function Auth() {
         )}
         <common.Input
           name="email"
-          placeholder="Search"
+          placeholder="Email"
           type="email"
           listUpdater={setFormData}
           value={formData.email}
-          startIcon={true}
+          startIcon="Email"
           required
         />
 
@@ -119,10 +88,11 @@ export function Auth() {
             type="password"
             value={formData.password}
             listUpdater={setFormData}
-            startIcon={true}
+            startIcon="Password"
             required
           />
         )}
+        <common.Link to="/forgot-password" label="Forgot Password?" style={{textAlign:"end"}} />
         <common.MuiButton
           type="submit"
           label={buttonText}
@@ -139,7 +109,7 @@ export function Auth() {
             By clicking <common.Link to="#" label="Create account" />
           </>
         )}
-        I agree to Spontively's <common.Link to="https://spontivly.com/terms-of-service" label="TOS" />
+        I agree to Spontivly's <common.Link to="https://spontivly.com/terms-of-service" label="Terms of Service" />
         and <common.Link to="https://spontivly.com/privacy-policy" label="Privacy Policy" />
       </Typography>
     </Container>

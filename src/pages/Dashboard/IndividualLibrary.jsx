@@ -1,7 +1,7 @@
-import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
+import { Avatar, Card, CardContent, Box, Chip, Grid, Typography, Link } from '@mui/material'
 import moment from 'moment'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
@@ -9,52 +9,79 @@ import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from '../../utils'
 import { typeIcons } from './Library'
 
 const IndividualLibrary = () => {
+  const navigate = useNavigate()
   const classes = libraryStyles()
   const location = useLocation()
   const library = location.state?.library
 
   return (
-    <Grid container spacing={5} padding={'0.75rem 1.5rem'}>
-      <Grid key={library.id} item xs={12} sm={6} md={4} lg={4} mt={'1.25rem'} className="cursor" onClick={() => openLibraryInfo(library)}>
-        <Box>
-          <div className="relative-full-width">
-            <common.Img
-              src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail}
-              className={classes.moduleContentImg}
-            />
-            <div className={classes.moduleContentSource}>
-              <common.Img type="smallIcon" src={typeIcons[library.type]} />
-            </div>
-          </div>
+    <>
+      <Box className="row-start" sx={{ mt: 5, mb: 5 }}>
+        <Typography variant="h4" display="flex" alignItems="center">
+          <Link variant="h5" onClick={() => navigate(-1)} color="inherit" underline="hover">
+            Library
+          </Link>
+          <common.MuiIcon name="ArrowForwardIos" sx={{ ml: '4px' }} />
+        </Typography>
+        <Typography variant="h6">Testew</Typography>
+      </Box>
+      <Card>
+        <CardContent>
+          <Grid container>
+            <Grid key={library.id} item xs={12} mt={'1.25rem'} className="cursor">
+              <Box>
+                <div className="col-end gap-05">
+                  <div className="relative-full-width">
+                    <common.Img
+                      src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail}
+                      className={classes.moduleContentImg}
+                    />
+                    <div className={classes.moduleContentSource}>
+                      <common.Img type="smallIcon" src={typeIcons[library.type]} />
+                    </div>
+                  </div>
+                  <common.MuiButton
+                    size="large"
+                    onClick={() => handleOpenUrlInNewTab(library.url)}
+                    label="Go To The External Link Of This Context"
+                  />
+                  <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
+                  <Typography>{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
+                  <Chip label={library?.status.toUpperCase() ?? 'DRAFT'} className={classes.libraryStatus} />
+                </div>
+                <div className="divider"></div>
 
-          <Box className="flex" mt={'12px'}>
-            <Grid container spacing={0.5}>
-              <Grid item xs={11} sm={11} md={11} lg={11}>
-                <Typography sx={{ fontWeight: 600 }} align="left">
-                  {library.title}
-                </Typography>
-                <Box
-                  className="flex"
-                  sx={{
-                    alignItems: 'flex-start',
-                    gap: '0.625rem',
-                    maxHeight: '80px', // Adjust the height accordingly
-                    overflowY: 'auto' // Make it scrollable
-                  }}
-                >
-                  {library.tags.map((tag, index) => (
-                    <Chip key={tag.title} label={tag.title} className={classes.moduleContentChip} />
-                  ))}
+                <Box mt={'12px'}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={11} sm={11} md={11} lg={11}>
+                      <Typography sx={{ fontWeight: 600, mb: 3 }} align="left">
+                        {library.title}
+                      </Typography>
+                      <Box
+                        className="flex"
+                        sx={{
+                          alignItems: 'flex-start',
+                          gap: '0.625rem',
+                          maxHeight: '80px', // Adjust the height accordingly
+                          overflowY: 'auto' // Make it scrollable
+                        }}
+                      >
+                        {library.tags.map((tag, index) => (
+                          <Chip key={tag.title} label={tag.title} className={classes.moduleContentChip} />
+                        ))}
+                      </Box>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
+                    </Grid>
+                  </Grid>
                 </Box>
-              </Grid>
-              <Grid item xs={1}>
-                <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
-              </Grid>
+              </Box>
             </Grid>
-          </Box>
-        </Box>
-      </Grid>
-    </Grid>
+          </Grid>
+        </CardContent>
+      </Card>{' '}
+    </>
   )
 }
 

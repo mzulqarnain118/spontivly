@@ -1,6 +1,6 @@
 import { Grid, Box } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams } from 'utils'
@@ -38,14 +38,12 @@ function General() {
     isLoading,
     isSuccess,
     isError
-  } = useInfiniteQuery(
-    ['posts', channelId], // Dynamic query key
-    ({ pageParam = 1 }) => fetchPosts({ pageParam }),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next,
-      enabled: !!channelId && channelId !== 'undefined' // Enable the query only when channelId is truthy
-    }
-  )
+  } = useInfiniteQuery({
+    queryKey: ['posts', channelId], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchPosts({ pageParam }),
+    getNextPageParam: (lastPage) => lastPage?.next,
+    enabled: !!channelId && channelId !== 'undefined' // Enable the query only when channelId is truthy
+  })
 
   return (
     <Box sx={{ flexGrow: 1 }}>

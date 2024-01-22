@@ -1,8 +1,8 @@
 import AddIcon from '@mui/icons-material/Add'
 import { Card, Grid, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import doc from '../../assets/icons/doc.png'
@@ -49,7 +49,7 @@ const sortByData = [
 ]
 
 export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
-const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content', 'Save For Later']
+const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content']
 const updateLibraryContent = {
   'Publish Content': 'published',
   'UnPublish Content': 'un-published',
@@ -58,8 +58,10 @@ const updateLibraryContent = {
 
 function Library() {
   const navigate = useNavigate()
-  const { isModerator } = useSelector((state) => state?.dashboard)
-  const filteredMoreOptions = isModerator ? moreOptions : moreOptions.slice(4)
+  const { isModerator, userId } = useSelector((state) => state?.dashboard)
+  const filterMoreOptions = (createdUserId, i_saved) => {
+    return isModerator && createdUserId === userId ? [...moreOptions, i_saved ? 'Remove From Save Later' : 'Save For Later'] : moreOptions
+  }
   const [view, setView] = useState('list')
   const [selectedTags, setSelectedTags] = useState([])
   const [applyFilters, setApplyFilters] = useState(false)
@@ -90,13 +92,13 @@ function Library() {
   }
 
   const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } =
-    useInfiniteQuery(
-      ['libraries', libraryContent, applyFilters], // Dynamic query key
-      ({ pageParam = 1 }) => fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
-      {
-        getNextPageParam: (lastPage) => lastPage?.next
-      }
-    )
+    useInfiniteQuery({
+      queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
+      queryFn: ({ pageParam = 1 }) =>
+        fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
+
+      getNextPageParam: (lastPage) => lastPage?.next
+    })
 
   const classes = dashboardStyles()
   const openContentModal = () => {
@@ -127,9 +129,17 @@ function Library() {
       refetch()
     }
   }
+  const contentUnSaveForLater = async (library_id) => {
+    const unSaveContent = await ApiCall(`libraries/save/${library_id}`, null, 'DELETE')
+
+    if (unSaveContent) {
+      Toast(`Content Removed from Saved Later List Successfully`)
+      refetch()
+    }
+  }
 
   const patchLibraryContent = async (contentId, status) => {
-    const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { data: JSON.stringify({status}) })
+    const editedContent = await ApiCall(`libraries/${contentId}/`, null, 'PATCH', { data: JSON.stringify({ status }) })
 
     if (editedContent) {
       Toast(`Content ${capitalizeFirstLetter(status)} Successfully`)
@@ -142,21 +152,24 @@ function Library() {
       patchLibraryContent(content?.id, updateLibraryContent[item])
     } else if (item === 'Save For Later') {
       contentSaveForLater(content?.id)
+    } else if (item === 'Remove From Save Later') {
+      contentUnSaveForLater(content?.id)
     } else if (item == 'Edit Content') {
       setEditContent(true)
       setEditContentData(content)
       setContentDialogOpen(true)
     }
   }
-  const openLibraryInfo = (library) => {
-    navigate(`/library/${library.id}`, { state: { library } })
+
+  function openLibraryInfo(library) {
+    // navigate(`/library/${library.id}`, { state: { library } })
   }
 
   return (
     <>
       <Grid container alignItems="center">
         <Grid item xs={6} sm={8} md={9} lg={9}>
-          <Typography variant="h5" align="left">
+          <Typography align="left" variant="h5">
             Library
           </Typography>
         </Grid>
@@ -182,7 +195,7 @@ function Library() {
               placeholder="Search libraries"
               value={libraryContent.content}
               listUpdater={setLibraryContent}
-              startIcon={true}
+              startIcon="Search"
             />
           </Grid>
 
@@ -221,7 +234,7 @@ function Library() {
               <LibraryContent
                 libraryData={libraries}
                 typeIcons={typeIcons}
-                moreOptions={filteredMoreOptions}
+                moreOptions={filterMoreOptions}
                 handleMoreClick={handleMoreClick}
                 openLibraryInfo={openLibraryInfo}
               />
@@ -229,7 +242,7 @@ function Library() {
               <ModuleView
                 libraryData={libraries}
                 typeIcons={typeIcons}
-                moreOptions={filteredMoreOptions}
+                moreOptions={filterMoreOptions}
                 handleMoreClick={handleMoreClick}
                 openLibraryInfo={openLibraryInfo}
               />

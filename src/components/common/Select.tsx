@@ -23,7 +23,6 @@ export function Select(
   }: any,
   props: any
 ) {
-  console.log(error)
   const classes: ClassNameMap<any> = commonStyles()
   const handleChange = useCallback(
     (e: any) => {

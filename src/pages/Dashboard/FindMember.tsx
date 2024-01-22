@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, Grid, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
@@ -67,25 +67,22 @@ function FindMember({ setRefetchUser }) {
     isLoading,
     isSuccess,
     isError
-  } = useInfiniteQuery(
-    ['profile', findMember.member, findMember.sortBy], // Dynamic query key
-    ({ pageParam = 1 }) => fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+  } = useInfiniteQuery({
+    queryKey: ['profile', findMember.member, findMember.sortBy], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const openMemberDialog = () => {
     setMemberDialogOpen(true)
   }
 
-  const handleCloseUserMenu = (item) => {
+  const handleCloseUserMenu = (item, content) => {
     if (item === 'Email') {
       window.location.href = `mailto:${handleMore.user.email}`
     } else if (item === 'View Profile') {
+      setHandleMore(content)
       setViewProfile(true)
-    } else {
-      console.log(item)
     }
   }
 
@@ -118,7 +115,7 @@ function FindMember({ setRefetchUser }) {
               placeholder="Search members"
               value={findMember.member}
               listUpdater={setFindMember}
-              startIcon={true}
+              startIcon="Search"
             />
           </Grid>
 
@@ -169,8 +166,8 @@ function FindMember({ setRefetchUser }) {
                     {rec?.match_count ? rec?.match_count : 'No'} Matches
                   </Grid>
 
-                  <Grid item xs={1} md={1} lg={1} onClick={() => setHandleMore(rec)}>
-                    <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreHorizRounded" tooltip="Open settings" />
+                  <Grid item xs={1} md={1} lg={1}>
+                    <common.MenuList items={moreOptions} onClose={(item) => handleCloseUserMenu(item, rec)} icon="MoreHorizRounded" />
                   </Grid>
                 </Grid>
                 <Box className="flex">

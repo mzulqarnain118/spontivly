@@ -18,10 +18,10 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
 
   return (
     <>
-        <Tooltip title={tooltip}>
-          <MuiIcon name={icon} onClick={handleOpen} color={color} />
-        </Tooltip>
-      
+      <Tooltip title={tooltip}>
+        <MuiIcon name={icon} onClick={handleOpen} color={color} />
+      </Tooltip>
+
       <Menu
         sx={{
           mt: '45px',
@@ -40,15 +40,15 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
           horizontal: 'right'
         }}
         open={Boolean(anchorEl)}
-        onClose={() => handleClose(null)} // Pass null as the default value
+        onClose={(event) => handleClose(null, event)} // Pass null as the default value
       >
         {items.map((item: any) =>
           typeof item === 'string' ? (
-            <MenuItem key={item} onClick={(event) => handleClose(item,event)}>
+            <MenuItem key={item} onClick={(event) => handleClose(item, event)}>
               <Typography textAlign="center">{item}</Typography>
             </MenuItem>
           ) : (
-              <MenuItem key={item?.label} onClick={(event) => handleClose(item?.label, event)}>
+            <MenuItem key={item?.label} onClick={(event) => handleClose(item?.label, event)}>
               <MuiIcon name={item?.icon} />
               <Typography textAlign="center">{item?.label}</Typography>
             </MenuItem>

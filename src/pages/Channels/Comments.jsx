@@ -2,7 +2,7 @@ import { Avatar, Grid, Box, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
@@ -36,10 +36,9 @@ export function Comments({ refetchPosts, post_id }) {
     isLoading,
     isSuccess,
     isError
-  } = useInfiniteQuery(
-    ['posts/comment', post_id], // Dynamic query key
-    ({ pageParam = 1 }) => fetchPosts({ pageParam }),
-    {
+  } = useInfiniteQuery({
+    queryKey: ['posts/comment', post_id], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchPosts({ pageParam }),
       getNextPageParam: (lastPage) => lastPage?.next
     }
   )
