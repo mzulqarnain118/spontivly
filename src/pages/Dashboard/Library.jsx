@@ -60,7 +60,9 @@ function Library() {
   const navigate = useNavigate()
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const filterMoreOptions = (createdUserId, i_saved) => {
-    return isModerator && createdUserId === userId ? [...moreOptions, i_saved ? 'Remove From Save Later' : 'Save For Later'] : moreOptions
+    const filteredMoreOptions = [...moreOptions, i_saved ? 'Remove From Save Later' : 'Save For Later']
+
+    return isModerator && createdUserId === userId ? filteredMoreOptions : filteredMoreOptions.slice(4)
   }
   const [view, setView] = useState('list')
   const [selectedTags, setSelectedTags] = useState([])

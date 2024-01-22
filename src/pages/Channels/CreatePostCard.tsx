@@ -72,42 +72,35 @@ const CreatePostCard = ({
   const createPostSubmit = async (values) => {
     try {
       const combinedFormData = new FormData()
-
-      if (uploadFile?.filePayload) {
-        combinedFormData.append('file', uploadFile.filePayload)
-      }
-
-      const requestData = {
+      const payload = {
         ...values,
         pollOptions,
         channel: channelId
       }
 
-      if (isEditing) {
-        // If editing, append postId to data and use PATCH method
-        combinedFormData.append('data', JSON.stringify(requestData))
-        const editedPost = await ApiCall(`posts/${postDataToEdit.id}/`, null, 'PATCH', requestData)
+      if (uploadFile?.filePayload) {
+        combinedFormData.append('file', uploadFile.filePayload)
+        combinedFormData.append('data', JSON.stringify(payload))
+      }
 
-        if (editedPost) {
-          setSelectedButton(null)
-          setUploadFile({})
-          setPollOptions(() => [''])
-          Toast('Post Edited Successfully')
-          refetch()
-          setEditPost((old) => !old)
-        }
-      } else {
-        // If adding, use POST method
-        combinedFormData.append('data', JSON.stringify(requestData))
-        const createdPost = await ApiCall('posts/', null, 'POST', combinedFormData)
+      const post = await ApiCall(
+        isEditing ? `posts/${postDataToEdit.id}/` : 'posts/',
+        null,
+        isEditing ? 'PATCH' : 'POST',
+        uploadFile?.filePayload
+          ? combinedFormData
+          : {
+              data: JSON.stringify(payload)
+            }
+      )
 
-        if (createdPost) {
-          setSelectedButton(null)
-          setUploadFile({})
-          setPollOptions(() => [''])
-          Toast('Post Created Successfully')
-          refetch()
-        }
+      if (post) {
+        setSelectedButton(null)
+        setEditPost && setEditPost((old) => !old)
+        setUploadFile({})
+        setPollOptions(() => [''])
+        Toast(`Post ${isEditing ? 'Updated' : 'Added'} Successfully`)
+        refetch()
       }
     } catch (error) {
       console.log('error', error)
