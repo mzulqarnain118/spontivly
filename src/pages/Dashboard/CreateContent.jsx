@@ -57,36 +57,43 @@ const CreateContent = ({
 
     const combinedFormData = new FormData()
 
-    if (pdfFile) {
-      combinedFormData.append('file', pdfFile)
-      combinedFormData.append('data', JSON.stringify(payload))
+    if (!description) {
+      Toast(`Description is Required`, 'error')
+
+      return
+    } else {
+      if (pdfFile) {
+        combinedFormData.append('file', pdfFile)
+        combinedFormData.append('data', JSON.stringify(payload))
+      }
+
+      console.log(payload)
+      const addedContent = await ApiCall(
+        isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
+        null,
+        isEditing ? 'PATCH' : 'POST',
+        pdfFile
+          ? combinedFormData
+          : {
+              data: JSON.stringify(payload)
+            }
+      )
+
+      if (addedContent) {
+        setEditContent && setEditContent((old) => !old)
+        Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
+      }
+
+      setLibraryContent((prevState) => ({
+        ...prevState,
+        newLibraryAdded: true
+      }))
+      setType('')
+      setSelectedTags([])
+      setDescription('')
+      refetchLibraries()
+      onClose()
     }
-
-    const addedContent = await ApiCall(
-      isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
-      null,
-      isEditing ? 'PATCH' : 'POST',
-      pdfFile
-        ? combinedFormData
-        : {
-            data: JSON.stringify(payload)
-          }
-    )
-
-    if (addedContent) {
-      setEditContent && setEditContent((old) => !old)
-      Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
-    }
-
-    setLibraryContent((prevState) => ({
-      ...prevState,
-      newLibraryAdded: true
-    }))
-    setType('')
-    setSelectedTags([])
-    setDescription('')
-    refetchLibraries()
-    onClose()
   }
 
   const handleTagChange = async (selectedValues) => {
@@ -134,8 +141,9 @@ const CreateContent = ({
           }
         }
       >
-        {({ errors, control }) => (
+        {({ errors, control, getValues }) => (
           <Card className={classes.contentCard}>
+            {console.log(getValues())}
             <Grid container spacing={8}>
               <Grid item xs={12} md={4}>
                 <Typography variant="h5" align="left">
@@ -190,8 +198,9 @@ const CreateContent = ({
                     disabled={type === 'pdf'}
                   />
                 )}
+    
                 <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
-                <common.RichText value={description} onBlur={setDescription} required />
+                <common.RichText value={description} onBlur={setDescription}  required />
                 {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
               </Grid>
             </Grid>

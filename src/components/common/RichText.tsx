@@ -1,7 +1,6 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import React, { useRef } from 'react'
-import { commonStyles } from '../../styles/commonStyles'
 
 export function RichText({ data, onReady, onChange, onFocus, value, onBlur, className, required, placeholder, ...others }: any) {
   const editorRef = useRef()
@@ -14,7 +13,7 @@ export function RichText({ data, onReady, onChange, onFocus, value, onBlur, clas
         editorRef.current = editor
         if (onReady) onReady(editor)
       }}
-      onChange={onChange}
+      onChange={(newContent) => onChange && onChange(newContent)}
       onBlur={(newContent) => onBlur && onBlur(newContent)}
       onFocus={onFocus}
       required // Add the required attribute
