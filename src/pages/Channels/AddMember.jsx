@@ -107,7 +107,8 @@ function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
                     <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
                   </Grid>
                   <Grid item xs={1}>
-                    <common.MuiIcon name="Delete" color="secondary" onClick={() => setConfirmModal(true)} />
+                    {/* setConfirmModal(true) */}
+                    <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
                     <common.Popup
                       openPopup={confirmModal}
                       setPopup={setConfirmModal}
