@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
+function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
   const params = useParams()
-  const channelId = params?.channelId ?? selectedChannelId
+  const channelId = addMemberChannelId ?? params?.channelId 
 
   const [selectedMembers, setSelectedMembers] = useState([])
   const [confirmModal, setConfirmModal] = useState(false)
@@ -83,7 +83,7 @@ function AddMember({ memberPopup, setMemberPopup, selectedChannelId }) {
         openPopup={memberPopup}
         setPopup={setMemberPopup}
         width={'sm'}
-        title={'Manage Members'}
+        title={'Add Members'}
         submitBtnLabel="Send Invite"
         subTitle={'Invite members to your Directory.'}
         submitHandler={postMember}

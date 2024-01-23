@@ -7,7 +7,7 @@ import { ApiCall } from '../../utils'
 
 const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup }) {
+function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup, setAddMemberChannelId }) {
   const { portal, channelId } = useParams()
 
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
@@ -23,7 +23,9 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
     }
   }
 
-  useEffect(() => {channelId && setSelectedChannelId(channelId)}, [channelId])
+  useEffect(() => {
+    channelId && setSelectedChannelId(channelId)
+  }, [channelId])
 
   const handleClick = (url, channelId) => {
     channelId && setSelectedChannelId(channelId)
@@ -34,7 +36,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
   const handleCloseUserMenu = (item, channelId) => {
     if (item === 'Manage Members') {
       setMemberPopup((old) => !old)
-      setSelectedChannelId(channelId)
+      setAddMemberChannelId(channelId)
     }
   }
 
@@ -74,7 +76,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
             ))}
           {index == 1 &&
             currentUser?.favorites?.map((user) => (
-              <dd className="row-between gap-05 cursor" key={user.id}>
+              <dd className="row-between gap-05 cursor" key={user.dashboard_user}>
                 <Avatar src={user?.profile_pic} />
                 <Typography color="primary.main">{user.user.first_name}</Typography>
                 <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user.id)} />

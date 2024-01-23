@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ApiCall, handleOpenUrlInNewTab } from 'utils'
 import commentIcon from '../../assets/icons/comment.svg'
@@ -22,11 +22,12 @@ interface RootState {
 
 function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   const filteredMoreOptions = [
-    post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     ...moreOptions,
+    !post?.is_closed && post?.choices?.length !== 0 ? 'Close Poll' : '',
+    post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
   ]
-  const { isModerator } = useSelector((state: RootState) => state?.dashboard)
+  const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
   const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
@@ -44,8 +45,13 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       favPost(post?.id)
     } else if (item === 'Remove from Favorites') {
       UnFavPost(post?.id)
+    } else if (item === 'Close Poll') {
+      closePoll(post?.id)
     }
   }
+
+  useEffect(() => {}, [post?.attachment])
+
   const likePost = async () => {
     const payload = {
       post: post?.id
@@ -61,10 +67,22 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       is_pin: !post?.is_pin
     }
 
-    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', payload)
+    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', {data:JSON.stringify(payload)})
 
     if (pinedPost) {
       Toast(`Post ${post?.is_pin ? 'Un-Pinned' : 'Pinned'} Successfully`)
+      refetch()
+    }
+  }
+  const closePoll = async (postId) => {
+    const payload = {
+      is_closed: true
+    }
+
+    const closePoll = await ApiCall(`posts/${postId}/`, null, 'PATCH', { data: JSON.stringify(payload) })
+
+    if (closePoll) {
+      Toast(`Poll Closed Successfully`)
       refetch()
     }
   }
@@ -126,7 +144,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? filteredMoreOptions : filteredMoreOptions.slice(3)}
+              items={isModerator && post?.created_by?.id === userId ? filteredMoreOptions : filteredMoreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
@@ -145,12 +163,16 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
                 {post?.attachment?.split('post/')[1]}
               </div>
             ) : (
-              <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
+              <>
+                {console.log('🚀 ~ PostsCard ~ post:', post?.attachment)}
+                <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
+              </>
             )}
           </>
         )}
+
         {post?.choices?.length !== 0 && (
-          <Grid container item rowSpacing={1}>
+          <Grid container item rowSpacing={1} className={post?.is_closed && "disabled"}>
             <DisplayPoll choices={post?.choices} postId={post?.id} refetch={refetch} />
           </Grid>
         )}

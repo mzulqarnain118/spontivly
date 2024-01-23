@@ -85,7 +85,7 @@ function Dashboard() {
   const [EventsPanel, setEventsPanel] = useState(false)
   const [popup, setPopup] = useState(false)
   const [memberPopup, setMemberPopup] = useState(false)
-  const [selectedChannelId, setSelectedChannelId] = useState(null)
+  const [addMemberChannelId, setAddMemberChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
     if (newPortal === 'createChannel') {
@@ -131,7 +131,7 @@ function Dashboard() {
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
                 channels={channels}
-                setSelectedChannelId={setSelectedChannelId}
+                setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </Grid>
@@ -142,7 +142,7 @@ function Dashboard() {
                 setMemberPopup={setMemberPopup}
                 channels={channels}
                 setPanel={setPanel}
-                setSelectedChannelId={setSelectedChannelId}
+                setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
@@ -174,7 +174,7 @@ function Dashboard() {
           memberPopup={memberPopup}
           setRefetchUser={setRefetchUser}
           setMemberPopup={setMemberPopup}
-          selectedChannelId={selectedChannelId}
+          addMemberChannelId={addMemberChannelId}
         />
       )}{' '}
     </>

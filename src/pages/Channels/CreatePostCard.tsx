@@ -148,12 +148,14 @@ const CreatePostCard = ({
               )}
 
               {selectedButton === 'poll' && (
-                <CreatePoll
-                  pollOptions={pollOptions}
-                  setPollOptions={setPollOptions}
-                  handleAddOption={handleAddOption}
-                  handleDeleteOption={handleDeleteOption}
-                />
+                <div className={isEditing && postDataToEdit?.is_closed && 'disabled'}>
+                  <CreatePoll
+                    pollOptions={pollOptions}
+                    setPollOptions={setPollOptions}
+                    handleAddOption={handleAddOption}
+                    handleDeleteOption={handleDeleteOption}
+                  />
+                </div>
               )}
               <div className="row-center">
                 {buttons.map(({ label, icon, slug }) => (

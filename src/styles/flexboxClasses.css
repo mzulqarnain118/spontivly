@@ -304,6 +304,12 @@
   margin-top: 1rem; /* Adjust as needed to control the space between recommendations */
 }
 
+.disabled {
+  /* Add your CSS declarations for disabled elements here */
+  opacity: 0.5; /* Example: reduce opacity for disabled elements */
+  pointer-events: none; /* Example: disable pointer events for disabled elements */
+  /* Add any other styles specific to disabled elements */
+}
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; /* Two equal-sized columns */

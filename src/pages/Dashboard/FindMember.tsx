@@ -45,6 +45,14 @@ function FindMember({ setRefetchUser }) {
     }
   }
 
+  const unFavorite = async (id) => {
+    const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
+
+    if (response) {
+      setRefetchUser((old) => !old)
+    }
+  }
+
   async function fetchMembers({ pageParam = 1 }, name, sort) {
     const queryParams = {
       page: pageParam,
@@ -137,7 +145,7 @@ function FindMember({ setRefetchUser }) {
           {(members) =>
             members.length != 0 &&
             members?.map((rec, index) => (
-              <Box key={index} padding={'0.75rem 1.25rem'}>
+              <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xs={8} md={4} lg={4}>
                     <Box className="row gap-1">
@@ -146,7 +154,7 @@ function FindMember({ setRefetchUser }) {
                         <Box className="row-start gap-05">
                           <Typography variant="author">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
                           {isFavorite(rec?.id) ? (
-                            <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(rec?.id)} />
+                            <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => unFavorite(rec?.id)} />
                           ) : (
                             <common.MuiIcon name="StarBorderRounded" color="primary.lighter" onClick={() => addFavorites(rec?.id)} />
                           )}
@@ -187,7 +195,7 @@ function FindMember({ setRefetchUser }) {
         openPopup={isMemberDialogOpen}
         setPopup={setMemberDialogOpen}
         width={'sm'}
-        title={'Manage Members'}
+        title={'Invite Members'}
         submitBtnLabel="Send Invite"
         subTitle={'Invite members to your Directory.'}
       >
