@@ -317,3 +317,11 @@
   justify-items: stretch; /* Align items to stretch to fill the entire grid cell */
 }
 
+/* CK editor CSS*/
+.ck.ck-editor__main > .ck-editor__editable {
+  border-color: rgb(222, 221, 221) !important;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:focus {
+  border-color: black !important;
+}

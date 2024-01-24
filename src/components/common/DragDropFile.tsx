@@ -15,14 +15,15 @@ interface DragDropFileProps {
   type: FileType
   border?: string
   iconColor?: string
+  value:File
 }
 
-const DragDropFile: React.FC<DragDropFileProps> = ({ onChange, type, ...others }) => {
+const DragDropFile: React.FC<DragDropFileProps> = ({ onChange, value, type, ...others }) => {
   const handleChange = (file: File) => {
     onChange(file)
   }
 
-  return <FileUploader handleChange={handleChange} name="file" types={fileTypes[type]} {...others} />
+  return <FileUploader fileOrFiles={value} handleChange={handleChange} name="file" types={fileTypes[type]} {...others} />
 }
 
 export { DragDropFile }

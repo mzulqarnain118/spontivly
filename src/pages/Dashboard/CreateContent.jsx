@@ -29,6 +29,7 @@ const CreateContent = ({
     if (isEditing) {
       setType(editContentData?.type ?? '')
       setSelectedTags(editContentData?.tags ?? [])
+      setPdfFile(editContentData?.url)
     }
   }, [])
 
@@ -54,13 +55,12 @@ const CreateContent = ({
     let payload = { ...formData, type, tags }
 
     const combinedFormData = new FormData()
-
+console.log('pdfFile', pdfFile)
     if (pdfFile) {
       combinedFormData.append('file', pdfFile)
       combinedFormData.append('data', JSON.stringify(payload))
     }
 
-    console.log(payload)
     const addedContent = await ApiCall(
       isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
       null,
@@ -188,14 +188,17 @@ const CreateContent = ({
                     disabled={type === 'pdf'}
                   />
                 )}
+
+                <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
                 <common.ControlledInput
                   name="description"
                   control={control}
                   errors={errors}
                   component={<common.RichText placeholder="Description" />}
                 />
-                <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
-                {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
+                {type == 'pdf' && (
+                  <common.DragDropFile value={pdfFile} onChange={setPdfFile} type="files" required={type === 'pdf' && !pdfFile} />
+                )}
               </Grid>
             </Grid>
           </Card>

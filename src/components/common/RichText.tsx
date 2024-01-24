@@ -4,7 +4,7 @@ import React from 'react'
 
 export function RichText({ data, onChange, value, placeholder, ...others }: any) {
   const editorConfig = {
-    placeholder: placeholder
+    placeholder: placeholder,
   }
 
   return (
@@ -12,6 +12,11 @@ export function RichText({ data, onChange, value, placeholder, ...others }: any)
       editor={ClassicEditor}
       config={editorConfig} // Pass the editor configuration
       data={value}
+      onReady={(editor: any) => {
+        editor.editing.view.change((writer) => {
+          writer.setStyle('height', '300px', editor.editing.view.document.getRoot())
+        })
+      }}
       onChange={(event, editor: any) => onChange(editor.getData())}
       {...others}
     />

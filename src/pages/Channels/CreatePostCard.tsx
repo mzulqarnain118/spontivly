@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { ApiCall, readFile } from 'utils'
+import { ApiCall, isImageFile, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
@@ -23,7 +23,6 @@ type CreatePostCardProps = {
 
 const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, isEditing = false, postDataToEdit }) => {
   const { channelId } = useParams()
-  const isImg = ['jpg', 'jpeg', 'png', 'gif'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState<string>('')
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
@@ -32,7 +31,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
   useEffect(() => {
     if (isEditing) {
       if (postDataToEdit?.attachment) {
-        if (isImg) {
+        if (isImageFile(postDataToEdit?.attachment)) {
           setSelectedButton('upload-image')
         } else {
           setSelectedButton('upload-file')

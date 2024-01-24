@@ -80,6 +80,13 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+function isImageFile(filePath) {
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif']
+  const lowerCaseFilePath = filePath?.toLowerCase()
+
+  return imageExtensions.some((ext) => lowerCaseFilePath.endsWith(`.${ext}`))
+}
+
 export {
   ApiCall,
   getLocal,
@@ -93,5 +100,6 @@ export {
   generatePayload,
   reduceArrayByKeys,
   handleShowYoutubeThumbnail,
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  isImageFile
 }

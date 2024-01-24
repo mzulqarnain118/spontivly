@@ -2,7 +2,7 @@ import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ApiCall, handleOpenUrlInNewTab } from 'utils'
+import { ApiCall, handleOpenUrlInNewTab, isImageFile } from 'utils'
 import commentIcon from '../../assets/icons/comment.svg'
 import like from '../../assets/icons/like.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
@@ -30,8 +30,6 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   ]
   const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
-  const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
-  const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const [addComment, setAddComment] = useState<any>(null)
 
   const handleCloseUserMenu = (item, post) => {
@@ -158,7 +156,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
         </Typography>
         {post?.attachment && (
           <>
-            {isPDF || isVideo ? (
+            {!isImageFile(post?.attachment) ? (
               <Grid className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
                 <common.Img src={fileIcon} />
                 {post?.attachment?.split('post/')[1]}
