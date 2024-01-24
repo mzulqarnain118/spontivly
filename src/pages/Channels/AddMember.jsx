@@ -8,7 +8,7 @@ import { Controls as common } from '../../components/common'
 
 function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
   const params = useParams()
-  const channelId = addMemberChannelId ?? params?.channelId 
+  const channelId = addMemberChannelId ?? params?.channelId
 
   const [selectedMembers, setSelectedMembers] = useState([])
   const [confirmModal, setConfirmModal] = useState(false)
@@ -28,7 +28,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
     isError
   } = useInfiniteQuery({
     queryKey: ['channels', channelId], // Dynamic query key
-    queryFn: ({ pageParam = 1 }) => membersListFunc({ pageParam }),
+    queryFn: membersListFunc,
     getNextPageParam: (lastPage) => lastPage?.next
   })
 

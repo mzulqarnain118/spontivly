@@ -17,6 +17,7 @@ interface FileUploadButtonProps {
   endIcon?: React.ReactNode
   variant?: string
   type?: string
+  disabled?: boolean
 }
 
 const VisuallyHiddenInput = styled('input')`
@@ -63,10 +64,12 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
     switch (fileType) {
       case 'image/*':
         return 5 * 1024 * 1024 // 5MB for images
-      case 'application/pdf,video/*':
+      case 'application/pdf':
         return 20 * 1024 * 1024 // 20MB for PDFs
       case 'video/*':
         return 20 * 1024 * 1024 // 20MB for videos
+      default:
+        return 20 * 1024 * 1024 // 20MB for other file types
     }
   }
 
@@ -84,7 +87,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       {...other}
     >
       {label}
-      {!onClick && <VisuallyHiddenInput id="fileInput" type={type ?? 'file'} onChange={handleFileChange} accept={accept ?? 'image/*'} />}
+      {!onClick && <VisuallyHiddenInput id="fileInput" type={type ?? 'file'} onChange={handleFileChange} accept={accept} />}
     </Button>
   )
 }

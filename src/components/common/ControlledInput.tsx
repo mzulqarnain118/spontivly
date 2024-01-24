@@ -1,9 +1,36 @@
+import { FormControl, FormHelperText } from '@mui/material'
 import React from 'react'
 import { Controller } from 'react-hook-form'
+import { capitalizeFirstLetter } from 'utils'
 import { Controls as common } from '../../components/common'
 
+interface ValidationRules {
+  required: boolean
+  minLength?: {
+    value: number
+    message: string
+  }
+  maxLength?: {
+    value: number
+    message: string
+  }
+  pattern?: {
+    value: RegExp
+    message: string
+  }
+  validate?: {
+    value: any
+    message: string
+  }
+  custom?: {
+    value: any
+    message: string
+  }
+  [key: string]: any
+}
+
 const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }) => {
-  const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules } = validation
+  const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules }: ValidationRules = validation
 
   const rules = {
     required: required || true,
@@ -23,7 +50,16 @@ const ControlledInput = ({ component, name, control, errors, validation = {}, ..
       render={({ field }) => {
         if (component) {
           // If a custom component is provided
-          return React.cloneElement(component, { ...field, error: errors?.[name], ...inputProps })
+          return (
+            <FormControl>
+              {React.cloneElement(component, { ...field, ...inputProps })}
+              {Boolean(errors?.[name]) && (
+                <FormHelperText sx={{ color: 'error.main' }}>{`${capitalizeFirstLetter(
+                  errors?.[name]?.ref?.name
+                )} is required`}</FormHelperText>
+              )}
+            </FormControl>
+          )
         }
 
         // Default to common.Input if no custom component is provided

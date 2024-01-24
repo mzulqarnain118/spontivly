@@ -1,7 +1,5 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import React from 'react'
-import filter from '../../assets/icons/filter.svg'
-import fileIcon from '../../assets/icons/u_paperclip.svg'
 import { Controls as common } from '../../components/common'
 import { channelStyles } from '../Channels/channelStyles'
 

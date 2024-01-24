@@ -17,6 +17,7 @@ const moreOptions = ['Edit Post', 'Delete Post']
 interface RootState {
   dashboard: {
     isModerator: boolean
+    userId: number
   }
 }
 
@@ -67,7 +68,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       is_pin: !post?.is_pin
     }
 
-    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', {data:JSON.stringify(payload)})
+    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', { data: JSON.stringify(payload) })
 
     if (pinedPost) {
       Toast(`Post ${post?.is_pin ? 'Un-Pinned' : 'Pinned'} Successfully`)
@@ -124,7 +125,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   }
 
   return (
-    <Card className={`${channelClasses.container} mb-1`}>
+    <Card key={post?.id + post?.updated_at} className={`${channelClasses.container} mb-1`}>
       <CardContent className="col-start gap-05">
         <Grid container item justifyContent="space-between">
           <Grid item xs={9}>
@@ -158,13 +159,12 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
         {post?.attachment && (
           <>
             {isPDF || isVideo ? (
-              <div className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
+              <Grid className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
                 <common.Img src={fileIcon} />
                 {post?.attachment?.split('post/')[1]}
-              </div>
+              </Grid>
             ) : (
               <>
-                {console.log('🚀 ~ PostsCard ~ post:', post?.attachment)}
                 <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
               </>
             )}
@@ -172,7 +172,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
         )}
 
         {post?.choices?.length !== 0 && (
-          <Grid container item rowSpacing={1} className={post?.is_closed && "disabled"}>
+          <Grid container item rowSpacing={1} className={post?.is_closed && 'disabled'}>
             <DisplayPoll choices={post?.choices} postId={post?.id} refetch={refetch} />
           </Grid>
         )}

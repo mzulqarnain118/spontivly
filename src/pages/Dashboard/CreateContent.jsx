@@ -21,14 +21,12 @@ const CreateContent = ({
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
-  const [description, setDescription] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
 
   useEffect(() => {
     if (isEditing) {
-      setDescription(editContentData?.description ?? '')
       setType(editContentData?.type ?? '')
       setSelectedTags(editContentData?.tags ?? [])
     }
@@ -53,47 +51,40 @@ const CreateContent = ({
 
   const handleContentSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ['id'])
-    let payload = { ...formData, type, description, tags }
+    let payload = { ...formData, type, tags }
 
     const combinedFormData = new FormData()
 
-    if (!description) {
-      Toast(`Description is Required`, 'error')
-
-      return
-    } else {
-      if (pdfFile) {
-        combinedFormData.append('file', pdfFile)
-        combinedFormData.append('data', JSON.stringify(payload))
-      }
-
-      console.log(payload)
-      const addedContent = await ApiCall(
-        isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
-        null,
-        isEditing ? 'PATCH' : 'POST',
-        pdfFile
-          ? combinedFormData
-          : {
-              data: JSON.stringify(payload)
-            }
-      )
-
-      if (addedContent) {
-        setEditContent && setEditContent((old) => !old)
-        Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
-      }
-
-      setLibraryContent((prevState) => ({
-        ...prevState,
-        newLibraryAdded: true
-      }))
-      setType('')
-      setSelectedTags([])
-      setDescription('')
-      refetchLibraries()
-      onClose()
+    if (pdfFile) {
+      combinedFormData.append('file', pdfFile)
+      combinedFormData.append('data', JSON.stringify(payload))
     }
+
+    console.log(payload)
+    const addedContent = await ApiCall(
+      isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
+      null,
+      isEditing ? 'PATCH' : 'POST',
+      pdfFile
+        ? combinedFormData
+        : {
+            data: JSON.stringify(payload)
+          }
+    )
+
+    if (addedContent) {
+      setEditContent && setEditContent((old) => !old)
+      Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
+    }
+
+    setLibraryContent((prevState) => ({
+      ...prevState,
+      newLibraryAdded: true
+    }))
+    setType('')
+    setSelectedTags([])
+    refetchLibraries()
+    onClose()
   }
 
   const handleTagChange = async (selectedValues) => {
@@ -123,7 +114,6 @@ const CreateContent = ({
         reset()
         setType('')
         setSelectedTags([])
-        setDescription('')
       }}
       width={'lg'}
       title={`${isEditing ? 'Update' : 'Create'} Content`}
@@ -137,13 +127,13 @@ const CreateContent = ({
             author: editContentData?.author,
             title: editContentData?.title,
             url: editContentData?.url,
-            summary: editContentData?.summary
+            summary: editContentData?.summary,
+            description: editContentData?.description
           }
         }
       >
-        {({ errors, control, getValues }) => (
+        {({ errors, control }) => (
           <Card className={classes.contentCard}>
-            {console.log(getValues())}
             <Grid container spacing={8}>
               <Grid item xs={12} md={4}>
                 <Typography variant="h5" align="left">
@@ -198,9 +188,13 @@ const CreateContent = ({
                     disabled={type === 'pdf'}
                   />
                 )}
-    
+                <common.ControlledInput
+                  name="description"
+                  control={control}
+                  errors={errors}
+                  component={<common.RichText placeholder="Description" />}
+                />
                 <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
-                <common.RichText value={description} onBlur={setDescription}  required />
                 {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
               </Grid>
             </Grid>

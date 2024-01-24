@@ -169,14 +169,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && (
-        <AddMember
-          memberPopup={memberPopup}
-          setRefetchUser={setRefetchUser}
-          setMemberPopup={setMemberPopup}
-          addMemberChannelId={addMemberChannelId}
-        />
-      )}{' '}
+      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} addMemberChannelId={addMemberChannelId} />}{' '}
     </>
   )
 }

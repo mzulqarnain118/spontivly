@@ -14,14 +14,16 @@ interface UploadFile {
   filePayload?: any
 }
 
-const CreatePostCard = ({
-  refetch,
-  setEditPost,
-  isEditing = false, // new prop to indicate whether it's for editing or adding
-  postDataToEdit // new prop to provide data for editing
-}) => {
+type CreatePostCardProps = {
+  refetch: any
+  setEditPost?: any
+  isEditing?: boolean
+  postDataToEdit?: any
+}
+
+const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, isEditing = false, postDataToEdit }) => {
   const { channelId } = useParams()
-  const isFile = ['mp4', 'mov', 'avi', 'pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
+  const isImg = ['jpg', 'jpeg', 'png', 'gif'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState<string>('')
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
@@ -30,10 +32,10 @@ const CreatePostCard = ({
   useEffect(() => {
     if (isEditing) {
       if (postDataToEdit?.attachment) {
-        if (isFile) {
-          setSelectedButton('upload-file')
-        } else {
+        if (isImg) {
           setSelectedButton('upload-image')
+        } else {
+          setSelectedButton('upload-file')
         }
 
         setUploadFile({ file: postDataToEdit?.attachment })
@@ -95,7 +97,7 @@ const CreatePostCard = ({
       )
 
       if (post) {
-        setSelectedButton(null)
+        setSelectedButton('')
         setEditPost && setEditPost((old) => !old)
         setUploadFile({})
         setPollOptions(() => [''])
@@ -164,11 +166,12 @@ const CreatePostCard = ({
                     variant="plain"
                     size="large"
                     label={label}
-                    accept={slug === 'upload-file' ? 'application/pdf,video/*' : 'image/*'}
+                    accept={slug === 'upload-image' ? 'image/*' : ''}
                     bgcolor={selectedButton === slug ? '#E9EDF0' : ''}
                     startCustomIcon={icon}
                     type={slug === 'poll' ? 'button' : 'file'}
                     handleUploadPhoto={(event) => handleClick(slug, event)}
+                    disabled={isEditing && slug !== selectedButton}
                   />
                 ))}
               </div>

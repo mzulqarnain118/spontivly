@@ -1,22 +1,19 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
-import React, { useRef } from 'react'
+import React from 'react'
 
-export function RichText({ data, onReady, onChange, onFocus, value, onBlur, className, required, placeholder, ...others }: any) {
-  const editorRef = useRef()
+export function RichText({ data, onChange, value, placeholder, ...others }: any) {
+  const editorConfig = {
+    placeholder: placeholder
+  }
 
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={data}
-      onReady={(editor) => {
-        editorRef.current = editor
-        if (onReady) onReady(editor)
-      }}
-      onChange={(newContent) => onChange && onChange(newContent)}
-      onBlur={(newContent) => onBlur && onBlur(newContent)}
-      onFocus={onFocus}
-      required // Add the required attribute
+      config={editorConfig} // Pass the editor configuration
+      data={value}
+      onChange={(event, editor: any) => onChange(editor.getData())}
+      {...others}
     />
   )
 }

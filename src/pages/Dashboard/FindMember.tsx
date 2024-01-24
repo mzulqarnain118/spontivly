@@ -53,11 +53,11 @@ function FindMember({ setRefetchUser }) {
     }
   }
 
-  async function fetchMembers({ pageParam = 1 }, name, sort) {
+  async function fetchMembers({ pageParam = 1 }) {
     const queryParams = {
       page: pageParam,
-      name,
-      sort
+      name: findMember.member,
+      sort: findMember.sortBy
     }
     const encodedParams = encodeParams(queryParams)
     const apiUrl = `profile?${encodedParams}`
@@ -77,7 +77,8 @@ function FindMember({ setRefetchUser }) {
     isError
   } = useInfiniteQuery({
     queryKey: ['profile', findMember.member, findMember.sortBy], // Dynamic query key
-    queryFn: ({ pageParam = 1 }) => fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
+    queryFn: fetchMembers,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage?.next
   })
 
@@ -144,7 +145,7 @@ function FindMember({ setRefetchUser }) {
         >
           {(members) =>
             members.length != 0 &&
-            members?.map((rec, index) => (
+            members?.map((rec) => (
               <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xs={8} md={4} lg={4}>

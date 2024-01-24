@@ -34,6 +34,7 @@ function ProfileComponent() {
         <common.Img src={profilePic ?? defaultProfile} className={classes.profileImage} />
         <common.FileUploadButton
           handleUploadPhoto={handleUploadPhoto}
+          accept="image/*"
           label={'Upload Photo'}
           size="medium"
           startIcon={<common.Img src={uploadIcon} />}
