@@ -164,7 +164,7 @@ function Library() {
   }
 
   function openLibraryInfo(library) {
-    // navigate(`/library/${library.id}`, { state: { library } })
+    navigate(`/library/${library.id}`, { state: { library } })
   }
 
   return (

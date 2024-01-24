@@ -105,7 +105,7 @@ function RecommendationCard({ setRefetchUser }) {
                       </Typography>
                     )}
                   </Grid>
-                  <div className={` ${index < recommendations?.length - 1 ? 'divider' : ''}`}></div>
+                  <div className={` ${index < recommendations.length - 1 ? 'divider' : ''}`}></div>
                 </Grid>
               ))}
             {recommendations?.length === 0 && <Typography>No Recommendations</Typography>}

@@ -47,9 +47,9 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
         color: '#698296'
       }}
     >
-      {channels.map((list, index) => (
-        <div key={list.header} className="col-start gap-2">
-          <dt>{list.header}</dt>
+      {channels?.map((list, index) => (
+        <div key={list?.header} className="col-start gap-2">
+          <dt>{list?.header}</dt>
           {index == 0 &&
             currentUser?.channels?.map((channal) => (
               <dd
@@ -76,17 +76,17 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
             ))}
           {index == 1 &&
             currentUser?.favorites?.map((user) => (
-              <dd className="row-between gap-05 cursor" key={user.dashboard_user}>
+              <dd className="row-between gap-05 cursor" key={user?.user?.first_name}>
                 <Avatar src={user?.profile_pic} />
-                <Typography color="primary.main">{user.user.first_name}</Typography>
-                <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user.id)} />
+                <Typography color="primary.main">{user?.user?.first_name ?? ''}</Typography>
+                <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user?.id)} />
               </dd>
             ))}
-          {list.items.map(
+          {list?.items?.map(
             (item) =>
               !item?.show && (
                 <dd
-                  key={item.label}
+                  key={item?.label}
                   className="row-between gap-06 cursor"
                   style={{ color: portal === item.url && 'black' }}
                   onClick={() => handleClick(item.url, item.label)}

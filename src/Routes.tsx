@@ -35,6 +35,10 @@ const Routes = createBrowserRouter([
       {
         path: 'settings',
         element: <Setting />
+      },
+      {
+        path: '404',
+        element: <Error errorCode="404" />
       }
     ]
   },

@@ -2,6 +2,7 @@ import { Container, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
+import { Error } from 'pages/Errors'
 import qs from 'qs'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -107,10 +108,15 @@ function Dashboard() {
       return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
     } else if (['find', 'library'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
+    } else {
+      return 404
     }
   }
 
-  const { sideMenuSize, mainContentSize, recommendationSize }: any = getPortalSizes(portal)
+  const layout = getPortalSizes(portal)
+
+  if (layout === 404) navigate('/404')
+  const { sideMenuSize, mainContentSize, recommendationSize } = layout
 
   const portalComponents: any = {
     channels: <General />,
@@ -120,7 +126,7 @@ function Dashboard() {
 
   const mainContent = portalComponents[portal]
 
-  return (
+  return layout === 404 ? null : (
     <>
       <ResponsiveAppBar setPanel={setPanel} setEventsPanel={setEventsPanel} Panel={Panel} isBelowLG={isBelowLG} />
       <Box component="main" sx={containerStyles}>
