@@ -48,6 +48,11 @@ const libraryStyles = makeStyles((theme) => ({
     height: '167px',
     borderRadius: '8px'
   },
+  individualContentImg: {
+    width: '100%',
+    height: '300px',
+    borderRadius: '8px'
+  },
   moduleContentAvatar: {
     maxWidth: '20px',
     maxHeight: '20px'

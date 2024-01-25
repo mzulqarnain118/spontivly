@@ -23,7 +23,7 @@ const IndividualLibrary = () => {
           </Link>
           <common.MuiIcon name="ArrowForwardIos" sx={{ ml: '4px' }} />
         </Typography>
-        <Typography variant="h6">Testew</Typography>
+        <Typography variant="h6">{library.title}</Typography>
       </Box>
       <Card>
         <CardContent>
@@ -34,7 +34,7 @@ const IndividualLibrary = () => {
                   <div className="relative-full-width">
                     <common.Img
                       src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail}
-                      className={classes.moduleContentImg}
+                      className={classes.individualContentImg}
                     />
                     <div className={classes.moduleContentSource}>
                       <common.Img type="smallIcon" src={typeIcons[library.type]} />
@@ -43,10 +43,15 @@ const IndividualLibrary = () => {
                   <common.MuiButton
                     size="large"
                     onClick={() => handleOpenUrlInNewTab(library.url)}
-                    label="Go To The External Link Of This Context"
+                    label="Go To The External Link Of This Content"
                   />
                   <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
-                  <Typography>{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
+                  <Box className="row gap-1">
+                    <Grid item xs={1}>
+                      <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
+                    </Grid>
+                    <Typography>{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
+                  </Box>
                   <Chip label={library?.status.toUpperCase() ?? 'DRAFT'} className={classes.libraryStatus} />
                 </div>
                 <div className="divider"></div>
@@ -71,10 +76,8 @@ const IndividualLibrary = () => {
                         ))}
                       </Box>
                     </Grid>
-                    <Grid item xs={1}>
-                      <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
-                    </Grid>
                   </Grid>
+                  <Typography align="left" dangerouslySetInnerHTML={{ __html: library?.description }} />
                 </Box>
               </Box>
             </Grid>
