@@ -85,7 +85,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
         width={'sm'}
         title={'Add Members'}
         submitBtnLabel="Send Invite"
-        subTitle={'Invite members to your Directory.'}
+        subTitle={'Add members from Directory to your Channel or invite them from outside the directory.'}
         submitHandler={postMember}
       >
         <Grid item xs={12} sx={{ mt: 5 }}>

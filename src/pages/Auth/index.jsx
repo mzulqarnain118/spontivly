@@ -1,11 +1,10 @@
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
-import { Stack, Divider, Container, Typography } from '@mui/material'
-import React, { useState, useCallback, useEffect } from 'react'
+import {  Container, Typography } from '@mui/material'
+import React, { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/images/Org-placeholder.png'
 import { Controls as common } from '../../components/common'
 import { loginStyles } from '../../styles'
-import { ApiCall, setLocal, getLocal } from '../../utils'
+import { ApiCall, setLocal } from '../../utils'
 
 export function Auth() {
   const navigate = useNavigate()
@@ -17,9 +16,7 @@ export function Auth() {
     password: '',
     email: ''
   })
-
   const classes = loginStyles()
-  const [anchorEl, setAnchorEl] = useState(null)
   const onSubmit = useCallback(
     async (e) => {
       e.preventDefault()
@@ -56,7 +53,7 @@ export function Auth() {
     [buttonText, formData, navigate, setButtonText, setLocal]
   )
 
-  return (
+  return  (
     <Container maxWidth="sm" className={classes.container}>
       <common.Img src={logo} type="logo" />
       <common.FormHeading heading=" Welcome to Spontivly Portal" />
@@ -92,7 +89,7 @@ export function Auth() {
             required
           />
         )}
-        <common.Link to="#" label="Forgot Password?" style={{textAlign:"end"}} />
+        <common.Link to="#" label="Forgot Password?" style={{ textAlign: 'end' }} />
         <common.MuiButton
           type="submit"
           label={buttonText}
