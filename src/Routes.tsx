@@ -9,7 +9,6 @@ const isAuthenticated = getLocal('token')
 const Auth = lazy(() => import('./pages/Auth').then((module) => ({ default: module.Auth })))
 const OnBoarding = lazy(() => import('./pages/onboarding').then((module) => ({ default: module.OnBoarding })))
 const Dashboard = lazy(() => import('./pages/Dashboard').then((module) => ({ default: module.Dashboard })))
-const Setting = lazy(() => import('./pages/Setting').then((module) => ({ default: module.Setting })))
 
 const Routes = createBrowserRouter([
   {
@@ -36,10 +35,6 @@ const Routes = createBrowserRouter([
       {
         path: '/:portal/:libraryId',
         element: <Dashboard />
-      },
-      {
-        path: 'settings',
-        element: <Setting />
       },
       {
         path: '404',

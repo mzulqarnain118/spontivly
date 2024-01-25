@@ -5,7 +5,6 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
   const handleChange = (event, newValue) => {
     onChange(newValue)
   }
-
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
   }
@@ -32,7 +31,7 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
         ))
       }
       renderInput={(params) => (
-        <TextField {...params} variant={variant} label={label} placeholder={placeholder} required={value?.length == 0} />
+        <TextField {...params} variant={variant} label={label} placeholder={placeholder} required={required && value?.length == 0} />
       )}
       {...other}
     />

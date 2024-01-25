@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import { Error } from 'pages/Errors'
+import { Setting } from 'pages/Setting'
 import qs from 'qs'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
@@ -17,6 +18,8 @@ import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
+import { Profile } from 'pages/onboarding/Profile'
+import { ProfileContent } from 'pages/Setting/ProfileContent'
 
 const containerStyles = {
   width: '80vw',
@@ -35,23 +38,31 @@ function Dashboard() {
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
   const [refetchUser, setRefetchUser] = useState(false)
-  const channels = [
-    {
-      header: 'CHANNELS',
-      items: [{ url: 'createChannel', label: 'Create Channel', icon: 'AddCircle', show: !isModerator }]
-    },
-    {
-      header: 'COMMUNITY',
-      items: [{ url: '', label: 'Add Member', icon: 'AddCircle', show: !isModerator }]
-    },
-    {
-      header: 'RESOURCES',
-      items: [
-        { url: 'find', label: 'Find Member', icon: 'Search' },
-        { url: 'library', label: 'Library', icon: 'YouTube' }
-      ]
-    }
-  ]
+  const navItems = {
+    settings: [
+      {
+        header: 'Settings',
+        items: [{ url: 'settings', label: 'Profile', icon: 'Person2' }]
+      }
+    ],
+    channels: [
+      {
+        header: 'CHANNELS',
+        items: [{ url: 'createChannel', label: 'Create Channel', icon: 'AddCircle', show: !isModerator }]
+      },
+      {
+        header: 'COMMUNITY',
+        items: [{ url: '', label: 'Add Member', icon: 'AddCircle', show: !isModerator }]
+      },
+      {
+        header: 'RESOURCES',
+        items: [
+          { url: 'find', label: 'Find Member', icon: 'Search' },
+          { url: 'library', label: 'Library', icon: 'YouTube' }
+        ]
+      }
+    ]
+  }
   const fetchCurrentUser = async () => {
     const queryParams = {
       me: true
@@ -103,10 +114,11 @@ function Dashboard() {
     navigate(`/${newPortal}`)
   }
 
+  const selectedNavItems = useMemo(() => (portal === 'settings' ? navItems['settings'] : navItems['channels']), [portal])
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
       return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
-    } else if (['find', 'library'].includes(portal)) {
+    } else if (['find', 'library', 'settings'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
     } else {
       return 404
@@ -121,7 +133,8 @@ function Dashboard() {
   const portalComponents: any = {
     channels: <General />,
     find: <FindMember setRefetchUser={setRefetchUser} />,
-    library: libraryId ? <IndividualLibrary /> : <Library />
+    library: libraryId ? <IndividualLibrary /> : <Library />,
+    settings: <Setting />
   }
 
   const mainContent = portalComponents[portal]
@@ -136,7 +149,7 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
-                channels={channels}
+                navItems={selectedNavItems}
                 setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}
               />
@@ -146,7 +159,7 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
-                channels={channels}
+                navItems={selectedNavItems}
                 setPanel={setPanel}
                 setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}

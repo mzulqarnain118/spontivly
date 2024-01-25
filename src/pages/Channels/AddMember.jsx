@@ -47,6 +47,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
       Toast('Members Added Successfully.')
       setSelectedMembers([])
       refetch()
+      setMemberPopup((old) => !old)
     }
   }
 
@@ -86,9 +87,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
         setPopup={setMemberPopup}
         width={'sm'}
         title={'Add Members'}
-        submitBtnLabel="Send Invite"
         subTitle={'Add members from Directory to your Channel or invite them from outside the directory.'}
-        submitHandler={postMember}
       >
         <Grid item xs={12} sx={{ mt: 5 }}>
           <common.InfiniteQueryWrapper
@@ -127,16 +126,28 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
             }
           </common.InfiniteQueryWrapper>
         </Grid>
-        <common.Autocomplete
-          placeholder="Members"
-          variant="outlined"
-          value={selectedMembers}
-          onChange={handleMemberChange}
-          options={members ?? []}
-          inputValue={searchMemberText}
-          setInputValue={setSearchMemberText}
-          required
-        />
+        <common.Form onSubmit={postMember} submitLabel="Send Invite">
+          {({ errors, control }) => (
+            <>
+              <common.ControlledInput
+                name="members"
+                control={control}
+                errors={errors}
+                component={
+                  <common.Autocomplete
+                    placeholder="Members"
+                    variant="outlined"
+                    value={selectedMembers}
+                    onChange={handleMemberChange}
+                    options={members ?? []}
+                    inputValue={searchMemberText}
+                    setInputValue={setSearchMemberText}
+                  />
+                }
+              />
+            </>
+          )}
+        </common.Form>
       </common.Popup>
     </>
   )

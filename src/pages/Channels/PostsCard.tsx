@@ -24,10 +24,14 @@ interface RootState {
 function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   const filteredMoreOptions = [
     ...moreOptions,
-    !post?.is_closed && post?.choices?.length !== 0 ? 'Close Poll' : '',
     post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
   ]
+
+  if (!post?.is_closed && post?.choices?.length !== 0) {
+    filteredMoreOptions.push('Close Poll')
+  }
+
   const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const [addComment, setAddComment] = useState<any>(null)

@@ -40,7 +40,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
         setUploadFile({ file: postDataToEdit?.attachment })
       } else if (postDataToEdit?.choices?.length !== 0) {
         setSelectedButton('poll')
-        const existingPollOptions = postDataToEdit?.choices?.map((item) => item?.name)
+        const existingPollOptions = postDataToEdit?.choices?.map((item) => ({ id: item?.id, name: item?.name }))
 
         setPollOptions(existingPollOptions)
       }
@@ -202,11 +202,14 @@ function CreatePoll({
         <div key={index} className="row-evenly">
           <common.Input
             placeholder={`Option ${index + 1}`}
-            value={option}
+            value={option?.name ?? option}
             customHandleChange={(e) => {
               const updatedOptions = [...pollOptions]
 
-              updatedOptions[index] = e.target.value
+              if (updatedOptions[index]?.name) {
+                updatedOptions[index].name = e.target.value
+              } else updatedOptions[index] = e.target.value
+
               setPollOptions(updatedOptions)
             }}
             required

@@ -7,7 +7,7 @@ import { ApiCall } from '../../utils'
 
 const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup, setAddMemberChannelId }) {
+function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, navItems, setMemberPopup, setAddMemberChannelId }) {
   const { portal, channelId } = useParams()
 
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
@@ -47,10 +47,11 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
         color: '#698296'
       }}
     >
-      {channels?.map((list, index) => (
+      {navItems?.map((list, index) => (
         <div key={list?.header} className="col-start gap-2">
           <dt>{list?.header}</dt>
           {index == 0 &&
+            portal !== 'settings' &&
             currentUser?.channels?.map((channal) => (
               <dd
                 className="align-between cursor"
@@ -75,6 +76,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
               </dd>
             ))}
           {index == 1 &&
+            portal !== 'settings' &&
             currentUser?.favorites?.map((user) => (
               <dd className="row-between gap-05 cursor" key={user?.user?.first_name}>
                 <Avatar src={user?.profile_pic} />
