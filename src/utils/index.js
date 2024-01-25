@@ -68,12 +68,8 @@ const handleShowYoutubeThumbnail = (url, type) => {
   return null
 }
 
-export const handleOpenUrlInNewTab = (url, type, navigate) => {
-  if (type === 'pdf') {
-    navigate(`/pdf-viewer?${encodeURIComponent(url)}`)
-  } else {
-    window.open(url, '_blank')
-  }
+export const handleOpenUrlInNewTab = (url) => {
+  window.open(url, '_blank')
 }
 
 function capitalizeFirstLetter(str) {

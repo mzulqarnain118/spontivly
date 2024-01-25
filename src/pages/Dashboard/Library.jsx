@@ -14,7 +14,7 @@ import youtubeText from '../../assets/icons/youtubeText.png'
 import { Controls as common } from '../../components/common'
 import { ToggleButtons } from '../../components/common/ToggleButtons'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
-import { ApiCall, capitalizeFirstLetter, encodeParams } from '../../utils'
+import { ApiCall, capitalizeFirstLetter, encodeParams, getLocal, setLocal } from '../../utils'
 import { CreateContent } from './CreateContent'
 import { FilterLibrary } from './FilterLibrary'
 import { LibraryContent } from './LibraryContent'
@@ -64,7 +64,7 @@ function Library() {
 
     return isModerator && createdUserId === userId ? filteredMoreOptions : filteredMoreOptions.slice(4)
   }
-  const [view, setView] = useState('list')
+  const [view, setView] = useState(getLocal('libraryView') ?? 'list')
   const [selectedTags, setSelectedTags] = useState([])
   const [applyFilters, setApplyFilters] = useState(false)
   const [selectedTypes, setSelectedTypes] = useState([])
@@ -164,6 +164,7 @@ function Library() {
   }
 
   function openLibraryInfo(library) {
+    setLocal('libraryView', view)
     navigate(`/library/${library.id}`, { state: { library } })
   }
 

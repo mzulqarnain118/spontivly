@@ -2,13 +2,15 @@ import { Grid } from '@mui/material'
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
 function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
+  const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const params = useParams()
-  const channelId = addMemberChannelId ?? params?.channelId 
+  const channelId = addMemberChannelId ?? params?.channelId
 
   const [selectedMembers, setSelectedMembers] = useState([])
   const [confirmModal, setConfirmModal] = useState(false)
@@ -108,7 +110,9 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
                   </Grid>
                   <Grid item xs={1}>
                     {/* setConfirmModal(true) */}
-                    <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
+                    {member?.id !== userId && isModerator && (
+                      <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
+                    )}
                     <common.Popup
                       openPopup={confirmModal}
                       setPopup={setConfirmModal}
