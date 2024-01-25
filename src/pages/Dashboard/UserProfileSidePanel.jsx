@@ -22,8 +22,8 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
           }}
         >
           <Avatar src={user?.profile_pic} sx={{ width: '3.33rem', height: '3.33rem' }} />
-          <Typography>{user.user.first_name + user.user.last_name}</Typography>
-          <Typography variant="lighterSubtitle2">{user.user.email}</Typography>
+          <Typography>{user?.user?.first_name ?? '' + user?.user?.last_name ?? ''}</Typography>
+          <Typography variant="lighterSubtitle2">{user?.user?.email ?? ''}</Typography>
           <Box className="flex">
             <img src={twitter} />
             <img src={fb} />
@@ -44,22 +44,22 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
       </common.SidePanel>
       <common.Popup openPopup={openPopup} setPopup={setPopup}>
         {data.map((item, index) => (
-          <CardContent className="col-start gap-075">
+          <CardContent key={item} className="col-start gap-075">
             <Typography variant="subtitle">{item}</Typography>
             {index == 0 ? (
               <Typography variant="subtitle1" sx={{ textAlign: 'start' }}>
-                {user.introduction}
+                {user?.introduction ?? ''}
               </Typography>
             ) : index == 2 ? (
               <div className="flex">
-                {user.interests.map((item) => (
-                  <Typography key={item.title} className={classes.tag}>
-                    {item.title}
+                {user?.interests.map((item) => (
+                  <Typography key={item?.title} className={classes.tag}>
+                    {item?.title ?? ''}
                   </Typography>
                 ))}
               </div>
             ) : (
-              <Typography variant="subtitle1">{`${user.position} @  ${user.company_name}`}</Typography>
+              <Typography variant="subtitle1">{`${user?.position ?? ''} @  ${user?.company_name ?? ''}`}</Typography>
             )}
             <Divider />
           </CardContent>

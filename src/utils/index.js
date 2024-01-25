@@ -68,16 +68,19 @@ const handleShowYoutubeThumbnail = (url, type) => {
   return null
 }
 
-export const handleOpenUrlInNewTab = (url, type, navigate) => {
-  if (type === 'pdf') {
-    navigate(`/pdf-viewer?${encodeURIComponent(url)}`)
-  } else {
-    window.open(url, '_blank')
-  }
+export const handleOpenUrlInNewTab = (url) => {
+  window.open(url, '_blank')
 }
 
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+function isImageFile(filePath) {
+  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif']
+  const lowerCaseFilePath = filePath?.toLowerCase()
+
+  return imageExtensions.some((ext) => lowerCaseFilePath.endsWith(`.${ext}`))
 }
 
 export {
@@ -93,5 +96,6 @@ export {
   generatePayload,
   reduceArrayByKeys,
   handleShowYoutubeThumbnail,
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  isImageFile
 }

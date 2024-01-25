@@ -1,7 +1,8 @@
 import React from 'react'
 import './index.css'
 import * as ReactDOM from 'react-dom/client'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import { App } from './App'
 import { Controls as common } from './components/common'
@@ -16,6 +17,7 @@ root.render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <App />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
     <common.ContainerToast />

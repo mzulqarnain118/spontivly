@@ -1,10 +1,9 @@
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ApiCall, handleOpenUrlInNewTab } from 'utils'
+import { ApiCall, handleOpenUrlInNewTab, isImageFile } from 'utils'
 import commentIcon from '../../assets/icons/comment.svg'
-import like from '../../assets/icons/like.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
 import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
@@ -17,19 +16,23 @@ const moreOptions = ['Edit Post', 'Delete Post']
 interface RootState {
   dashboard: {
     isModerator: boolean
+    userId: number
   }
 }
 
 function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   const filteredMoreOptions = [
-    post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     ...moreOptions,
+    post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
   ]
-  const { isModerator } = useSelector((state: RootState) => state?.dashboard)
+
+  if (!post?.is_closed && post?.choices?.length !== 0) {
+    filteredMoreOptions.push('Close Poll')
+  }
+
+  const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
-  const isPDF = post?.attachment?.toLowerCase().endsWith('.pdf')
-  const isVideo = ['mp4', 'mov', 'avi'].some((ext) => post?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const [addComment, setAddComment] = useState<any>(null)
 
   const handleCloseUserMenu = (item, post) => {
@@ -44,8 +47,13 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       favPost(post?.id)
     } else if (item === 'Remove from Favorites') {
       UnFavPost(post?.id)
+    } else if (item === 'Close Poll') {
+      closePoll(post?.id)
     }
   }
+
+  useEffect(() => {}, [post?.attachment])
+
   const likePost = async () => {
     const payload = {
       post: post?.id
@@ -61,10 +69,22 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
       is_pin: !post?.is_pin
     }
 
-    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', payload)
+    const pinedPost = await ApiCall(`posts/${post?.id}/`, null, 'PATCH', { data: JSON.stringify(payload) })
 
     if (pinedPost) {
       Toast(`Post ${post?.is_pin ? 'Un-Pinned' : 'Pinned'} Successfully`)
+      refetch()
+    }
+  }
+  const closePoll = async (postId) => {
+    const payload = {
+      is_closed: true
+    }
+
+    const closePoll = await ApiCall(`posts/${postId}/`, null, 'PATCH', { data: JSON.stringify(payload) })
+
+    if (closePoll) {
+      Toast(`Poll Closed Successfully`)
       refetch()
     }
   }
@@ -106,7 +126,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
   }
 
   return (
-    <Card className={`${channelClasses.container} mb-1`}>
+    <Card key={post?.id + post?.updated_at} className={`${channelClasses.container} mb-1`}>
       <CardContent className="col-start gap-05">
         <Grid container item justifyContent="space-between">
           <Grid item xs={9}>
@@ -126,7 +146,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
           </Grid>
           <Grid item xs={1}>
             <common.MenuList
-              items={isModerator ? filteredMoreOptions : moreOptions.slice(3)}
+              items={isModerator && post?.created_by?.id === userId ? filteredMoreOptions : filteredMoreOptions.slice(3)}
               onClose={(e) => handleCloseUserMenu(e, post)}
               icon="MoreHorizRounded"
               tooltip="Open settings"
@@ -139,18 +159,21 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
         </Typography>
         {post?.attachment && (
           <>
-            {isPDF || isVideo ? (
-              <div className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
+            {!isImageFile(post?.attachment) ? (
+              <Grid className="row cursor" onClick={() => handleOpenUrlInNewTab(post?.attachment)}>
                 <common.Img src={fileIcon} />
                 {post?.attachment?.split('post/')[1]}
-              </div>
+              </Grid>
             ) : (
-              <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
+              <>
+                <common.Img className={channelClasses.postThumbnail} src={post?.attachment} />
+              </>
             )}
           </>
         )}
+
         {post?.choices?.length !== 0 && (
-          <Grid container item rowSpacing={1}>
+          <Grid container item rowSpacing={1} className={post?.is_closed && 'disabled'}>
             <DisplayPoll choices={post?.choices} postId={post?.id} refetch={refetch} />
           </Grid>
         )}

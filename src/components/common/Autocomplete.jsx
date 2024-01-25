@@ -1,11 +1,10 @@
 import { Autocomplete as MuiAutocomplete, Chip, TextField } from '@mui/material'
 import React from 'react'
 
-function Autocomplete({ options, value, onChange, placeholder, label, variant, inputValue, setInputValue, ...other }) {
+function Autocomplete({ options, value, onChange, placeholder, label, variant, inputValue, setInputValue, required, ...other }) {
   const handleChange = (event, newValue) => {
     onChange(newValue)
   }
-
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
   }
@@ -31,7 +30,9 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
           />
         ))
       }
-      renderInput={(params) => <TextField {...params} variant={variant} label={label} placeholder={placeholder} />}
+      renderInput={(params) => (
+        <TextField {...params} variant={variant} label={label} placeholder={placeholder} required={required && value?.length == 0} />
+      )}
       {...other}
     />
   )

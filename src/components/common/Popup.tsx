@@ -15,43 +15,73 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }))
 
-export function Popup({ width, title, subTitle, children, openPopup, setPopup, submitBtnLabel, submitHandler, handleFormClear, onClose }: any) {
+export function Popup({
+  width,
+  title,
+  type,
+  subTitle,
+  children,
+  openPopup,
+  setPopup,
+  submitBtnLabel,
+  cancelBtnLabel,
+  submitHandler,
+  handlePopupCancel,
+  onClose
+}: any) {
   const classes = useStyles()
 
   return (
     <Dialog fullWidth maxWidth={width ?? 'md'} open={openPopup} classes={{ paper: classes.dialogWrapper }}>
       <DialogTitle>
-        <div className="row-between">
-          <Typography variant="h5" align="left">
-            {title}
-          </Typography>
-          <MuiIcon
-            onClick={() => {
-              setPopup(!openPopup)
-              onClose && onClose()
-            }}
-            name="Close"
-          />
-        </div>
-        <Typography align="left" sx={{ color: 'customColors.subtitle1' }}>
-          {subTitle}
-        </Typography>
+        {submitBtnLabel === 'Confirm' ? (
+          <Typography variant="h5">{title ?? 'Are you sure?'}</Typography>
+        ) : (
+          <>
+            <div className="row-between">
+              <Typography variant="h5" align="left">
+                {title}
+              </Typography>
+              <MuiIcon
+                onClick={() => {
+                  setPopup(!openPopup)
+                  onClose && onClose()
+                }}
+                name="Close"
+              />
+            </div>
+            <Typography align="left" sx={{ color: 'customColors.subtitle1' }}>
+              {subTitle}
+            </Typography>
+          </>
+        )}
       </DialogTitle>
       <DialogContent dividers>{children}</DialogContent>
       {submitBtnLabel && (
         <DialogActions>
-          {handleFormClear && (
-            <Link align="left" onClick={handleFormClear}>
-              Clear all
-            </Link>
-          )}
+          {handlePopupCancel &&
+            (submitBtnLabel === 'Confirm' ? (
+              <common.MuiButton
+                size={'large'}
+                onClick={() => {
+                  handlePopupCancel()
+                  setPopup(!openPopup)
+                }}
+                variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
+                label={cancelBtnLabel ?? 'Cancel'}
+              />
+            ) : (
+              <Link align="left" onClick={handlePopupCancel}>
+                {cancelBtnLabel ?? 'Cancel'}
+              </Link>
+            ))}
           <common.MuiButton
-            size={'md'}
+            size={submitBtnLabel === 'Confirm' ? 'large' : 'md'}
             onClick={() => {
               submitHandler && submitHandler()
               setPopup(!openPopup)
             }}
-            variant="contained"
+            variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
             label={submitBtnLabel}
           />
         </DialogActions>

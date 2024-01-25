@@ -304,6 +304,12 @@
   margin-top: 1rem; /* Adjust as needed to control the space between recommendations */
 }
 
+.disabled {
+  /* Add your CSS declarations for disabled elements here */
+  opacity: 0.5; /* Example: reduce opacity for disabled elements */
+  pointer-events: none; /* Example: disable pointer events for disabled elements */
+  /* Add any other styles specific to disabled elements */
+}
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; /* Two equal-sized columns */
@@ -311,3 +317,11 @@
   justify-items: stretch; /* Align items to stretch to fill the entire grid cell */
 }
 
+/* CK editor CSS*/
+.ck.ck-editor__main > .ck-editor__editable {
+  border-color: rgb(222, 221, 221) !important;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:focus {
+  border-color: black !important;
+}

@@ -2,14 +2,14 @@ import { AppBar, Box, Toolbar, Typography, Container, Avatar } from '@mui/materi
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/images/Logo.png'
+import logo from '../../assets/images/Org-placeholder.png'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 
-const settings = ["Events & Recommendations", 'Dashboard', 'Account', 'Settings', 'Logout']
+const settings = ['Events & Recommendations', 'Dashboard', 'Settings', 'Logout']
 
 function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
-  const filteredSettings = isBelowLG ? settings : settings.slice(1);
+  const filteredSettings = isBelowLG ? settings : settings.slice(1)
   const navigate = useNavigate()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const user = currentUser?.user
@@ -26,7 +26,7 @@ function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
       navigate('/settings')
     } else if (setting == 'Dashboard') {
     } else if (setting == 'Events & Recommendations') {
-      setEventsPanel(old=>!old)
+      setEventsPanel((old) => !old)
     } else if (setting == 'Dashboard') {
       navigate('/')
     }
@@ -41,7 +41,7 @@ function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
           <Toolbar disableGutters>
             {isBelowLG && <common.MuiIcon name="Menu" color="primary.main" onClick={() => setPanel(!Panel)} />}
             <common.MuiIcon name="Adb" className={classes.logo} />
-            <common.Img src={logo} />
+            <common.Img src={logo} width="9rem" />
             <Box className={classes.userBox}>
               <Box className={classes.userMenuBox}>
                 <Box className="row gap-025">

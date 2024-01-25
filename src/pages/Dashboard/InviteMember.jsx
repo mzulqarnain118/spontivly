@@ -8,7 +8,7 @@ const InviteMember = () => {
 
   return (
     <ReactMultiEmail
-      placeholder="Input your email"
+      placeholder="Input Emails to Invite"
       emails={emails}
       onChange={(_emails) => {
         setEmails(_emails)

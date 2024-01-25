@@ -2,7 +2,7 @@ import { Avatar, Grid, Box, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
@@ -33,11 +33,12 @@ export function Comments({ refetchPosts, post_id }) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
-  } = useInfiniteQuery(
-    ['posts/comment', post_id], // Dynamic query key
-    ({ pageParam = 1 }) => fetchPosts({ pageParam }),
-    {
+    isLoading,
+    isSuccess,
+    isError
+  } = useInfiniteQuery({
+    queryKey: ['posts/comment', post_id], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchPosts({ pageParam }),
       getNextPageParam: (lastPage) => lastPage?.next
     }
   )
@@ -80,7 +81,9 @@ export function Comments({ refetchPosts, post_id }) {
       <AddComment setComment={setComment} comment={comment} postComment={postComment} Send={Send} />
 
       <common.InfiniteQueryWrapper
-        status={status}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
         data={fetchedComments}
         error={error}
         fetchNextPage={fetchNextPage}

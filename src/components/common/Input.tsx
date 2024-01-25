@@ -1,8 +1,8 @@
 import ClearIcon from '@mui/icons-material/Clear'
-import SearchIcon from '@mui/icons-material/Search'
 import { ClassNameMap, TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useCallback, useMemo } from 'react'
+import { Controls as common } from '../../components/common'
 import { commonStyles } from '../../styles/commonStyles'
 import { debounce } from '../../utils'
 
@@ -33,7 +33,7 @@ export function Input(
   const classes: ClassNameMap<any> = commonStyles()
   // Create a separate debounced function using useMemo
   const debouncedUpdate = useMemo(() => debounce(listUpdater, 500), [listUpdater])
-  
+
   const handleClearClick = useCallback(
     (e: any) => {
       const { name } = e.target
@@ -97,11 +97,7 @@ export function Input(
       defaultValue={defaultValue}
       InputProps={{
         readOnly: readOnly,
-        startAdornment: startIcon && (
-          <IconButton disabled>
-            <SearchIcon />
-          </IconButton>
-        ),
+        startAdornment: startIcon && <common.MuiIcon name={startIcon} disabled sx={{ mr: 2 }} />,
         endAdornment: endIcon && value && (
           <IconButton onClick={customHandleClearClick ?? handleClearClick}>
             <ClearIcon />

@@ -1,18 +1,20 @@
 import { Avatar, Typography, Grid } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
 import { ApiCall } from '../../utils'
-import { useParams } from 'react-router-dom'
 
 const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setMemberPopup, setSelectedChannelId }) {
-  const { portal } = useParams()
+function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, navItems, setMemberPopup, setAddMemberChannelId }) {
+  const { portal, channelId } = useParams()
+
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
-  const [channelLabel, setChannelLabel] = useState(portal)
+  const [selectedChannelId, setSelectedChannelId] = useState()
+
   const unFavorite = async (id) => {
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
 
@@ -22,13 +24,11 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
   }
 
   useEffect(() => {
-    if (currentUser) {
-      setChannelLabel(currentUser?.channels?.[0]?.name)
-    }
-  }, [currentUser])
+    channelId && setSelectedChannelId(channelId)
+  }, [channelId])
 
-  const handleClick = (url, label, channelId) => {
-    setChannelLabel(label)
+  const handleClick = (url, channelId) => {
+    channelId && setSelectedChannelId(channelId)
     url != '' && onPortalChange(url, channelId)
     setPanel && setPanel(false)
   }
@@ -36,7 +36,7 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
   const handleCloseUserMenu = (item, channelId) => {
     if (item === 'Manage Members') {
       setMemberPopup((old) => !old)
-      setSelectedChannelId(channelId)
+      setAddMemberChannelId(channelId)
     }
   }
 
@@ -47,16 +47,17 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
         color: '#698296'
       }}
     >
-      {channels.map((list, index) => (
-        <div key={list.header} className="col-start gap-2">
-          <dt>{list.header}</dt>
+      {navItems?.map((list, index) => (
+        <div key={list?.header} className="col-start gap-2">
+          <dt>{list?.header}</dt>
           {index == 0 &&
+            portal !== 'settings' &&
             currentUser?.channels?.map((channal) => (
               <dd
                 className="align-between cursor"
                 key={channal?.id}
-                style={{ color: channelLabel === channal?.name && 'black' }}
-                onClick={() => handleClick('channels', channal?.name, channal?.id)}
+                style={{ color: selectedChannelId == channal?.id && 'black' }}
+                onClick={() => handleClick('channels', channal?.id)}
               >
                 <Grid item sx={11} className="row gap-05">
                   <common.MuiIcon name={channal?.is_private ? 'Lock' : 'Tag'} />
@@ -75,20 +76,21 @@ function SideMenuCard({ onPortalChange, setPanel, setRefetchUser, channels, setM
               </dd>
             ))}
           {index == 1 &&
+            portal !== 'settings' &&
             currentUser?.favorites?.map((user) => (
-              <dd className="row-between gap-05 cursor" key={user.id}>
+              <dd className="row-between gap-05 cursor" key={user?.user?.first_name}>
                 <Avatar src={user?.profile_pic} />
-                <Typography color="primary.main">{user.user.first_name}</Typography>
-                <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user.id)} />
+                <Typography color="primary.main">{user?.user?.first_name ?? ''}</Typography>
+                <common.MuiIcon name={'StarRateRounded'} color="warning.main" onClick={() => unFavorite(user?.id)} />
               </dd>
             ))}
-          {list.items.map(
+          {list?.items?.map(
             (item) =>
               !item?.show && (
                 <dd
-                  key={item.label}
+                  key={item?.label}
                   className="row-between gap-06 cursor"
-                  style={{ color: channelLabel === item.label && 'black' }}
+                  style={{ color: portal === item.url && 'black' }}
                   onClick={() => handleClick(item.url, item.label)}
                 >
                   <common.MuiIcon name={item.icon} />

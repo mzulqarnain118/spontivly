@@ -20,10 +20,29 @@ import {
   ThumbUpOffAlt,
   MoreVert,
   Edit,
-  PushPin
+  PushPin,
+  Email,
+  Password,
+  ArrowForward,
+  ArrowForwardIos,
+  Person2
 } from '@mui/icons-material'
 
-export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, variant, width, height, onClick }: any) => {
+export const MuiIcon = ({
+  name,
+  IconColor,
+  color,
+  fontSize,
+  bgColor,
+  size,
+  variant,
+  width,
+  height,
+  onClick,
+  disabled,
+  className,
+  sx
+}: any) => {
   const iconNames: any = {
     StarRateRounded,
     Search,
@@ -46,15 +65,21 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
     ThumbUpOffAlt,
     MoreVert,
     Edit,
-    PushPin
+    PushPin,
+    Email,
+    Password,
+    ArrowForward,
+    ArrowForwardIos,
+    Person2
   }
-  const IconComponent: any = iconNames[name] || StarRateRounded
+  const IconComponent: any = iconNames[name] || null
 
   return (
     <IconComponent
       onClick={onClick}
+      disabled={disabled}
       color={IconColor}
-      className="cursor"
+      className={`cursor ${className}}`}
       fontSize={size}
       variant={variant}
       sx={{
@@ -62,7 +87,8 @@ export const MuiIcon = ({ name, IconColor, color, fontSize, bgColor, size, varia
         fontSize: fontSize,
         width: width,
         height: height,
-        backgroundColor: bgColor
+        backgroundColor: bgColor,
+        ...sx
       }}
     />
   )

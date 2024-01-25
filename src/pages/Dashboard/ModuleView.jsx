@@ -48,7 +48,7 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, open
                 <Grid item xs={1}>
                   <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
                   <common.MenuList
-                    items={moreOptions}
+                    items={moreOptions(library?.created_by?.id, library?.i_saved)}
                     onClose={(e) => handleMoreClick(e, library)}
                     icon="MoreVert"
                     tooltip="Open settings"

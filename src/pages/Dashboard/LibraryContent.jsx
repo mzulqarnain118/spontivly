@@ -5,9 +5,11 @@ import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleShowYoutubeThumbnail } from '../../utils'
+import { useSelector } from 'react-redux'
 
 const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick, openLibraryInfo }) => {
   const classes = libraryStyles()
+  const { userId, isModerator } = useSelector((state) => state?.dashboard)
 
   return libraryData?.map((library) => (
     <Box key={library?.id} className={`${classes.mainBox} cursor`} onClick={() => openLibraryInfo(library)}>
@@ -33,7 +35,11 @@ const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick, 
         </Grid>
 
         <Grid item xs={2} className="col-between">
-          <common.MenuList items={moreOptions} onClose={(item) => handleMoreClick(item, library)} icon="MoreHorizRounded" />
+          <common.MenuList
+            items={moreOptions(library?.created_by?.id, library?.i_saved)}
+            onClose={(item) => handleMoreClick(item, library)}
+            icon="MoreHorizRounded"
+          />
           <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
           <common.Img type="icon" src={typeIcons[library?.type]} />
           <Chip label={library?.status.toUpperCase() ?? 'DRAFT'} className={classes.libraryStatus} />

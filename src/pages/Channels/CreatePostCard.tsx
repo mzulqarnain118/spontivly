@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { ApiCall, readFile } from 'utils'
+import { ApiCall, isImageFile, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
@@ -14,14 +14,15 @@ interface UploadFile {
   filePayload?: any
 }
 
-const CreatePostCard = ({
-  refetch,
-  setEditPost,
-  isEditing = false, // new prop to indicate whether it's for editing or adding
-  postDataToEdit // new prop to provide data for editing
-}) => {
+type CreatePostCardProps = {
+  refetch: any
+  setEditPost?: any
+  isEditing?: boolean
+  postDataToEdit?: any
+}
+
+const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, isEditing = false, postDataToEdit }) => {
   const { channelId } = useParams()
-  const isFile = ['mp4', 'mov', 'avi', 'pdf'].some((ext) => postDataToEdit?.attachment?.toLowerCase().endsWith(`.${ext}`))
   const classes = channelStyles()
   const [selectedButton, setSelectedButton] = useState<string>('')
   const [uploadFile, setUploadFile] = useState<UploadFile>({})
@@ -30,16 +31,16 @@ const CreatePostCard = ({
   useEffect(() => {
     if (isEditing) {
       if (postDataToEdit?.attachment) {
-        if (isFile) {
-          setSelectedButton('upload-file')
-        } else {
+        if (isImageFile(postDataToEdit?.attachment)) {
           setSelectedButton('upload-image')
+        } else {
+          setSelectedButton('upload-file')
         }
 
         setUploadFile({ file: postDataToEdit?.attachment })
       } else if (postDataToEdit?.choices?.length !== 0) {
         setSelectedButton('poll')
-        const existingPollOptions = postDataToEdit?.choices?.map((item) => item?.name)
+        const existingPollOptions = postDataToEdit?.choices?.map((item) => ({ id: item?.id, name: item?.name }))
 
         setPollOptions(existingPollOptions)
       }
@@ -72,42 +73,35 @@ const CreatePostCard = ({
   const createPostSubmit = async (values) => {
     try {
       const combinedFormData = new FormData()
-
-      if (uploadFile?.filePayload) {
-        combinedFormData.append('file', uploadFile.filePayload)
-      }
-
-      const requestData = {
+      const payload = {
         ...values,
         pollOptions,
         channel: channelId
       }
 
-      if (isEditing) {
-        // If editing, append postId to data and use PATCH method
-        combinedFormData.append('data', JSON.stringify(requestData))
-        const editedPost = await ApiCall(`posts/${postDataToEdit.id}/`, null, 'PATCH', requestData)
+      if (uploadFile?.filePayload) {
+        combinedFormData.append('file', uploadFile.filePayload)
+        combinedFormData.append('data', JSON.stringify(payload))
+      }
 
-        if (editedPost) {
-          setSelectedButton(null)
-          setUploadFile({})
-          setPollOptions(() => [''])
-          Toast('Post Edited Successfully')
-          refetch()
-          setEditPost((old) => !old)
-        }
-      } else {
-        // If adding, use POST method
-        combinedFormData.append('data', JSON.stringify(requestData))
-        const createdPost = await ApiCall('posts/', null, 'POST', combinedFormData)
+      const post = await ApiCall(
+        isEditing ? `posts/${postDataToEdit.id}/` : 'posts/',
+        null,
+        isEditing ? 'PATCH' : 'POST',
+        uploadFile?.filePayload
+          ? combinedFormData
+          : {
+              data: JSON.stringify(payload)
+            }
+      )
 
-        if (createdPost) {
-          setSelectedButton(null)
-          setUploadFile({})
-          setPollOptions(() => [''])
-          Toast('Post Created Successfully')
-          refetch()
-        }
+      if (post) {
+        setSelectedButton('')
+        setEditPost && setEditPost((old) => !old)
+        setUploadFile({})
+        setPollOptions(() => [''])
+        Toast(`Post ${isEditing ? 'Updated' : 'Added'} Successfully`)
+        refetch()
       }
     } catch (error) {
       console.log('error', error)
@@ -155,12 +149,14 @@ const CreatePostCard = ({
               )}
 
               {selectedButton === 'poll' && (
-                <CreatePoll
-                  pollOptions={pollOptions}
-                  setPollOptions={setPollOptions}
-                  handleAddOption={handleAddOption}
-                  handleDeleteOption={handleDeleteOption}
-                />
+                <div className={isEditing && postDataToEdit?.is_closed && 'disabled'}>
+                  <CreatePoll
+                    pollOptions={pollOptions}
+                    setPollOptions={setPollOptions}
+                    handleAddOption={handleAddOption}
+                    handleDeleteOption={handleDeleteOption}
+                  />
+                </div>
               )}
               <div className="row-center">
                 {buttons.map(({ label, icon, slug }) => (
@@ -169,11 +165,12 @@ const CreatePostCard = ({
                     variant="plain"
                     size="large"
                     label={label}
-                    accept={slug === 'upload-file' ? 'application/pdf,video/*' : 'image/*'}
+                    accept={slug === 'upload-image' ? 'image/*' : ''}
                     bgcolor={selectedButton === slug ? '#E9EDF0' : ''}
                     startCustomIcon={icon}
                     type={slug === 'poll' ? 'button' : 'file'}
                     handleUploadPhoto={(event) => handleClick(slug, event)}
+                    disabled={isEditing && slug !== selectedButton}
                   />
                 ))}
               </div>
@@ -205,11 +202,14 @@ function CreatePoll({
         <div key={index} className="row-evenly">
           <common.Input
             placeholder={`Option ${index + 1}`}
-            value={option}
+            value={option?.name ?? option}
             customHandleChange={(e) => {
               const updatedOptions = [...pollOptions]
 
-              updatedOptions[index] = e.target.value
+              if (updatedOptions[index]?.name) {
+                updatedOptions[index].name = e.target.value
+              } else updatedOptions[index] = e.target.value
+
               setPollOptions(updatedOptions)
             }}
             required

@@ -1,9 +1,9 @@
 import { Box, Card, Divider, Grid, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useCustomForm } from 'components/common/Form'
 import { Toast } from 'components/common/Toast/Toast'
 import qs from 'qs'
 import { useState, useEffect } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { Controls as common } from '../../components/common'
 import { dashboardStyles } from '../../styles/components/dashboardStyles'
 import { ApiCall, reduceArrayByKeys } from '../../utils'
@@ -21,16 +21,15 @@ const CreateContent = ({
   const classes = dashboardStyles()
   const { reset } = useCustomForm()
   const [type, setType] = useState('')
-  const [description, setDescription] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
-
+console.log(editContentData,)
   useEffect(() => {
     if (isEditing) {
-      setDescription(editContentData?.description ?? '')
       setType(editContentData?.type ?? '')
       setSelectedTags(editContentData?.tags ?? [])
+      setPdfFile(editContentData?.url)
     }
   }, [])
 
@@ -45,47 +44,38 @@ const CreateContent = ({
     return ApiCall(apiUrl)
   }
 
-  const { data: tags } = useInfiniteQuery(
-    ['libraryTags', searchTagText], // Dynamic query key
-    ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+  const { data: tags } = useInfiniteQuery({
+    queryKey: ['libraryTags', searchTagText], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchTags({ pageParam }, searchTagText),
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const handleContentSubmit = async (formData) => {
     const tags = reduceArrayByKeys(selectedTags, ['id'])
-    let payload = { ...formData, type, description, tags }
+    let payload = { ...formData, type, tags }
 
-    if (isEditing) {
-      const editedPost = await ApiCall(`libraries/${editContentData?.id}/`, null, 'PATCH', {
-        data: JSON.stringify(payload)
-      })
+    const combinedFormData = new FormData()
 
-      if (editedPost) {
-        Toast('Library Content Updated Successfully')
-        setEditContent((old) => !old)
-      }
-    } else {
-      if (pdfFile) {
-        const combinedFormData = new FormData()
+    if (pdfFile) {
+      combinedFormData.append('file', pdfFile)
+      combinedFormData.append('data', JSON.stringify(payload))
+    }
 
-        combinedFormData.append('file', pdfFile)
-        combinedFormData.append('data', JSON.stringify(payload))
-        const addedContent = await ApiCall('libraries/', null, 'POST', combinedFormData)
+    console.log(payload)
+    const addedContent = await ApiCall(
+      isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
+      null,
+      isEditing ? 'PATCH' : 'POST',
+      pdfFile
+        ? combinedFormData
+        : {
+            data: JSON.stringify(payload)
+          }
+    )
 
-        if (addedContent) {
-          Toast('Library Content Added Successfully')
-        }
-      } else {
-        const addedContent = await ApiCall('libraries/', null, 'POST', {
-          data: JSON.stringify(payload)
-        })
-
-        if (addedContent) {
-          Toast('Library Content Added Successfully')
-        }
-      }
+    if (addedContent) {
+      setEditContent && setEditContent((old) => !old)
+      Toast(`Library Content ${isEditing ? 'Updated' : 'Added'} Successfully`)
     }
 
     setLibraryContent((prevState) => ({
@@ -94,7 +84,6 @@ const CreateContent = ({
     }))
     setType('')
     setSelectedTags([])
-    setDescription('')
     refetchLibraries()
     onClose()
   }
@@ -126,7 +115,6 @@ const CreateContent = ({
         reset()
         setType('')
         setSelectedTags([])
-        setDescription('')
       }}
       width={'lg'}
       title={`${isEditing ? 'Update' : 'Create'} Content`}
@@ -140,7 +128,8 @@ const CreateContent = ({
             author: editContentData?.author,
             title: editContentData?.title,
             url: editContentData?.url,
-            summary: editContentData?.summary
+            summary: editContentData?.summary,
+            description: editContentData?.description
           }
         }
       >
@@ -200,9 +189,15 @@ const CreateContent = ({
                     disabled={type === 'pdf'}
                   />
                 )}
+
                 <common.ControlledInput name="summary" control={control} errors={errors} placeholder="Summary" />
-                <common.RichText value={description} onBlur={setDescription} required />
-                {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf'} />}
+                <common.ControlledInput
+                  name="description"
+                  control={control}
+                  errors={errors}
+                  component={<common.RichText placeholder="Description" />}
+                />
+                {type == 'pdf' && <common.DragDropFile  onChange={setPdfFile} type="files" required={type === 'pdf' && !isEditing} />}
               </Grid>
             </Grid>
           </Card>

@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, Grid, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
@@ -45,11 +45,19 @@ function FindMember({ setRefetchUser }) {
     }
   }
 
-  async function fetchMembers({ pageParam = 1 }, name, sort) {
+  const unFavorite = async (id) => {
+    const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
+
+    if (response) {
+      setRefetchUser((old) => !old)
+    }
+  }
+
+  async function fetchMembers({ pageParam = 1 }) {
     const queryParams = {
       page: pageParam,
-      name,
-      sort
+      name: findMember.member,
+      sort: findMember.sortBy
     }
     const encodedParams = encodeParams(queryParams)
     const apiUrl = `profile?${encodedParams}`
@@ -64,26 +72,26 @@ function FindMember({ setRefetchUser }) {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status
-  } = useInfiniteQuery(
-    ['profile', findMember.member, findMember.sortBy], // Dynamic query key
-    ({ pageParam = 1 }) => fetchMembers({ pageParam }, findMember.member, findMember.sortBy),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+    isLoading,
+    isSuccess,
+    isError
+  } = useInfiniteQuery({
+    queryKey: ['profile', findMember.member, findMember.sortBy], // Dynamic query key
+    queryFn: fetchMembers,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const openMemberDialog = () => {
     setMemberDialogOpen(true)
   }
 
-  const handleCloseUserMenu = (item) => {
+  const handleCloseUserMenu = (item, content) => {
     if (item === 'Email') {
       window.location.href = `mailto:${handleMore.user.email}`
     } else if (item === 'View Profile') {
+      setHandleMore(content)
       setViewProfile(true)
-    } else {
-      console.log(item)
     }
   }
 
@@ -116,7 +124,7 @@ function FindMember({ setRefetchUser }) {
               placeholder="Search members"
               value={findMember.member}
               listUpdater={setFindMember}
-              startIcon={true}
+              startIcon="Search"
             />
           </Grid>
 
@@ -125,7 +133,9 @@ function FindMember({ setRefetchUser }) {
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper
-          status={status}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
           data={members}
           error={error}
           fetchNextPage={fetchNextPage}
@@ -135,8 +145,8 @@ function FindMember({ setRefetchUser }) {
         >
           {(members) =>
             members.length != 0 &&
-            members?.map((rec, index) => (
-              <Box key={index} padding={'0.75rem 1.25rem'}>
+            members?.map((rec) => (
+              <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xs={8} md={4} lg={4}>
                     <Box className="row gap-1">
@@ -145,7 +155,7 @@ function FindMember({ setRefetchUser }) {
                         <Box className="row-start gap-05">
                           <Typography variant="author">{rec?.user?.first_name + rec?.user?.last_name}</Typography>
                           {isFavorite(rec?.id) ? (
-                            <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => addFavorites(rec?.id)} />
+                            <common.MuiIcon name="StarRateRounded" color="warning.main" onClick={() => unFavorite(rec?.id)} />
                           ) : (
                             <common.MuiIcon name="StarBorderRounded" color="primary.lighter" onClick={() => addFavorites(rec?.id)} />
                           )}
@@ -165,8 +175,8 @@ function FindMember({ setRefetchUser }) {
                     {rec?.match_count ? rec?.match_count : 'No'} Matches
                   </Grid>
 
-                  <Grid item xs={1} md={1} lg={1} onClick={() => setHandleMore(rec)}>
-                    <common.MenuList items={moreOptions} onClose={handleCloseUserMenu} icon="MoreHorizRounded" tooltip="Open settings" />
+                  <Grid item xs={1} md={1} lg={1}>
+                    <common.MenuList items={moreOptions} onClose={(item) => handleCloseUserMenu(item, rec)} icon="MoreHorizRounded" />
                   </Grid>
                 </Grid>
                 <Box className="flex">
@@ -186,7 +196,7 @@ function FindMember({ setRefetchUser }) {
         openPopup={isMemberDialogOpen}
         setPopup={setMemberDialogOpen}
         width={'sm'}
-        title={'Manage Members'}
+        title={'Invite Members'}
         submitBtnLabel="Send Invite"
         subTitle={'Invite members to your Directory.'}
       >

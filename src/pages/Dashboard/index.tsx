@@ -1,9 +1,10 @@
-import { Container, Grid, Box, useMediaQuery, useTheme } from '@mui/material'
+import { Grid, Box, useMediaQuery, useTheme } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
+import { Setting } from 'pages/Setting'
 import qs from 'qs'
-import React, { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
@@ -11,6 +12,7 @@ import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
 import { FindMember } from './FindMember'
 import { General } from './General'
+import { IndividualLibrary } from './IndividualLibrary'
 import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
@@ -24,7 +26,7 @@ const containerStyles = {
 }
 
 function Dashboard() {
-  let { portal } = useParams()
+  let { portal, libraryId } = useParams()
 
   portal = portal ?? 'channels'
   const dispatch = useDispatch()
@@ -33,23 +35,31 @@ function Dashboard() {
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
   const [refetchUser, setRefetchUser] = useState(false)
-  const channels = [
-    {
-      header: 'CHANNELS',
-      items: [{ url: 'createChannel', label: 'Create Channel', icon: 'AddCircle', show: !isModerator }]
-    },
-    {
-      header: 'COMMUNITY',
-      items: [{ url: '', label: 'Add Member', icon: 'AddCircle', show: !isModerator }]
-    },
-    {
-      header: 'RESOURCES',
-      items: [
-        { url: 'find', label: 'Find Member', icon: 'Search' },
-        { url: 'library', label: 'Library', icon: 'YouTube' }
-      ]
-    }
-  ]
+  const navItems = {
+    settings: [
+      {
+        header: 'Settings',
+        items: [{ url: 'settings', label: 'Profile', icon: 'Person2' }]
+      }
+    ],
+    channels: [
+      {
+        header: 'CHANNELS',
+        items: [{ url: 'createChannel', label: 'Create Channel', icon: 'AddCircle', show: !isModerator }]
+      },
+      {
+        header: 'COMMUNITY',
+        items: [{ url: '', label: 'Add Member', icon: 'AddCircle', show: !isModerator }]
+      },
+      {
+        header: 'RESOURCES',
+        items: [
+          { url: 'find', label: 'Find Member', icon: 'Search' },
+          { url: 'library', label: 'Library', icon: 'YouTube' }
+        ]
+      }
+    ]
+  }
   const fetchCurrentUser = async () => {
     const queryParams = {
       me: true
@@ -62,7 +72,7 @@ function Dashboard() {
 
     return response?.results
   }
-  const { data: currentUserData } = useQuery(['currentUser', refetchUser], fetchCurrentUser)
+  const { data: currentUserData } = useQuery({ queryKey: ['currentUser', refetchUser], queryFn: fetchCurrentUser })
 
   const location = useLocation()
 
@@ -84,7 +94,7 @@ function Dashboard() {
   const [EventsPanel, setEventsPanel] = useState(false)
   const [popup, setPopup] = useState(false)
   const [memberPopup, setMemberPopup] = useState(false)
-  const [selectedChannelId, setSelectedChannelId] = useState(null)
+  const [addMemberChannelId, setAddMemberChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
     if (newPortal === 'createChannel') {
@@ -101,25 +111,32 @@ function Dashboard() {
     navigate(`/${newPortal}`)
   }
 
+  const selectedNavItems = useMemo(() => (portal === 'settings' ? navItems['settings'] : navItems['channels']), [portal])
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
       return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
-    } else if (['find', 'library'].includes(portal)) {
+    } else if (['find', 'library', 'settings'].includes(portal)) {
       return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
+    } else {
+      return 404
     }
   }
 
-  const { sideMenuSize, mainContentSize, recommendationSize }: any = getPortalSizes(portal)
+  const layout = getPortalSizes(portal)
+
+  if (layout === 404) navigate('/404')
+  const { sideMenuSize, mainContentSize, recommendationSize } = layout
 
   const portalComponents: any = {
     channels: <General />,
     find: <FindMember setRefetchUser={setRefetchUser} />,
-    library: <Library />
+    library: libraryId ? <IndividualLibrary /> : <Library />,
+    settings: <Setting />
   }
 
   const mainContent = portalComponents[portal]
 
-  return (
+  return layout === 404 ? null : (
     <>
       <ResponsiveAppBar setPanel={setPanel} setEventsPanel={setEventsPanel} Panel={Panel} isBelowLG={isBelowLG} />
       <Box component="main" sx={containerStyles}>
@@ -129,8 +146,8 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
-                channels={channels}
-                setSelectedChannelId={setSelectedChannelId}
+                navItems={selectedNavItems}
+                setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </Grid>
@@ -139,9 +156,9 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 setMemberPopup={setMemberPopup}
-                channels={channels}
+                navItems={selectedNavItems}
                 setPanel={setPanel}
-                setSelectedChannelId={setSelectedChannelId}
+                setAddMemberChannelId={setAddMemberChannelId}
                 setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
@@ -168,7 +185,7 @@ function Dashboard() {
       >
         <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
       </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setRefetchUser={setRefetchUser} setMemberPopup={setMemberPopup} selectedChannelId={selectedChannelId} />}{' '}
+      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} addMemberChannelId={addMemberChannelId} />}{' '}
     </>
   )
 }

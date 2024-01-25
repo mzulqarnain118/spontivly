@@ -1,7 +1,7 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import { Chip, Box, Container } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { memo, useCallback, useEffect } from 'react'
-import { useInfiniteQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { commonStyles } from '../../styles/commonStyles'
@@ -33,13 +33,11 @@ function SearchTagsComponent({
     return fetchedTags
   }
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery(
-    [queryKey, searchText], // Dynamic query key
-    ({ pageParam = 1 }) => fetchTags({ pageParam }, searchText),
-    {
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } = useInfiniteQuery({
+    queryKey: [queryKey, searchText], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) => fetchTags({ pageParam }, searchText),
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   useEffect(() => {
     data && dispatch(setChipData(data?.pages?.flatMap((page) => page?.results)))
@@ -66,12 +64,14 @@ function SearchTagsComponent({
           value={searchText}
           onChange={(e) => dispatch(setSearchText(e.target.value))}
           customHandleClearClick={() => dispatch(setSearchText(''))}
-          startIcon={true}
+          startIcon="Search"
           endIcon={true}
         />
       </Container>
       <common.InfiniteQueryWrapper
-        status={status}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        isError={isError}
         data={data}
         error={error}
         fetchNextPage={fetchNextPage}

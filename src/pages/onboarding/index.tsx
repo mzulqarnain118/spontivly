@@ -13,7 +13,7 @@ import {
   Drawer
 } from '@mui/material'
 import { Container } from '@mui/system'
-import React, { lazy, useEffect } from 'react'
+import React, { lazy } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import lock from '../../assets/icons/lock.svg'
@@ -23,7 +23,7 @@ import companyLogo from '../../assets/images/CompanyLogo.png'
 import { Controls as common } from '../../components/common'
 import { handleNext, handleBack } from '../../redux/onBoardingSlice'
 import { onBoarding, Main, AppBar, DrawerFooter, DrawerHeader } from '../../styles/components/onBoardingStyles'
-import { ApiCall, generatePayload, getLocal, setLocal } from '../../utils'
+import { ApiCall, generatePayload, setLocal } from '../../utils'
 import { SKILLS_STEP, INTERESTS_STEP, LOCATION_STEP, EMPLOYMENT_STEP, OBJECTIVES_STEP, BIO_STEP, DEFAULT_STEP } from './stepNames'
 const Skills = lazy(() => import('./Skills').then((module) => ({ default: module.Skills })))
 const Interests = lazy(() => import('./Interests').then((module) => ({ default: module.Interests })))
@@ -38,7 +38,6 @@ function OnBoarding() {
   const [open, setOpen] = React.useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const isOnboarded = getLocal('onboarding')
   const { selectedChips: skillsSelectedChips } = useSelector((state: any) => state.skills)
   const { activeStep } = useSelector((state: any) => state.onBoarding)
   const { linkedin, twitter, facebook, instagram } = useSelector((state: any) => state.social)
@@ -84,12 +83,6 @@ function OnBoarding() {
       component: <Profile />
     }
   ]
-
-  useEffect(() => {
-    if (isOnboarded) {
-      navigate(-1)
-    }
-  }, [isOnboarded])
 
   const handleDrawerOpen = () => {
     setOpen(!open)
@@ -138,8 +131,6 @@ function OnBoarding() {
         return setSelectedLocation === null
       case EMPLOYMENT_STEP:
         return companyName === '' || position === '' || stage === null
-      default:
-        return activeStep === DEFAULT_STEP && photoFlag === false
     }
   }
 
@@ -155,7 +146,7 @@ function OnBoarding() {
     return nextButtonText
   }
 
-  return isOnboarded ? null : (
+  return (
     <Container>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>
