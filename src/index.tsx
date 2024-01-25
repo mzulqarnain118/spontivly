@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.css'
 import * as ReactDOM from 'react-dom/client'
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import { App } from './App'

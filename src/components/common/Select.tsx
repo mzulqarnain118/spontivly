@@ -70,7 +70,7 @@ export function Select(
           </MenuItem>
         ))}
       </MuiSelect>
-      {Boolean(error) && <FormHelperText sx={{ color:"error.main" }}>{`${defaultValue} is required`}</FormHelperText>}
+      {Boolean(error) && <FormHelperText sx={{ color: 'error.main' }}>{`${defaultValue} is required`}</FormHelperText>}
     </FormControl>
   )
 }

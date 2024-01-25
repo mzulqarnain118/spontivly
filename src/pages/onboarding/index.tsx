@@ -146,7 +146,7 @@ function OnBoarding() {
     return nextButtonText
   }
 
-  return  (
+  return (
     <Container>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>

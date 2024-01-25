@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import { Error } from 'pages/Errors'
+import { Profile } from 'pages/onboarding/Profile'
 import { Setting } from 'pages/Setting'
+import { ProfileContent } from 'pages/Setting/ProfileContent'
 import qs from 'qs'
 import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,8 +20,6 @@ import { Library } from './Library'
 import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
-import { Profile } from 'pages/onboarding/Profile'
-import { ProfileContent } from 'pages/Setting/ProfileContent'
 
 const containerStyles = {
   width: '80vw',

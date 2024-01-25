@@ -67,7 +67,7 @@ export function Popup({
                   handlePopupCancel()
                   setPopup(!openPopup)
                 }}
-              variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
+                variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
                 label={cancelBtnLabel ?? 'Cancel'}
               />
             ) : (

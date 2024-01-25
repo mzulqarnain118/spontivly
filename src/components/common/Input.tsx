@@ -1,5 +1,4 @@
 import ClearIcon from '@mui/icons-material/Clear'
-import SearchIcon from '@mui/icons-material/Search'
 import { ClassNameMap, TextField } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useCallback, useMemo } from 'react'
@@ -98,7 +97,7 @@ export function Input(
       defaultValue={defaultValue}
       InputProps={{
         readOnly: readOnly,
-        startAdornment: startIcon && <common.MuiIcon name={startIcon} disabled sx={{mr:2}} />,
+        startAdornment: startIcon && <common.MuiIcon name={startIcon} disabled sx={{ mr: 2 }} />,
         endAdornment: endIcon && value && (
           <IconButton onClick={customHandleClearClick ?? handleClearClick}>
             <ClearIcon />

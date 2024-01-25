@@ -4,7 +4,7 @@ import React from 'react'
 
 export function RichText({ data, onChange, value, placeholder, ...others }: any) {
   const editorConfig = {
-    placeholder: placeholder,
+    placeholder: placeholder
   }
 
   return (

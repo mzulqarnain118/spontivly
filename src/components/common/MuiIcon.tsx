@@ -23,7 +23,9 @@ import {
   PushPin,
   Email,
   Password,
-  ArrowForward, ArrowForwardIos, Person2
+  ArrowForward,
+  ArrowForwardIos,
+  Person2
 } from '@mui/icons-material'
 
 export const MuiIcon = ({
@@ -66,7 +68,9 @@ export const MuiIcon = ({
     PushPin,
     Email,
     Password,
-    ArrowForward, ArrowForwardIos, Person2
+    ArrowForward,
+    ArrowForwardIos,
+    Person2
   }
   const IconComponent: any = iconNames[name] || null
 
