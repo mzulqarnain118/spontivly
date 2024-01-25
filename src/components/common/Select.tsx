@@ -8,7 +8,6 @@ export function Select(
     className,
     label,
     disabled,
-    placeholder,
     required,
     value,
     error = null,
