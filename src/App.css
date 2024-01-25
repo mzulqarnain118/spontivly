@@ -17,3 +17,16 @@
 body{
   text-align: center;
 }
+
+#nprogress {
+  pointer-events: none;
+  .bar {
+    left: 0px;
+    top: 0px;
+    height: 3px;
+    width: 100%;
+    z-index: 2000;
+    position: fixed;
+    background-color: #2D3840;
+  }
+}

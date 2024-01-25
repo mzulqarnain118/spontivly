@@ -3,7 +3,6 @@ import { memo, useMemo, useEffect } from 'react'
 import { Controls as common } from '../common'
 
 function InfiniteQuery({
-  isLoading,
   isSuccess,
   isError,
   error,
@@ -13,7 +12,6 @@ function InfiniteQuery({
   setCount,
   hasNextPage,
   isFetchingNextPage,
-  isFetching,
   children
 }) {
   const flattenedResults = useMemo(() => data?.pages?.flatMap((page) => page?.results) || [], [data])
@@ -32,7 +30,6 @@ function InfiniteQuery({
         textAlign: 'center'
       }}
     >
-      {isLoading && <common.Spinner />}
       {isError && (
         <div style={{ textAlign: 'center', padding: '20px' }}>
           <Typography variant="subtitle1" color="error">
@@ -46,7 +43,6 @@ function InfiniteQuery({
           {hasNextPage && (
             <common.MuiButton onClick={() => fetchNextPage()} label={isFetchingNextPage ? 'Loading ...' : 'Load More'} size="md" />
           )}
-          {isFetching && !isFetchingNextPage && <common.Spinner text="Fetching..." />}
         </>
       )}
     </Grid>

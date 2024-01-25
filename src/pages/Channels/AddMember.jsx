@@ -23,9 +23,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
     refetch,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
@@ -91,7 +89,6 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
       >
         <Grid item xs={12} sx={{ mt: 5 }}>
           <common.InfiniteQueryWrapper
-            isLoading={isLoading}
             isSuccess={isSuccess}
             isError={isError}
             data={membersList}
@@ -99,7 +96,6 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
-            isFetching={isFetching}
           >
             {(membersList) =>
               membersList?.[0]?.members?.map((member) => (

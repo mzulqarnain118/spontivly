@@ -93,7 +93,7 @@ function Library() {
     return ApiCall(apiUrl)
   }
 
-  const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } =
+  const { data, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage, isSuccess, isError } =
     useInfiniteQuery({
       queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
       queryFn: ({ pageParam = 1 }) =>
@@ -222,7 +222,6 @@ function Library() {
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper
-          isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           data={data}
@@ -230,7 +229,6 @@ function Library() {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
         >
           {(libraries) =>
             view === 'list' ? (

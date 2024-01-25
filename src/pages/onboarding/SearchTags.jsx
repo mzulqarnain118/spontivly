@@ -33,7 +33,7 @@ function SearchTagsComponent({
     return fetchedTags
   }
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } = useInfiniteQuery({
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isSuccess, isError } = useInfiniteQuery({
     queryKey: [queryKey, searchText], // Dynamic query key
     queryFn: ({ pageParam = 1 }) => fetchTags({ pageParam }, searchText),
     getNextPageParam: (lastPage) => lastPage?.next
@@ -69,7 +69,6 @@ function SearchTagsComponent({
         />
       </Container>
       <common.InfiniteQueryWrapper
-        isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
         data={data}
@@ -77,7 +76,6 @@ function SearchTagsComponent({
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
-        isFetching={isFetching}
       >
         {(tags) => (
           <>

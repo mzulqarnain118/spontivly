@@ -2,7 +2,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import React from 'react'
 
-export function RichText({ data, onChange, value, placeholder, ...others }: any) {
+export function RichText({ onChange, value, placeholder, ...others }: any) {
   const editorConfig = {
     placeholder: placeholder
   }

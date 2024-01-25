@@ -28,9 +28,7 @@ const FilterLibrary = ({
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
@@ -84,7 +82,6 @@ const FilterLibrary = ({
         </Typography>
 
         <common.InfiniteQueryWrapper
-          isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           data={libraryTags}
@@ -92,7 +89,6 @@ const FilterLibrary = ({
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
         >
           {(tags) => (
             <Grid className="grid-container">

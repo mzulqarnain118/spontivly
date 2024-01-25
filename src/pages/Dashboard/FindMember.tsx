@@ -70,9 +70,7 @@ function FindMember({ setRefetchUser }) {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
@@ -133,7 +131,6 @@ function FindMember({ setRefetchUser }) {
           </Grid>
         </Grid>
         <common.InfiniteQueryWrapper
-          isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           data={members}
@@ -141,7 +138,6 @@ function FindMember({ setRefetchUser }) {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
         >
           {(members) =>
             members.length != 0 &&

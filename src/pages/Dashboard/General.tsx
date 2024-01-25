@@ -33,9 +33,7 @@ function General() {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
@@ -60,7 +58,6 @@ function General() {
         {fetchedPosts !== 'undefined' && (
           <Grid container item>
             <common.InfiniteQueryWrapper
-              isLoading={isLoading}
               isSuccess={isSuccess}
               isError={isError}
               data={fetchedPosts}
@@ -68,7 +65,6 @@ function General() {
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}
-              isFetching={isFetching}
               noDataText="No Posts Available"
             >
               {(posts) =>
