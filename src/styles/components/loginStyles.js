@@ -4,8 +4,10 @@ export const loginStyles = makeStyles((theme) => ({
   container: {
     display: 'flex !important',
     flexDirection: 'column',
-    gap: '1.5rem'
+    gap: '1.5rem',
+    alignItems: 'center !important' // Center the items vertically
   },
+
   subContainer: {
     display: 'flex !important',
     flexDirection: 'column',

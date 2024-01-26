@@ -33,8 +33,7 @@ const commonStyles = makeStyles((theme) => ({
   logo: {
     width: '15.75194rem',
     height: '5rem',
-    marginTop: 128,
-    marginLeft: '10rem !important'
+    marginTop: 128
   },
   container: {
     display: 'flex !important'

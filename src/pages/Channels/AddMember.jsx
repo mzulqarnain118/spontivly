@@ -7,13 +7,12 @@ import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
+function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const params = useParams()
   const channelId = addMemberChannelId ?? params?.channelId
 
   const [selectedMembers, setSelectedMembers] = useState([])
-  const [confirmModal, setConfirmModal] = useState(false)
   const [searchMemberText, setSearchMemberText] = useState('')
 
   const { data: members } = useQuery({ queryKey: ['isMemberExist'], queryFn: () => isMemberExist() })
@@ -45,7 +44,7 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
       Toast('Members Added Successfully.')
       setSelectedMembers([])
       refetch()
-      setMemberPopup((old) => !old)
+      managePopups('member')
     }
   }
 
@@ -81,8 +80,9 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
   return (
     <>
       <common.Popup
-        openPopup={memberPopup}
-        setPopup={setMemberPopup}
+        openPopup={popups.member}
+        popupName="member"
+        setPopups={setPopups}
         width={'sm'}
         title={'Add Members'}
         subTitle={'Add members from Directory to your Channel or invite them from outside the directory.'}
@@ -104,18 +104,19 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
                     <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
                   </Grid>
                   <Grid item xs={1}>
-                    {/* setConfirmModal(true) */}
                     {member?.id !== userId && isModerator && (
-                      <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
+                      <common.MuiIcon name="Delete" color="secondary" onClick={managePopups('removeMember')} />
                     )}
-                    <common.Popup
-                      openPopup={confirmModal}
-                      setPopup={setConfirmModal}
-                      width={'sm'}
-                      submitBtnLabel="Confirm"
-                      handlePopupCancel={() => setConfirmModal(false)}
-                      // submitHandler={handleDeleteMember(member?.id)}
-                    ></common.Popup>
+                    {popups.removeMember && (
+                      <common.Popup
+                        openPopup={popups.removeMember}
+                        popupName="removeMember"
+                        setPopups={setPopups}
+                        width={'sm'}
+                        submitBtnLabel="Confirm"
+                        submitHandler={() => handleDeleteMember(member?.id)}
+                      ></common.Popup>
+                    )}
                   </Grid>
                 </Grid>
               ))

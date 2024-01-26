@@ -115,8 +115,6 @@ function Library() {
   }
   const openFilterModal = () => {
     setFilterDialogOpen(true)
-    setSelectedTags([])
-    setSelectedTypes([])
   }
   const closeFilterModal = () => {
     setFilterDialogOpen(false)

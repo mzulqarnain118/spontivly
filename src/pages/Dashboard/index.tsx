@@ -1,5 +1,6 @@
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { Toast } from 'components/common/Toast/Toast'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
 import { Setting } from 'pages/Setting'
@@ -35,6 +36,7 @@ function Dashboard() {
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
   const [refetchUser, setRefetchUser] = useState(false)
+  const [editChannelData, setEditChannelData] = useState<any>(null)
   const navItems = {
     settings: [
       {
@@ -92,13 +94,13 @@ function Dashboard() {
   const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
   const [Panel, setPanel] = useState(false)
   const [EventsPanel, setEventsPanel] = useState(false)
-  const [popup, setPopup] = useState(false)
-  const [memberPopup, setMemberPopup] = useState(false)
+  const [popups, setPopups] = useState({ member: false, channel: false, archiveChannel: false, removeMember: false })
+
   const [addMemberChannelId, setAddMemberChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
     if (newPortal === 'createChannel') {
-      setPopup(true)
+      setPopups((prev) => ({ ...prev, ['channel']: true }))
 
       return
     } else if (newPortal === 'channels') {
@@ -111,7 +113,6 @@ function Dashboard() {
     navigate(`/${newPortal}`)
   }
 
-  const selectedNavItems = useMemo(() => (portal === 'settings' ? navItems['settings'] : navItems['channels']), [portal])
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
       return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
@@ -135,6 +136,30 @@ function Dashboard() {
   }
 
   const mainContent = portalComponents[portal]
+  const managePopups = (popupName) => {
+    setPopups((prev) => ({ ...prev, [popupName]: !popups[popupName] }))
+  }
+  const archiveChannelFn = async (channel_id) => {
+    const channelArchives = await ApiCall(`channels/${channel_id}`, null, 'DELETE')
+
+    if (channelArchives) {
+      Toast(`Channel Archived Successfully`)
+      setRefetchUser((old) => !old)
+      managePopups('archiveChannel')
+    }
+  }
+  const handleChannelsMore = (item, content) => {
+    if (item === 'Manage Members') {
+      managePopups('member')
+      setAddMemberChannelId(content?.id)
+    } else if (item === 'Edit Channel') {
+      managePopups('channel')
+      setEditChannelData(content)
+    } else if (item === 'Archive Channel') {
+      setAddMemberChannelId(content?.id)
+      managePopups('archiveChannel')
+    }
+  }
 
   return layout === 404 ? null : (
     <>
@@ -145,20 +170,18 @@ function Dashboard() {
             <Grid item xs={12} sm={sideMenuSize}>
               <SideMenuCard
                 onPortalChange={handlePortalChange}
-                setMemberPopup={setMemberPopup}
-                navItems={selectedNavItems}
-                setAddMemberChannelId={setAddMemberChannelId}
+                navItems={navItems[portal === 'settings' ? 'settings' : 'channels']}
                 setRefetchUser={setRefetchUser}
+                handleChannelsMore={handleChannelsMore}
               />
             </Grid>
           ) : (
             <common.SidePanel openPanel={Panel} setPanel={setPanel} anchor="left">
               <SideMenuCard
                 onPortalChange={handlePortalChange}
-                setMemberPopup={setMemberPopup}
-                navItems={selectedNavItems}
+                navItems={navItems[portal === 'settings' ? 'settings' : 'channels']}
                 setPanel={setPanel}
-                setAddMemberChannelId={setAddMemberChannelId}
+                handleChannelsMore={handleChannelsMore}
                 setRefetchUser={setRefetchUser}
               />
             </common.SidePanel>
@@ -176,16 +199,37 @@ function Dashboard() {
           </common.SidePanel>
         </Grid>
       </Box>
-      <common.Popup
-        openPopup={popup}
-        setPopup={setPopup}
-        width={'sm'}
-        title={'Create Channel'}
-        subTitle={'Please add the name to channel and create to continue. Once added you can invite members to your channel'}
-      >
-        <CreateChannel setPopup={setPopup} setRefetchUser={setRefetchUser} />
-      </common.Popup>
-      {memberPopup && <AddMember memberPopup={memberPopup} setMemberPopup={setMemberPopup} addMemberChannelId={addMemberChannelId} />}{' '}
+      {popups.channel && (
+        <common.Popup
+          openPopup={popups.channel}
+          popupName="channel"
+          setPopups={setPopups}
+          onClose={() => setEditChannelData(null)}
+          width={'sm'}
+          title={'Create Channel'}
+          subTitle={'Please add the name to channel and create to continue. Once added you can invite members to your channel'}
+        >
+          <CreateChannel
+            setPopups={setPopups}
+            setRefetchUser={setRefetchUser}
+            editChannelData={editChannelData}
+            setEditChannelData={setEditChannelData}
+          />
+        </common.Popup>
+      )}
+      {popups.member && (
+        <AddMember popups={popups} managePopups={managePopups} setPopups={setPopups} addMemberChannelId={addMemberChannelId} />
+      )}
+      {popups.archiveChannel && (
+        <common.Popup
+          openPopup={popups.archiveChannel}
+          popupName="archiveChannel"
+          setPopups={setPopups}
+          width={'sm'}
+          submitBtnLabel="Confirm"
+          submitHandler={() => archiveChannelFn(addMemberChannelId)}
+        ></common.Popup>
+      )}
     </>
   )
 }
