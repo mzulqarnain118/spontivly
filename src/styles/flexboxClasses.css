@@ -312,9 +312,9 @@
 }
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; /* Two equal-sized columns */
-  gap: 10px; /* Add gap between grid items */
-  justify-items: stretch; /* Align items to stretch to fill the entire grid cell */
+  justify-items: start;
+  justify-content: space-between;
+grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
 /* CK editor CSS*/

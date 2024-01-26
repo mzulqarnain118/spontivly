@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Grid, Link, Typography } from '@mui/material'
+import { FormControl, FormGroup, Grid, Box, Typography } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Controls as common } from '../../components/common'
 import { ApiCall } from '../../utils'
@@ -80,38 +80,37 @@ const FilterLibrary = ({
         <Typography variant="h5" align="left">
           Tags
         </Typography>
-
-        <common.InfiniteQueryWrapper
-          isSuccess={isSuccess}
-          isError={isError}
-          data={libraryTags}
-          error={error}
-          fetchNextPage={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        >
-          {(tags) => (
-            <Grid className="grid-container">
-              {tags?.map((tag) => (
-                <Grid key={tag.id} item xs={6} sm={6} md={6} lg={3}>
-                  <FormControl component="fieldset" variant="standard">
-                    <FormGroup>
-                      <common.CheckboxGroup
-                        label={tag.title}
-                        key={tag.id}
-                        name={tag.name}
-                        size="large"
-                        onChange={() => handleTagClick(tag.id)}
-                        value={selectedTags.includes(tag.id) || false}
-                      />
-                    </FormGroup>
-                  </FormControl>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </common.InfiniteQueryWrapper>
       </div>
+      <common.InfiniteQueryWrapper
+        isSuccess={isSuccess}
+        isError={isError}
+        data={libraryTags}
+        error={error}
+        fetchNextPage={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+      >
+        {(tags) => (
+          <Grid className="grid-container">
+            {tags?.map((tag) => (
+              <Box key={tag.id}>
+                <FormControl component="fieldset" variant="standard">
+                  <FormGroup>
+                    <common.CheckboxGroup
+                      label={tag.title}
+                      key={tag.id}
+                      name={tag.name}
+                      size="large"
+                      onChange={() => handleTagClick(tag.id)}
+                      value={selectedTags.includes(tag.id) || false}
+                    />
+                  </FormGroup>
+                </FormControl>
+              </Box>
+            ))}
+          </Grid>
+        )}
+      </common.InfiniteQueryWrapper>
     </common.Popup>
   )
 }

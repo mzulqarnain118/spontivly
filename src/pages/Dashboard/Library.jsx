@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add'
-import { Card, Grid, Typography } from '@mui/material'
+import { Card, Grid, Typography, Badge, Box } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
@@ -93,14 +93,13 @@ function Library() {
     return ApiCall(apiUrl)
   }
 
-  const { data, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage, isSuccess, isError } =
-    useInfiniteQuery({
-      queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
-      queryFn: ({ pageParam = 1 }) =>
-        fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
+  const { data, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage, isSuccess, isError } = useInfiniteQuery({
+    queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) =>
+      fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
 
-      getNextPageParam: (lastPage) => lastPage?.next
-    })
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const classes = dashboardStyles()
   const openContentModal = () => {
@@ -191,8 +190,8 @@ function Library() {
       </Grid>
 
       <Card className={classes.card}>
-        <Grid container spacing={3} padding={'20px'}>
-          <Grid item xs={12} sm={4.5} md={6} lg={6}>
+        <Box sx={{ display: 'flex', gap: 3, p: 4, flexWrap: 'wrap' }}>
+          <Box sx={{ flex: { md: 3 ,sm:3}, flexGrow: 1 }}>
             <common.Input
               name="content"
               placeholder="Search libraries"
@@ -200,9 +199,8 @@ function Library() {
               listUpdater={setLibraryContent}
               startIcon="Search"
             />
-          </Grid>
-
-          <Grid item xs={5} sm={3.5} md={3} lg={3.5}>
+          </Box>
+          <Box sx={{ flex: 1, flexGrow: 1 }}>
             <common.Select
               name="sortBy"
               value={libraryContent.sortBy}
@@ -210,17 +208,17 @@ function Library() {
               listUpdater={setLibraryContent}
               options={sortByData}
             />
-          </Grid>
-          <Grid item xs={4.5} sm={2.5} md={2} lg={1.5}>
-            <ToggleButtons setView={setView} view={view} />
-          </Grid>
-          <Grid item xs={1} sm={1} md={1} lg={1}>
+          </Box>
+
+          <ToggleButtons setView={setView} view={view} />
+          <Badge
+            badgeContent={selectedTags?.length !== 0 || selectedTypes?.length !== 0 ? selectedTags?.length + selectedTypes?.length : 0}
+            color="primary"
+            sx={{ mr: 4 }}
+          >
             <common.MuiButton startCustomIcon={filter} onClick={openFilterModal} />
-            {(selectedTags?.length !== 0 || selectedTypes?.length !== 0) && (
-              <common.BaseButton label={selectedTags?.length + selectedTypes?.length} />
-            )}
-          </Grid>
-        </Grid>
+          </Badge>
+        </Box>
         <common.InfiniteQueryWrapper
           isSuccess={isSuccess}
           isError={isError}

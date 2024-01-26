@@ -1,4 +1,4 @@
-import { DialogTitle, Typography, Dialog, DialogContent, DialogActions, Link } from '@mui/material'
+import { DialogTitle, Box, Typography, Dialog, DialogContent, DialogActions, Link } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { Controls as common } from '.'
@@ -32,6 +32,8 @@ export function Popup({
   const classes = useStyles()
 
   return (
+    <Box sx={{ position: "relative" }}>
+
     <Dialog fullWidth maxWidth={width ?? 'md'} open={openPopup} classes={{ paper: classes.dialogWrapper }}>
       <DialogTitle>
         {submitBtnLabel === 'Confirm' ? (
@@ -56,7 +58,7 @@ export function Popup({
           </>
         )}
       </DialogTitle>
-      <DialogContent dividers>{children}</DialogContent>
+        <DialogContent dividers >{children}</DialogContent>
       {submitBtnLabel && (
         <DialogActions>
           {handlePopupCancel &&
@@ -86,6 +88,6 @@ export function Popup({
           />
         </DialogActions>
       )}
-    </Dialog>
+    </Dialog></Box>
   )
 }

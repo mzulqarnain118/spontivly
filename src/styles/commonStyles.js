@@ -70,7 +70,7 @@ const commonStyles = makeStyles((theme) => ({
     borderRadius: '60px ',
     border: '1px solid var(--petroleum-p-30, #BFC9D2) ',
     background: theme.palette.primary.main,
-    position: 'absolute ',
+    position: 'absolute',
     right: 208,
     top: 176,
     width: '24px ',
