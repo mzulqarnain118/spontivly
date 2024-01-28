@@ -7,7 +7,7 @@ import { ApiCall } from '../../utils'
 
 const moreOptions = ['Manage Members']
 
-function SideMenuCard({ onPortalChange, setPanel, handleChannelsMore, setRefetchUser, navItems }) {
+function SideMenuCard({ onPortalChange, setPanel, handleChannelsMore, refetchUser, navItems }) {
   const { portal, channelId } = useParams()
 
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
@@ -23,7 +23,7 @@ function SideMenuCard({ onPortalChange, setPanel, handleChannelsMore, setRefetch
     const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
 
     if (response) {
-      setRefetchUser((old) => !old)
+      refetchUser()
     }
   }
 

@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from '@mui/material'
+import { Card, CardContent, Box, Typography } from '@mui/material'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -91,8 +91,8 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
         uploadFile?.filePayload
           ? combinedFormData
           : {
-              data: JSON.stringify(payload)
-            }
+            data: JSON.stringify(payload)
+          }
       )
 
       if (post) {
@@ -158,7 +158,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                   />
                 </div>
               )}
-              <div className="row-center">
+              <Box className="row-center" sx={{ flexDirection: { xss: "column", xs: "column", sm: "row" } }}>
                 {buttons.map(({ label, icon, slug }) => (
                   <common.FileUploadButton
                     key={slug}
@@ -173,7 +173,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                     disabled={isEditing && slug !== selectedButton}
                   />
                 ))}
-              </div>
+              </Box>
             </>
           )}
         </common.Form>

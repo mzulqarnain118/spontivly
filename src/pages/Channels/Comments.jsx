@@ -1,8 +1,8 @@
 import { Avatar, Grid, Box, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
@@ -90,41 +90,39 @@ export function Comments({ refetchPosts, post_id }) {
         {(comments) =>
           comments?.map((comment) => (
             <Grid key={comment?.comment} container item justifyContent="space-between" alignItems="center">
-              <Grid item xs={10.5}>
-                <Box className="row gap-1">
-                  <Avatar src={comment?.commented_by?.profile?.profile_pic} />
-                  {editCommentData?.id === comment?.id ? (
-                    <AddComment setComment={setEditComment} comment={editComment} postComment={patchComment} Send={Send} />
-                  ) : (
-                    <Box className="col-start gap-05">
-                      <Box className="row-start gap-05">
-                        <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
-                        <span>about {moment(comment?.created_at).format('HH')} hours ago</span>
-                      </Box>
-                      <Typography>{comment?.comment}</Typography>
+              <Box className="row gap-1">
+                <Avatar src={comment?.commented_by?.profile?.profile_pic} />
+                {editCommentData?.id === comment?.id ? (
+                  <AddComment setComment={setEditComment} comment={editComment} postComment={patchComment} Send={Send} />
+                ) : (
+                  <Box className="col-start gap-05">
+                    <Box className="row-start gap-05">
+                      <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
+                      <span>about {moment(comment?.created_at).format('HH')} hours ago</span>
                     </Box>
-                  )}
-                </Box>
-              </Grid>
+                    <Typography>{comment?.comment}</Typography>
+                  </Box>
+                )}
+              </Box>
               {(comment?.commented_by?.id === userId || isModerator) && (
-                  <Grid container item xs={1.5}>
-                    {comment?.commented_by?.id === userId && (
-                      <common.MuiIcon
-                        name="Edit"
-                        onClick={() => {
-                          setEditCommentData(comment)
-                          setEditComment(comment?.comment)
-                        }}
-                      />
-                    )}
+                <Box>
+                  {comment?.commented_by?.id === userId && (
                     <common.MuiIcon
-                      sx={{
-                        marginLeft: 'auto'
+                      name="Edit"
+                      onClick={() => {
+                        setEditCommentData(comment)
+                        setEditComment(comment?.comment)
                       }}
-                      name="Delete"
-                      onClick={() => deleteComment(comment?.id)}
                     />
-                  </Grid>
+                  )}
+                  <common.MuiIcon
+                    sx={{
+                      marginLeft: 'auto'
+                    }}
+                    name="Delete"
+                    onClick={() => deleteComment(comment?.id)}
+                  />
+                </Box>
               )}
             </Grid>
           ))

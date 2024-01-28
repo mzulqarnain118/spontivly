@@ -15,7 +15,7 @@ const sortByData = [
 ]
 const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 
-function FindMember({ setRefetchUser }) {
+function FindMember({ addFavorites, unFavorite }) {
   const classes: any = dashboardStyles()
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
@@ -30,28 +30,6 @@ function FindMember({ setRefetchUser }) {
   })
 
   const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
-
-  const addFavorites = async (id) => {
-    try {
-      const response = await ApiCall('profile/favorite/', null, 'POST', {
-        favorite: id
-      })
-
-      if (response) {
-        setRefetchUser((old) => !old)
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
-
-  const unFavorite = async (id) => {
-    const response = await ApiCall(`profile/favorite/${id}`, null, 'DELETE')
-
-    if (response) {
-      setRefetchUser((old) => !old)
-    }
-  }
 
   async function fetchMembers({ pageParam = 1 }) {
     const queryParams = {
@@ -96,13 +74,13 @@ function FindMember({ setRefetchUser }) {
   return (
     <>
       <Grid container alignItems="center">
-        <Grid item xs={6} sm={8} md={9}>
+        <Grid item xss={6} xs={6} sm={8} md={9}>
           <Typography variant="h5" align="left">
             {members?.pages?.[0]?.count} Members
           </Typography>
         </Grid>
         {role === 'Moderator' && (
-          <Grid item xs={6} sm={4} md={3}>
+          <Grid item xss={6} xs={6} sm={4} md={3}>
             <common.MuiButton
               variant="contained"
               size="large"
@@ -116,7 +94,7 @@ function FindMember({ setRefetchUser }) {
       </Grid>
       <Card className={classes.card}>
         <Grid container spacing={3} padding={'20px'}>
-          <Grid item xs={8} sx={{ pr: 1 }}>
+          <Grid item xss={12} xs={6} sm={8} md={9} sx={{ pr: 1 }}>
             <common.Input
               name="member"
               placeholder="Search members"
@@ -126,10 +104,11 @@ function FindMember({ setRefetchUser }) {
             />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xss={12} xs={6} sm={4} md={3}>
             <common.Select name="sortBy" value={findMember.sortBy} label="Sort By" listUpdater={setFindMember} options={sortByData} />
           </Grid>
         </Grid>
+
         <common.InfiniteQueryWrapper
           isSuccess={isSuccess}
           isError={isError}
@@ -142,9 +121,9 @@ function FindMember({ setRefetchUser }) {
           {(members) =>
             members.length != 0 &&
             members?.map((rec) => (
-              <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
+                  <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
-                  <Grid item xs={8} md={4} lg={4}>
+                  <Grid item xss={6} xs={8} sm={4} md={4} lg={4}>
                     <Box className="row gap-1">
                       <Avatar src={rec?.profile_pic} />
                       <Box className="col-start gap-05">
@@ -160,13 +139,13 @@ function FindMember({ setRefetchUser }) {
                       </Box>
                     </Box>
                   </Grid>
-                  <Grid item xs={4} md={2} lg={2}>
+                  <Grid item xss={6} xs={4} sm={4} md={2} lg={2}>
                     <Typography className={classes.role}>{rec?.user?.groups?.[0]?.name == 'Moderator' ? 'Moderator' : 'Member'}</Typography>
                   </Grid>
-                  <Grid item xs={3} md={3} lg={3}>
+                  <Grid item xss={4} xs={3} md={2} lg={2}>
                     <Typography className={classes.role}>{rec?.position}</Typography>
                   </Grid>
-                  <Grid item xs={4} md={2} lg={2} className="row-around">
+                  <Grid item xss={7} xs={4} md={3} lg={3} className="row-around">
                     <common.MuiIcon name="FiberManualRecord" fontSize="10px" IconColor={rec?.match_count ? 'success' : 'error'} />
                     {rec?.match_count ? rec?.match_count : 'No'} Matches
                   </Grid>
@@ -183,9 +162,11 @@ function FindMember({ setRefetchUser }) {
                   ))}
                 </Box>
               </Box>
+
             ))
           }
         </common.InfiniteQueryWrapper>
+   
       </Card>
       {viewProfile && <UserProfileSidePanel user={handleMore} openPanel={viewProfile} setPanel={setViewProfile} />}
       <common.Popup

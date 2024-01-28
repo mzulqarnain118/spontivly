@@ -154,11 +154,9 @@ function OnBoarding() {
           <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
             <MenuIcon />
           </IconButton>
-          {!isSmallScreen && (
-            <Typography noWrap component="div" className={classes.label}>
-              {steps?.[activeStep]?.label}
-            </Typography>
-          )}
+          <Typography noWrap component="div" className={classes.label}>
+            {steps?.[activeStep]?.label}
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer className={classes.drawer} variant="persistent" anchor="left" open={open}>

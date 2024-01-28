@@ -58,7 +58,7 @@ function SearchTagsComponent({
 
   return (
     <Box className="col-center gap-1">
-      <Container maxWidth="sm" style={{ width: '600px' }}>
+      <Container maxWidth="sm" style={{ width: '100%' }}>
         <common.Input
           placeholder={placeholder}
           value={searchText}

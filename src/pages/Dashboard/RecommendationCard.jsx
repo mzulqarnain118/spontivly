@@ -7,7 +7,7 @@ import { Controls as common } from '../../components/common'
 import { channelStyles } from '../Channels/channelStyles'
 import { Events } from './Events'
 
-function RecommendationCard({ setRefetchUser }) {
+function RecommendationCard({ addFavorites }) {
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
   const classes = channelStyles()
@@ -23,20 +23,6 @@ function RecommendationCard({ setRefetchUser }) {
     return Recommendations?.results
   }
 
-  const addFavorites = async (id) => {
-    try {
-      const response = await ApiCall('profile/favorite/', null, 'POST', {
-        favorite: id
-      })
-
-      if (response) {
-        setRefetchUser((old) => !old)
-        refetch()
-      }
-    } catch (error) {
-      console.log('error', error)
-    }
-  }
   const { data: recommendations, refetch, isLoading } = useQuery({ queryKey: 'profile/', queryFn: () => fetchRecommendations() })
 
   return (

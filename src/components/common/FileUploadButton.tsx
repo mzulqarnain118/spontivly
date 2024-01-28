@@ -82,7 +82,8 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       endIcon={endCustomIcon ? <common.Img src={endCustomIcon} /> : endIcon}
       sx={{
         backgroundColor: bgcolor && `${bgcolor}`,
-        textTransform: 'none'
+        textTransform: 'none',
+        width:"100%"
       }}
       {...other}
     >

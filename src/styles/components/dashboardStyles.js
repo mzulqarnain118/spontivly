@@ -124,8 +124,9 @@ const dashboardStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end !important'
   },
   userMenuBox: {
-    borderLeft: '1px solid #e0e0e0 !important',
-    width: '240px !important',
+    [theme.breakpoints.up('sm')]: {
+      borderLeft: '1px solid #e0e0e0 !important'
+    },
     padding: '20px 16px !important'
   },
   avatarBox: {

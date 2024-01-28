@@ -1,5 +1,5 @@
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import { AddMember } from 'pages/Channels/AddMember'
 import { CreateChannel } from 'pages/Channels/CreateChannel'
@@ -19,13 +19,6 @@ import { RecommendationCard } from './RecommendationCard'
 import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
 
-const containerStyles = {
-  width: '80vw',
-  margin: '80px auto 0',
-  padding: '20px',
-  p: 3
-}
-
 function Dashboard() {
   let { portal, libraryId } = useParams()
 
@@ -35,7 +28,6 @@ function Dashboard() {
   const currentUser = useSelector((state: any) => state?.dashboard?.currentUser)
   const role = currentUser?.user?.groups?.[0]?.name ?? ''
   const isModerator = role === 'Moderator'
-  const [refetchUser, setRefetchUser] = useState(false)
   const [editChannelData, setEditChannelData] = useState<any>(null)
   const navItems = {
     settings: [
@@ -74,7 +66,38 @@ function Dashboard() {
 
     return response?.results
   }
-  const { data: currentUserData } = useQuery({ queryKey: ['currentUser', refetchUser], queryFn: fetchCurrentUser })
+  const { data: currentUserData, refetch: refetchUser } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: fetchCurrentUser
+  })
+
+  const addFavoritesMutation = useMutation({
+    mutationFn: (id) => ApiCall('profile/favorite/', null, 'POST', { favorite: id }),
+    onSuccess: () => {
+      refetchUser()
+    }
+  })
+  const addFavorites = async (id) => {
+    try {
+      await addFavoritesMutation.mutateAsync(id)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+  const unFavoriteMutation = useMutation({
+    mutationFn: (id) => ApiCall(`profile/favorite/${id}`, null, 'DELETE'),
+    onSuccess: () => {
+      refetchUser()
+    }
+  })
+
+  const unFavorite = async (id) => {
+    try {
+      await unFavoriteMutation.mutateAsync(id)
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   const location = useLocation()
 
@@ -95,7 +118,12 @@ function Dashboard() {
   const [Panel, setPanel] = useState(false)
   const [EventsPanel, setEventsPanel] = useState(false)
   const [popups, setPopups] = useState({ member: false, channel: false, archiveChannel: false, removeMember: false })
-
+  const containerStyles = {
+    width: isBelowLG ? '100vw' : '80vw',
+    margin: '80px auto 0',
+    padding: '20px',
+    p: 3
+  }
   const [addMemberChannelId, setAddMemberChannelId] = useState(null)
 
   const handlePortalChange = (newPortal: any, channelId: number) => {
@@ -115,9 +143,9 @@ function Dashboard() {
 
   const getPortalSizes: any = (portal: any) => {
     if (portal === 'channels') {
-      return { sideMenuSize: 2.5, mainContentSize: !isBelowLG ? 6.5 : 9.5, recommendationSize: !isBelowLG ? 3 : 0 }
+      return { sideMenuSize: !isBelowLG ? 2.5 : 0, mainContentSize: !isBelowLG ? 6.5 : 12, recommendationSize: !isBelowLG ? 3 : 0 }
     } else if (['find', 'library', 'settings'].includes(portal)) {
-      return { sideMenuSize: 2.5, mainContentSize: 9.5, recommendationSize: 0 }
+      return { sideMenuSize: !isBelowLG ? 2.5 : 0, mainContentSize: !isBelowLG ? 9.5 : 12, recommendationSize: 0 }
     } else {
       return 404
     }
@@ -130,7 +158,7 @@ function Dashboard() {
 
   const portalComponents: any = {
     channels: <General />,
-    find: <FindMember setRefetchUser={setRefetchUser} />,
+    find: <FindMember addFavorites={addFavorites} unFavorite={unFavorite} />,
     library: libraryId ? <IndividualLibrary /> : <Library />,
     settings: <Setting />
   }
@@ -144,7 +172,7 @@ function Dashboard() {
 
     if (channelArchives) {
       Toast(`Channel Archived Successfully`)
-      setRefetchUser((old) => !old)
+      refetchUser()
       managePopups('archiveChannel')
     }
   }
@@ -171,7 +199,7 @@ function Dashboard() {
               <SideMenuCard
                 onPortalChange={handlePortalChange}
                 navItems={navItems[portal === 'settings' ? 'settings' : 'channels']}
-                setRefetchUser={setRefetchUser}
+                refetchUser={refetchUser}
                 handleChannelsMore={handleChannelsMore}
               />
             </Grid>
@@ -182,7 +210,7 @@ function Dashboard() {
                 navItems={navItems[portal === 'settings' ? 'settings' : 'channels']}
                 setPanel={setPanel}
                 handleChannelsMore={handleChannelsMore}
-                setRefetchUser={setRefetchUser}
+                refetchUser={refetchUser}
               />
             </common.SidePanel>
           )}
@@ -191,11 +219,11 @@ function Dashboard() {
           </Grid>
           {portal === 'channels' && recommendationSize > 0 && !isBelowLG && (
             <Grid item xs={12} sm={recommendationSize}>
-              <RecommendationCard setRefetchUser={setRefetchUser} />
+              <RecommendationCard addFavorites={addFavorites} />
             </Grid>
           )}
           <common.SidePanel openPanel={EventsPanel} setPanel={setEventsPanel} anchor="right" width="50vw">
-            <RecommendationCard setRefetchUser={setRefetchUser} />
+            <RecommendationCard addFavorites={addFavorites} />
           </common.SidePanel>
         </Grid>
       </Box>
@@ -211,7 +239,7 @@ function Dashboard() {
         >
           <CreateChannel
             setPopups={setPopups}
-            setRefetchUser={setRefetchUser}
+            refetchUser={refetchUser}
             editChannelData={editChannelData}
             setEditChannelData={setEditChannelData}
           />

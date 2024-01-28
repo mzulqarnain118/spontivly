@@ -2,7 +2,7 @@ import { Typography, Menu, MenuItem, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { MuiIcon } from './MuiIcon'
 
-const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
+const MenuList = ({ items, onClose, className, children, color, icon, tooltip }: any) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleOpen = (event: any) => {
@@ -42,6 +42,7 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
         open={Boolean(anchorEl)}
         onClose={(event) => handleClose(null, event)} // Pass null as the default value
       >
+        {children}
         {items.map((item: any) =>
           typeof item === 'string' ? (
             <MenuItem key={item} onClick={(event) => handleClose(item, event)}>

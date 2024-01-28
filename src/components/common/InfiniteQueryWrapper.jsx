@@ -26,7 +26,6 @@ function InfiniteQuery({
       item
       xs={12}
       sx={{
-        // overflowY: 'auto',
         textAlign: 'center'
       }}
     >
