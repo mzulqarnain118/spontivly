@@ -53,11 +53,11 @@ export function Auth() {
     [buttonText, formData, navigate, setButtonText, setLocal]
   )
 
-  return  (
+  return (
     <Container maxWidth="sm" className={classes.container}>
       <common.Img src={logo} type="logo" />
       <common.FormHeading heading=" Welcome to Spontivly Portal" />
-      <form onSubmit={onSubmit} className={classes.subContainer}>
+      <form onSubmit={onSubmit} className={classes.subContainer} style={{ width: '100%' }}>
         {buttonText === 'Create account' && (
           <common.Input
             name="fullName"

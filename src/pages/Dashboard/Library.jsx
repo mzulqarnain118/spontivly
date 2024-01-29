@@ -177,11 +177,11 @@ function Library() {
           <Grid item xs={6} sm={4} md={3} lg={3}>
             <common.MuiButton
               variant="contained"
-              size="large"
               label="Add Content"
               className={classes.addContentButton}
               startIcon={<AddIcon />}
               onClick={openContentModal}
+              minWidth="90%"
             />
           </Grid>
         )}
@@ -189,7 +189,7 @@ function Library() {
 
       <Card className={classes.card}>
         <Box sx={{ display: 'flex', gap: 3, p: 4, flexWrap: 'wrap' }}>
-          <Box sx={{ flex: { md: 3 ,sm:3}, flexGrow: 1 }}>
+          <Box sx={{ flex: { md: 3, sm: 3 }, flexGrow: 1 }}>
             <common.Input
               name="content"
               placeholder="Search libraries"
