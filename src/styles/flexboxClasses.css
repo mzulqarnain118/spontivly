@@ -49,7 +49,10 @@
 .wrap {
   flex-wrap: wrap;
 }
-
+.child{
+  flex:1;
+  flex-grow: 1;
+}
 .row {
   display: flex;
   flex-direction: row;

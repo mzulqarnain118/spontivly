@@ -91,8 +91,8 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
         uploadFile?.filePayload
           ? combinedFormData
           : {
-            data: JSON.stringify(payload)
-          }
+              data: JSON.stringify(payload)
+            }
       )
 
       if (post) {
@@ -155,10 +155,11 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                     setPollOptions={setPollOptions}
                     handleAddOption={handleAddOption}
                     handleDeleteOption={handleDeleteOption}
+                    isEditing={isEditing}
                   />
                 </div>
               )}
-              <Box className="row-center" sx={{ flexDirection: { xss: "column", xs: "column", sm: "row" } }}>
+              <Box className="row-center" sx={{ flexDirection: { xss: 'column', xs: 'column', sm: 'row' } }}>
                 {buttons.map(({ label, icon, slug }) => (
                   <common.FileUploadButton
                     key={slug}
@@ -188,12 +189,14 @@ function CreatePoll({
   pollOptions,
   setPollOptions,
   handleAddOption,
-  handleDeleteOption
+  handleDeleteOption,
+  isEditing
 }: {
   pollOptions: string[]
   setPollOptions: React.Dispatch<React.SetStateAction<string[]>>
   handleAddOption: () => void
-  handleDeleteOption: (index: number) => void
+    handleDeleteOption: (index: number) => void
+    isEditing?: boolean
 }) {
   return (
     <div className="col-start gap-1">
@@ -208,7 +211,7 @@ function CreatePoll({
 
               if (updatedOptions[index]?.name) {
                 updatedOptions[index].name = e.target.value
-              } else updatedOptions[index] = e.target.value
+              } else updatedOptions[index] = isEditing ? {id:null, name: e.target.value } : e.target.value
 
               setPollOptions(updatedOptions)
             }}

@@ -1,9 +1,10 @@
-import { DialogActions } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Controls as common } from '../../components/common'
+import { useYupValidationResolver } from 'utils/YupDefaultSchema'
 
-export function Form({ onSubmit, children, submitLabel, defaultValues }) {
+export function Form({ onSubmit, children, submitLabel, defaultValues, leftBtnHandler, leftBtnLabel, type, validationsSchema }) {
+  const resolver = validationsSchema?useYupValidationResolver(validationsSchema):null
   const {
     register,
     unregister,
@@ -13,7 +14,7 @@ export function Form({ onSubmit, children, submitLabel, defaultValues }) {
     reset,
     getValues,
     formState: { errors, isSubmitSuccessful }
-  } = useForm({ defaultValues })
+  } = useForm({ resolver, defaultValues })
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -30,19 +31,21 @@ export function Form({ onSubmit, children, submitLabel, defaultValues }) {
     setValue,
     errors,
     getValues,
-    reset
+    reset,
+    leftBtnHandler,
+    leftBtnLabel
   }
 
   return (
     <form className="col gap-1" onSubmit={handleSubmit(onSubmit)}>
       {children({ ...formProps })}
-      {submitLabel === 'Save' ? (
-        <DialogActions>
-          <common.MuiButton label={'Cancel'} />
-          <common.MuiButton variant="contained" type="submit" label={submitLabel} />
-        </DialogActions>
+      {type === 'actions' ? (
+        <div className="row-between">
+          <common.MuiButton label={leftBtnLabel ?? 'Cancel'} onClick={leftBtnHandler} className="child" />
+          <common.MuiButton variant="contained" type="submit" label={submitLabel ?? 'Save'} className="child" />
+        </div>
       ) : (
-        <common.MuiButton size="md" variant="contained" type="submit" label={submitLabel} />
+        <common.MuiButton size="md" variant="contained" type="submit" label={submitLabel ?? 'Save'} />
       )}
     </form>
   )

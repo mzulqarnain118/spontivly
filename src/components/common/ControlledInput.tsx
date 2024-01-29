@@ -29,7 +29,7 @@ interface ValidationRules {
   [key: string]: any
 }
 
-const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }) => {
+const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }:any) => {
   const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules }: ValidationRules = validation
 
   const rules = {

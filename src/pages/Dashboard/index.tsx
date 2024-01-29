@@ -219,11 +219,11 @@ function Dashboard() {
           </Grid>
           {portal === 'channels' && recommendationSize > 0 && !isBelowLG && (
             <Grid item xs={12} sm={recommendationSize}>
-              <RecommendationCard addFavorites={addFavorites} />
+              <RecommendationCard refetchUser={refetchUser} />
             </Grid>
           )}
           <common.SidePanel openPanel={EventsPanel} setPanel={setEventsPanel} anchor="right" width="50vw">
-            <RecommendationCard addFavorites={addFavorites} />
+            <RecommendationCard refetchUser={refetchUser} />
           </common.SidePanel>
         </Grid>
       </Box>
@@ -245,7 +245,7 @@ function Dashboard() {
           />
         </common.Popup>
       )}
-      {popups.member && (
+      {popups.member && addMemberChannelId &&  (
         <AddMember popups={popups} managePopups={managePopups} setPopups={setPopups} addMemberChannelId={addMemberChannelId} />
       )}
       {popups.archiveChannel && (

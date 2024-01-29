@@ -18,6 +18,7 @@ export function Input(
     startIcon,
     endIcon,
     readOnly,
+    type,
     register,
     valueUpdater,
     listUpdater,
@@ -88,6 +89,7 @@ export function Input(
       variant="outlined"
       multiline={multiline}
       rows={rows ?? 5}
+      type={type}
       label={label}
       placeholder={placeholder}
       name={name}
@@ -97,7 +99,7 @@ export function Input(
       defaultValue={defaultValue}
       InputProps={{
         readOnly: readOnly,
-        startAdornment: startIcon && <common.MuiIcon name={startIcon} disabled sx={{ mr: 2 }} />,
+        startAdornment: startIcon && <common.MuiIcon name={type === 'password' ? 'Password' : startIcon} disabled sx={{ mr: 2 }} />,
         endAdornment: endIcon && value && (
           <IconButton onClick={customHandleClearClick ?? handleClearClick}>
             <ClearIcon />

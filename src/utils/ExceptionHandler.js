@@ -49,13 +49,13 @@ export function ExceptionHandler(error) {
   }
 
   if (error.response) {
-    const { msg, name: [name] = [] } = error?.response?.data || {}
+    const { msg, details, name: [name] = [] } = error?.response?.data || {}
     const { status } = error?.response
 
     if (status === 401) {
       handleAuthError()
     } else {
-      handleStatusCodeError(status, msg ?? name)
+      handleStatusCodeError(status, msg ?? name ?? detail)
     }
   } else {
     Toast('No Internet Connection', 'error')

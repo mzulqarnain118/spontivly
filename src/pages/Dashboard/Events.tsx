@@ -43,7 +43,7 @@ export const Events: React.FC = () => {
                   </div>
                 </div>
               </Grid>
-              <common.MuiButton size="large" label="Attending" />
+              <common.MuiButton size="large" label="Attending" minWidth="100%"/>
             </Grid>
           ))}
         </CardContent>

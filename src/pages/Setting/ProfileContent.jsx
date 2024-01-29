@@ -11,7 +11,6 @@ import { Controls as common } from '../../components/common'
 
 export const ProfileContent = () => {
   const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
-  const [userProfileData, setUserProfileData] = useState({})
   const [uploadFile, setUploadFile] = useState()
 
   const classes = commonStyles()
@@ -25,12 +24,7 @@ export const ProfileContent = () => {
   }
 
   useEffect(() => {
-    console.log(User?.user?.email)
     setUploadFile({ profile_pic: User?.profile_pic })
-    setUserProfileData(() => ({
-      fullName: User?.user?.first_name ?? '' + User?.user?.last_name ?? '',
-      email: User?.user?.email
-    }))
   }, [])
   const updateProfileMutation = useMutation({
     mutationFn: async (formData) => {
@@ -60,8 +54,16 @@ export const ProfileContent = () => {
     } else {
       combinedFormData.append('data', JSON.stringify(payload))
     }
-
+alert(1)
     updateProfileMutation.mutate(uploadFile?.filePayload ? combinedFormData : { data: JSON.stringify(payload) })
+  }
+  const DeleteAccount = async (userId) => {
+    const accountDeleted = await ApiCall(`profile/${userId}`, null, 'DELETE')
+
+    if (accountDeleted) {
+      Toast(`Account Deleted Successfully`)
+      refetch()
+    }
   }
 
   return (
@@ -83,7 +85,17 @@ export const ProfileContent = () => {
           />
         </Grid>
       </Grid>
-      <common.Form onSubmit={updateProfileSubmit} submitLabel="Update" defaultValues={{ ...userProfileData }}>
+      <common.Form
+        onSubmit={updateProfileSubmit}
+        submitLabel="Update"
+        type="actions"
+        leftBtnLabel="Delete Account"
+        leftBtnHandler={DeleteAccount}
+        defaultValues={{
+          fullName: User?.user?.first_name ?? '' + User?.user?.last_name ?? '',
+          email: User?.user?.email
+        }}
+      >
         {({ errors, control, getValues }) => (
           <>
             {console.log(getValues(), 'getValues')}

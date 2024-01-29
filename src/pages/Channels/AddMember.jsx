@@ -7,14 +7,23 @@ import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
-  const { isModerator, userId } = useSelector((state) => state?.dashboard)
-  const params = useParams()
-  const channelId = addMemberChannelId ?? params?.channelId
+function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
 
+  console.log("🚀 ~ AddMember ~ addMemberChannelId:", addMemberChannelId)
+
+  const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const [selectedMembers, setSelectedMembers] = useState([])
   const [searchMemberText, setSearchMemberText] = useState('')
+  const membersListFunc = async ({ pageParam = 1 }) => {
+    const queryParams = {
+      page: pageParam
+    }
+    const encodedParams = encodeParams(queryParams)
+    const apiUrl = `channels/${addMemberChannelId}?${encodedParams}`
+    const membersList = await ApiCall(apiUrl)
 
+    return membersList
+  }
   const { data: members } = useQuery({ queryKey: ['isMemberExist'], queryFn: () => isMemberExist() })
   const {
     data: membersList,
@@ -26,16 +35,21 @@ function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
     isSuccess,
     isError
   } = useInfiniteQuery({
-    queryKey: ['channels', channelId], // Dynamic query key
-    queryFn: ({ pageParam = 1 }) => membersListFunc({ pageParam }),
-    getNextPageParam: (lastPage) => lastPage?.next
+    queryKey: ['membersList'], // Dynamic query key
+    queryFn: membersListFunc,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage?.next,
+    enabled: !!addMemberChannelId
   })
 
   const postMember = async () => {
     const memberIds = reduceArrayByKeys(selectedMembers, ['id'], 'user')
 
+    console.log('🚀 ~ postMember ~ memberIds:', memberIds, selectedMembers)
+
+
     const payload = {
-      channel: channelId,
+      channel: addMemberChannelId,
       member: memberIds
     }
     const addedMember = await ApiCall('channels/members/', null, 'POST', payload)
@@ -48,12 +62,6 @@ function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
     }
   }
 
-  const membersListFunc = async () => {
-    const apiUrl = `channels/${channelId}`
-    const membersList = await ApiCall(apiUrl)
-
-    return membersList
-  }
   const isMemberExist = async () => {
     const queryParams = {
       email: searchMemberText
@@ -68,7 +76,7 @@ function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
     setSelectedMembers(selectedValues)
   }
   const handleDeleteMember = async (memberId) => {
-    const apiUrl = `channels/members/${channelId}/${memberId}`
+    const apiUrl = `channels/members/${addMemberChannelId}/${memberId}`
     const memberDeleted = await ApiCall(apiUrl, null, 'DELETE')
 
     if (memberDeleted) {
@@ -105,7 +113,7 @@ function AddMember({ popups, setPopups,managePopups, addMemberChannelId }) {
                   </Grid>
                   <Grid item xs={1}>
                     {member?.id !== userId && isModerator && (
-                      <common.MuiIcon name="Delete" color="secondary" onClick={managePopups('removeMember')} />
+                      <common.MuiIcon name="Delete" color="secondary" onClick={()=>managePopups('removeMember')} />
                     )}
                     {popups.removeMember && (
                       <common.Popup

@@ -1,5 +1,5 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
@@ -7,7 +7,7 @@ import { Controls as common } from '../../components/common'
 import { channelStyles } from '../Channels/channelStyles'
 import { Events } from './Events'
 
-function RecommendationCard({ addFavorites }) {
+function RecommendationCard({ refetchUser }) {
   const currentUser = useSelector((state) => state?.dashboard?.currentUser)
   const isFavorite = (id) => currentUser?.favorites?.some((item) => item.id == id)
   const classes = channelStyles()
@@ -21,6 +21,21 @@ function RecommendationCard({ addFavorites }) {
     const Recommendations = await ApiCall(apiUrl)
 
     return Recommendations?.results
+  }
+
+  const addFavoritesMutation = useMutation({
+    mutationFn: (id) => ApiCall('profile/favorite/', null, 'POST', { favorite: id }),
+    onSuccess: () => {
+      refetchUser()
+      refetch()
+    }
+  })
+  const addFavorites = async (id) => {
+    try {
+      await addFavoritesMutation.mutateAsync(id)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   const { data: recommendations, refetch, isLoading } = useQuery({ queryKey: 'profile/', queryFn: () => fetchRecommendations() })
@@ -91,7 +106,7 @@ function RecommendationCard({ addFavorites }) {
                       </Typography>
                     )}
                   </Grid>
-                  <div className={` ${index < recommendations.length - 1 ? 'divider' : ''}`}></div>
+                  {/* <div className={` ${index < recommendations.length - 1 ? 'divider' : ''}`}></div> */}
                 </Grid>
               ))}
             {recommendations?.length === 0 && <Typography>No Recommendations</Typography>}
