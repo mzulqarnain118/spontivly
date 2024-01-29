@@ -3,16 +3,11 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
 function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
-
-  console.log("🚀 ~ AddMember ~ addMemberChannelId:", addMemberChannelId)
-
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
-  const [selectedMembers, setSelectedMembers] = useState([])
   const [searchMemberText, setSearchMemberText] = useState('')
   const membersListFunc = async ({ pageParam = 1 }) => {
     const queryParams = {
@@ -42,12 +37,8 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
     enabled: !!addMemberChannelId
   })
 
-  const postMember = async () => {
-    const memberIds = reduceArrayByKeys(selectedMembers, ['id'], 'user')
-
-    console.log('🚀 ~ postMember ~ memberIds:', memberIds, selectedMembers)
-
-
+  const postMember = async (values) => {
+    const memberIds = reduceArrayByKeys(values?.members, ['id'], 'user')
     const payload = {
       channel: addMemberChannelId,
       member: memberIds
@@ -56,7 +47,6 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
 
     if (addedMember) {
       Toast('Members Added Successfully.')
-      setSelectedMembers([])
       refetch()
       managePopups('member')
     }
@@ -72,9 +62,7 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
 
     return existEmail.results
   }
-  const handleMemberChange = async (selectedValues) => {
-    setSelectedMembers(selectedValues)
-  }
+
   const handleDeleteMember = async (memberId) => {
     const apiUrl = `channels/members/${addMemberChannelId}/${memberId}`
     const memberDeleted = await ApiCall(apiUrl, null, 'DELETE')
@@ -142,8 +130,6 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
                   <common.Autocomplete
                     placeholder="Members"
                     variant="outlined"
-                    value={selectedMembers}
-                    onChange={handleMemberChange}
                     options={members ?? []}
                     inputValue={searchMemberText}
                     setInputValue={setSearchMemberText}
