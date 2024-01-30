@@ -45,7 +45,7 @@ const contentTypes = [
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Saved For Later', title: 'Saved For Later' }
+  { id: 'Save For Later', title: 'Saved For Later' }
 ]
 
 export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
@@ -151,7 +151,7 @@ function Library() {
       patchLibraryContent(content?.id, updateLibraryContent[item])
     } else if (item === 'Saved For Later') {
       contentSaveForLater(content?.id)
-    } else if (item === 'Remove From Save Later') {
+    } else if (item === 'Remove From Saved Later') {
       contentUnSaveForLater(content?.id)
     } else if (item == 'Edit Content') {
       setEditContent(true)

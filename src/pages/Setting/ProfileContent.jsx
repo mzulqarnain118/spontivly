@@ -5,7 +5,7 @@ import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { commonStyles } from 'styles'
-import { AL, ApiCall, readFile } from 'utils'
+import { ApiCall, readFile } from 'utils'
 import { Controls as common } from '../../components/common'
 
 export const ProfileContent = ({ refetchUser }) => {
@@ -13,8 +13,6 @@ export const ProfileContent = ({ refetchUser }) => {
   const [uploadFile, setUploadFile] = useState()
   const [confirmPopup, setConfirmPopup] = useState()
   const [defaultValues, setDefaultValues] = useState()
-
-  console.log('🚀 ~ ProfileContent ~ defaultValues:', defaultValues)
 
   const classes = commonStyles()
   const handleUploadPhoto = (event) => {
@@ -27,13 +25,8 @@ export const ProfileContent = ({ refetchUser }) => {
   }
 
   useEffect(() => {
-    console.log('object', defaultValues)
-  }, [defaultValues])
-
-  useEffect(() => {
     if (User) {
-      console.log('🚀 ~ ProfileContent ~ User:', User)
-      setUploadFile({ profile_pic: User?.profile_pic })
+      setUploadFile({ profile_pic: `${User?.profile_pic}?fileKey=${Math.random()}` })
 
       setDefaultValues({
         fullName: `${User?.user?.first_name ?? ''} ${User?.user?.last_name ?? ''}`,
@@ -96,6 +89,7 @@ export const ProfileContent = ({ refetchUser }) => {
           leftBtnLabel="Delete Account"
           leftBtnHandler={() => setConfirmPopup(true)}
           defaultValues={defaultValues}
+          disableReset={true}
         >
           {({ errors, control }) => (
             <>

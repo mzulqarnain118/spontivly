@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Controls as common } from '../../components/common'
 import { useYupValidationResolver } from 'utils/YupDefaultSchema'
+import { Controls as common } from '../../components/common'
 
-export function Form({ onSubmit, children, submitLabel, defaultValues, leftBtnHandler, leftBtnLabel, type, validationsSchema }) {
-  const resolver = validationsSchema?useYupValidationResolver(validationsSchema):null
+export function Form({ onSubmit, children, submitLabel, defaultValues,disableReset=false, leftBtnHandler, leftBtnLabel, type, validationsSchema }) {
+  const resolver = validationsSchema ? useYupValidationResolver(validationsSchema) : null
   const {
     register,
     unregister,
@@ -19,7 +19,7 @@ export function Form({ onSubmit, children, submitLabel, defaultValues, leftBtnHa
   useEffect(() => {
     if (isSubmitSuccessful) {
       // Reset the form with the defaultValues
-      reset()
+      !disableReset && reset()
     }
   }, [isSubmitSuccessful, reset])
 
