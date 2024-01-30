@@ -167,9 +167,9 @@ function OnBoarding() {
       <Drawer className={classes.drawer} variant="persistent" anchor="left" open={open}>
         <DrawerHeader className={classes.drawerHeader}>
           <common.Img src={companyLogo} />
-          <Link to={true ? '#' : '/member-portal'} className={classes.link}>
+          {/* <Link to={true ? '#' : '/member-portal'} className={classes.link}>
             {'Save and exit'}
-          </Link>
+          </Link> */}
         </DrawerHeader>
         <Typography className={classes.sidebarHeader}>Complete your profile</Typography>
         <List className={classes.list}>

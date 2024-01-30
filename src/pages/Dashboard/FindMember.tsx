@@ -12,8 +12,8 @@ import { UserProfileSidePanel } from './UserProfileSidePanel'
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
   { id: 'Recommendation', title: 'Recommendations' },
-  { id: 'Un-Published', title: 'Un-Published' },
-  { id: 'Draft', title: 'Draft' }
+  // { id: 'Un-Published', title: 'Un-Published' },
+  // { id: 'Draft', title: 'Draft' }
 ]
 const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 

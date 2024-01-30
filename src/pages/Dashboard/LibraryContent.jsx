@@ -22,7 +22,7 @@ const LibraryContent = ({ libraryData, typeIcons, moreOptions, handleMoreClick, 
             </Typography>
             <Typography variant="lightSubtitle1" align="left" dangerouslySetInnerHTML={{ __html: library?.summary }} />
             <Box className="flex">
-              <Avatar src={library?.created_by?.profile?.profile_pic || defaultThumbnail} alt="Media" className={classes.contentAvatar} />
+              <Avatar src={library?.created_by?.profile?.profile_pic} alt="Media" className={classes.contentAvatar} />
               <Typography variant="subtitle2">{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
             </Box>
 

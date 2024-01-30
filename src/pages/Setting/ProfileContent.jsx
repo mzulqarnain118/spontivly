@@ -1,5 +1,4 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
 import uploadIcon from 'assets/icons/upload.png'
 import defaultProfile from 'assets/images/defaultProfile.png'
 import { Toast } from 'components/common/Toast/Toast'
@@ -10,12 +9,12 @@ import { AL, ApiCall, readFile } from 'utils'
 import { Controls as common } from '../../components/common'
 
 export const ProfileContent = ({ refetchUser }) => {
-  const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
+  const User = useSelector((state) => state?.dashboard?.currentUser ?? null)
   const [uploadFile, setUploadFile] = useState()
   const [confirmPopup, setConfirmPopup] = useState()
-  const [fullName, setFullName] = useState()
+  const [defaultValues, setDefaultValues] = useState()
 
-  console.log('🚀 ~ ProfileContent ~ fullName:', fullName)
+  console.log('🚀 ~ ProfileContent ~ defaultValues:', defaultValues)
 
   const classes = commonStyles()
   const handleUploadPhoto = (event) => {
@@ -28,11 +27,20 @@ export const ProfileContent = ({ refetchUser }) => {
   }
 
   useEffect(() => {
+    console.log('object', defaultValues)
+  }, [defaultValues])
+
+  useEffect(() => {
     if (User) {
+      console.log('🚀 ~ ProfileContent ~ User:', User)
       setUploadFile({ profile_pic: User?.profile_pic })
-      setFullName(`${User?.user?.first_name} ${User?.user?.last_name}`)
+
+      setDefaultValues({
+        fullName: `${User?.user?.first_name ?? ''} ${User?.user?.last_name ?? ''}`,
+        email: User?.user?.email ?? ''
+      })
     }
-  }, [User, User?.user?.last_name])
+  }, [User])
 
   const updateProfileSubmit = async (values) => {
     const combinedFormData = new FormData()
@@ -80,24 +88,23 @@ export const ProfileContent = ({ refetchUser }) => {
           />
         </Grid>
       </Grid>
-      <common.Form
-        onSubmit={updateProfileSubmit}
-        submitLabel="Update"
-        type="actions"
-        leftBtnLabel="Delete Account"
-        leftBtnHandler={() => setConfirmPopup(true)}
-        defaultValues={{
-          fullName: fullName ?? `${User?.user?.first_name} ${User?.user?.last_name}`,
-          email: User?.user?.email
-        }}
-      >
-        {({ errors, control }) => (
-          <>
-            <common.ControlledInput name="fullName" placeholder="Full name" control={control} errors={errors} />
-            <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} disabled={true} />
-          </>
-        )}
-      </common.Form>
+      {defaultValues && (
+        <common.Form
+          onSubmit={updateProfileSubmit}
+          submitLabel="Update"
+          type="actions"
+          leftBtnLabel="Delete Account"
+          leftBtnHandler={() => setConfirmPopup(true)}
+          defaultValues={defaultValues}
+        >
+          {({ errors, control }) => (
+            <>
+              <common.ControlledInput name="fullName" placeholder="Full name" control={control} errors={errors} />
+              <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} disabled={true} />
+            </>
+          )}
+        </common.Form>
+      )}
       <common.Popup
         openPopup={confirmPopup}
         setPopup={setConfirmPopup}
