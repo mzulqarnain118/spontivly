@@ -3,12 +3,13 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
+import { AL, ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
 function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const [searchMemberText, setSearchMemberText] = useState('')
+  const [removeMemberId, setRemoveMemberId] = useState('')
   const membersListFunc = async ({ pageParam = 1 }) => {
     const queryParams = {
       page: pageParam
@@ -63,8 +64,8 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
     return existEmail.results
   }
 
-  const handleDeleteMember = async (memberId) => {
-    const apiUrl = `channels/members/${addMemberChannelId}/${memberId}`
+  const handleDeleteMember = async () => {
+    const apiUrl = `channels/members/${addMemberChannelId}/${removeMemberId}`
     const memberDeleted = await ApiCall(apiUrl, null, 'DELETE')
 
     if (memberDeleted) {
@@ -101,7 +102,14 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
                   </Grid>
                   <Grid item xs={1}>
                     {member?.id !== userId && isModerator && (
-                      <common.MuiIcon name="Delete" color="secondary" onClick={()=>managePopups('removeMember')} />
+                      <common.MuiIcon
+                        name="Delete"
+                        color="secondary"
+                        onClick={() => {
+                          managePopups('removeMember')
+                          setRemoveMemberId(member?.id)
+                        }}
+                      />
                     )}
                     {popups.removeMember && (
                       <common.Popup
@@ -110,8 +118,8 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
                         setPopups={setPopups}
                         width={'sm'}
                         submitBtnLabel="Confirm"
-                        submitHandler={() => handleDeleteMember(member?.id)}
-                      ></common.Popup>
+                        submitHandler={handleDeleteMember}
+                      />
                     )}
                   </Grid>
                 </Grid>

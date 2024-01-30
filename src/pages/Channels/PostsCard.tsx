@@ -27,11 +27,13 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
   ]
 
-  if (!post?.is_closed && post?.choices?.length !== 0) {
+
+  const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
+
+  if (isModerator && !post?.is_closed && post?.choices?.length !== 0) {
     filteredMoreOptions.push('Close Poll')
   }
 
-  const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
   const channelClasses: any = channelStyles()
   const [addComment, setAddComment] = useState<any>(null)
 
@@ -207,7 +209,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
               sx={{ color: 'primary.main' }}
               onClick={() => setAddComment(addComment ? null : post?.id)}
             >
-              {post?.comments ?? 0} Comment
+              Comments
             </Typography>
           </Grid>
         </Grid>

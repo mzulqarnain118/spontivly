@@ -23,7 +23,11 @@ function LocationComponent() {
     return locations?.results
   }
 
-  const { data: locations, isLoading } = useQuery({ queryKey: ['locations', searchText], queryFn: () => fetchLocation(searchText) })
+  const { data: locations, isLoading } = useQuery({
+    queryKey: ['locations', searchText],
+    queryFn: () => fetchLocation(searchText),
+    enabled: !!searchText
+  })
 
   const handleSelect = (name, state, id) => {
     dispatch(setLocationText(`${name},${state}`))
@@ -51,7 +55,7 @@ function LocationComponent() {
         </Box>
       </Container>
       {isLoading && <common.Spinner />}
-      {locations?.map((location) => (
+      {searchText && locations?.map((location) => (
         <Box
           key={location?.id} // Add a key to the mapped elements
           className={locationClasses.container}

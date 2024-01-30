@@ -17,7 +17,7 @@ const IndividualLibrary = () => {
   return (
     <>
       <Box className="row-start" sx={{ mt: 5, mb: 5 }}>
-        <Typography variant="h4" display="flex" alignItems="center">
+        <Typography className="cursor" variant="h4" display="flex" alignItems="center">
           <Link variant="h5" onClick={() => navigate(-1)} color="inherit" underline="hover">
             Library
           </Link>
@@ -41,6 +41,7 @@ const IndividualLibrary = () => {
                     </div>
                   </div>
                   <common.MuiButton
+                    minWidth="100%"
                     size="large"
                     onClick={() => handleOpenUrlInNewTab(library.url)}
                     label="Go To The External Link Of This Content"

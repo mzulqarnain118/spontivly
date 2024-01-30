@@ -7,34 +7,7 @@ import { ProfileContent } from './ProfileContent'
 import { SocialAuths } from './SocialAuths'
 import { UpdatePassword } from './UpdatePassword'
 
-const panels = [
-  {
-    key: 'profile',
-    title: 'Profile',
-    subheader: 'This information will be displayed publicly so be careful what you share.',
-    component: <ProfileContent />
-  },
-  {
-    key: 'bio',
-    title: 'Bio',
-    subheader: 'Add additional details for your directory profile',
-    component: <Bio />
-  },
-  {
-    key: 'social',
-    title: 'Social Integerations',
-    subheader: 'Your social media profiles.',
-    component: <SocialAuths />
-  },
-  {
-    key: 'password',
-    title: 'Update Password',
-    subheader: 'By changing your password, you help make sure that only you can use your account.',
-    component: <UpdatePassword />
-  }
-]
-
-const Setting = () => {
+const Setting = ({refetchUser}) => {
   const [expanded, setExpanded] = useState({})
 
   const handleExpandClick = (panel) => {
@@ -43,6 +16,32 @@ const Setting = () => {
       [panel]: !prevExpanded[panel]
     }))
   }
+  const panels = [
+    {
+      key: 'profile',
+      title: 'Profile',
+      subheader: 'This information will be displayed publicly so be careful what you share.',
+      component: <ProfileContent refetchUser={refetchUser} />
+    },
+    {
+      key: 'bio',
+      title: 'Bio',
+      subheader: 'Add additional details for your directory profile',
+      component: <Bio />
+    },
+    {
+      key: 'social',
+      title: 'Social Integerations',
+      subheader: 'Your social media profiles.',
+      component: <SocialAuths />
+    },
+    {
+      key: 'password',
+      title: 'Update Password',
+      subheader: 'By changing your password, you help make sure that only you can use your account.',
+      component: <UpdatePassword />
+    }
+  ]
 
   return (
     <Box display="flex" flexDirection="column" mt={15}>

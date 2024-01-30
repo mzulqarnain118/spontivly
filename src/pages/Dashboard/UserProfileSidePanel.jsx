@@ -22,12 +22,13 @@ const UserProfileSidePanel = ({ user, openPanel, setPanel }) => {
           }}
         >
           <Avatar src={user?.profile_pic} sx={{ width: '3.33rem', height: '3.33rem' }} />
-          <Typography>{user?.user?.first_name ?? '' + user?.user?.last_name ?? ''}</Typography>
+          <Typography>{user?.user?.first_name ?? '' + " " + user?.user?.last_name ?? ''}</Typography>
           <Typography variant="lighterSubtitle2">{user?.user?.email ?? ''}</Typography>
           <Box className="flex">
-            <img src={twitter} />
-            <img src={fb} />
-            <img src={linkedin} />
+            {user?.facebook_id && <img src={fb} alt="Facebook" />}
+            {user?.twitter_id && <img src={twitter} alt="Twitter" />}
+            {user?.linkedin_id && <img src={linkedin} alt="Linkdin" />}
+            {user?.instagram_id && <img src={instagram} alt="Instagram" />}
           </Box>
           <common.MuiButton
             fullWidth

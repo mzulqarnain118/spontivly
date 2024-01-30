@@ -11,7 +11,9 @@ import { UserProfileSidePanel } from './UserProfileSidePanel'
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Recommendation', title: 'Recommendations' }
+  { id: 'Recommendation', title: 'Recommendations' },
+  { id: 'Un-Published', title: 'Un-Published' },
+  { id: 'Draft', title: 'Draft' }
 ]
 const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 
@@ -25,7 +27,7 @@ function FindMember({ addFavorites, unFavorite }) {
 
   const [findMember, setFindMember] = useState({
     member: '',
-    sortBy: null,
+    sortBy: 'Most Recent',
     favorites: []
   })
 
@@ -121,7 +123,7 @@ function FindMember({ addFavorites, unFavorite }) {
           {(members) =>
             members.length != 0 &&
             members?.map((rec) => (
-                  <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
+              <Box key={rec?.dashboard_user} padding={'0.75rem 1.25rem'}>
                 <Grid container className={`row-between ${classes.content}`}>
                   <Grid item xss={6} xs={8} sm={4} md={4} lg={4}>
                     <Box className="row gap-1">
@@ -143,10 +145,12 @@ function FindMember({ addFavorites, unFavorite }) {
                     <Typography className={classes.role}>{rec?.user?.groups?.[0]?.name == 'Moderator' ? 'Moderator' : 'Member'}</Typography>
                   </Grid>
                   <Grid item xss={4} xs={3} md={2} lg={2}>
-                    <Typography className={classes.role}>{rec?.position}</Typography>
+                    <Typography className={classes.role}>
+                      {rec?.position} , {rec?.company_name}
+                    </Typography>
                   </Grid>
                   <Grid item xss={7} xs={4} md={3} lg={3} className="row-around">
-                    <common.MuiIcon name="FiberManualRecord" fontSize="10px" IconColor={rec?.match_count ? 'success' : 'error'} />
+                    {/* <common.MuiIcon name="FiberManualRecord" fontSize="10px" IconColor={rec?.match_count ? 'success' : 'error'} /> */}
                     {rec?.match_count ? rec?.match_count : 'No'} Matches
                   </Grid>
 
@@ -162,11 +166,9 @@ function FindMember({ addFavorites, unFavorite }) {
                   ))}
                 </Box>
               </Box>
-
             ))
           }
         </common.InfiniteQueryWrapper>
-   
       </Card>
       {viewProfile && <UserProfileSidePanel user={handleMore} openPanel={viewProfile} setPanel={setViewProfile} />}
       <common.Popup

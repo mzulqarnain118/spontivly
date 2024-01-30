@@ -45,7 +45,7 @@ const contentTypes = [
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Save For Later', title: 'Save For Later' }
+  { id: 'Saved For Later', title: 'Saved For Later' }
 ]
 
 export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
@@ -60,7 +60,7 @@ function Library() {
   const navigate = useNavigate()
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const filterMoreOptions = (createdUserId, i_saved) => {
-    const filteredMoreOptions = [...moreOptions, i_saved ? 'Remove From Save Later' : 'Save For Later']
+    const filteredMoreOptions = [...moreOptions, i_saved ? 'Remove From Save Later' : 'Saved For Later']
 
     return isModerator && createdUserId === userId ? filteredMoreOptions : filteredMoreOptions.slice(4)
   }
@@ -149,7 +149,7 @@ function Library() {
   const handleMoreClick = (item, content) => {
     if (updateLibraryContent.hasOwnProperty(item)) {
       patchLibraryContent(content?.id, updateLibraryContent[item])
-    } else if (item === 'Save For Later') {
+    } else if (item === 'Saved For Later') {
       contentSaveForLater(content?.id)
     } else if (item === 'Remove From Save Later') {
       contentUnSaveForLater(content?.id)

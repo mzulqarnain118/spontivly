@@ -160,7 +160,7 @@ function Dashboard() {
     channels: <General />,
     find: <FindMember addFavorites={addFavorites} unFavorite={unFavorite} />,
     library: libraryId ? <IndividualLibrary /> : <Library />,
-    settings: <Setting />
+    settings: <Setting refetchUser={refetchUser} />
   }
 
   const mainContent = portalComponents[portal]

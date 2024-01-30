@@ -63,26 +63,23 @@ export function Popup({
           {children}
         </DialogContent>
         {submitBtnLabel && (
-          <DialogActions>
-            {submitBtnLabel === 'Confirm' ? (
+          <DialogActions className='row-between'>
+            {cancelBtnLabel || submitBtnLabel === 'Confirm'  && (
               <common.MuiButton
+                className="child"
+                type="button"
                 size={'large'}
                 onClick={() => {
                   handlePopupCancel && handlePopupCancel()
                   setPopup && setPopup(!openPopup)
                   setPopups && popupName && setPopups((prev) => ({ ...prev, [popupName]: false }))
                 }}
-                variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
+                variant='outlined'
                 label={cancelBtnLabel ?? 'Cancel'}
               />
-            ) : (
-              cancelBtnLabel && (
-                <Link align="left" onClick={handlePopupCancel}>
-                  {cancelBtnLabel}
-                </Link>
-              )
             )}
             <common.MuiButton
+              className="child"
               size={submitBtnLabel === 'Confirm' ? 'large' : 'md'}
               onClick={() => {
                 submitHandler && submitHandler()

@@ -7,6 +7,7 @@ import {
   ListItemText,
   Toolbar,
   List,
+  useTheme,
   ListItem,
   CssBaseline,
   Typography,
@@ -35,7 +36,9 @@ const Social = lazy(() => import('./Social').then((module) => ({ default: module
 const Profile = lazy(() => import('./Profile').then((module) => ({ default: module.Profile })))
 
 function OnBoarding() {
-  const [open, setOpen] = React.useState(false)
+  const theme = useTheme()
+  const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
+  const [open, setOpen] = React.useState(isBelowLG ? false : true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { selectedChips: skillsSelectedChips } = useSelector((state: any) => state.skills)
@@ -151,9 +154,11 @@ function OnBoarding() {
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>
         <Toolbar className={classes.toolbar}>
-          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
-            <MenuIcon />
-          </IconButton>
+          {isBelowLG && (
+            <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography noWrap component="div" className={classes.label}>
             {steps?.[activeStep]?.label}
           </Typography>

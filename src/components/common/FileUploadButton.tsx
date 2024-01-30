@@ -17,6 +17,8 @@ interface FileUploadButtonProps {
   endIcon?: React.ReactNode
   variant?: string
   type?: string
+  className?: string
+  width?: string
   disabled?: boolean
 }
 
@@ -39,6 +41,8 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   endIcon,
   label,
   size,
+  className,
+  width,
   type,
   startIcon,
   ...other
@@ -76,6 +80,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
   return (
     <Button
       variant={variant}
+      className={className}
       size={size ?? 'small'}
       onClick={handleClick}
       startIcon={startCustomIcon ? <common.Img src={startCustomIcon} /> : startIcon}
@@ -83,7 +88,7 @@ const FileUploadButton: React.FC<FileUploadButtonProps> = ({
       sx={{
         backgroundColor: bgcolor && `${bgcolor}`,
         textTransform: 'none',
-        width:"100%"
+        width: width
       }}
       {...other}
     >

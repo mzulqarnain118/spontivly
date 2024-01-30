@@ -127,6 +127,12 @@ const commonStyles = makeStyles((theme) => ({
     width: '96px !important',
     height: '96px !important',
     borderRadius: '99px !important'
+  },
+  MenuItem: {
+    '&:hover': {
+      background: theme.palette.primary.main,
+      color: theme.palette.common.white
+    }
   }
 }))
 

@@ -6,12 +6,16 @@ import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { commonStyles } from 'styles'
-import { ApiCall, readFile } from 'utils'
+import { AL, ApiCall, readFile } from 'utils'
 import { Controls as common } from '../../components/common'
 
-export const ProfileContent = () => {
+export const ProfileContent = ({ refetchUser }) => {
   const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
   const [uploadFile, setUploadFile] = useState()
+  const [confirmPopup, setConfirmPopup] = useState()
+  const [fullName, setFullName] = useState()
+
+  console.log('🚀 ~ ProfileContent ~ fullName:', fullName)
 
   const classes = commonStyles()
   const handleUploadPhoto = (event) => {
@@ -24,25 +28,13 @@ export const ProfileContent = () => {
   }
 
   useEffect(() => {
-    setUploadFile({ profile_pic: User?.profile_pic })
-  }, [])
-  const updateProfileMutation = useMutation({
-    mutationFn: async (formData) => {
-      const profileUpdated = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', formData)
+    if (User) {
+      setUploadFile({ profile_pic: User?.profile_pic })
+      setFullName(`${User?.user?.first_name} ${User?.user?.last_name}`)
+    }
+  }, [User, User?.user?.last_name])
 
-      return profileUpdated
-    },
-    onSuccess: () => {
-      setUploadFile({})
-      Toast(`Profile Updated Successfully`)
-    },
-    onError: (error) => {
-      console.log('error', error)
-    },
-    mutationKey: 'profile'
-  })
-
-  const updateProfileSubmit = async (values, uploadFile) => {
+  const updateProfileSubmit = async (values) => {
     const combinedFormData = new FormData()
     const payload = {
       ...values
@@ -54,16 +46,19 @@ export const ProfileContent = () => {
     } else {
       combinedFormData.append('data', JSON.stringify(payload))
     }
-alert(1)
-    updateProfileMutation.mutate(uploadFile?.filePayload ? combinedFormData : { data: JSON.stringify(payload) })
-  }
-  const DeleteAccount = async (userId) => {
-    const accountDeleted = await ApiCall(`profile/${userId}`, null, 'DELETE')
 
-    if (accountDeleted) {
-      Toast(`Account Deleted Successfully`)
-      refetch()
+    const profileUpdated = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', combinedFormData)
+
+    if (profileUpdated) {
+      setUploadFile({})
+      Toast(`Profile Updated Successfully`)
+      refetchUser()
     }
+  }
+  const DeleteAccount = () => {
+    Toast(`Account Deleted Successfully`)
+    localStorage.clear()
+    window.location.href = '/auth'
   }
 
   return (
@@ -90,20 +85,26 @@ alert(1)
         submitLabel="Update"
         type="actions"
         leftBtnLabel="Delete Account"
-        leftBtnHandler={DeleteAccount}
+        leftBtnHandler={() => setConfirmPopup(true)}
         defaultValues={{
-          fullName: User?.user?.first_name ?? '' + User?.user?.last_name ?? '',
+          fullName: fullName ?? `${User?.user?.first_name} ${User?.user?.last_name}`,
           email: User?.user?.email
         }}
       >
-        {({ errors, control, getValues }) => (
+        {({ errors, control }) => (
           <>
-            {console.log(getValues(), 'getValues')}
             <common.ControlledInput name="fullName" placeholder="Full name" control={control} errors={errors} />
-            <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} />
+            <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} disabled={true} />
           </>
         )}
       </common.Form>
+      <common.Popup
+        openPopup={confirmPopup}
+        setPopup={setConfirmPopup}
+        width={'sm'}
+        submitBtnLabel="Confirm"
+        submitHandler={DeleteAccount}
+      />
     </Box>
   )
 }

@@ -75,7 +75,7 @@ function ResponsiveAppBar({ setPanel, Panel, setEventsPanel, isBelowLG }) {
       <>
         <Avatar src={currentUser?.profile_pic} />
         <Box className="col-start">
-          <Typography color="primary.main">{user?.first_name + user?.last_name}</Typography>
+          <Typography color="primary.main">{user?.first_name + ' ' + user?.last_name}</Typography>
           <Typography variant="lighterSubtitle2">{user?.email ?? ' '}</Typography>
         </Box>
       </>

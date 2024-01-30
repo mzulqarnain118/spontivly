@@ -163,6 +163,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                 {buttons.map(({ label, icon, slug }) => (
                   <common.FileUploadButton
                     key={slug}
+                    width="100%"
                     variant="plain"
                     size="large"
                     label={label}
