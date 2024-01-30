@@ -63,7 +63,7 @@ function SideMenuCard({ onPortalChange, setPanel, handleChannelsMore, refetchUse
                 {isModerator && (
                   <Grid item sx={1}>
                     <common.MenuList
-                      items={filterMoreOptions(1)}
+                      items={filterMoreOptions(userId)}
                       onClose={(item) => handleChannelsMore(item, channal)}
                       icon="MoreVert"
                       tooltip="Manage Channels"
