@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import * as yup from 'yup'
 
 export const useYupValidationResolver = (validationSchema) =>
@@ -31,7 +31,7 @@ export const useYupValidationResolver = (validationSchema) =>
     },
     [validationSchema]
   )
-  
+
 export const YupDefaultSchema = yup.object().shape({
   new_password: yup
     .string()

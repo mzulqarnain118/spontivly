@@ -38,6 +38,8 @@ const dashboardStyles = makeStyles((theme) => ({
     boxShadow: 'none !important ',
     borderRadius: '1rem !important ',
     padding: '1rem 2rem 1rem 1rem !important ',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
     [theme.breakpoints.down('sm')]: {
       width: '8rem'
     }

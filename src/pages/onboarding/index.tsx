@@ -16,7 +16,7 @@ import {
 import { Container } from '@mui/system'
 import React, { lazy } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import lock from '../../assets/icons/lock.svg'
 import success from '../../assets/icons/success.svg'
 import warning from '../../assets/icons/Warming.svg'
@@ -49,7 +49,7 @@ function OnBoarding() {
   const { companyName, position, stage } = useSelector((state: any) => state.company.companyInfo)
   const { selectedChips: objectiveSelectedChips } = useSelector((state: any) => state.objective)
   const bioText = useSelector((state: any) => state.onBoarding.bioText)
-  const { photoFlag, profilePicPayload } = useSelector((state: any) => state.onBoarding)
+  const { profilePicPayload } = useSelector((state: any) => state.onBoarding)
   const isSmallScreen = useMediaQuery('(max-width:414px)')
   const classes: any = onBoarding()
   const steps = [

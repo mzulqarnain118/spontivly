@@ -1,64 +1,99 @@
-import { Box, Grid } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
-import { Toast } from 'components/common/Toast/Toast'
-import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { commonStyles } from 'styles'
-import { ApiCall } from 'utils'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall, reduceArrayByKeys } from '../../utils'
+import { SearchBioTags } from './SearchBioTags'
 
-function Bio() {
+function Bio({ refetchUser }) {
   const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
-  const classes = commonStyles()
+  const [defaultValues, setDefaultValues] = useState()
 
-  const updateBioMutation = useMutation({
-    mutationFn: async (formData) => {
-      const updateBio = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', formData)
-
-      return updateBio
-    },
-    onSuccess: () => {
-      Toast(`Profile Updated Successfully`)
-    },
-    onError: (error) => {
-      console.log('error', error)
-    },
-    mutationKey: 'profile'
-  })
+  useEffect(() => {
+    if (User) {
+      setDefaultValues({
+        company_name: User?.company_name ?? '',
+        position: User?.position ?? '',
+        location: { id: User?.location?.id ?? '', name: User?.location?.name ?? '' },
+        skills: User?.skills ?? '',
+        objectives: User?.objectives ?? '',
+        interests: User?.interests ?? '',
+        company_stage: User?.company_stage?.id ?? '',
+        introduction: User?.introduction ?? ''
+      })
+    }
+  }, [User])
 
   const updateBioSubmit = async (values) => {
-    updateBioMutation.mutate(values)
+    const combinedFormData = new FormData()
+    const payload = {
+      ...values,
+      skills: reduceArrayByKeys(values?.skills, ['id']),
+      objectives: reduceArrayByKeys(values?.objectives, ['id']),
+      interests: reduceArrayByKeys(values?.interests, ['id']),
+      location: values?.location?.id
+    }
+
+    combinedFormData.append('data', JSON.stringify(payload))
+    const profileUpdated = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', combinedFormData)
+
+    if (profileUpdated) {
+      Toast(`Profile Updated Successfully`)
+      refetchUser()
+    }
+  }
+  const fetchCompanyStages = async () => {
+    return ApiCall('company-stages')
   }
 
+  const { data: companyStages } = useQuery({ queryKey: ['company-stages'], queryFn: () => fetchCompanyStages() })
+
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
-      <common.Form
-        onSubmit={updateBioSubmit}
-        type="actions"
-        leftBtnLabel="View Profile"
-        leftBtnHandler={() => alert(1)}
-        defaultValues={{
-          company_name: User?.company_name ?? '',
-          position: User?.position ?? '',
-          location: User?.location ?? '',
-          position: User?.position ?? '',
-          position: User?.position ?? '',
-          position: User?.position ?? '',
-          position: User?.position ?? '',
-          position: User?.position ?? ''
-        }}
-      >
-        {({ errors, control, getValues }) => (
-          <Grid>
-            <Box className="row-between">
-              <common.ControlledInput name="position" placeholder="Job Title" control={control} errors={errors} className="child" />
-              <common.ControlledInput name="location" placeholder="Location" control={control} errors={errors} className="child" />
-            </Box>
-            <common.ControlledInput name="company_name" placeholder="Company Name" control={control} errors={errors} />
-          </Grid>
-        )}
-      </common.Form>
-    </Box>
+    <>
+      {defaultValues && (
+        <common.Form
+          onSubmit={updateBioSubmit}
+          type="actions"
+          leftBtnLabel="View Profile"
+          leftBtnHandler={() => console.log(1)}
+          defaultValues={defaultValues}
+          disableReset={true}
+        >
+          {({ errors, control }) => (
+            <>
+              <common.ControlledInput name="position" placeholder="Job Title" control={control} errors={errors} />
+              <SearchBioTags
+                placeholder="Search Location"
+                name="location"
+                queryKey="locations"
+                control={control}
+                errors={errors}
+                multiple={false}
+              />
+              <common.ControlledInput name="company_name" placeholder="Company Name" control={control} errors={errors} />
+              <SearchBioTags placeholder="Skillset" queryKey="skills" control={control} errors={errors} />
+              <SearchBioTags placeholder="Objectives" queryKey="objectives" control={control} errors={errors} />
+              <SearchBioTags placeholder="Interests" queryKey="interests" control={control} errors={errors} />
+              <common.ControlledInput
+                name="company_stage"
+                control={control}
+                errors={errors}
+                component={<common.Select defaultValue="Select company stage" options={companyStages?.results ?? []} />}
+              />
+              <common.ControlledInput
+                name="introduction"
+                placeholder="Summary"
+                control={control}
+                rows={5}
+                multiline={true}
+                errors={errors}
+              />
+            </>
+          )}
+        </common.Form>
+      )}
+    </>
   )
 }
 

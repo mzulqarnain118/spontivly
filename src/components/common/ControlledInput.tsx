@@ -1,8 +1,8 @@
 import { FormControl, FormHelperText } from '@mui/material'
 import React from 'react'
 import { Controller } from 'react-hook-form'
-import { capitalizeFirstLetter } from 'utils'
 import { Controls as common } from '../../components/common'
+import { capitalizeFirstLetter } from '../../utils'
 
 interface ValidationRules {
   required: boolean
@@ -29,7 +29,7 @@ interface ValidationRules {
   [key: string]: any
 }
 
-const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }:any) => {
+const ControlledInput = ({ component, name, control, errors, validation = {}, ...inputProps }: any) => {
   const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules }: ValidationRules = validation
 
   const rules = {

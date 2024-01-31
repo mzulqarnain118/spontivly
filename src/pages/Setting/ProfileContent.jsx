@@ -85,9 +85,9 @@ export const ProfileContent = ({ refetchUser }) => {
         <common.Form
           onSubmit={updateProfileSubmit}
           submitLabel="Update"
-          type="actions"
-          leftBtnLabel="Delete Account"
-          leftBtnHandler={() => setConfirmPopup(true)}
+          // type="actions"
+          // leftBtnLabel="Delete Account"
+          // leftBtnHandler={() => setConfirmPopup(true)}
           defaultValues={defaultValues}
           disableReset={true}
         >

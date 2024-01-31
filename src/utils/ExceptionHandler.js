@@ -49,7 +49,7 @@ export function ExceptionHandler(error) {
   }
 
   if (error.response) {
-    const { msg, details, name: [name] = [] } = error?.response?.data || {}
+    const { msg, detail, name: [name] = [] } = error?.response?.data || {}
     const { status } = error?.response
 
     if (status === 401) {

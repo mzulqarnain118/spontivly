@@ -1,12 +1,12 @@
 import { Card, CardContent, Box, Typography } from '@mui/material'
-import { Toast } from 'components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { ApiCall, isImageFile, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall, isImageFile, readFile } from '../../utils'
 import { channelStyles } from './channelStyles'
 
 interface UploadFile {
@@ -108,7 +108,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
     }
   }
 
-  const handleAddOption = (index) => {
+  const handleAddOption = () => {
     setPollOptions((old) => [...old, ''])
   }
 
@@ -196,8 +196,8 @@ function CreatePoll({
   pollOptions: string[]
   setPollOptions: React.Dispatch<React.SetStateAction<string[]>>
   handleAddOption: () => void
-    handleDeleteOption: (index: number) => void
-    isEditing?: boolean
+  handleDeleteOption: (index: number) => void
+  isEditing?: boolean
 }) {
   return (
     <div className="col-start gap-1">
@@ -212,7 +212,7 @@ function CreatePoll({
 
               if (updatedOptions[index]?.name) {
                 updatedOptions[index].name = e.target.value
-              } else updatedOptions[index] = isEditing ? {id:null, name: e.target.value } : e.target.value
+              } else updatedOptions[index] = isEditing ? { id: null, name: e.target.value } : e.target.value
 
               setPollOptions(updatedOptions)
             }}

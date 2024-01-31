@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from '@mui/material'
-import React, { memo } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import React, { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import locationIcon from '../../assets/icons/location.png'
 import { Controls as common } from '../../components/common'
@@ -55,19 +55,20 @@ function LocationComponent() {
         </Box>
       </Container>
       {isLoading && <common.Spinner />}
-      {searchText && locations?.map((location) => (
-        <Box
-          key={location?.id} // Add a key to the mapped elements
-          className={locationClasses.container}
-          onClick={() => handleSelect(location?.name, location?.state.name, location?.id)}
-        >
-          <common.Img src={locationIcon} className={locationClasses.image} />
-          <Box className={locationClasses.content}>
-            <Typography>{location?.name}</Typography>
-            <Typography>{location?.state.name}</Typography>
+      {searchText &&
+        locations?.map((location) => (
+          <Box
+            key={location?.id} // Add a key to the mapped elements
+            className={locationClasses.container}
+            onClick={() => handleSelect(location?.name, location?.state.name, location?.id)}
+          >
+            <common.Img src={locationIcon} className={locationClasses.image} />
+            <Box className={locationClasses.content}>
+              <Typography>{location?.name}</Typography>
+              <Typography>{location?.state.name}</Typography>
+            </Box>
           </Box>
-        </Box>
-      ))}
+        ))}
     </>
   )
 }

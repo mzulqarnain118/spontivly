@@ -1,14 +1,14 @@
 import { Grid, Box, useMediaQuery, useTheme } from '@mui/material'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Toast } from 'components/common/Toast/Toast'
-import { AddMember } from 'pages/Channels/AddMember'
-import { CreateChannel } from 'pages/Channels/CreateChannel'
-import { Setting } from 'pages/Setting'
 import qs from 'qs'
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { AddMember } from '../../pages/Channels/AddMember'
+import { CreateChannel } from '../../pages/Channels/CreateChannel'
+import { Setting } from '../../pages/Setting'
 import { setCurrentUser } from '../../redux/dashboardSlice'
 import { ApiCall } from '../../utils'
 import { FindMember } from './FindMember'
@@ -20,7 +20,9 @@ import { ResponsiveAppBar } from './ResponsiveAppBar'
 import { SideMenuCard } from './SideMenuCard'
 
 function Dashboard() {
-  let { portal, libraryId } = useParams()
+  const params = useParams()
+  let portal = params?.portal
+  const libraryId = params?.libraryId
 
   portal = portal ?? 'channels'
   const dispatch = useDispatch()
@@ -245,7 +247,7 @@ function Dashboard() {
           />
         </common.Popup>
       )}
-      {popups.member && addMemberChannelId &&  (
+      {popups.member && addMemberChannelId && (
         <AddMember popups={popups} managePopups={managePopups} setPopups={setPopups} addMemberChannelId={addMemberChannelId} />
       )}
       {popups.archiveChannel && (

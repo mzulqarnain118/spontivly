@@ -1,8 +1,8 @@
-import { PrivateRoutes } from 'components/common/ProtectedRoute'
-import { Error } from 'pages/Errors'
 import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { getLocal } from 'utils'
+import { PrivateRoutes } from './components/common/ProtectedRoute'
+import { Error } from './pages/Errors'
+import { getLocal } from './utils'
 const isOnboarded = getLocal('onboarding')
 const isAuthenticated = getLocal('token')
 

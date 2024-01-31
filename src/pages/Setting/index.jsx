@@ -27,7 +27,7 @@ const Setting = ({refetchUser}) => {
       key: 'bio',
       title: 'Bio',
       subheader: 'Add additional details for your directory profile',
-      component: <Bio />
+      component: <Bio refetchUser={refetchUser} />
     },
     {
       key: 'social',

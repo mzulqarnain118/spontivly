@@ -1,12 +1,12 @@
 import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/material'
-import { Toast } from 'components/common/Toast/Toast'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ApiCall, handleOpenUrlInNewTab, isImageFile } from 'utils'
 import commentIcon from '../../assets/icons/comment.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
 import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall, handleOpenUrlInNewTab, isImageFile } from '../../utils'
 import { channelStyles } from './channelStyles'
 import { Comments } from './Comments'
 import { DisplayPoll } from './DisplayPoll'
@@ -26,7 +26,6 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
     post?.is_pin ? 'Un-Pin Post' : 'Pin Post',
     post?.my_favorite ? 'Remove from Favorites' : 'Add To Favorites'
   ]
-
 
   const { isModerator, userId } = useSelector((state: RootState) => state?.dashboard)
 

@@ -11,9 +11,7 @@ import { UserProfileSidePanel } from './UserProfileSidePanel'
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Recommendation', title: 'Recommendations' },
-  // { id: 'Un-Published', title: 'Un-Published' },
-  // { id: 'Draft', title: 'Draft' }
+  { id: 'Recommendation', title: 'Recommendations' }
 ]
 const moreOptions = ['View Profile', 'Email', 'Message via Slack']
 
@@ -90,6 +88,7 @@ function FindMember({ addFavorites, unFavorite }) {
               className={classes.addContentButton}
               startIcon={<common.Img src={Send} />}
               onClick={openMemberDialog}
+              minWidth="90%"
             />
           </Grid>
         )}

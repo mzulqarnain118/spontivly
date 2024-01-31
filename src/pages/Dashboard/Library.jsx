@@ -45,7 +45,9 @@ const contentTypes = [
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Save For Later', title: 'Saved For Later' }
+  { id: 'Save For Later', title: 'Saved For Later' },
+  { id: 'un-published', title: 'Un-Published' },
+  { id: 'draft', title: 'Draft' }
 ]
 
 export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
@@ -72,7 +74,7 @@ function Library() {
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false)
   const [libraryContent, setLibraryContent] = useState({
     content: '',
-    sortBy: null,
+    sortBy: 'Most Recent',
     newLibraryAdded: false
   })
   const [editContent, setEditContent] = useState(false)
