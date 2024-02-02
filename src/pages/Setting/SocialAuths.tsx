@@ -1,7 +1,8 @@
 import React from 'react'
+import { Social } from '../onboarding/Social'
 
 function SocialAuths() {
-  return <div>Social Auths</div>
+  return <Social hideHeader={true} />
 }
 
 export { SocialAuths }

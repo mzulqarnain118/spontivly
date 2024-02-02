@@ -33,7 +33,7 @@ const ControlledInput = ({ component, name, control, errors, validation = {}, ..
   const { required, maxLength, minLength, pattern, validate, customRule, customRuleMessage, ...customRules }: ValidationRules = validation
 
   const rules = {
-    required: required || true,
+    required: required ?? true,
     ...(minLength && { minLength: { value: minLength || 2, message: customRules.maxLength || 'Too short.' } }),
     ...(maxLength && { maxLength: { value: maxLength || 20, message: customRules.maxLength || 'Cannot exceed 20 characters.' } }),
     ...(pattern && { pattern: { value: pattern, message: customRules.pattern || 'Invalid pattern' } }),

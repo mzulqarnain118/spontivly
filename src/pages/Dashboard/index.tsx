@@ -159,7 +159,7 @@ function Dashboard() {
   const { sideMenuSize, mainContentSize, recommendationSize } = layout
 
   const portalComponents: any = {
-    channels: <General />,
+    channels: currentUserData?.[0]?.channels?.[0]?.id ? <General /> : <></>,
     find: <FindMember addFavorites={addFavorites} unFavorite={unFavorite} />,
     library: libraryId ? <IndividualLibrary /> : <Library />,
     settings: <Setting refetchUser={refetchUser} />

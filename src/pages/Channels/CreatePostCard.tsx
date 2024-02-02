@@ -73,11 +73,13 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
   const createPostSubmit = async (values) => {
     try {
       const combinedFormData = new FormData()
+
       const payload = {
         ...values,
-        pollOptions,
+        ...(selectedButton === 'poll' && { pollOptions }),
         channel: channelId
       }
+
 
       if (uploadFile?.filePayload) {
         combinedFormData.append('file', uploadFile.filePayload)

@@ -91,7 +91,7 @@ export function Input(
       rows={rows ?? 5}
       type={type}
       label={label}
-      placeholder={placeholder}
+      placeholder={placeholder ?? label}
       name={name}
       value={value}
       {...register}

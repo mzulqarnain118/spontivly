@@ -52,42 +52,36 @@ function Bio({ refetchUser }) {
   return (
     <>
       {defaultValues && (
-        <common.Form
-          onSubmit={updateBioSubmit}
-          type="actions"
-          leftBtnLabel="View Profile"
-          leftBtnHandler={() => console.log(1)}
-          defaultValues={defaultValues}
-          disableReset={true}
-        >
+        <common.Form onSubmit={updateBioSubmit} defaultValues={defaultValues} disableReset={true}>
           {({ errors, control }) => (
             <>
-              <common.ControlledInput name="position" placeholder="Job Title" control={control} errors={errors} />
+              <common.ControlledInput name="position" label="Job Title" control={control} errors={errors} />
               <SearchBioTags
-                placeholder="Search Location"
+                label="Search Location"
                 name="location"
                 queryKey="locations"
                 control={control}
                 errors={errors}
                 multiple={false}
               />
-              <common.ControlledInput name="company_name" placeholder="Company Name" control={control} errors={errors} />
-              <SearchBioTags placeholder="Skillset" queryKey="skills" control={control} errors={errors} />
-              <SearchBioTags placeholder="Objectives" queryKey="objectives" control={control} errors={errors} />
-              <SearchBioTags placeholder="Interests" queryKey="interests" control={control} errors={errors} />
+              <common.ControlledInput name="company_name" label="Company Name" control={control} errors={errors} />
+              <SearchBioTags label="Skillset" queryKey="skills" control={control} errors={errors} />
+              <SearchBioTags label="Objectives" queryKey="objectives" control={control} errors={errors} />
+              <SearchBioTags label="Interests" queryKey="interests" control={control} errors={errors} />
               <common.ControlledInput
                 name="company_stage"
                 control={control}
                 errors={errors}
-                component={<common.Select defaultValue="Select company stage" options={companyStages?.results ?? []} />}
+                component={<common.Select label="Select company stage" options={companyStages?.results ?? []} />}
               />
               <common.ControlledInput
                 name="introduction"
-                placeholder="Summary"
+                label="Summary"
                 control={control}
                 rows={5}
                 multiline={true}
                 errors={errors}
+                validation={{ required: false }}
               />
             </>
           )}

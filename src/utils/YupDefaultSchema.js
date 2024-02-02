@@ -33,14 +33,15 @@ export const useYupValidationResolver = (validationSchema) =>
   )
 
 export const YupDefaultSchema = yup.object().shape({
+  password: yup.string().required('Current password is required'),
   new_password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-    ),
+    .min(8, 'Password must be 8 characters long')
+    .matches(/[0-9]/, 'Password requires a number')
+    .matches(/[a-z]/, 'Password requires a lowercase letter')
+    .matches(/[A-Z]/, 'Password requires an uppercase letter')
+    .matches(/[^\w]/, 'Password requires a symbol')
+    .required('Password is required'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('new_password'), null], 'Passwords must match')
