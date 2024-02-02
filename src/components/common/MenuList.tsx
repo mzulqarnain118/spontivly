@@ -5,7 +5,7 @@ import { MuiIcon } from './MuiIcon'
 
 const MenuList = ({ items, onClose, className, children, color, icon, tooltip }: any) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const classes = commonStyles()
+  const classes: any = commonStyles()
   const handleOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
     event.stopPropagation()

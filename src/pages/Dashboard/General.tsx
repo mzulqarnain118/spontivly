@@ -55,7 +55,7 @@ function General() {
             {!editPost && <CreatePostCard refetch={refetch} />}
           </Grid>
         )}
-        {fetchedPosts !== 'undefined' && (
+        {fetchedPosts ? (
           <Grid container item>
             <common.InfiniteQueryWrapper
               isSuccess={isSuccess}
@@ -80,7 +80,7 @@ function General() {
               }
             </common.InfiniteQueryWrapper>
           </Grid>
-        )}
+        ):null}
       </Grid>
     </Box>
   )

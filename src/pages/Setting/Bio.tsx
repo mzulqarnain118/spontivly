@@ -7,7 +7,7 @@ import { ApiCall, reduceArrayByKeys } from '../../utils'
 import { SearchBioTags } from './SearchBioTags'
 
 function Bio({ refetchUser }) {
-  const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
+  const User = useSelector((state: any) => state?.dashboard?.currentUser ?? [])
   const [defaultValues, setDefaultValues] = useState()
 
   useEffect(() => {
