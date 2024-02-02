@@ -14,8 +14,8 @@ function InfiniteQuery({
   isFetchingNextPage,
   children
 }) {
-  const flattenedResults = useMemo(() => data?.pages?.flatMap((page) => page?.results) || [], [data])
-  const totalCount = useMemo(() => data?.pages?.[0]?.count || 0, [data])
+  const flattenedResults = useMemo(() => data?.pages?.flatMap((page) => page?.results) ?? [], [data])
+  const totalCount = useMemo(() => data?.pages?.[0]?.count ?? 0, [data])
 
   useEffect(() => {
     setCount && setCount(totalCount)
@@ -32,13 +32,13 @@ function InfiniteQuery({
       {isError && (
         <div style={{ textAlign: 'center', padding: '20px' }}>
           <Typography variant="subtitle1" color="error">
-            Error: {error?.message}
+            Error: {error?.message ?? ''}
           </Typography>
         </div>
       )}
       {isSuccess && (
         <>
-          {flattenedResults.length === 0 ? <Typography>{noDataText ?? 'Records not found.'}</Typography> : children(flattenedResults)}
+          {flattenedResults?.length === 0 ? <Typography>{noDataText ?? 'Records not found.'}</Typography> : children(flattenedResults)}
           {hasNextPage && (
             <common.MuiButton onClick={() => fetchNextPage()} label={isFetchingNextPage ? 'Loading ...' : 'Load More'} size="md" />
           )}

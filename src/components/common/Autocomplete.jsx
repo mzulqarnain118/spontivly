@@ -11,12 +11,13 @@ function Autocomplete({
   variant,
   className,
   inputValue,
+  addOption=true,
   setInputValue,
   required,
   ...other
 }) {
   const handleChange = (event, newValue) => {
-    onChange(newValue)
+    addOption && onChange(newValue)
   }
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)

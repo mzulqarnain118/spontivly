@@ -6,9 +6,11 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import doc from '../../assets/icons/doc.png'
+import pdfThumbnail from '../../assets/icons/file-placeholder-pdf.png'
 import filter from '../../assets/icons/filter.svg'
 import link from '../../assets/icons/link.png'
 import pdf from '../../assets/icons/pdf.png'
+import linkThumbnail from '../../assets/icons/web_page.png'
 import youtube from '../../assets/icons/youtube.png'
 import youtubeText from '../../assets/icons/youtubeText.png'
 import { Controls as common } from '../../components/common'
@@ -50,7 +52,8 @@ const sortByData = [
   { id: 'draft', title: 'Draft' }
 ]
 
-export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+export const typeIcons = { youtube: youtubeText, doc, link, pdf }
+export const thumbnails = { doc: linkThumbnail, link: linkThumbnail, pdf: pdfThumbnail, youtube: youtubeText }
 const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content']
 const updateLibraryContent = {
   'Publish Content': 'published',

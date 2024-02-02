@@ -36,6 +36,7 @@ function SearchBioTagsComponent({ queryKey, name, label, errors, control, multip
           inputValue={searchTagText}
           setInputValue={setSearchTagText}
           multiple={multiple}
+          addOption={false}
         />
       }
     />

@@ -80,7 +80,6 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
         channel: channelId
       }
 
-
       if (uploadFile?.filePayload) {
         combinedFormData.append('file', uploadFile.filePayload)
         combinedFormData.append('data', JSON.stringify(payload))
