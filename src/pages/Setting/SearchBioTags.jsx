@@ -3,7 +3,7 @@ import React, { memo, useState } from 'react'
 import { Controls as common } from '../../components/common'
 import { ApiCall, encodeParams } from '../../utils'
 
-function SearchBioTagsComponent({ queryKey, name, label, errors, control, multiple }) {
+function SearchBioTagsComponent({ queryKey, name, label, errors, control, multiple, validation }) {
   const [searchTagText, setSearchTagText] = useState('')
 
   async function fetchTags() {
@@ -28,6 +28,7 @@ function SearchBioTagsComponent({ queryKey, name, label, errors, control, multip
       name={name ?? queryKey}
       control={control}
       errors={errors}
+      validation={validation}
       component={
         <common.Autocomplete
           label={label}

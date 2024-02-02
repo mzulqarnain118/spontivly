@@ -7,8 +7,10 @@ import { YupDefaultSchema } from '../../utils/YupDefaultSchema'
 
 function UpdatePassword() {
   const updatePasswordSubmit = async (values) => {
-    delete values.confirmPassword
-    const updatePassword = await ApiCall(`auth/reset-password`, null, 'POST', values)
+    const updatePassword = await ApiCall(`auth/reset-password`, null, 'POST', {
+      password: values.password,
+      new_password: values.new_password
+    })
 
     if (updatePassword) {
       Toast(`Password Updated Successfully`)
@@ -17,7 +19,7 @@ function UpdatePassword() {
 
   return (
     <Box display="flex" flexDirection="column" gap={2}>
-      <common.Form onSubmit={updatePasswordSubmit} submitLabel="Update" validationsSchema={YupDefaultSchema}>
+      <common.Form onSubmit={updatePasswordSubmit} submitLabel="Update" validationsSchema={YupDefaultSchema} disableReset={true}>
         {({ errors, control }) => (
           <>
             <common.ControlledInput name="password" type="password" label="Current Password" control={control} errors={errors} />
