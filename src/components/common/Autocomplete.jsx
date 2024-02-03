@@ -11,13 +11,15 @@ function Autocomplete({
   variant,
   className,
   inputValue,
-  addOption=true,
+  addNewOption = true,
   setInputValue,
   required,
   ...other
 }) {
   const handleChange = (event, newValue) => {
-    addOption && onChange(newValue)
+    const selectedValues = newValue.filter((value) => !addNewOption && typeof value !== 'string')
+
+    onChange(selectedValues)
   }
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
