@@ -8,7 +8,6 @@ const dashboardStyles = makeStyles((theme) => ({
     border: '1px solid var(--day-5, #D9D9D9) !important ',
     boxShadow: 'none !important ',
     borderRadius: '8px !important '
-    // padding: "20px !important ",
   },
   filterCard: {
     p: 0,
@@ -39,6 +38,8 @@ const dashboardStyles = makeStyles((theme) => ({
     boxShadow: 'none !important ',
     borderRadius: '1rem !important ',
     padding: '1rem 2rem 1rem 1rem !important ',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
     [theme.breakpoints.down('sm')]: {
       width: '8rem'
     }
@@ -125,8 +126,9 @@ const dashboardStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end !important'
   },
   userMenuBox: {
-    borderLeft: '1px solid #e0e0e0 !important',
-    width: '240px !important',
+    [theme.breakpoints.up('sm')]: {
+      borderLeft: '1px solid #e0e0e0 !important'
+    },
     padding: '20px 16px !important'
   },
   avatarBox: {

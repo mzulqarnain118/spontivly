@@ -1,7 +1,6 @@
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
 import React from 'react'
 import youtube from '../../assets/icons/youtube.png'
-import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleShowYoutubeThumbnail } from '../../utils'
@@ -17,7 +16,7 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, open
           <Box>
             <div className="relative-full-width">
               <common.Img
-                src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail}
+                src={handleShowYoutubeThumbnail(library.url, library.type) ?? thumbnails[library?.type]}
                 className={classes.moduleContentImg}
               />
               <div className={classes.moduleContentSource}>
@@ -46,7 +45,7 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, open
                   </Box>
                 </Grid>
                 <Grid item xs={1}>
-                  <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
+                  <Avatar src={library?.created_by?.profile?.profile_pic} className={classes.moduleContentAvatar} />
                   <common.MenuList
                     items={moreOptions(library?.created_by?.id, library?.i_saved)}
                     onClose={(e) => handleMoreClick(e, library)}

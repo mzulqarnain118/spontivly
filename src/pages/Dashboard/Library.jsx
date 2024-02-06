@@ -1,14 +1,16 @@
 import AddIcon from '@mui/icons-material/Add'
-import { Card, Grid, Typography } from '@mui/material'
+import { Card, Grid, Typography, Badge, Box } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import doc from '../../assets/icons/doc.png'
+import pdfThumbnail from '../../assets/icons/file-placeholder-pdf.png'
 import filter from '../../assets/icons/filter.svg'
 import link from '../../assets/icons/link.png'
 import pdf from '../../assets/icons/pdf.png'
+import linkThumbnail from '../../assets/icons/web_page.png'
 import youtube from '../../assets/icons/youtube.png'
 import youtubeText from '../../assets/icons/youtubeText.png'
 import { Controls as common } from '../../components/common'
@@ -45,10 +47,13 @@ const contentTypes = [
 
 const sortByData = [
   { id: 'Most Recent', title: 'Most Recent' },
-  { id: 'Save For Later', title: 'Save For Later' }
+  { id: 'Save For Later', title: 'Saved For Later' },
+  { id: 'un-published', title: 'Un-Published' },
+  { id: 'draft', title: 'Draft' }
 ]
 
-export const typeIcons = { youtube: youtubeText, doc: doc, link: link, pdf: pdf }
+export const typeIcons = { youtube: youtubeText, doc, link, pdf }
+export const thumbnails = { doc: linkThumbnail, link: linkThumbnail, pdf: pdfThumbnail, youtube: youtubeText }
 const moreOptions = ['Edit Content', 'Delete Content', 'Publish Content', 'UnPublish Content']
 const updateLibraryContent = {
   'Publish Content': 'published',
@@ -60,7 +65,7 @@ function Library() {
   const navigate = useNavigate()
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
   const filterMoreOptions = (createdUserId, i_saved) => {
-    const filteredMoreOptions = [...moreOptions, i_saved ? 'Remove From Save Later' : 'Save For Later']
+    const filteredMoreOptions = [...moreOptions, i_saved ? 'Remove From Saved Later' : 'Saved For Later']
 
     return isModerator && createdUserId === userId ? filteredMoreOptions : filteredMoreOptions.slice(4)
   }
@@ -72,7 +77,7 @@ function Library() {
   const [isFilterDialogOpen, setFilterDialogOpen] = useState(false)
   const [libraryContent, setLibraryContent] = useState({
     content: '',
-    sortBy: null,
+    sortBy: 'Most Recent',
     newLibraryAdded: false
   })
   const [editContent, setEditContent] = useState(false)
@@ -93,14 +98,13 @@ function Library() {
     return ApiCall(apiUrl)
   }
 
-  const { data, error, refetch, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, isLoading, isSuccess, isError } =
-    useInfiniteQuery({
-      queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
-      queryFn: ({ pageParam = 1 }) =>
-        fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
+  const { data, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage, isSuccess, isError } = useInfiniteQuery({
+    queryKey: ['libraries', libraryContent, applyFilters], // Dynamic query key
+    queryFn: ({ pageParam = 1 }) =>
+      fetchLibraries({ pageParam }, selectedTypes, selectedTags, libraryContent.content, libraryContent.sortBy),
 
-      getNextPageParam: (lastPage) => lastPage?.next
-    })
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
 
   const classes = dashboardStyles()
   const openContentModal = () => {
@@ -116,8 +120,6 @@ function Library() {
   }
   const openFilterModal = () => {
     setFilterDialogOpen(true)
-    setSelectedTags([])
-    setSelectedTypes([])
   }
   const closeFilterModal = () => {
     setFilterDialogOpen(false)
@@ -152,9 +154,9 @@ function Library() {
   const handleMoreClick = (item, content) => {
     if (updateLibraryContent.hasOwnProperty(item)) {
       patchLibraryContent(content?.id, updateLibraryContent[item])
-    } else if (item === 'Save For Later') {
+    } else if (item === 'Saved For Later') {
       contentSaveForLater(content?.id)
-    } else if (item === 'Remove From Save Later') {
+    } else if (item === 'Remove From Saved Later') {
       contentUnSaveForLater(content?.id)
     } else if (item == 'Edit Content') {
       setEditContent(true)
@@ -180,19 +182,19 @@ function Library() {
           <Grid item xs={6} sm={4} md={3} lg={3}>
             <common.MuiButton
               variant="contained"
-              size="large"
               label="Add Content"
               className={classes.addContentButton}
               startIcon={<AddIcon />}
               onClick={openContentModal}
+              minWidth="90%"
             />
           </Grid>
         )}
       </Grid>
 
       <Card className={classes.card}>
-        <Grid container spacing={3} padding={'20px'}>
-          <Grid item xs={12} sm={4.5} md={6} lg={6}>
+        <Box sx={{ display: 'flex', gap: 3, p: 4, flexWrap: 'wrap' }}>
+          <Box sx={{ flex: { md: 3, sm: 3 }, flexGrow: 1 }}>
             <common.Input
               name="content"
               placeholder="Search libraries"
@@ -200,9 +202,8 @@ function Library() {
               listUpdater={setLibraryContent}
               startIcon="Search"
             />
-          </Grid>
-
-          <Grid item xs={5} sm={3.5} md={3} lg={3.5}>
+          </Box>
+          <Box sx={{ flex: 1, flexGrow: 1 }}>
             <common.Select
               name="sortBy"
               value={libraryContent.sortBy}
@@ -210,19 +211,18 @@ function Library() {
               listUpdater={setLibraryContent}
               options={sortByData}
             />
-          </Grid>
-          <Grid item xs={4.5} sm={2.5} md={2} lg={1.5}>
-            <ToggleButtons setView={setView} view={view} />
-          </Grid>
-          <Grid item xs={1} sm={1} md={1} lg={1}>
+          </Box>
+
+          <ToggleButtons setView={setView} view={view} />
+          <Badge
+            badgeContent={selectedTags?.length !== 0 || selectedTypes?.length !== 0 ? selectedTags?.length + selectedTypes?.length : 0}
+            color="primary"
+            sx={{ mr: 4 }}
+          >
             <common.MuiButton startCustomIcon={filter} onClick={openFilterModal} />
-            {(selectedTags?.length !== 0 || selectedTypes?.length !== 0) && (
-              <common.BaseButton label={selectedTags?.length + selectedTypes?.length} />
-            )}
-          </Grid>
-        </Grid>
+          </Badge>
+        </Box>
         <common.InfiniteQueryWrapper
-          isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           data={data}
@@ -230,7 +230,6 @@ function Library() {
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
-          isFetching={isFetching}
         >
           {(libraries) =>
             view === 'list' ? (

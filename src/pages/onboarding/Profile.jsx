@@ -36,7 +36,6 @@ function ProfileComponent() {
           handleUploadPhoto={handleUploadPhoto}
           accept="image/*"
           label={'Upload Photo'}
-          size="medium"
           startIcon={<common.Img src={uploadIcon} />}
         />
       </Container>

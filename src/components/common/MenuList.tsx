@@ -1,10 +1,11 @@
 import { Typography, Menu, MenuItem, Tooltip } from '@mui/material'
 import { useState } from 'react'
+import { commonStyles } from '../../styles'
 import { MuiIcon } from './MuiIcon'
 
-const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
+const MenuList = ({ items, onClose, className, children, color, icon, tooltip }: any) => {
   const [anchorEl, setAnchorEl] = useState(null)
-
+  const classes: any = commonStyles()
   const handleOpen = (event: any) => {
     setAnchorEl(event.currentTarget)
     event.stopPropagation()
@@ -42,13 +43,14 @@ const MenuList = ({ items, onClose, className, color, icon, tooltip }: any) => {
         open={Boolean(anchorEl)}
         onClose={(event) => handleClose(null, event)} // Pass null as the default value
       >
+        {children}
         {items.map((item: any) =>
           typeof item === 'string' ? (
-            <MenuItem key={item} onClick={(event) => handleClose(item, event)}>
+            <MenuItem className={classes.MenuItem} key={item} onClick={(event) => handleClose(item, event)}>
               <Typography textAlign="center">{item}</Typography>
             </MenuItem>
           ) : (
-            <MenuItem key={item?.label} onClick={(event) => handleClose(item?.label, event)}>
+            <MenuItem className={classes.MenuItem} key={item?.label} onClick={(event) => handleClose(item?.label, event)}>
               <MuiIcon name={item?.icon} />
               <Typography textAlign="center">{item?.label}</Typography>
             </MenuItem>

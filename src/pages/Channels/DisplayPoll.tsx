@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography, Grid, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
-import { ApiCall } from 'utils'
+import { ApiCall } from '../../utils'
 import { channelStyles } from './channelStyles'
 
 interface Choice {

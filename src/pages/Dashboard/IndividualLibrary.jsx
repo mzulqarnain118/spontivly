@@ -2,11 +2,10 @@ import { Avatar, Card, CardContent, Box, Chip, Grid, Typography, Link } from '@m
 import moment from 'moment'
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import defaultThumbnail from '../../assets/images/dummy.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleOpenUrlInNewTab, handleShowYoutubeThumbnail } from '../../utils'
-import { typeIcons } from './Library'
+import { thumbnails, typeIcons } from './Library'
 
 const IndividualLibrary = () => {
   const navigate = useNavigate()
@@ -17,7 +16,7 @@ const IndividualLibrary = () => {
   return (
     <>
       <Box className="row-start" sx={{ mt: 5, mb: 5 }}>
-        <Typography variant="h4" display="flex" alignItems="center">
+        <Typography className="cursor" variant="h4" display="flex" alignItems="center">
           <Link variant="h5" onClick={() => navigate(-1)} color="inherit" underline="hover">
             Library
           </Link>
@@ -33,7 +32,7 @@ const IndividualLibrary = () => {
                 <div className="col-end gap-05">
                   <div className="relative-full-width">
                     <common.Img
-                      src={handleShowYoutubeThumbnail(library.url, library.type) || defaultThumbnail}
+                      src={handleShowYoutubeThumbnail(library.url, library.type)  ?? thumbnails[library?.type]}
                       className={classes.individualContentImg}
                     />
                     <div className={classes.moduleContentSource}>
@@ -41,6 +40,7 @@ const IndividualLibrary = () => {
                     </div>
                   </div>
                   <common.MuiButton
+                    minWidth="100%"
                     size="large"
                     onClick={() => handleOpenUrlInNewTab(library.url)}
                     label="Go To The External Link Of This Content"
@@ -48,7 +48,7 @@ const IndividualLibrary = () => {
                   <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
                   <Box className="row gap-1">
                     <Grid item xs={1}>
-                      <Avatar src={library?.created_by?.profile?.profile_pic ?? defaultThumbnail} className={classes.moduleContentAvatar} />
+                      <Avatar src={library?.created_by?.profile?.profile_pic ?? thumbnails[library?.type]} className={classes.moduleContentAvatar} />
                     </Grid>
                     <Typography>{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
                   </Box>

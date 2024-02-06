@@ -1,8 +1,8 @@
 import { Avatar, Grid, Box, Typography } from '@mui/material'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import moment from 'moment'
 import React, { useState } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSelector } from 'react-redux'
 import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
@@ -31,17 +31,14 @@ export function Comments({ refetchPosts, post_id }) {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
     queryKey: ['posts/comment', post_id], // Dynamic query key
     queryFn: ({ pageParam = 1 }) => fetchPosts({ pageParam }),
-      getNextPageParam: (lastPage) => lastPage?.next
-    }
-  )
+    getNextPageParam: (lastPage) => lastPage?.next
+  })
   const postComment = async () => {
     const payload = {
       post: post_id,
@@ -81,7 +78,6 @@ export function Comments({ refetchPosts, post_id }) {
       <AddComment setComment={setComment} comment={comment} postComment={postComment} Send={Send} />
 
       <common.InfiniteQueryWrapper
-        isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
         data={fetchedComments}
@@ -89,43 +85,44 @@ export function Comments({ refetchPosts, post_id }) {
         fetchNextPage={fetchNextPage}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
-        isFetching={isFetching}
         noDataText="No Comments Available"
       >
         {(comments) =>
           comments?.map((comment) => (
             <Grid key={comment?.comment} container item justifyContent="space-between" alignItems="center">
-              <Grid item xs={11}>
-                <Box className="row gap-1">
-                  <Avatar src={comment?.commented_by?.profile?.profile_pic} />
-                  {editCommentData?.id === comment?.id ? (
-                    <AddComment setComment={setEditComment} comment={editComment} postComment={patchComment} Send={Send} />
-                  ) : (
-                    <Box className="col-start gap-05">
-                      <Box className="row-start gap-05">
-                        <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
-                        <span>about {moment(comment?.created_at).format('HH')} hours ago</span>
-                      </Box>
-                      <Typography>{comment?.comment}</Typography>
+              <Box className="row gap-1">
+                <Avatar src={comment?.commented_by?.profile?.profile_pic} />
+                {editCommentData?.id === comment?.id ? (
+                  <AddComment setComment={setEditComment} comment={editComment} postComment={patchComment} Send={Send} />
+                ) : (
+                  <Box className="col-start gap-05">
+                    <Box className="row-start gap-05">
+                      <Typography variant="author">{comment?.commented_by?.first_name + comment?.commented_by?.last_name}</Typography>
+                      <span>about {moment(comment?.created_at).format('HH')} hours ago</span>
                     </Box>
-                  )}
-                </Box>
-              </Grid>
-              {(comment?.commented_by?.id === userId || isModerator) && (
-                <Grid item xs={1}>
-                  <Box className="row">
-                    {comment?.commented_by?.id === userId && (
-                      <common.MuiIcon
-                        name="Edit"
-                        onClick={() => {
-                          setEditCommentData(comment)
-                          setEditComment(comment?.comment)
-                        }}
-                      />
-                    )}
-                    <common.MuiIcon name="Delete" onClick={() => deleteComment(comment?.id)} />
+                    <Typography>{comment?.comment}</Typography>
                   </Box>
-                </Grid>
+                )}
+              </Box>
+              {(comment?.commented_by?.id === userId || isModerator) && (
+                <Box>
+                  {comment?.commented_by?.id === userId && (
+                    <common.MuiIcon
+                      name="Edit"
+                      onClick={() => {
+                        setEditCommentData(comment)
+                        setEditComment(comment?.comment)
+                      }}
+                    />
+                  )}
+                  <common.MuiIcon
+                    sx={{
+                      marginLeft: 'auto'
+                    }}
+                    name="Delete"
+                    onClick={() => deleteComment(comment?.id)}
+                  />
+                </Box>
               )}
             </Grid>
           ))

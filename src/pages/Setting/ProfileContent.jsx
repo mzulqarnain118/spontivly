@@ -1,5 +1,4 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
 import uploadIcon from 'assets/icons/upload.png'
 import defaultProfile from 'assets/images/defaultProfile.png'
 import { Toast } from 'components/common/Toast/Toast'
@@ -9,10 +8,11 @@ import { commonStyles } from 'styles'
 import { ApiCall, readFile } from 'utils'
 import { Controls as common } from '../../components/common'
 
-export const ProfileContent = () => {
-  const User = useSelector((state) => state?.dashboard?.currentUser ?? [])
-  const [userProfileData, setUserProfileData] = useState({})
+export const ProfileContent = ({ refetchUser }) => {
+  const User = useSelector((state) => state?.dashboard?.currentUser ?? null)
   const [uploadFile, setUploadFile] = useState()
+  const [confirmPopup, setConfirmPopup] = useState()
+  const [defaultValues, setDefaultValues] = useState()
 
   const classes = commonStyles()
   const handleUploadPhoto = (event) => {
@@ -25,30 +25,17 @@ export const ProfileContent = () => {
   }
 
   useEffect(() => {
-    console.log(User?.user?.email)
-    setUploadFile({ profile_pic: User?.profile_pic })
-    setUserProfileData(() => ({
-      fullName: User?.user?.first_name ?? '' + User?.user?.last_name ?? '',
-      email: User?.user?.email
-    }))
-  }, [])
-  const updateProfileMutation = useMutation({
-    mutationFn: async (formData) => {
-      const profileUpdated = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', formData)
+    if (User) {
+      setUploadFile({ profile_pic: `${User?.profile_pic}?fileKey=${Math.random()}` })
 
-      return profileUpdated
-    },
-    onSuccess: () => {
-      setUploadFile({})
-      Toast(`Profile Updated Successfully`)
-    },
-    onError: (error) => {
-      console.log('error', error)
-    },
-    mutationKey: 'profile'
-  })
+      setDefaultValues({
+        fullName: `${User?.user?.first_name ?? ''} ${User?.user?.last_name ?? ''}`,
+        email: User?.user?.email ?? ''
+      })
+    }
+  }, [User])
 
-  const updateProfileSubmit = async (values, uploadFile) => {
+  const updateProfileSubmit = async (values) => {
     const combinedFormData = new FormData()
     const payload = {
       ...values
@@ -61,7 +48,18 @@ export const ProfileContent = () => {
       combinedFormData.append('data', JSON.stringify(payload))
     }
 
-    updateProfileMutation.mutate(uploadFile?.filePayload ? combinedFormData : { data: JSON.stringify(payload) })
+    const profileUpdated = await ApiCall(`profile/${User?.user?.id}/`, null, 'PATCH', combinedFormData)
+
+    if (profileUpdated) {
+      setUploadFile({})
+      Toast(`Profile Updated Successfully`)
+      refetchUser()
+    }
+  }
+  const DeleteAccount = () => {
+    Toast(`Account Deleted Successfully`)
+    localStorage.clear()
+    window.location.href = '/auth'
   }
 
   return (
@@ -83,15 +81,31 @@ export const ProfileContent = () => {
           />
         </Grid>
       </Grid>
-      <common.Form onSubmit={updateProfileSubmit} submitLabel="Update" defaultValues={{ ...userProfileData }}>
-        {({ errors, control, getValues }) => (
-          <>
-            {console.log(getValues(), 'getValues')}
-            <common.ControlledInput name="fullName" placeholder="Full name" control={control} errors={errors} />
-            <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} />
-          </>
-        )}
-      </common.Form>
+      {defaultValues && (
+        <common.Form
+          onSubmit={updateProfileSubmit}
+          submitLabel="Update"
+          // type="actions"
+          // leftBtnLabel="Delete Account"
+          // leftBtnHandler={() => setConfirmPopup(true)}
+          defaultValues={defaultValues}
+          disableReset={true}
+        >
+          {({ errors, control }) => (
+            <>
+              <common.ControlledInput name="fullName" placeholder="Full name" control={control} errors={errors} />
+              <common.ControlledInput name="email" placeholder="Email" type="email" control={control} errors={errors} disabled={true} />
+            </>
+          )}
+        </common.Form>
+      )}
+      <common.Popup
+        openPopup={confirmPopup}
+        setPopup={setConfirmPopup}
+        width={'sm'}
+        submitBtnLabel="Confirm"
+        submitHandler={DeleteAccount}
+      />
     </Box>
   )
 }

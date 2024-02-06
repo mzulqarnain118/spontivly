@@ -1,12 +1,12 @@
-import { Card, CardContent, Typography } from '@mui/material'
-import { Toast } from 'components/common/Toast/Toast'
+import { Card, CardContent, Box, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { ApiCall, isImageFile, readFile } from 'utils'
 import uploadImgIcon from '../../assets/icons/fi_image.svg'
 import pollIcon from '../../assets/icons/u_chart-growth-alt.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall, isImageFile, readFile } from '../../utils'
 import { channelStyles } from './channelStyles'
 
 interface UploadFile {
@@ -73,9 +73,10 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
   const createPostSubmit = async (values) => {
     try {
       const combinedFormData = new FormData()
+
       const payload = {
         ...values,
-        pollOptions,
+        ...(selectedButton === 'poll' && { pollOptions }),
         channel: channelId
       }
 
@@ -108,7 +109,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
     }
   }
 
-  const handleAddOption = (index) => {
+  const handleAddOption = () => {
     setPollOptions((old) => [...old, ''])
   }
 
@@ -155,13 +156,15 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                     setPollOptions={setPollOptions}
                     handleAddOption={handleAddOption}
                     handleDeleteOption={handleDeleteOption}
+                    isEditing={isEditing}
                   />
                 </div>
               )}
-              <div className="row-center">
+              <Box className="row-center" sx={{ flexDirection: { xss: 'column', xs: 'column', sm: 'row' } }}>
                 {buttons.map(({ label, icon, slug }) => (
                   <common.FileUploadButton
                     key={slug}
+                    width="100%"
                     variant="plain"
                     size="large"
                     label={label}
@@ -173,7 +176,7 @@ const CreatePostCard: React.FC<CreatePostCardProps> = ({ refetch, setEditPost, i
                     disabled={isEditing && slug !== selectedButton}
                   />
                 ))}
-              </div>
+              </Box>
             </>
           )}
         </common.Form>
@@ -188,12 +191,14 @@ function CreatePoll({
   pollOptions,
   setPollOptions,
   handleAddOption,
-  handleDeleteOption
+  handleDeleteOption,
+  isEditing
 }: {
   pollOptions: string[]
   setPollOptions: React.Dispatch<React.SetStateAction<string[]>>
   handleAddOption: () => void
   handleDeleteOption: (index: number) => void
+  isEditing?: boolean
 }) {
   return (
     <div className="col-start gap-1">
@@ -208,7 +213,7 @@ function CreatePoll({
 
               if (updatedOptions[index]?.name) {
                 updatedOptions[index].name = e.target.value
-              } else updatedOptions[index] = e.target.value
+              } else updatedOptions[index] = isEditing ? { id: null, name: e.target.value } : e.target.value
 
               setPollOptions(updatedOptions)
             }}

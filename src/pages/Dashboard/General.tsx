@@ -3,8 +3,8 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { ApiCall, encodeParams } from 'utils'
 import { Controls as common } from '../../components/common'
+import { ApiCall, encodeParams } from '../../utils'
 import { CreatePostCard } from '../Channels/CreatePostCard'
 import { PostsCard } from '../Channels/PostsCard'
 
@@ -33,9 +33,7 @@ function General() {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
@@ -57,10 +55,9 @@ function General() {
             {!editPost && <CreatePostCard refetch={refetch} />}
           </Grid>
         )}
-        {fetchedPosts !== 'undefined' && (
+        {fetchedPosts ? (
           <Grid container item>
             <common.InfiniteQueryWrapper
-              isLoading={isLoading}
               isSuccess={isSuccess}
               isError={isError}
               data={fetchedPosts}
@@ -68,7 +65,6 @@ function General() {
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}
               isFetchingNextPage={isFetchingNextPage}
-              isFetching={isFetching}
               noDataText="No Posts Available"
             >
               {(posts) =>
@@ -84,7 +80,7 @@ function General() {
               }
             </common.InfiniteQueryWrapper>
           </Grid>
-        )}
+        ):null}
       </Grid>
     </Box>
   )

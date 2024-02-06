@@ -19,15 +19,6 @@ const Button = () => {
           '&:disabled': {
             backgroundColor: 'inherit'
           }
-        },
-        sizeSmall: {
-          width: '10%' // Set the width to 10% for small size
-        },
-        sizeMedium: {
-          width: '15%' // Set the width to 15% for medium size
-        },
-        sizeLarge: {
-          width: '100%' // Set the width to 15% for medium size
         }
       }
     }

@@ -33,8 +33,7 @@ const commonStyles = makeStyles((theme) => ({
   logo: {
     width: '15.75194rem',
     height: '5rem',
-    marginTop: 128,
-    marginLeft: '10rem !important'
+    marginTop: 128
   },
   container: {
     display: 'flex !important'
@@ -70,7 +69,7 @@ const commonStyles = makeStyles((theme) => ({
     borderRadius: '60px ',
     border: '1px solid var(--petroleum-p-30, #BFC9D2) ',
     background: theme.palette.primary.main,
-    position: 'absolute ',
+    position: 'absolute',
     right: 208,
     top: 176,
     width: '24px ',
@@ -128,6 +127,12 @@ const commonStyles = makeStyles((theme) => ({
     width: '96px !important',
     height: '96px !important',
     borderRadius: '99px !important'
+  },
+  MenuItem: {
+    '&:hover': {
+      background: theme.palette.primary.main,
+      color: theme.palette.common.white
+    }
   }
 }))
 

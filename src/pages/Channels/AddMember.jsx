@@ -3,19 +3,23 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
 import { Toast } from 'components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
+import { AL, ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
 import { Controls as common } from '../../components/common'
 
-function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
+function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)
-  const params = useParams()
-  const channelId = addMemberChannelId ?? params?.channelId
-
-  const [selectedMembers, setSelectedMembers] = useState([])
-  const [confirmModal, setConfirmModal] = useState(false)
   const [searchMemberText, setSearchMemberText] = useState('')
+  const [removeMemberId, setRemoveMemberId] = useState('')
+  const membersListFunc = async ({ pageParam = 1 }) => {
+    const queryParams = {
+      page: pageParam
+    }
+    const encodedParams = encodeParams(queryParams)
+    const apiUrl = `channels/${addMemberChannelId}?${encodedParams}`
+    const membersList = await ApiCall(apiUrl)
 
+    return membersList
+  }
   const { data: members } = useQuery({ queryKey: ['isMemberExist'], queryFn: () => isMemberExist() })
   const {
     data: membersList,
@@ -23,40 +27,32 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
     refetch,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
     isSuccess,
     isError
   } = useInfiniteQuery({
-    queryKey: ['channels', channelId], // Dynamic query key
-    queryFn: ({ pageParam = 1 }) => membersListFunc({ pageParam }),
-    getNextPageParam: (lastPage) => lastPage?.next
+    queryKey: ['membersList'], // Dynamic query key
+    queryFn: membersListFunc,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage?.next,
+    enabled: !!addMemberChannelId
   })
 
-  const postMember = async () => {
-    const memberIds = reduceArrayByKeys(selectedMembers, ['id'], 'user')
-
+  const postMember = async (values) => {
+    const memberIds = reduceArrayByKeys(values?.members, ['id'], 'user')
     const payload = {
-      channel: channelId,
+      channel: addMemberChannelId,
       member: memberIds
     }
     const addedMember = await ApiCall('channels/members/', null, 'POST', payload)
 
     if (addedMember) {
       Toast('Members Added Successfully.')
-      setSelectedMembers([])
       refetch()
-      setMemberPopup((old) => !old)
+      managePopups('member')
     }
   }
 
-  const membersListFunc = async () => {
-    const apiUrl = `channels/${channelId}`
-    const membersList = await ApiCall(apiUrl)
-
-    return membersList
-  }
   const isMemberExist = async () => {
     const queryParams = {
       email: searchMemberText
@@ -67,11 +63,9 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
 
     return existEmail.results
   }
-  const handleMemberChange = async (selectedValues) => {
-    setSelectedMembers(selectedValues)
-  }
-  const handleDeleteMember = async (memberId) => {
-    const apiUrl = `channels/members/${channelId}/${memberId}`
+
+  const handleDeleteMember = async () => {
+    const apiUrl = `channels/members/${addMemberChannelId}/${removeMemberId}`
     const memberDeleted = await ApiCall(apiUrl, null, 'DELETE')
 
     if (memberDeleted) {
@@ -83,15 +77,15 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
   return (
     <>
       <common.Popup
-        openPopup={memberPopup}
-        setPopup={setMemberPopup}
+        openPopup={popups.member}
+        popupName="member"
+        setPopups={setPopups}
         width={'sm'}
         title={'Add Members'}
         subTitle={'Add members from Directory to your Channel or invite them from outside the directory.'}
       >
         <Grid item xs={12} sx={{ mt: 5 }}>
           <common.InfiniteQueryWrapper
-            isLoading={isLoading}
             isSuccess={isSuccess}
             isError={isError}
             data={membersList}
@@ -99,7 +93,6 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
-            isFetching={isFetching}
           >
             {(membersList) =>
               membersList?.[0]?.members?.map((member) => (
@@ -108,18 +101,26 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
                     <common.Input disabled value={member?.first_name + ' ' + member?.last_name} />
                   </Grid>
                   <Grid item xs={1}>
-                    {/* setConfirmModal(true) */}
                     {member?.id !== userId && isModerator && (
-                      <common.MuiIcon name="Delete" color="secondary" onClick={() => handleDeleteMember(member?.id)} />
+                      <common.MuiIcon
+                        name="Delete"
+                        color="secondary"
+                        onClick={() => {
+                          managePopups('removeMember')
+                          setRemoveMemberId(member?.id)
+                        }}
+                      />
                     )}
-                    <common.Popup
-                      openPopup={confirmModal}
-                      setPopup={setConfirmModal}
-                      width={'sm'}
-                      submitBtnLabel="Confirm"
-                      handlePopupCancel={() => setConfirmModal(false)}
-                      // submitHandler={handleDeleteMember(member?.id)}
-                    ></common.Popup>
+                    {popups.removeMember && (
+                      <common.Popup
+                        openPopup={popups.removeMember}
+                        popupName="removeMember"
+                        setPopups={setPopups}
+                        width={'sm'}
+                        submitBtnLabel="Confirm"
+                        submitHandler={handleDeleteMember}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               ))
@@ -137,8 +138,6 @@ function AddMember({ memberPopup, setMemberPopup, addMemberChannelId }) {
                   <common.Autocomplete
                     placeholder="Members"
                     variant="outlined"
-                    value={selectedMembers}
-                    onChange={handleMemberChange}
                     options={members ?? []}
                     inputValue={searchMemberText}
                     setInputValue={setSearchMemberText}

@@ -1,4 +1,4 @@
-import { DialogTitle, Typography, Dialog, DialogContent, DialogActions, Link } from '@mui/material'
+import { DialogTitle, Box, Typography, Dialog, DialogContent, DialogActions } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import React from 'react'
 import { Controls as common } from '.'
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: any) => ({
 export function Popup({
   width,
   title,
-  type,
+  setPopups,
   subTitle,
   children,
   openPopup,
@@ -27,65 +27,71 @@ export function Popup({
   cancelBtnLabel,
   submitHandler,
   handlePopupCancel,
+  popupName,
   onClose
 }: any) {
   const classes = useStyles()
 
   return (
-    <Dialog fullWidth maxWidth={width ?? 'md'} open={openPopup} classes={{ paper: classes.dialogWrapper }}>
-      <DialogTitle>
-        {submitBtnLabel === 'Confirm' ? (
-          <Typography variant="h5">{title ?? 'Are you sure?'}</Typography>
-        ) : (
-          <>
-            <div className="row-between">
-              <Typography variant="h5" align="left">
-                {title}
+    <Box sx={{ position: 'relative' }}>
+      <Dialog fullWidth maxWidth={width ?? 'md'} open={openPopup} classes={{ paper: classes.dialogWrapper }}>
+        <DialogTitle>
+          {submitBtnLabel === 'Confirm' ? (
+            <Typography variant="h5">{title ?? 'Are you sure?'}</Typography>
+          ) : (
+            <>
+              <div className="row-between">
+                <Typography variant="h5" align="left">
+                  {title}
+                </Typography>
+                <MuiIcon
+                  onClick={() => {
+                    setPopup && setPopup(!openPopup)
+                    onClose && onClose()
+                    setPopups && popupName && setPopups((prev) => ({ ...prev, [popupName]: false }))
+                  }}
+                  name="Close"
+                />
+              </div>
+              <Typography align="left" sx={{ color: 'customColors.subtitle1' }}>
+                {subTitle}
               </Typography>
-              <MuiIcon
-                onClick={() => {
-                  setPopup(!openPopup)
-                  onClose && onClose()
-                }}
-                name="Close"
-              />
-            </div>
-            <Typography align="left" sx={{ color: 'customColors.subtitle1' }}>
-              {subTitle}
-            </Typography>
-          </>
-        )}
-      </DialogTitle>
-      <DialogContent dividers>{children}</DialogContent>
-      {submitBtnLabel && (
-        <DialogActions>
-          {handlePopupCancel &&
-            (submitBtnLabel === 'Confirm' ? (
+            </>
+          )}
+        </DialogTitle>
+        <DialogContent dividers sx={{ maxHeight: '80vh', overflowY: 'auto' }}>
+          {children}
+        </DialogContent>
+        {submitBtnLabel && (
+          <DialogActions className="row-between">
+            {(cancelBtnLabel || submitBtnLabel === 'Confirm') && (
               <common.MuiButton
+                className="child"
+                type="button"
                 size={'large'}
                 onClick={() => {
-                  handlePopupCancel()
-                  setPopup(!openPopup)
+                  handlePopupCancel && handlePopupCancel()
+                  setPopup && setPopup(!openPopup)
+                  setPopups && popupName && setPopups((prev) => ({ ...prev, [popupName]: false }))
                 }}
-                variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
+                variant="outlined"
                 label={cancelBtnLabel ?? 'Cancel'}
               />
-            ) : (
-              <Link align="left" onClick={handlePopupCancel}>
-                {cancelBtnLabel ?? 'Cancel'}
-              </Link>
-            ))}
-          <common.MuiButton
-            size={submitBtnLabel === 'Confirm' ? 'large' : 'md'}
-            onClick={() => {
-              submitHandler && submitHandler()
-              setPopup(!openPopup)
-            }}
-            variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
-            label={submitBtnLabel}
-          />
-        </DialogActions>
-      )}
-    </Dialog>
+            )}
+            <common.MuiButton
+              className="child"
+              size={submitBtnLabel === 'Confirm' ? 'large' : 'md'}
+              onClick={() => {
+                submitHandler && submitHandler()
+                setPopup && setPopup(!openPopup)
+                setPopups && popupName && setPopups((prev) => ({ ...prev, [popupName]: false }))
+              }}
+              variant={submitBtnLabel === 'Confirm' ? 'outlined' : 'contained'}
+              label={submitBtnLabel}
+            />
+          </DialogActions>
+        )}
+      </Dialog>
+    </Box>
   )
 }

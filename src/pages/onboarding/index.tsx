@@ -7,6 +7,7 @@ import {
   ListItemText,
   Toolbar,
   List,
+  useTheme,
   ListItem,
   CssBaseline,
   Typography,
@@ -15,7 +16,7 @@ import {
 import { Container } from '@mui/system'
 import React, { lazy } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import lock from '../../assets/icons/lock.svg'
 import success from '../../assets/icons/success.svg'
 import warning from '../../assets/icons/Warming.svg'
@@ -35,7 +36,9 @@ const Social = lazy(() => import('./Social').then((module) => ({ default: module
 const Profile = lazy(() => import('./Profile').then((module) => ({ default: module.Profile })))
 
 function OnBoarding() {
-  const [open, setOpen] = React.useState(false)
+  const theme = useTheme()
+  const isBelowLG = useMediaQuery(theme.breakpoints.down('lg'))
+  const [open, setOpen] = React.useState(isBelowLG ? false : true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { selectedChips: skillsSelectedChips } = useSelector((state: any) => state.skills)
@@ -46,7 +49,7 @@ function OnBoarding() {
   const { companyName, position, stage } = useSelector((state: any) => state.company.companyInfo)
   const { selectedChips: objectiveSelectedChips } = useSelector((state: any) => state.objective)
   const bioText = useSelector((state: any) => state.onBoarding.bioText)
-  const { photoFlag, profilePicPayload } = useSelector((state: any) => state.onBoarding)
+  const { profilePicPayload } = useSelector((state: any) => state.onBoarding)
   const isSmallScreen = useMediaQuery('(max-width:414px)')
   const classes: any = onBoarding()
   const steps = [
@@ -151,22 +154,22 @@ function OnBoarding() {
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ mr: '-10px' }}>
         <Toolbar className={classes.toolbar}>
-          <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
-            <MenuIcon />
-          </IconButton>
-          {!isSmallScreen && (
-            <Typography noWrap component="div" className={classes.label}>
-              {steps?.[activeStep]?.label}
-            </Typography>
+          {isBelowLG && (
+            <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={classes.toolbarIcon}>
+              <MenuIcon />
+            </IconButton>
           )}
+          <Typography noWrap component="div" className={classes.label}>
+            {steps?.[activeStep]?.label}
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer className={classes.drawer} variant="persistent" anchor="left" open={open}>
         <DrawerHeader className={classes.drawerHeader}>
           <common.Img src={companyLogo} />
-          <Link to={true ? '#' : '/member-portal'} className={classes.link}>
+          {/* <Link to={true ? '#' : '/member-portal'} className={classes.link}>
             {'Save and exit'}
-          </Link>
+          </Link> */}
         </DrawerHeader>
         <Typography className={classes.sidebarHeader}>Complete your profile</Typography>
         <List className={classes.list}>

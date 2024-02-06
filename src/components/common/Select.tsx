@@ -15,6 +15,7 @@ export function Select(
     defaultValue,
     multiple,
     register,
+    children,
     listUpdater,
     customHandleChange,
     options,
@@ -62,10 +63,10 @@ export function Select(
             <em>{defaultValue}</em>
           </MenuItem>
         )}
-        {props.children ? props.children : null}
-        {options.map((item: any) => (
-          <MenuItem key={item.id} value={item.id}>
-            {item.title}
+        {children}
+        {options?.map((item: any) => (
+          <MenuItem key={item?.id} value={item?.id}>
+            {item?.title ?? item?.name}
           </MenuItem>
         ))}
       </MuiSelect>

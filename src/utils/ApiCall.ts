@@ -1,4 +1,5 @@
 import axios from 'axios'
+import nProgress from 'nprogress'
 import { getLocal } from './index'
 import { config } from '../config'
 import { ExceptionHandler } from './ExceptionHandler'
@@ -11,6 +12,7 @@ const apiInstance = axios.create({
 
 // Interceptor for request
 apiInstance.interceptors.request.use((config) => {
+  nProgress.start()
   const token = getLocal('token')
 
   if (token) {
@@ -22,8 +24,13 @@ apiInstance.interceptors.request.use((config) => {
 
 // Interceptor for response
 apiInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    nProgress.done()
+
+    return response
+  },
   (error) => {
+    nProgress.done()
     ExceptionHandler(error)
 
     return Promise.reject(error)

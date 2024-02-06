@@ -1,9 +1,25 @@
 import { Autocomplete as MuiAutocomplete, Chip, TextField } from '@mui/material'
 import React from 'react'
 
-function Autocomplete({ options, value, onChange, placeholder, label, variant, inputValue, setInputValue, required, ...other }) {
+function Autocomplete({
+  options,
+  value,
+  onChange,
+  multiple,
+  placeholder,
+  label,
+  variant,
+  className,
+  inputValue,
+  addNewOption = true,
+  setInputValue,
+  required,
+  ...other
+}) {
   const handleChange = (event, newValue) => {
-    onChange(newValue)
+    const selectedValues = newValue.filter((value) => !addNewOption && typeof value !== 'string')
+
+    onChange(selectedValues)
   }
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
@@ -11,21 +27,22 @@ function Autocomplete({ options, value, onChange, placeholder, label, variant, i
 
   return (
     <MuiAutocomplete
-      multiple
+      multiple={multiple ?? true}
       id="tags-filled"
+      className={className}
       options={options}
-      getOptionLabel={(option) => option?.title ?? option?.user?.email}
+      getOptionLabel={(option) => option?.title ?? option?.user?.email ?? option?.name}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}
       onInputChange={handleTextChange}
       freeSolo
       renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
+        value?.map((option, index) => (
           <Chip
-            key={typeof option === 'string' ? option : option.id}
+            key={typeof option === 'string' ? option : option?.id}
             variant={variant}
-            label={typeof option === 'string' ? option : option.title ?? option?.user?.email}
+            label={typeof option === 'string' ? option : option?.title ?? option?.user?.email ?? option?.name}
             {...getTagProps({ index })}
           />
         ))

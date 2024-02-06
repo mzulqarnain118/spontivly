@@ -49,8 +49,8 @@ const libraryStyles = makeStyles((theme) => ({
     borderRadius: '8px'
   },
   individualContentImg: {
-    width: '100%',
-    height: '300px',
+    width: '500px',
+    height: '400px',
     borderRadius: '8px'
   },
   moduleContentAvatar: {

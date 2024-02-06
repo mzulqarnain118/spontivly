@@ -33,7 +33,7 @@ const socialData = [
   }
 ]
 
-function SocialComponent() {
+function SocialComponent({hideHeader=false}) {
   const classes = socialStyles()
   const dispatch = useDispatch()
   const social = useSelector((state) => state.social)
@@ -74,7 +74,7 @@ function SocialComponent() {
 
   return (
     <Grid className={classes.container}>
-      <common.FormHeading heading="Connect your social" title="This helps us find connections that are relevant to you" />
+     {!hideHeader && <common.FormHeading heading="Connect your social" title="This helps us find connections that are relevant to you" />}
       <Container className={classes.subContainer}>
         {socialData.map((social, index) => (
           <div key={index}>

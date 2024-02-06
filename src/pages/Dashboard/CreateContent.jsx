@@ -24,7 +24,7 @@ const CreateContent = ({
   const [selectedTags, setSelectedTags] = useState([])
   const [pdfFile, setPdfFile] = useState(null)
   const [searchTagText, setSearchTagText] = useState('')
-console.log(editContentData,)
+
   useEffect(() => {
     if (isEditing) {
       setType(editContentData?.type ?? '')
@@ -197,7 +197,7 @@ console.log(editContentData,)
                   errors={errors}
                   component={<common.RichText placeholder="Description" />}
                 />
-                {type == 'pdf' && <common.DragDropFile  onChange={setPdfFile} type="files" required={type === 'pdf' && !isEditing} />}
+                {type == 'pdf' && <common.DragDropFile onChange={setPdfFile} type="files" required={type === 'pdf' && !isEditing} />}
               </Grid>
             </Grid>
           </Card>
