@@ -15,10 +15,10 @@ function Bio({ refetchUser }) {
       setDefaultValues({
         company_name: User?.company_name ?? '',
         position: User?.position ?? '',
-        // location: { id: User?.location?.id ?? '', name: `${User?.location?.name},${User?.location?.state?.name}` ?? '' },
-        // skills: User?.skills ?? '',
-        // objectives: User?.objectives ?? [],
-        // interests: User?.interests ?? '',
+        location: { id: User?.location?.id ?? '', name: `${User?.location?.name},${User?.location?.state?.name}` ?? '' },
+        skills: User?.skills ?? [],
+        objectives: User?.objectives ?? [],
+        interests: User?.interests ?? [],
         company_stage: User?.company_stage?.id ?? '',
         introduction: User?.introduction ?? ''
       })
@@ -53,8 +53,9 @@ function Bio({ refetchUser }) {
     <>
       {defaultValues && (
         <common.Form onSubmit={updateBioSubmit} defaultValues={defaultValues} disableReset={true}>
-          {({ errors, control }) => (
+          {({ errors, control, getValues }) => (
             <>
+              {console.log(getValues(), errors)}
               <common.ControlledInput name="position" label="Job Title" control={control} errors={errors} />
               <SearchBioTags
                 label="Search Location"
@@ -63,21 +64,20 @@ function Bio({ refetchUser }) {
                 control={control}
                 errors={errors}
                 multiple={false}
-                defaultValue={{ id: User?.location?.id ?? '', name: `${User?.location?.name},${User?.location?.state?.name}` ?? '' }}
-                renderLabel={(option) => `${option?.name},${option?.state?.name}` ?? ''}
+                renderLabel={(option) => `${option?.name ?? ''},${option?.state?.name ?? ''}` ?? ''}
               />
 
               <common.ControlledInput name="company_name" label="Company Name" control={control} errors={errors} />
-              <SearchBioTags label="Skillset" queryKey="skills" control={control} errors={errors} defaultValue={User?.skills} />
+              <SearchBioTags label="Skillset" queryKey="skills" control={control} errors={errors} value={getValues().skills} />
               <SearchBioTags
                 label="Objectives"
                 queryKey="objectives"
                 control={control}
                 errors={errors}
                 validation={{ required: false }}
-                defaultValue={User?.objectives}
+                value={getValues().objectives}
               />
-              <SearchBioTags label="Interests" queryKey="interests" control={control} errors={errors} defaultValue={User?.interests} />
+              <SearchBioTags label="Interests" queryKey="interests" value={getValues().interests} control={control} errors={errors} />
               <common.ControlledInput
                 name="company_stage"
                 control={control}
