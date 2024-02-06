@@ -1,12 +1,12 @@
 import { Avatar, Grid, Box, Typography } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Toast } from 'components/common/Toast/Toast'
 import moment from 'moment'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ApiCall, encodeParams } from 'utils'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall, encodeParams } from '../../utils'
 
 export function Comments({ refetchPosts, post_id }) {
   const { isModerator, userId } = useSelector((state) => state?.dashboard)

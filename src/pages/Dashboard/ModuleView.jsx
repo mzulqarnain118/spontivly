@@ -4,6 +4,7 @@ import youtube from '../../assets/icons/youtube.png'
 import { Controls as common } from '../../components/common'
 import { libraryStyles } from '../../styles/components/libraryStyles'
 import { handleShowYoutubeThumbnail } from '../../utils'
+import { thumbnails } from './Library'
 
 const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, openLibraryInfo }) => {
   const classes = libraryStyles()
@@ -16,7 +17,7 @@ const ModuleView = ({ libraryData, typeIcons, moreOptions, handleMoreClick, open
           <Box>
             <div className="relative-full-width">
               <common.Img
-                src={handleShowYoutubeThumbnail(library.url, library.type) ?? thumbnails[library?.type]}
+                src={handleShowYoutubeThumbnail(library.url, library.type) ?? thumbnails?.[library?.type]}
                 className={classes.moduleContentImg}
               />
               <div className={classes.moduleContentSource}>

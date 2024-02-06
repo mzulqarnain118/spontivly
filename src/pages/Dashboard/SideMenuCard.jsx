@@ -1,5 +1,5 @@
 import { Avatar, Typography, Grid } from '@mui/material'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Controls as common } from '../../components/common'

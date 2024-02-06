@@ -80,7 +80,7 @@ function General() {
               }
             </common.InfiniteQueryWrapper>
           </Grid>
-        ):null}
+        ) : null}
       </Grid>
     </Box>
   )

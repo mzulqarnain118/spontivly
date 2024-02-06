@@ -1,5 +1,5 @@
 import { Typography, Grid } from '@mui/material'
-import { memo, useMemo, useEffect } from 'react'
+import React, { memo, useMemo, useEffect } from 'react'
 import { Controls as common } from '../common'
 
 function InfiniteQuery({

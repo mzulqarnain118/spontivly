@@ -1,5 +1,5 @@
 import React from 'react'
-import { commonStyles } from 'styles'
+import { commonStyles } from '../../styles'
 
 export function BaseButton({ label }) {
   const classes = commonStyles()

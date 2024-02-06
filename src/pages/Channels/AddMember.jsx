@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material'
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query'
-import { Toast } from 'components/common/Toast/Toast'
+import { Toast } from '../../components/common/Toast/Toast'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { AL, ApiCall, encodeParams, reduceArrayByKeys } from 'utils'
+import { AL, ApiCall, encodeParams, reduceArrayByKeys } from '../../utils'
 import { Controls as common } from '../../components/common'
 
 function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {

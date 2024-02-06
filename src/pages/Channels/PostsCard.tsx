@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import commentIcon from '../../assets/icons/comment.svg'
 import fileIcon from '../../assets/icons/u_paperclip.svg'
-import profile from '../../assets/images/profile.jpg'
 import { Controls as common } from '../../components/common'
 import { Toast } from '../../components/common/Toast/Toast'
 import { ApiCall, handleOpenUrlInNewTab, isImageFile } from '../../utils'
@@ -132,7 +131,7 @@ function PostsCard({ post, refetch, setEditPost, setEditPostData }) {
         <Grid container item justifyContent="space-between">
           <Grid item xs={9}>
             <Box className="row gap-1">
-              <Avatar src={post?.created_by?.profile?.profile_pic ?? profile} />
+              <Avatar src={post?.created_by?.profile?.profile_pic} />
               <Box className="col-start gap-05">
                 <Typography variant="author">{post?.created_by?.first_name + post?.created_by?.last_name}</Typography>
                 <Typography variant="lighterSubtitle2">{post?.created_by?.profile?.company_name}</Typography>

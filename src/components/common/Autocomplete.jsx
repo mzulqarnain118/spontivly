@@ -14,12 +14,25 @@ function Autocomplete({
   addNewOption = true,
   setInputValue,
   required,
+  renderLabel,
   ...other
 }) {
   const handleChange = (event, newValue) => {
-    const selectedValues = newValue.filter((value) => !addNewOption && typeof value !== 'string')
+    if (addNewOption) {
+      onChange(newValue)
+    } else {
+      const lastSelectedItemId = newValue?.[value?.length]?.id ?? null
+      const selectedValues = newValue.filter((item) => typeof item !== 'string')
+      // Check if the last selected item's ID already exists in selected values
+      const isLastItemDuplicate = value.some((item) => item.id === lastSelectedItemId)
 
-    onChange(selectedValues)
+      // Exclude the last selected item if it's a duplicate
+      if (isLastItemDuplicate && value.length !== 0) {
+        const uniqueSelectedValues = selectedValues.filter((item) => item.id !== lastSelectedItemId)
+
+        onChange(uniqueSelectedValues)
+      } else onChange(selectedValues)
+    }
   }
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
@@ -31,7 +44,7 @@ function Autocomplete({
       id="tags-filled"
       className={className}
       options={options}
-      getOptionLabel={(option) => option?.title ?? option?.user?.email ?? option?.name}
+      getOptionLabel={(option) => (renderLabel ? renderLabel(option) : option?.title ?? option?.user?.email ?? option?.name)}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}
@@ -42,7 +55,9 @@ function Autocomplete({
           <Chip
             key={typeof option === 'string' ? option : option?.id}
             variant={variant}
-            label={typeof option === 'string' ? option : option?.title ?? option?.user?.email ?? option?.name}
+            label={
+              typeof option === 'string' ? option : renderLabel ? renderLabel(option) : option?.title ?? option?.user?.email ?? option?.name
+            }
             {...getTagProps({ index })}
           />
         ))

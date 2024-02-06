@@ -1,11 +1,11 @@
-import { Box, Grid, Typography } from '@mui/material'
-import uploadIcon from 'assets/icons/upload.png'
-import defaultProfile from 'assets/images/defaultProfile.png'
-import { Toast } from 'components/common/Toast/Toast'
+import { Box, Grid, Typography, Avatar } from '@mui/material'
+import uploadIcon from '../../assets/icons/upload.png'
+import defaultProfile from '../../assets/images/defaultProfile.png'
+import { Toast } from '../../components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { commonStyles } from 'styles'
-import { ApiCall, readFile } from 'utils'
+import { commonStyles } from '../../styles'
+import { ApiCall, readFile } from '../../utils'
 import { Controls as common } from '../../components/common'
 
 export const ProfileContent = ({ refetchUser }) => {
@@ -69,7 +69,8 @@ export const ProfileContent = ({ refetchUser }) => {
       </Typography>
       <Grid container display={'flex'} alignItems="center">
         <Grid item md={2}>
-          <common.Img src={uploadFile?.profile_pic ?? defaultProfile} className={classes.settingsProfileImage} />
+          {/* <common.Img src={uploadFile?.profile_pic ?? defaultProfile} className={classes.settingsProfileImage} /> */}
+          <Avatar src={uploadFile?.profile_pic} className={classes.settingsProfileImage} />
         </Grid>
         <Grid item md={3}>
           <common.FileUploadButton

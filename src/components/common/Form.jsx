@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useYupValidationResolver } from 'utils/YupDefaultSchema'
+import { useYupValidationResolver } from '../../utils/YupDefaultSchema'
 import { Controls as common } from '../../components/common'
 
 export function Form({ onSubmit, children, submitLabel, defaultValues,disableReset=false, leftBtnHandler, leftBtnLabel, type, validationsSchema }) {

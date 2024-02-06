@@ -1,5 +1,5 @@
-import { Toast } from 'components/common/Toast/Toast'
-import { ApiCall } from 'utils'
+import { Toast } from '../../components/common/Toast/Toast'
+import { ApiCall } from '../../utils'
 import { Controls as common } from '../../components/common'
 
 const CreateChannel = ({ setPopups, refetchUser, editChannelData = null, setEditChannelData }) => {

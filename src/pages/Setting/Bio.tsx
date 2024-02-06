@@ -15,7 +15,7 @@ function Bio({ refetchUser }) {
       setDefaultValues({
         company_name: User?.company_name ?? '',
         position: User?.position ?? '',
-        location: { id: User?.location?.id ?? '', name: User?.location?.name ?? '' },
+        location: { id: User?.location?.id ?? '', name: `${User?.location?.name},${User?.location?.state?.name}` ?? '' },
         skills: User?.skills ?? '',
         objectives: User?.objectives ?? '',
         interests: User?.interests ?? '',
@@ -63,6 +63,7 @@ function Bio({ refetchUser }) {
                 control={control}
                 errors={errors}
                 multiple={false}
+                renderLabel={(option) => `${option?.name},${option?.state?.name}` ?? ''}
               />
               <common.ControlledInput name="company_name" label="Company Name" control={control} errors={errors} />
               <SearchBioTags label="Skillset" queryKey="skills" control={control} errors={errors} />
