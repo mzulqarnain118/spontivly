@@ -138,6 +138,7 @@ function AddMember({ popups, setPopups, managePopups, addMemberChannelId }) {
                   <common.Autocomplete
                     placeholder="Members"
                     variant="outlined"
+                    addNewOption={false}
                     options={members ?? []}
                     inputValue={searchMemberText}
                     setInputValue={setSearchMemberText}

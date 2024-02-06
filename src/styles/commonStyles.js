@@ -124,8 +124,8 @@ const commonStyles = makeStyles((theme) => ({
   },
   settingsProfileImage: {
     padding: '8px !important',
-    width: '96px !important',
-    height: '96px !important',
+    width: '70px !important',
+    height: '70px !important',
     borderRadius: '99px !important'
   },
   MenuItem: {

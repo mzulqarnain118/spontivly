@@ -48,7 +48,7 @@ const IndividualLibrary = () => {
                   <Typography variant="lightSubtitle2">{moment(library?.created_at).format('MMM DD, YYYY')}</Typography>
                   <Box className="row gap-1">
                     <Grid item xs={1}>
-                      <Avatar src={library?.created_by?.profile?.profile_pic ?? thumbnails[library?.type]} className={classes.moduleContentAvatar} />
+                      <Avatar src={library?.created_by?.profile?.profile_pic} className={classes.moduleContentAvatar} />
                     </Grid>
                     <Typography>{`${library?.created_by?.first_name} ${library?.created_by?.last_name}`}</Typography>
                   </Box>

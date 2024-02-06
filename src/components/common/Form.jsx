@@ -1,9 +1,19 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useYupValidationResolver } from '../../utils/YupDefaultSchema'
 import { Controls as common } from '../../components/common'
+import { useYupValidationResolver } from '../../utils/YupDefaultSchema'
 
-export function Form({ onSubmit, children, submitLabel, defaultValues,disableReset=false, leftBtnHandler, leftBtnLabel, type, validationsSchema }) {
+export function Form({
+  onSubmit,
+  children,
+  submitLabel,
+  defaultValues,
+  disableReset = false,
+  leftBtnHandler,
+  leftBtnLabel,
+  type,
+  validationsSchema
+}) {
   const resolver = validationsSchema ? useYupValidationResolver(validationsSchema) : null
   const {
     register,

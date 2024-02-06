@@ -1,6 +1,6 @@
 import { Avatar, Box, Card, Grid, Typography } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Send from '../../assets/icons/send.svg'
 import { Controls as common } from '../../components/common'

@@ -1,37 +1,35 @@
 import { Autocomplete as MuiAutocomplete, Chip, TextField } from '@mui/material'
 import React from 'react'
 
-function Autocomplete({
-  options,
-  value,
-  onChange,
-  multiple,
-  placeholder,
-  label,
-  variant,
-  className,
-  inputValue,
-  addNewOption = true,
-  setInputValue,
-  required,
-  renderLabel,
-  ...other
-}) {
+function Autocomplete(
+  {
+    options,
+    onChange,
+    multiple = true,
+    placeholder,
+    label,
+    variant,
+    className,
+    inputValue,
+    addNewOption = true,
+    setInputValue,
+    defaultValue,
+    required,
+    value,
+    renderLabel,
+    ...other
+  },
+  props
+) {
   const handleChange = (event, newValue) => {
-    if (addNewOption) {
+    if (!multiple || addNewOption) {
       onChange(newValue)
     } else {
-      const lastSelectedItemId = newValue?.[value?.length]?.id ?? null
-      const selectedValues = newValue.filter((item) => typeof item !== 'string')
-      // Check if the last selected item's ID already exists in selected values
-      const isLastItemDuplicate = value.some((item) => item.id === lastSelectedItemId)
+      const selectedValues = newValue?.filter((item) => typeof item !== 'string')
 
-      // Exclude the last selected item if it's a duplicate
-      if (isLastItemDuplicate && value.length !== 0) {
-        const uniqueSelectedValues = selectedValues.filter((item) => item.id !== lastSelectedItemId)
+      console.log('🚀 ~ handleChange ~ selectedValues:', selectedValues)
 
-        onChange(uniqueSelectedValues)
-      } else onChange(selectedValues)
+      onChange(selectedValues)
     }
   }
   const handleTextChange = (event, newInputValue) => {
@@ -40,12 +38,13 @@ function Autocomplete({
 
   return (
     <MuiAutocomplete
-      multiple={multiple ?? true}
-      id="tags-filled"
+      multiple={multiple}
+      id="tags-filled"Pbio
       className={className}
       options={options}
       getOptionLabel={(option) => (renderLabel ? renderLabel(option) : option?.title ?? option?.user?.email ?? option?.name)}
       value={value}
+      defaultValue={defaultValue}
       onChange={handleChange}
       inputValue={inputValue}
       onInputChange={handleTextChange}

@@ -1,12 +1,11 @@
 import { Box, Grid, Typography, Avatar } from '@mui/material'
-import uploadIcon from '../../assets/icons/upload.png'
-import defaultProfile from '../../assets/images/defaultProfile.png'
-import { Toast } from '../../components/common/Toast/Toast'
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import uploadIcon from '../../assets/icons/upload.png'
+import { Controls as common } from '../../components/common'
+import { Toast } from '../../components/common/Toast/Toast'
 import { commonStyles } from '../../styles'
 import { ApiCall, readFile } from '../../utils'
-import { Controls as common } from '../../components/common'
 
 export const ProfileContent = ({ refetchUser }) => {
   const User = useSelector((state) => state?.dashboard?.currentUser ?? null)

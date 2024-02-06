@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Controls as common } from '../../components/common'
 import { addSelectedChip, removeSelectedChip, setSearchText, setChipData } from '../../redux/skillsSlice'
