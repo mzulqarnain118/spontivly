@@ -68,14 +68,7 @@ function Bio({ refetchUser }) {
 
               <common.ControlledInput name="company_name" label="Company Name" control={control} errors={errors} />
               <SearchBioTags label="Skillset" queryKey="skills" control={control} errors={errors} value={getValues().skills} />
-              <SearchBioTags
-                label="Objectives"
-                queryKey="objectives"
-                control={control}
-                errors={errors}
-                validation={{ required: false }}
-                value={getValues().objectives}
-              />
+              <SearchBioTags label="Objectives" queryKey="objectives" control={control} errors={errors} validation={{ required: false }} />
               <SearchBioTags label="Interests" queryKey="interests" value={getValues().interests} control={control} errors={errors} />
               <common.ControlledInput
                 name="company_stage"
