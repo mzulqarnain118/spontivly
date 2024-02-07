@@ -1,5 +1,6 @@
 import { Autocomplete as MuiAutocomplete, Chip, TextField } from '@mui/material'
 import React from 'react'
+import { AL } from '../../utils'
 
 function Autocomplete({
   options,
@@ -20,18 +21,28 @@ function Autocomplete({
 }) {
   const handleChange = (event, newValue) => {
     if (!multiple || addNewOption) {
+      onChange(newValue) // Handle single selection or adding new option
+    } else if (newValue?.length < value?.length) {
       onChange(newValue)
     } else {
-      const selectedValues = newValue?.filter((item) => typeof item !== 'string')
+      if (value) {
+        const existingIds = value?.map((item) => item.id) // Get existing IDs
+        const selectedValues = newValue?.filter((item) => typeof item !== 'string')
 
-      onChange(selectedValues)
+        const uniqueSelectedValues = selectedValues?.filter((item) => !existingIds?.includes(item?.id)) // Filter out duplicates
+
+        onChange([...value, ...uniqueSelectedValues]) // Combine existing and unique selections
+      } else {
+        const selectedValues = newValue?.filter((item) => typeof item !== 'string')
+
+        onChange(selectedValues)
+      }
     }
   }
+
   const handleTextChange = (event, newInputValue) => {
     setInputValue(newInputValue)
   }
-
-  console.log(value)
 
   return (
     <MuiAutocomplete

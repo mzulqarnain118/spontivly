@@ -55,7 +55,6 @@ function Bio({ refetchUser }) {
         <common.Form onSubmit={updateBioSubmit} defaultValues={defaultValues} disableReset={true}>
           {({ errors, control, getValues }) => (
             <>
-              {console.log(getValues(), errors)}
               <common.ControlledInput name="position" label="Job Title" control={control} errors={errors} />
               <SearchBioTags
                 label="Search Location"

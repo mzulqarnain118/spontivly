@@ -61,7 +61,6 @@ const CreateContent = ({
       combinedFormData.append('data', JSON.stringify(payload))
     }
 
-    console.log(payload)
     const addedContent = await ApiCall(
       isEditing ? `libraries/${editContentData?.id}/` : 'libraries/',
       null,

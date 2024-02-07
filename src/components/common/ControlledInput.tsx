@@ -55,7 +55,7 @@ const ControlledInput = ({ component, name, control, errors, value, validation =
               {React.cloneElement(component, { ...field, ...inputProps })}
               {(Boolean(errors?.[name]) || (value && value?.length === 0)) && (
                 <FormHelperText sx={{ color: 'error.main' }}>{`${capitalizeFirstLetter(
-                  errors?.[name]?.ref?.name
+                  errors?.[name]?.ref?.name ?? ''
                 )} is required`}</FormHelperText>
               )}
             </FormControl>
